@@ -1,0 +1,106 @@
+<form  method="get">
+		
+		<div class="column-left">
+			<p>
+				<input type="text" id="id" name="id" placeholder="ID" <?php if(isset($_GET['id'])) echo 'value="'.$_GET['id'].'"'; ?>	/>
+			</p>
+			<p>
+				<input type="text" id="uk" name="uk" placeholder="UK" <?php if(isset($_GET['uk'])) echo 'value="'.$_GET['uk'].'"'; ?>	/>
+			</p>
+		
+			<p class="combined">
+			<input type="text" id="name" name="name" placeholder="Name"	<?php if(isset($_GET['name'])) echo 'value="'.$_GET['name'].'"'; ?>/>
+			<input type="text" id="version" name="version" placeholder="Version" class="small" <?php if(isset($_GET['version'])) echo 'value="'.$_GET['version'].'"'; ?>/>
+			</p>
+
+			<p>
+				Currency
+				<select name="currency" id="currency" placeholder="currency"	>
+					<option value="VND" <?php if(isset($_GET['currency']) && $_GET['currency']=='VND') echo 'selected="selected"' ?>>VND</option>
+					<option value="USD" <?php if(isset($_GET['currency']) && $_GET['currency']=='USD') echo 'selected="selected"' ?>>USD</option>
+					<option value="CNY" <?php if(isset($_GET['currency']) && $_GET['currency']=='CNY') echo 'selected="selected"' ?>>CNY</option>
+				</select>
+			</p>
+			
+			<p>
+				Status:
+				<select name="status" id="status" placeholder="Status"	>
+					<option value="NORMAL" <?php if(isset($_GET['status']) && $_GET['status']=='NORMAL') echo 'selected="selected"' ?>>NORMAL</option>
+					<option value="FROZEN" <?php if(isset($_GET['status']) && $_GET['status']=='FROZEN') echo 'selected="selected"' ?>>FROZEN</option>
+					<option value="DELETE" <?php if(isset($_GET['status']) && $_GET['status']=='DELETE') echo 'selected="selected"' ?>>DELETE</option>
+				</select>
+			</p>
+			
+			<p>
+				Type
+				<select name="type" id="type" placeholder="type"	>
+					<option value="NORMAL" <?php if(isset($_GET['type']) && $_GET['type']=='NORMAL') echo 'selected="selected"' ?>>NORMAL</option>
+					<option value="SYSTEM" <?php if(isset($_GET['type']) && $_GET['type']=='SYSTEM') echo 'selected="selected"' ?>>SYSTEM</option>
+					<option value="FEE" <?php if(isset($_GET['type']) && $_GET['type']=='FEE') echo 'selected="selected"' ?>>FEE</option>
+					<option value="PARTNER" <?php if(isset($_GET['type']) && $_GET['type']=='PARTNER') echo 'selected="selected"' ?>>PARTNER</option>
+				</select>
+			</p>
+			<br>
+		</div>
+		
+		
+
+		<div class="clear"></div>
+		
+		<div class="action_bar">
+			<input type="submit" name="submit" class="button blue" value="Submit Post" />
+			<a href="#modal" class="modal button">Cancel</a>
+		</div>
+		
+		</form>
+
+<br>
+<br>
+<div class="box">
+	<div class="box-header">
+		<h1>Quản lý tài khoản</h1>
+	</div>
+
+	<table>
+		<thead>
+		<tr>
+			<th>ID</th>
+			<th>UK</th>
+			<th>Name</th>
+			<th>Version</th>
+			<th>Curency</th>
+			<th>Balance</th>
+			<th>Frozen_Balance</th>
+			<th>Status</th>
+			<th>Type</th>
+		</tr>
+		</thead>
+		<tbody>
+
+		<?php if(isset($accounts) && !empty($accounts)): ?>
+			<?php foreach($accounts as $account): ?>
+			<tr>
+				<td><?php echo $account ['id'] ?></td>
+				<td><?php echo $account['uk'] ?></td>
+				<td><?php echo $account['name'] ?></td>
+				<td><?php echo $account['version'] ?></td>
+				<td><?php echo $account['currency'] ?></td>
+				<td><?php echo $account['balance'] ?></td>
+				<td><?php echo $account['frozen_balance'] ?></td>
+				<td><?php echo $account['status'] ?></td>
+				<td><?php echo $account['type'] ?></td>
+				<td>
+					<a href="<?php echo $base_url.'account/update?id='.$account['id']; ?>" class="button plain">Edit</a>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<tr>
+				<td><?php echo ' No result was found' ?></td>
+			</tr>
+		<?php endif; ?>
+
+		</tbody>
+	</table>
+</div>
+		

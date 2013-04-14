@@ -1,0 +1,82 @@
+<form method="GET" >
+    <div class="column-left">
+        <div class="box-header">
+            <h1>SEARCH USER</h1>
+        </div>
+        <p>
+            <label><b>ID:</b></label>
+            <input type="text" id="id" name="id" <?php if(isset($_GET['id'])) echo 'value="'.$_GET['id'].'"'; ?>	/>
+        </p>
+        <p>
+            <label><b>EMAIL:</b></label>
+            <input type="text" id="email" name="email" <?php if(isset($_GET['email'])) echo 'value="'.$_GET['email'].'"'; ?> />
+        </p>
+        <p>
+            <label><b>FULL NAME:</b></label>
+            <input type="text" id="full_name" name="full_name" <?php if(isset($_GET['full_name'])) echo 'value="'.$_GET['full_name'].'"'; ?> />
+        </p>
+        <p>
+            <label><b>PHONE:</b></label>
+            <input type="text" id="phone" name="phone" <?php if(isset($_GET['phone'])) echo 'value="'.$_GET['phone'].'"'; ?> />
+        </p>
+
+        <!--<p>
+			<label><b>PUBLIC KEY:</b></label>
+			<textarea id="public_key" name="public_key" <?php /*if(isset($_GET['public_key'])) echo 'value="'.$_GET['public_key'].'"'; */?> ></textarea>
+		</p>-->
+    </div>
+    <div class="clear"></div>
+    <div class="action_bar">
+        <input type="submit" name="submit" class="button blue" value="Search" />
+        <a href="#modal" class="modal button">Cancel</a>
+    </div>
+</form>
+<div class="box">
+    <div class="box-header">
+        <h1>User Manager</h1>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>EMAIL</th>
+            <th>FULL NAME</th>
+            <th>PHONE</th>
+            <th>STATUS</th>
+            <th>BANNED</th>
+            <th>LAST LOGIN TIME</th>
+            <th>LAST LOGIN IP</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <?php if(isset($users) && !empty($users)): ?>
+            <?php foreach($users as $user): ?>
+            <tr>
+                <td><?php echo $user ['id'] ?></td>
+                <td><?php echo $user['email'] ?></td>
+                <td><?php echo $user['full_name'] ?></td>
+                <td><?php echo $user['phone'] ?></td>
+                <td><?php echo $user['status'] ?></td>
+                <td><?php echo $user['banned'] ?></td>
+                <td><?php echo $user['last_login_time'] ?></td>
+                <td><?php echo $user['last_login_ip'] ?></td>
+                <td>
+                    <a href="<?php echo $base_url.'user/edit?id='.$user['id']; ?>" class="button plain">Edit</a>
+                </td>
+                <td>
+                    <a href="<?php echo $base_url.'user/change?id='.$user['id']; ?>" class="button plain">Change</a>
+                </td>
+            </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+        <tr>
+            <td><?php echo ' No result was found' ?></td>
+        </tr>
+            <?php endif; ?>
+
+        </tbody>
+
+    </table>
+</div>

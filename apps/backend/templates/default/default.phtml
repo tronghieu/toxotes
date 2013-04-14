@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<?php $document = \Flywheel\Factory::getDocument();?>
+<html lang="en">
+	<head>
+	<base href="<?php echo $document->getBaseUrl() ?>">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="viewport" content="width=1024px, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	
+	<title>MC BILLING ADMIN</title>
+	
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/normalize.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/reset.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/icons.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/formalize.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/checkboxes.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/sourcerer.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/jqueryui.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/tipsy.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/calendar.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/tags.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/fonts.css" />
+	<link rel="stylesheet" href="<?php echo $document->getBaseUrl(); ?>assets/css/main.css" />
+	<link rel="stylesheet" media="all and (orientation:portrait)" href="<?php echo $document->getBaseUrl(); ?>assets/css/portrait.css" />
+	<link rel="apple-touch-icon" href="./apple-touch-icon-precomposed.png" />
+
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<![endif]-->
+	<meta charset="UTF-8"></head>
+	
+	<body>  
+
+	<!-- Primary navigation -->
+	<nav id="primary">
+		<ul>
+		<li <?php if($controller=='account') echo 'class="active"'; ?> >
+			<a href="<?php echo $document->getBaseUrl().'account' ?>" ></?php>
+			<span class="glyph dashboard"></span>
+			Tài khoản
+			</a>
+		</li>
+		<li <?php if($controller=='config') echo 'class="active"'; ?> >
+			<a href="<?php echo $document->getBaseUrl().'config' ?>">
+			<span class="glyph shuffle"></span>
+			Cấu hình
+			</a>
+		</li>
+		<li <?php if($controller=='log') echo 'class="active"'; ?> >
+			<a href="<?php echo $document->getBaseUrl().'log' ?>">
+			<span class="glyph pencil"></span>
+			Logs
+			</a>
+		</li>
+		<li <?php if($controller=='transaction') echo 'class="active"'; ?> >
+			<a href="<?php echo $document->getBaseUrl().'transaction' ?>">
+			<span class="glyph listicon"></span>
+			Giao dịch
+			</a>
+		</li>
+        <li <?php if($controller=='user') echo 'class="active"'; ?> >
+            <a href="<?php echo $document->getBaseUrl().'user' ?>">
+            <span class="glyph listicon"></span>
+            User
+            </a>
+        </li>
+        <li <?php if($controller=='consumer') echo 'class="active"'; ?> >
+            <a href="<?php echo $document->getBaseUrl().'consumer' ?>">
+            <span class="glyph listicon"></span>
+            Consumer
+            </a>
+        </li>
+		<li class="bottom">
+			<a href="<?php echo $document->getBaseUrl().'login/logout'; ?>">
+			<span class="glyph quit"></span>
+			Log out
+			</a>
+		</li>
+		</ul>
+	</nav>
+	
+	<!-- Secondary navigation -->
+	<nav id="secondary">
+        <?php if($controller=='account'): ?>
+			<ul>
+				<li <?php if($action=='default' || $action=='') echo 'class="active"'; ?>><a href="<?php echo $document->getBaseUrl(); ?>account/">Quản lý Account</a></li>
+				<li <?php if($action=='create') echo 'class="active"'; ?>><a href="<?php echo $document->getBaseUrl(); ?>account/create">Tạo mới Account</a></li>
+			</ul>
+        <?php endif; ?>
+        
+        <?php if($controller=='transaction'): ?>
+			<ul>
+				<li <?php if($action=='default' || $action=='') echo 'class="active"'; ?>><a href="<?php echo $document->getBaseUrl(); ?>transaction/">Quản lý giao dịch</a></li>
+			</ul>
+        <?php endif; ?>
+
+        <?php if($controller=='consumer'): ?>
+        <ul>
+            <li <?php if($action=='default' || $action=='') echo 'class="active"'; ?>><a href="<?php echo $document->getBaseUrl(); ?>consumer/">Quản lý Consumer</a></li>
+            <li <?php if($action=='create') echo 'class="active"'; ?>><a href="<?php echo $document->getBaseUrl(); ?>consumer/create">Tạo mới Consumer</a></li>
+        </ul>
+        <?php endif; ?>
+        <?php if($controller=='user'): ?>
+        <ul>
+            <li <?php if($action=='default' || $action=='') echo 'class="active"'; ?>><a href="<?php echo $document->getBaseUrl(); ?>user/">Quản lý User</a></li>
+            <li <?php if($action=='create') echo 'class="active"'; ?>><a href="<?php echo $document->getBaseUrl(); ?>user/create">Tạo mới User</a></li>
+        </ul>
+        <?php endif; ?>
+		<div id="notifications">
+			<ul>
+			</ul>
+		</div>
+	</nav>
+	
+	<section id="maincontainer">
+		<div id="main">
+
+		<?php echo $document->getComponentData();?>
+		
+		</div>
+	</section>
+	
+	<!-- JavaScript -->
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.min.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jqueryui.min.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.cookies.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.pjax.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/formalize.min.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.metadata.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.validate.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.checkboxes.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.selectskin.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.fileinput.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.datatables.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.sourcerer.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.tipsy.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.calendar.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.inputtags.min.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.wymeditor.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.livequery.js"></script>
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/jquery.highcharts.js"></script>
+	
+	<!-- Just examples, can be removed in production -->
+		<script src="<?php echo $document->getBaseUrl(); ?>assets/js/chart_examples.js"></script>
+		
+	<script src="<?php echo $document->getBaseUrl(); ?>assets/js/application.js"></script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-11172759-15']);
+		_gaq.push(['_trackPageview']);
+	
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+	</body>
+</html>
