@@ -38,7 +38,7 @@ return array(
 	 */
 	//default controller
 	'/' => array(
-		'route' => 'consumer/default'
+		'route' => 'dashboard/default'
 	),
 	'{controller}' => array(
 		'route' => '{controller}/default'
@@ -46,7 +46,6 @@ return array(
     '{controller}/{action}/{id:\d+}' => array(
         'route' => '{controller}/{action}/'
     ),
-
 	'{controller}/{action}/{key:[a-zA-Z0-9-]+}' => array(
 		'route' => '{controller}/{action}'
 	),
