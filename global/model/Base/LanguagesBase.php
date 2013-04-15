@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Languages
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -90,6 +90,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class LanguagesBase extends ActiveRecord {
     protected static $_tableName = 'languages';
+    protected static $_phpName = 'Languages';
     protected static $_pk = 'lang_id';
     protected static $_alias = 'l';
     protected static $_dbConnectName = 'languages';

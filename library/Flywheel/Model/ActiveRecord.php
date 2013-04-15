@@ -9,6 +9,7 @@ use Flywheel\Db\Manager;
 
 abstract class ActiveRecord extends \Flywheel\Object {
     protected static $_tableName;
+    protected static $_phpName;
     protected static $_pk;
     protected static $_dbConnectName;
     protected static $_validate = array();
@@ -65,7 +66,11 @@ abstract class ActiveRecord extends \Flywheel\Object {
 
     protected function _initDataValue() {
         foreach (static::$_schema as $c => $config) {
-            $this->_data[$c] = (isset($config['default']))? $config['default'] : null;
+            if (!isset($this->_data[$c])) {
+                $this->_data[$c] = (isset($config['default']))? $config['default'] : null;
+            } else {
+                $this->_data[$c] = static::fixData($this->_data[$c], static::$_schema[$c]);
+            }
         }
     }
 
@@ -101,6 +106,14 @@ abstract class ActiveRecord extends \Flywheel\Object {
 
     public static function getTableName() {
         return static::$_tableName;
+    }
+
+    public static function setPhpName($phpName) {
+        static::$_phpName = $phpName;
+    }
+
+    public static function getPhpName() {
+        return static::$_phpName;
     }
 
     public static function setTableAlias($alias) {
@@ -428,8 +441,14 @@ abstract class ActiveRecord extends \Flywheel\Object {
                     return (float) $data;
                 case 'double' :
                     return (double) $data;
+                case 'time':
+                case 'timestamp':
                 case 'date':
                 case 'datetime':
+                    if ($data instanceof \DateTime) {
+                        return $data;
+                    }
+                    return new \DateTime($data);
                 case 'blob':
                 case 'string':
                     return (string) $data;
@@ -460,13 +479,13 @@ abstract class ActiveRecord extends \Flywheel\Object {
                     case 'number':
                         return 0;
                     case 'timestamp':
-                        return '0000-00-00 00:00:00';
+                        return new \DateTime('0000-00-00 00:00:00');
                     case 'time':
-                        return '00:00:00';
+                        return new \DateTime('00:00:00');
                     case 'date':
-                        return '0000-00-00';
+                        return new \DateTime('0000-00-00');
                     case 'datetime':
-                        return '0000-00-00 00:00:00';
+                        return new \DateTime('0000-00-00 00:00:00');
                     case 'blob':
                     case 'string':
                         return '';
@@ -785,20 +804,11 @@ abstract class ActiveRecord extends \Flywheel\Object {
 
     public static function findAll() {
         static::create();
-        $stmt = self::getReadConnection()->createQuery()
+        return self::getReadConnection()->createQuery()
             ->select(static::getColumnsList(static::getTableAlias()))
             ->from(static::getTableName(), static::getTableAlias())
-            ->execute();
-
-        $result = array();
-        while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            $om = new static();
-            $om->hydrate($row);
-            $om->setNew(false);
-            $result[] = $om;
-        }
-
-        return (!empty($result))? $result : null;
+            ->execute()
+            ->fetchAll(\PDO::FETCH_CLASS, static::getPhpName(), array(null, false));
     }
 
     public static function findBy($by, $param = null, $first = false) {
@@ -817,11 +827,10 @@ abstract class ActiveRecord extends \Flywheel\Object {
 
         $result = array();
         while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            $om = new static();
-            $om->hydrate($row);
-            $om->setNew(false);
-            if ($first)
+            $om = new static($row, false);
+            if ($first) {
                 return $om;
+            }
 
             $result[] = $om;
         }

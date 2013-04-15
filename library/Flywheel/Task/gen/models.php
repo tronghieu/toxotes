@@ -323,17 +323,17 @@ class BuildModels {
             case 'date':
                 $type[] = 'date';
                 $length = null;
-                $php_type = 'string';
+                $php_type = 'date';
                 break;
             case 'datetime':
             case 'timestamp':
                 $type[] = 'timestamp';
-                $php_type = 'string';
+                $php_type = 'datetime';
                 $length = null;
                 break;
             case 'time':
                 $type[] = 'time';
-                $php_type = 'string';
+                $php_type = 'time';
                 $length = null;
                 break;
             case 'float':
@@ -568,6 +568,7 @@ class BuildModels {
 
 
         $s = 'protected static $_tableName = \'' .$name .'\';'.PHP_EOL
+            .'    protected static $_phpName = \'' .Inflection::hungaryNotationToCamel($name) .'\';' .PHP_EOL
             .'    protected static $_pk = \'' .$this->pkField .'\';'.PHP_EOL
             .'    protected static $_alias = \'' .$alias .'\';' .PHP_EOL
             .'    protected static $_dbConnectName = \'' .$name .'\';' .PHP_EOL

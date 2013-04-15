@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UsersProfiles
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -42,6 +42,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class UsersProfilesBase extends ActiveRecord {
     protected static $_tableName = 'users_profiles';
+    protected static $_phpName = 'UsersProfiles';
     protected static $_pk = 'id';
     protected static $_alias = 'u';
     protected static $_dbConnectName = 'users_profiles';

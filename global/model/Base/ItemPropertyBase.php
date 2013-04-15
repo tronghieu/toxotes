@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemProperty
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -14,7 +14,7 @@ use Flywheel\Model\ActiveRecord;
  * @property integer $int_value int_value type : int(11)
  * @property number $float_value float_value type : decimal(20,2)
  * @property integer $boolean_value boolean_value type : tinyint(1)
- * @property string $datetime_value datetime_value type : datetime max_length : 
+ * @property datetime $datetime_value datetime_value type : datetime
  * @property integer $ordering ordering type : int(11)
 
  * @method void setId(integer $id) set id value
@@ -52,11 +52,11 @@ use Flywheel\Model\ActiveRecord;
  * @method static \ItemProperty[] findByBooleanValue(integer $boolean_value) find objects in database by boolean_value
  * @method static \ItemProperty findOneByBooleanValue(integer $boolean_value) find object in database by boolean_value
  * @method static \ItemProperty retrieveByBooleanValue(integer $boolean_value) retrieve object from poll by boolean_value, get it from db if not exist in poll
- * @method void setDatetimeValue(string $datetime_value) set datetime_value value
- * @method string getDatetimeValue() get datetime_value value
- * @method static \ItemProperty[] findByDatetimeValue(string $datetime_value) find objects in database by datetime_value
- * @method static \ItemProperty findOneByDatetimeValue(string $datetime_value) find object in database by datetime_value
- * @method static \ItemProperty retrieveByDatetimeValue(string $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
+ * @method void setDatetimeValue(datetime $datetime_value) set datetime_value value
+ * @method datetime getDatetimeValue() get datetime_value value
+ * @method static \ItemProperty[] findByDatetimeValue(datetime $datetime_value) find objects in database by datetime_value
+ * @method static \ItemProperty findOneByDatetimeValue(datetime $datetime_value) find object in database by datetime_value
+ * @method static \ItemProperty retrieveByDatetimeValue(datetime $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
  * @method static \ItemProperty[] findByOrdering(integer $ordering) find objects in database by ordering
@@ -66,6 +66,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class ItemPropertyBase extends ActiveRecord {
     protected static $_tableName = 'item_property';
+    protected static $_phpName = 'ItemProperty';
     protected static $_pk = 'id';
     protected static $_alias = 'i';
     protected static $_dbConnectName = 'item_property';
@@ -105,7 +106,7 @@ abstract class ItemPropertyBase extends ActiveRecord {
                 'db_type' => 'tinyint(1)',
                 'length' => 1),
         'datetime_value' => array('name' => 'datetime_value',
-                'type' => 'string',
+                'type' => 'datetime',
                 'db_type' => 'datetime'),
         'ordering' => array('name' => 'ordering',
                 'default' => 0,

@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UserRole
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -24,6 +24,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class UserRoleBase extends ActiveRecord {
     protected static $_tableName = 'user_role';
+    protected static $_phpName = 'UserRole';
     protected static $_pk = 'role_id';
     protected static $_alias = 'u';
     protected static $_dbConnectName = 'user_role';

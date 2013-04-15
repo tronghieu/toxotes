@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * TermRelationship
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -30,6 +30,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class TermRelationshipBase extends ActiveRecord {
     protected static $_tableName = 'term_relationship';
+    protected static $_phpName = 'TermRelationship';
     protected static $_pk = 'term_id';
     protected static $_alias = 't';
     protected static $_dbConnectName = 'term_relationship';

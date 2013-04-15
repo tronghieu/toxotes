@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Items
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -16,8 +16,8 @@ use Flywheel\Model\ActiveRecord;
  * @property string $author author type : varchar(255) max_length : 255
  * @property string $taxonomy taxonomy type : varchar(100) max_length : 100
  * @property string $language language type : varchar(20) max_length : 20
- * @property string $modified_time modified_time type : datetime max_length : 
- * @property string $created_time created_time type : datetime max_length : 
+ * @property datetime $modified_time modified_time type : datetime
+ * @property datetime $created_time created_time type : datetime
  * @property integer $ordering ordering type : int(11)
  * @property integer $hits hits type : int(11)
 
@@ -66,16 +66,16 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Items[] findByLanguage(string $language) find objects in database by language
  * @method static \Items findOneByLanguage(string $language) find object in database by language
  * @method static \Items retrieveByLanguage(string $language) retrieve object from poll by language, get it from db if not exist in poll
- * @method void setModifiedTime(string $modified_time) set modified_time value
- * @method string getModifiedTime() get modified_time value
- * @method static \Items[] findByModifiedTime(string $modified_time) find objects in database by modified_time
- * @method static \Items findOneByModifiedTime(string $modified_time) find object in database by modified_time
- * @method static \Items retrieveByModifiedTime(string $modified_time) retrieve object from poll by modified_time, get it from db if not exist in poll
- * @method void setCreatedTime(string $created_time) set created_time value
- * @method string getCreatedTime() get created_time value
- * @method static \Items[] findByCreatedTime(string $created_time) find objects in database by created_time
- * @method static \Items findOneByCreatedTime(string $created_time) find object in database by created_time
- * @method static \Items retrieveByCreatedTime(string $created_time) retrieve object from poll by created_time, get it from db if not exist in poll
+ * @method void setModifiedTime(datetime $modified_time) set modified_time value
+ * @method datetime getModifiedTime() get modified_time value
+ * @method static \Items[] findByModifiedTime(datetime $modified_time) find objects in database by modified_time
+ * @method static \Items findOneByModifiedTime(datetime $modified_time) find object in database by modified_time
+ * @method static \Items retrieveByModifiedTime(datetime $modified_time) retrieve object from poll by modified_time, get it from db if not exist in poll
+ * @method void setCreatedTime(datetime $created_time) set created_time value
+ * @method datetime getCreatedTime() get created_time value
+ * @method static \Items[] findByCreatedTime(datetime $created_time) find objects in database by created_time
+ * @method static \Items findOneByCreatedTime(datetime $created_time) find object in database by created_time
+ * @method static \Items retrieveByCreatedTime(datetime $created_time) retrieve object from poll by created_time, get it from db if not exist in poll
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
  * @method static \Items[] findByOrdering(integer $ordering) find objects in database by ordering
@@ -90,6 +90,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class ItemsBase extends ActiveRecord {
     protected static $_tableName = 'items';
+    protected static $_phpName = 'Items';
     protected static $_pk = 'id';
     protected static $_alias = 'i';
     protected static $_dbConnectName = 'items';
@@ -135,10 +136,10 @@ abstract class ItemsBase extends ActiveRecord {
                 'db_type' => 'varchar(20)',
                 'length' => 20),
         'modified_time' => array('name' => 'modified_time',
-                'type' => 'string',
+                'type' => 'datetime',
                 'db_type' => 'datetime'),
         'created_time' => array('name' => 'created_time',
-                'type' => 'string',
+                'type' => 'datetime',
                 'db_type' => 'datetime'),
         'ordering' => array('name' => 'ordering',
                 'type' => 'integer',

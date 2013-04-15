@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemAttachments
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -12,7 +12,7 @@ use Flywheel\Model\ActiveRecord;
  * @property string $file file type : text max_length : 
  * @property string $mine_type mine_type type : text max_length : 
  * @property string $type_group type_group type : varchar(100) max_length : 100
- * @property string $uploaded_time uploaded_time type : datetime max_length : 
+ * @property datetime $uploaded_time uploaded_time type : datetime
  * @property integer $hits hits type : int(11)
 
  * @method void setId(integer $id) set id value
@@ -40,11 +40,11 @@ use Flywheel\Model\ActiveRecord;
  * @method static \ItemAttachments[] findByTypeGroup(string $type_group) find objects in database by type_group
  * @method static \ItemAttachments findOneByTypeGroup(string $type_group) find object in database by type_group
  * @method static \ItemAttachments retrieveByTypeGroup(string $type_group) retrieve object from poll by type_group, get it from db if not exist in poll
- * @method void setUploadedTime(string $uploaded_time) set uploaded_time value
- * @method string getUploadedTime() get uploaded_time value
- * @method static \ItemAttachments[] findByUploadedTime(string $uploaded_time) find objects in database by uploaded_time
- * @method static \ItemAttachments findOneByUploadedTime(string $uploaded_time) find object in database by uploaded_time
- * @method static \ItemAttachments retrieveByUploadedTime(string $uploaded_time) retrieve object from poll by uploaded_time, get it from db if not exist in poll
+ * @method void setUploadedTime(datetime $uploaded_time) set uploaded_time value
+ * @method datetime getUploadedTime() get uploaded_time value
+ * @method static \ItemAttachments[] findByUploadedTime(datetime $uploaded_time) find objects in database by uploaded_time
+ * @method static \ItemAttachments findOneByUploadedTime(datetime $uploaded_time) find object in database by uploaded_time
+ * @method static \ItemAttachments retrieveByUploadedTime(datetime $uploaded_time) retrieve object from poll by uploaded_time, get it from db if not exist in poll
  * @method void setHits(integer $hits) set hits value
  * @method integer getHits() get hits value
  * @method static \ItemAttachments[] findByHits(integer $hits) find objects in database by hits
@@ -54,6 +54,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class ItemAttachmentsBase extends ActiveRecord {
     protected static $_tableName = 'item_attachments';
+    protected static $_phpName = 'ItemAttachments';
     protected static $_pk = 'id';
     protected static $_alias = 'i';
     protected static $_dbConnectName = 'item_attachments';
@@ -81,7 +82,7 @@ abstract class ItemAttachmentsBase extends ActiveRecord {
                 'db_type' => 'varchar(100)',
                 'length' => 100),
         'uploaded_time' => array('name' => 'uploaded_time',
-                'type' => 'string',
+                'type' => 'datetime',
                 'db_type' => 'datetime'),
         'hits' => array('name' => 'hits',
                 'type' => 'integer',

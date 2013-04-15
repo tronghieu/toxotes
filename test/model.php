@@ -2,43 +2,22 @@
 require_once __DIR__ .'./../bootstrap.php';
 \Flywheel\Loader::import('global.model.*');
 try {
+//    $user = Users::read()
+//        ->where('id=?')
+//        ->setParameter(1, 1, PDO::PARAM_INT)
+//        ->execute()
+//        ->fetchObject('Users', array(null, false));
+//
+//    var_dump($user);
 
-    $conn = Account::getReadConnection();
-    $stmt = $conn->executeUpdate('');
-    $stmt = $conn->executeQuery('');
-    $stmt->fetchAll();
-
-
-    $conn = Account::getWriteConnection();
-
-    $accounts = Account::read()
-        ->setMaxResults(20)
+    $user = Users::read()->where(1)
         ->execute()
-        ->fetchAll(\PDO::FETCH_ASSOC);
+        ->fetchAll(PDO::FETCH_CLASS, 'Users', array(null, false));
+    var_dump($user);
 
-    foreach ($accounts as &$account) {
-        $a = new Account();
-        $a->hydrate($account);
-        $a->setNew(false);
-        $account = $a;
-    }
+    /** @var Users[] $user */
 
-
-    $stmt = Account::read()
-        ->setMaxResults(20)
-        ->execute();
-
-    $accounts = array();
-    while($stmt->fetch(\PDO::FETCH_ASSOC)) {
-        $a = new Account();
-        $a->hydrate($account);
-        $a->setNew(false);
-
-        $accounts[] = $a;
-    }
-
-//        ->fetchObject('Account');
-    var_dump($accounts);
+    var_dump($user[0]->getRegisterTime());
 } catch (\Exception $e) {
     var_dump($e);
 }

@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Terms
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -72,6 +72,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class TermsBase extends ActiveRecord {
     protected static $_tableName = 'terms';
+    protected static $_phpName = 'Terms';
     protected static $_pk = 'id';
     protected static $_alias = 't';
     protected static $_dbConnectName = 'terms';

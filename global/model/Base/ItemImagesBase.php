@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemImages
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -36,6 +36,7 @@ use Flywheel\Model\ActiveRecord;
  */
 abstract class ItemImagesBase extends ActiveRecord {
     protected static $_tableName = 'item_images';
+    protected static $_phpName = 'ItemImages';
     protected static $_pk = 'id';
     protected static $_alias = 'i';
     protected static $_dbConnectName = 'item_images';

@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 15/04/2013 11:00:35
+ *  This class has been auto-generated at 15/04/2013 11:54:17
  * @version		$Id$
  * @package		Model
 
@@ -15,10 +15,10 @@ use Flywheel\Model\ActiveRecord;
  * @property string $phone_number phone_number type : varchar(100) max_length : 100
  * @property integer $status status type : tinyint(4)
  * @property integer $active_email active_email type : tinyint(4)
- * @property string $birthday birthday type : date max_length : 
+ * @property date $birthday birthday type : date
  * @property string $secret secret type : char(32) max_length : 32
- * @property string $register_time register_time type : datetime max_length : 
- * @property string $last_visit_time last_visit_time type : datetime max_length : 
+ * @property datetime $register_time register_time type : datetime
+ * @property datetime $last_visit_time last_visit_time type : datetime
 
  * @method void setId(integer $id) set id value
  * @method integer getId() get id value
@@ -60,30 +60,31 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Users[] findByActiveEmail(integer $active_email) find objects in database by active_email
  * @method static \Users findOneByActiveEmail(integer $active_email) find object in database by active_email
  * @method static \Users retrieveByActiveEmail(integer $active_email) retrieve object from poll by active_email, get it from db if not exist in poll
- * @method void setBirthday(string $birthday) set birthday value
- * @method string getBirthday() get birthday value
- * @method static \Users[] findByBirthday(string $birthday) find objects in database by birthday
- * @method static \Users findOneByBirthday(string $birthday) find object in database by birthday
- * @method static \Users retrieveByBirthday(string $birthday) retrieve object from poll by birthday, get it from db if not exist in poll
+ * @method void setBirthday(date $birthday) set birthday value
+ * @method date getBirthday() get birthday value
+ * @method static \Users[] findByBirthday(date $birthday) find objects in database by birthday
+ * @method static \Users findOneByBirthday(date $birthday) find object in database by birthday
+ * @method static \Users retrieveByBirthday(date $birthday) retrieve object from poll by birthday, get it from db if not exist in poll
  * @method void setSecret(string $secret) set secret value
  * @method string getSecret() get secret value
  * @method static \Users[] findBySecret(string $secret) find objects in database by secret
  * @method static \Users findOneBySecret(string $secret) find object in database by secret
  * @method static \Users retrieveBySecret(string $secret) retrieve object from poll by secret, get it from db if not exist in poll
- * @method void setRegisterTime(string $register_time) set register_time value
- * @method string getRegisterTime() get register_time value
- * @method static \Users[] findByRegisterTime(string $register_time) find objects in database by register_time
- * @method static \Users findOneByRegisterTime(string $register_time) find object in database by register_time
- * @method static \Users retrieveByRegisterTime(string $register_time) retrieve object from poll by register_time, get it from db if not exist in poll
- * @method void setLastVisitTime(string $last_visit_time) set last_visit_time value
- * @method string getLastVisitTime() get last_visit_time value
- * @method static \Users[] findByLastVisitTime(string $last_visit_time) find objects in database by last_visit_time
- * @method static \Users findOneByLastVisitTime(string $last_visit_time) find object in database by last_visit_time
- * @method static \Users retrieveByLastVisitTime(string $last_visit_time) retrieve object from poll by last_visit_time, get it from db if not exist in poll
+ * @method void setRegisterTime(datetime $register_time) set register_time value
+ * @method datetime getRegisterTime() get register_time value
+ * @method static \Users[] findByRegisterTime(datetime $register_time) find objects in database by register_time
+ * @method static \Users findOneByRegisterTime(datetime $register_time) find object in database by register_time
+ * @method static \Users retrieveByRegisterTime(datetime $register_time) retrieve object from poll by register_time, get it from db if not exist in poll
+ * @method void setLastVisitTime(datetime $last_visit_time) set last_visit_time value
+ * @method datetime getLastVisitTime() get last_visit_time value
+ * @method static \Users[] findByLastVisitTime(datetime $last_visit_time) find objects in database by last_visit_time
+ * @method static \Users findOneByLastVisitTime(datetime $last_visit_time) find object in database by last_visit_time
+ * @method static \Users retrieveByLastVisitTime(datetime $last_visit_time) retrieve object from poll by last_visit_time, get it from db if not exist in poll
 
  */
 abstract class UsersBase extends ActiveRecord {
     protected static $_tableName = 'users';
+    protected static $_phpName = 'Users';
     protected static $_pk = 'id';
     protected static $_alias = 'u';
     protected static $_dbConnectName = 'users';
@@ -129,7 +130,7 @@ abstract class UsersBase extends ActiveRecord {
                 'length' => 1),
         'birthday' => array('name' => 'birthday',
                 'default' => '0000-00-00',
-                'type' => 'string',
+                'type' => 'date',
                 'db_type' => 'date'),
         'secret' => array('name' => 'secret',
                 'type' => 'string',
@@ -137,11 +138,11 @@ abstract class UsersBase extends ActiveRecord {
                 'length' => 32),
         'register_time' => array('name' => 'register_time',
                 'default' => '0000-00-00 00:00:00',
-                'type' => 'string',
+                'type' => 'datetime',
                 'db_type' => 'datetime'),
         'last_visit_time' => array('name' => 'last_visit_time',
                 'default' => '0000-00-00 00:00:00',
-                'type' => 'string',
+                'type' => 'datetime',
                 'db_type' => 'datetime'),
 );
     protected static $_validate = array(
