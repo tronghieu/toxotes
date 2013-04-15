@@ -1,8 +1,8 @@
 <?php
 return array(
-    'core' => array(
+    'default' => array(
         'adapter' => 'mysqli', //sqlite, mysql, mssql, oracle or pgsql
-        'dsn' => 'mysql:host=192.168.50.62;dbname=mc_billing',
+        'dsn' => 'mysql:host=localhost;dbname=toxotes',
         'db_user' => 'root',
         'db_pass' => 'abc@123',
         'cache_prepare' => true,
@@ -23,5 +23,5 @@ return array(
             ),*/
         ),
     ),
-    '__default__' => 'core'
+    '__default__' => 'default'
 );

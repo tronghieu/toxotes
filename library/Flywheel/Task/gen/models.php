@@ -33,10 +33,10 @@ function models_execute() {
         exit;
     }
 
-    if (isset($params['cnf'])) { // using key
-        $conn = Manager::getConnection($params['cnf']);
+    if (isset($params['config'])) { // using key
+        $conn = Manager::getConnection($params['config']);
     } else {
-        throw new \Flywheel\Exception('missing "cnf" config key in user parameter');
+        throw new \Flywheel\Exception('missing "config" config key in user parameter');
     }
 
     $builder = new BuildModels($conn);
@@ -445,6 +445,7 @@ class BuildModels {
             .'            $status = $this->saveToDb();' .PHP_EOL
             .'            $this->_afterSave();' .PHP_EOL
             .'            $conn->commit();' .PHP_EOL
+            .'            self::addInstanceToPool($this, $this->{$this->getPkValue()});'.PHP_EOL
             .'            return $status;'.PHP_EOL
             .'        }'.PHP_EOL
             .'        catch (\Exception $e) {'.PHP_EOL
@@ -464,6 +465,7 @@ class BuildModels {
             .'            $this->deleteFromDb();' .PHP_EOL
             .'            $this->_afterDelete();' .PHP_EOL
             .'            $conn->commit();'.PHP_EOL
+            .'            self::removeInstanceFromPool($this->{$this->getPkValue()});' .PHP_EOL
             .'            return true;' .PHP_EOL
             .'        }'.PHP_EOL
             .'        catch (\Exception $e) {'.PHP_EOL
@@ -483,8 +485,11 @@ class BuildModels {
 
     private function _writeClassMagicMethod($class, $column, &$infos) {
         $name = Inflection::camelize($column);
-        return ' * @method static \\'.$class .'[] findBy'.$name.'(' .$infos['type'] .' $' .$column .') find objects in database by ' .$column .PHP_EOL
-            .' * @method static \\'.$class .' findOneBy'.$name.'(' .$infos['type'] .' $' .$column .') find object in database by ' .$column .PHP_EOL;
+        return ' * @method void set' .$name .'(' .$infos['type'] .' $' .$column .') set ' .$column .' value'.PHP_EOL
+            .' * @method ' .$infos['type'].' get' .$name.'() get '. $column .' value' .PHP_EOL
+            .' * @method static \\'.$class .'[] findBy'.$name.'(' .$infos['type'] .' $' .$column .') find objects in database by ' .$column .PHP_EOL
+            .' * @method static \\'.$class .' findOneBy'.$name.'(' .$infos['type'] .' $' .$column .') find object in database by ' .$column .PHP_EOL
+            .' * @method static \\'.$class .' retrieveBy'.$name.'(' .$infos['type'] .' $' .$column .') retrieve object from poll by ' .$column .', get it from db if not exist in poll' .PHP_EOL;
     }
 
     private function _writeClassMagicProperties($column, &$infos) {

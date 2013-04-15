@@ -40,10 +40,16 @@ abstract class ActiveRecord extends \Flywheel\Object {
     protected $_validationFailures = array();
     protected $_valid = false;
 
-    public function __construct() {
+    public function __construct($data = null, $isNew = true) {
         $this->setTableDefinition();
         $this->_initDataValue();
         $this->init();
+
+        if (!empty($data)) {
+            $this->hydrate($data);
+        }
+
+        $this->setNew($isNew);
 
         if (!self::$_init) {
             self::$_validate = array_merge_recursive(self::$_validate, self::additionRule());
@@ -823,6 +829,31 @@ abstract class ActiveRecord extends \Flywheel\Object {
         return (!empty($result))? $result : null;
     }
 
+    public static function retrieveBy($by, $param) {
+        static::create();
+        $field = Inflection::camelCaseToHungary($by);
+        if ($by == static::getPrimaryKeyField()) {
+            if (null != ($obj = static::getInstanceFromPool($param[0]))) {
+                return $obj;
+            }
+        } else {
+            $objs = static::getInstancesFromPool();
+            foreach($objs as $obj) {
+                if ($obj->{$by} == $param[0]) {
+                    return $obj;
+                }
+            }
+        }
+
+        $obj = self::findBy($by, $param, true);
+        if ($obj) {
+            self::addInstanceToPool($obj, static::getPrimaryKeyField());
+            return $obj;
+        }
+
+        return false;
+    }
+
     public function __call($method, $params) {
         if (strrpos($method, 'set') === 0
             && isset($params[0]) && null !== $params[0]) {
@@ -940,6 +971,19 @@ abstract class ActiveRecord extends \Flywheel\Object {
                 }*/
 
                 return static::findBy($by, $params, true);
+            }
+        }
+
+        if(substr($lcMethod, 0, 10) == 'retrieveby') {
+            $by = substr($method, 10, strlen($method));
+            $method = 'retrieveBy';
+
+            if (isset($by)) {
+                if (!isset($params[0])) {
+                    throw new Exception('You must specify the value to ' . $method);
+                }
+
+                return static::retrieveBy($by, $params);
             }
         }
     }
