@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemAttachments
- *  This class has been auto-generated at 15/04/2013 11:54:17
+ *  This class has been auto-generated at 15/04/2013 12:29:01
  * @version		$Id$
  * @package		Model
 

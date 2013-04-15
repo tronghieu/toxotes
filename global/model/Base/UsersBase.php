@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 15/04/2013 11:54:17
+ *  This class has been auto-generated at 15/04/2013 12:29:01
  * @version		$Id$
  * @package		Model
 
@@ -14,6 +14,7 @@ use Flywheel\Model\ActiveRecord;
  * @property string $name name type : varchar(255) max_length : 255
  * @property string $phone_number phone_number type : varchar(100) max_length : 100
  * @property integer $status status type : tinyint(4)
+ * @property integer $banned banned type : tinyint(1)
  * @property integer $active_email active_email type : tinyint(4)
  * @property date $birthday birthday type : date
  * @property string $secret secret type : char(32) max_length : 32
@@ -55,6 +56,11 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Users[] findByStatus(integer $status) find objects in database by status
  * @method static \Users findOneByStatus(integer $status) find object in database by status
  * @method static \Users retrieveByStatus(integer $status) retrieve object from poll by status, get it from db if not exist in poll
+ * @method void setBanned(integer $banned) set banned value
+ * @method integer getBanned() get banned value
+ * @method static \Users[] findByBanned(integer $banned) find objects in database by banned
+ * @method static \Users findOneByBanned(integer $banned) find object in database by banned
+ * @method static \Users retrieveByBanned(integer $banned) retrieve object from poll by banned, get it from db if not exist in poll
  * @method void setActiveEmail(integer $active_email) set active_email value
  * @method integer getActiveEmail() get active_email value
  * @method static \Users[] findByActiveEmail(integer $active_email) find objects in database by active_email
@@ -122,6 +128,12 @@ abstract class UsersBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'tinyint(4)',
                 'length' => 1),
+        'banned' => array('name' => 'banned',
+                'default' => 0,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'tinyint(1)',
+                'length' => 1),
         'active_email' => array('name' => 'active_email',
                 'default' => 0,
                 'type' => 'integer',
@@ -153,13 +165,14 @@ abstract class UsersBase extends ActiveRecord {
         'name' => array('require' => '"name" is required!'),
         'phone_number' => array('require' => '"phone_number" is required!'),
         'status' => array('require' => '"status" is required!'),
+        'banned' => array('require' => '"banned" is required!'),
         'active_email' => array('require' => '"active_email" is required!'),
         'birthday' => array('require' => '"birthday" is required!'),
         'secret' => array('require' => '"secret" is required!'),
         'register_time' => array('require' => '"register_time" is required!'),
         'last_visit_time' => array('require' => '"last_visit_time" is required!'),
 );
-    protected static $_cols = array('id','username','password','email','name','phone_number','status','active_email','birthday','secret','register_time','last_visit_time');
+    protected static $_cols = array('id','username','password','email','name','phone_number','status','banned','active_email','birthday','secret','register_time','last_visit_time');
 
     public function setTableDefinition() {
     }

@@ -7,6 +7,5 @@ try {
     $app = \Flywheel\Base::createWebApp($config, \Flywheel\Base::ENV_DEV, true);
     $app->run();
 } catch (\Exception $e) {
-    //    Ming_Exception::printExceptionInfo($e);
-    print_r($e);
+    \Flywheel\Exception::printExceptionInfo($e);
 }

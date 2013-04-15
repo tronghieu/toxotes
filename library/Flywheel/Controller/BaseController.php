@@ -1,7 +1,9 @@
 <?php
 namespace Flywheel\Controller;
 use Flywheel\Factory;
-abstract class BaseController extends \Flywheel\Object
+use Flywheel\Object;
+
+abstract class BaseController extends Object
 {
     protected $_name;
     protected $_path;
