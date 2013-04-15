@@ -1,7 +1,7 @@
 <?php
 return array(
     'handler' => '',
-    'name'  => 'mcgame20!#',
+    'name'  => '54gdq!#',
     'lifetime' => 86400,
     //'cookie_domain' => '',
     'cookie_exception' => true,

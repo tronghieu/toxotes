@@ -16,7 +16,7 @@ class WebRouter extends BaseRouter
 
     public function __construct() {
         $routes = ConfigHandler::load('app.config.routing', 'routing', true);
-        //print_r($routes);exit;
+//        print_r($routes);exit;
         unset($routes['__urlSuffix__']);
         unset($routes['__remap__']);
         unset($routes['/']);
@@ -31,8 +31,8 @@ class WebRouter extends BaseRouter
 
     public function getPathInfo() {
         $pathInfo = parent::getPathInfo();
-        if (ConfigHandler::has('routing.__urlSuffix__')
-            && '' != ($suffix = ConfigHandler::get('routing.__urlSuffix__')))
+        if (ConfigHandler::has('__urlSuffix__', 'routing')
+            && '' != ($suffix = ConfigHandler::get('__urlSuffix__', 'routing')))
             $pathInfo = str_replace($suffix, '', $pathInfo);
         return $pathInfo;
     }
@@ -75,7 +75,7 @@ class WebRouter extends BaseRouter
     }
 
     private function _parseDefaultController() {
-        return ConfigHandler::get('routing./.route');
+        return ConfigHandler::get('/.route', 'routing');
     }
 
     private function _parseControllers($route) {
@@ -101,7 +101,7 @@ class WebRouter extends BaseRouter
     public function parseUrl($url)
     {
 
-        $config = ConfigHandler::get('routing');
+        $config = ConfigHandler::get('routing', false);
         $rawUrl = $url;
 
         $url = $this->removeUrlSuffix($url, isset($config['__urlSuffix__'])? $config['__urlSuffix__']: null);

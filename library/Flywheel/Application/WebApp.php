@@ -74,7 +74,7 @@ class WebApp extends BaseApp
         /* @var \Flywheel\Controller\WebController _controller */
         $this->_controller = new $className($controllerName, $controllerPath);
 
-        $this->_controller->execute();
+        $this->_controller->execute($router->getAction());
         return $this->_controller->render();
     }
 }

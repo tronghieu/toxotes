@@ -1,6 +1,9 @@
 <?php
+
 namespace Flywheel;
 use Flywheel\Application\BaseApp;
+
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Common.php';
 
 class Base
 {

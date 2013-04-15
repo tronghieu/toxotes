@@ -113,6 +113,6 @@ class BaseAuth extends Flywheel\Session\Authenticate {
     }
 
     private function _clearCookie() {
-        Factory::getCookie()->writeSecure('auth', -100000);
+        Factory::getCookie()->writeSecure('auth', null, -100000);
     }
 }

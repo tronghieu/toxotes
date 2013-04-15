@@ -48,6 +48,9 @@ class ConfigHandler
      * @return void
      */
     public static function set($path, $value, $namespace = 'default') {
+        if ($namespace) {
+            $path = $namespace.'.'.$path;
+        }
         $path = array_reverse(explode('.', $path));
         $res = array(array_shift($path) => $value);
         while(!empty($path)) {
@@ -73,6 +76,9 @@ class ConfigHandler
             $i = 0;
             while ($i < (sizeof($deep)-1)) {
                 ++$i;
+                if (!isset($data[$deep[$i]])) {
+                    return null;
+                }
                 $data = $data[$deep[$i]];
             }
             return $data;

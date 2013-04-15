@@ -1,5 +1,7 @@
 <?php
 namespace Flywheel\Model;
+use Flywheel\Db\Exception;
+use Flywheel\Db\Type\DateTime;
 use Flywheel\Event\Event as Event;
 use Flywheel\Validator\Util as ValidatorUtil;
 use Flywheel\Db\Expression;
@@ -445,10 +447,10 @@ abstract class ActiveRecord extends \Flywheel\Object {
                 case 'timestamp':
                 case 'date':
                 case 'datetime':
-                    if ($data instanceof \DateTime) {
+                    if ($data instanceof DateTime) {
                         return $data;
                     }
-                    return new \DateTime($data);
+                    return new DateTime($data);
                 case 'blob':
                 case 'string':
                     return (string) $data;
@@ -479,13 +481,13 @@ abstract class ActiveRecord extends \Flywheel\Object {
                     case 'number':
                         return 0;
                     case 'timestamp':
-                        return new \DateTime('0000-00-00 00:00:00');
+                        return new DateTime('0000-00-00 00:00:00');
                     case 'time':
-                        return new \DateTime('00:00:00');
+                        return new DateTime('00:00:00');
                     case 'date':
-                        return new \DateTime('0000-00-00');
+                        return new DateTime('0000-00-00');
                     case 'datetime':
-                        return new \DateTime('0000-00-00 00:00:00');
+                        return new DateTime('0000-00-00 00:00:00');
                     case 'blob':
                     case 'string':
                         return '';
@@ -514,7 +516,7 @@ abstract class ActiveRecord extends \Flywheel\Object {
 
     /**
      * @return bool
-     * @throws \Flywheel\Db\Exception
+     * @throws Exception
      */
     public function saveToDb() {
         if (!$this->validate()) {
@@ -525,6 +527,8 @@ abstract class ActiveRecord extends \Flywheel\Object {
         foreach($data as $c => &$v) {
             if (is_array($v)) {
                 $v = json_encode($v);
+            } else if ($v instanceof DateTime) {
+                $v = $v->toString();
             } else {
                 $v = $this->fixData($v, static::$_schema[$c]);
             }
@@ -535,7 +539,7 @@ abstract class ActiveRecord extends \Flywheel\Object {
         if ($this->isNew()) { //insert new record
             $status = $db->insert(static::getTableName(), $data, $databind);
             if (!$status) {
-                throw new \Flywheel\Db\Exception('Insert record did not succeed!');
+                throw new Exception('Insert record did not succeed!');
             }
             $this->{static::getPrimaryKeyField()} = $db->lastInsertId();
         } else {
@@ -567,11 +571,11 @@ abstract class ActiveRecord extends \Flywheel\Object {
      * delete object from database
      *
      * @return int
-     * @throws \Flywheel\Db\Exception
+     * @throws Exception
      */
     public function deleteFromDb() {
         if ($this->isNew()) {
-            throw new \Flywheel\Db\Exception('Record has been not saved in to database, cannot delete!');
+            throw new Exception('Record has been not saved in to database, cannot delete!');
         }
 
         $pkField = static::getPrimaryKeyField();

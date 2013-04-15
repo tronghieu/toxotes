@@ -9,6 +9,8 @@
  * @copyright	VC Corp (c) 2010
  */
 namespace Flywheel\View;
+use Flywheel\Factory;
+
 class Render {
 	/**
 	 * Assign templates vars
@@ -26,8 +28,12 @@ class Render {
 	
 	public function __construct() {}
 
-    public function doc() {
-        return \Flywheel\Factory::getDocument();
+    /**
+     * get HTMLDocument object
+     * @return \Flywheel\Document\Html
+     */
+    public function document() {
+        return Factory::getDocument();
     }
 
     /**
@@ -140,6 +146,10 @@ class Render {
      * @return \Flywheel\Http\Request
      */
     public function request() {
-        return \Flywheel\Factory::getRequest();
+        return Factory::getRequest();
+    }
+
+    public function checkViewFileExist($viewFile) {
+        return file_exists($this->templatePath.$viewFile.$this->_ext);
     }
 }

@@ -22,7 +22,7 @@ abstract class WebController extends BaseController
 
     protected $_path;
 
-    protected $_template = '';
+    protected $_template = 'default';
 
     protected $_viewPath;
     /**
@@ -33,15 +33,22 @@ abstract class WebController extends BaseController
     protected $_renderMode = 'NOT_SET';
 
     protected $_view;
+
+    protected $_isCustomView = false;
+
     protected $time;
 
     protected $_buffer;
+
+    protected $_action;
 
     public function __construct($name, $path) {
         parent::__construct($name, $path);
         $this->time		= time();
         $this->setViewPath(ConfigHandler::get('view_path'));
-        $this->setView('default');
+        if (ConfigHandler::has('template')) {
+            $this->setTemplate(ConfigHandler::get('template'));
+        }
         Loader::setPathOfAlias('template', $this->_viewPath .DIRECTORY_SEPARATOR .$this->_template);
     }
 
@@ -112,15 +119,20 @@ abstract class WebController extends BaseController
     /**
      * Execute
      *
-     *
-     * @throws NotFound404
+     * @param $action
+     * @throws \Flywheel\Exception\NotFound404
      * @return string component process result
      */
-    final public function execute() {
+    final public function execute($action) {
         $this->getEventDispatcher()->dispatch('onBeginControllerExecute', new Event($this));
         /* @var \Flywheel\Router\WebRouter $router */
         $router = Factory::getRouter();
-        $action = 'execute' . Inflection::camelize($router->getAction());
+        $this->_action = $action;
+
+        //set view file with action name
+        $this->_view = $this->_path .$action;
+
+        $action = 'execute' . Inflection::camelize($action);
 
         if (!method_exists($this, $action))
             throw new NotFound404("Controller: Action \"". $router->getController().'/'.$action ."\" doesn't exist");
@@ -220,7 +232,12 @@ abstract class WebController extends BaseController
     protected function renderPartial($vars = null) {
         $this->_renderMode = 'PARTIAL';
         $view = Factory::getView();
-        $viewFile = Base::getApp()->getTemplatePath() .'/controllers/' .$this->_view;
+        $viewFile = $this->getTemplatePath() .'/controllers/' .$this->_view;
+        if (!$this->_isCustomView && !$view->checkViewFileExist($viewFile)) {
+            $this->setView('default');
+            $viewFile = $this->getTemplatePath() .'/controllers/' .$this->_view;
+        }
+
         return $view->render($viewFile, $vars);
     }
 
@@ -286,6 +303,7 @@ abstract class WebController extends BaseController
      * @param string $view
      */
     protected function setView($view) {
+        $this->_isCustomView = true;
         $this->_view = $this->_path.$view;
     }
 
@@ -341,9 +359,9 @@ abstract class WebController extends BaseController
         $view->assign('controller', $buffer);
 
         if ($this->_layout == null) {
-            $config = ConfigHandler::get('templates');
-            $this->_layout = (isset($config['default_layout']))?
-                $config['default_layout'] : 'default'; //load default layout
+            $config = ConfigHandler::get('template');
+            $this->_layout = (ConfigHandler::has('default_layout'))?
+                ConfigHandler::get('default_layout') : 'default'; //load default layout
         }
 
         $content = $view->render($this->getTemplatePath() .'/' .$this->_layout);

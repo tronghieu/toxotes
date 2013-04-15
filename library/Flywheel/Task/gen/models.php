@@ -445,7 +445,7 @@ class BuildModels {
             .'            $status = $this->saveToDb();' .PHP_EOL
             .'            $this->_afterSave();' .PHP_EOL
             .'            $conn->commit();' .PHP_EOL
-            .'            self::addInstanceToPool($this, $this->{$this->getPkValue()});'.PHP_EOL
+            .'            self::addInstanceToPool($this, $this->getPkValue());'.PHP_EOL
             .'            return $status;'.PHP_EOL
             .'        }'.PHP_EOL
             .'        catch (\Exception $e) {'.PHP_EOL
@@ -465,7 +465,7 @@ class BuildModels {
             .'            $this->deleteFromDb();' .PHP_EOL
             .'            $this->_afterDelete();' .PHP_EOL
             .'            $conn->commit();'.PHP_EOL
-            .'            self::removeInstanceFromPool($this->{$this->getPkValue()});' .PHP_EOL
+            .'            self::removeInstanceFromPool($this->getPkValue());' .PHP_EOL
             .'            return true;' .PHP_EOL
             .'        }'.PHP_EOL
             .'        catch (\Exception $e) {'.PHP_EOL

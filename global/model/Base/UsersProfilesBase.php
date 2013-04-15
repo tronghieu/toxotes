@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UsersProfiles
- *  This class has been auto-generated at 15/04/2013 12:29:01
+ *  This class has been auto-generated at 15/04/2013 18:19:49
  * @version		$Id$
  * @package		Model
 
@@ -98,7 +98,7 @@ abstract class UsersProfilesBase extends ActiveRecord {
             $status = $this->saveToDb();
             $this->_afterSave();
             $conn->commit();
-            self::addInstanceToPool($this, $this->{$this->getPkValue()});
+            self::addInstanceToPool($this, $this->getPkValue());
             return $status;
         }
         catch (\Exception $e) {
@@ -119,7 +119,7 @@ abstract class UsersProfilesBase extends ActiveRecord {
             $this->deleteFromDb();
             $this->_afterDelete();
             $conn->commit();
-            self::removeInstanceFromPool($this->{$this->getPkValue()});
+            self::removeInstanceFromPool($this->getPkValue());
             return true;
         }
         catch (\Exception $e) {

@@ -13,7 +13,7 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
      * get current login user
      * return Users
      */
-    public function getCurrentUser() {
+    public function getSessionUser() {
         return BackendAuth::getInstance()->getUser();
     }
     
@@ -29,14 +29,4 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
             return $route.'?'.implode($ampersand, $p);
         }
     }
-    
-    public function getBaseUrl()
-    {
-    	$document = \Flywheel\Factory::getDocument();
-		return $document->getBaseUrl();
-    }
-
-    public function filter($action) {
-    }
-    
 }
