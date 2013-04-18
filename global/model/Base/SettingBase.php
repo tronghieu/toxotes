@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Setting
- *  This class has been auto-generated at 15/04/2013 18:19:49
+ *  This class has been auto-generated at 18/04/2013 11:49:16
  * @version		$Id$
  * @package		Model
 
@@ -15,11 +15,13 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Setting[] findBySettingKey(string $setting_key) find objects in database by setting_key
  * @method static \Setting findOneBySettingKey(string $setting_key) find object in database by setting_key
  * @method static \Setting retrieveBySettingKey(string $setting_key) retrieve object from poll by setting_key, get it from db if not exist in poll
+
  * @method void setSettingValue(string $setting_value) set setting_value value
  * @method string getSettingValue() get setting_value value
  * @method static \Setting[] findBySettingValue(string $setting_value) find objects in database by setting_value
  * @method static \Setting findOneBySettingValue(string $setting_value) find object in database by setting_value
  * @method static \Setting retrieveBySettingValue(string $setting_value) retrieve object from poll by setting_value, get it from db if not exist in poll
+
 
  */
 abstract class SettingBase extends ActiveRecord {

@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UserRole
- *  This class has been auto-generated at 15/04/2013 18:19:49
+ *  This class has been auto-generated at 18/04/2013 11:49:16
  * @version		$Id$
  * @package		Model
 
@@ -15,11 +15,13 @@ use Flywheel\Model\ActiveRecord;
  * @method static \UserRole[] findByUserId(integer $user_id) find objects in database by user_id
  * @method static \UserRole findOneByUserId(integer $user_id) find object in database by user_id
  * @method static \UserRole retrieveByUserId(integer $user_id) retrieve object from poll by user_id, get it from db if not exist in poll
+
  * @method void setRoleId(integer $role_id) set role_id value
  * @method integer getRoleId() get role_id value
  * @method static \UserRole[] findByRoleId(integer $role_id) find objects in database by role_id
  * @method static \UserRole findOneByRoleId(integer $role_id) find object in database by role_id
  * @method static \UserRole retrieveByRoleId(integer $role_id) retrieve object from poll by role_id, get it from db if not exist in poll
+
 
  */
 abstract class UserRoleBase extends ActiveRecord {

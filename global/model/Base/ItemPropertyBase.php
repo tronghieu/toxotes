@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemProperty
- *  This class has been auto-generated at 15/04/2013 18:19:49
+ *  This class has been auto-generated at 18/04/2013 11:49:16
  * @version		$Id$
  * @package		Model
 
@@ -22,46 +22,55 @@ use Flywheel\Model\ActiveRecord;
  * @method static \ItemProperty[] findById(integer $id) find objects in database by id
  * @method static \ItemProperty findOneById(integer $id) find object in database by id
  * @method static \ItemProperty retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
+
  * @method void setItemId(integer $item_id) set item_id value
  * @method integer getItemId() get item_id value
  * @method static \ItemProperty[] findByItemId(integer $item_id) find objects in database by item_id
  * @method static \ItemProperty findOneByItemId(integer $item_id) find object in database by item_id
  * @method static \ItemProperty retrieveByItemId(integer $item_id) retrieve object from poll by item_id, get it from db if not exist in poll
+
  * @method void setProperty(string $property) set property value
  * @method string getProperty() get property value
  * @method static \ItemProperty[] findByProperty(string $property) find objects in database by property
  * @method static \ItemProperty findOneByProperty(string $property) find object in database by property
  * @method static \ItemProperty retrieveByProperty(string $property) retrieve object from poll by property, get it from db if not exist in poll
+
  * @method void setTextValue(string $text_value) set text_value value
  * @method string getTextValue() get text_value value
  * @method static \ItemProperty[] findByTextValue(string $text_value) find objects in database by text_value
  * @method static \ItemProperty findOneByTextValue(string $text_value) find object in database by text_value
  * @method static \ItemProperty retrieveByTextValue(string $text_value) retrieve object from poll by text_value, get it from db if not exist in poll
+
  * @method void setIntValue(integer $int_value) set int_value value
  * @method integer getIntValue() get int_value value
  * @method static \ItemProperty[] findByIntValue(integer $int_value) find objects in database by int_value
  * @method static \ItemProperty findOneByIntValue(integer $int_value) find object in database by int_value
  * @method static \ItemProperty retrieveByIntValue(integer $int_value) retrieve object from poll by int_value, get it from db if not exist in poll
+
  * @method void setFloatValue(number $float_value) set float_value value
  * @method number getFloatValue() get float_value value
  * @method static \ItemProperty[] findByFloatValue(number $float_value) find objects in database by float_value
  * @method static \ItemProperty findOneByFloatValue(number $float_value) find object in database by float_value
  * @method static \ItemProperty retrieveByFloatValue(number $float_value) retrieve object from poll by float_value, get it from db if not exist in poll
+
  * @method void setBooleanValue(integer $boolean_value) set boolean_value value
  * @method integer getBooleanValue() get boolean_value value
  * @method static \ItemProperty[] findByBooleanValue(integer $boolean_value) find objects in database by boolean_value
  * @method static \ItemProperty findOneByBooleanValue(integer $boolean_value) find object in database by boolean_value
  * @method static \ItemProperty retrieveByBooleanValue(integer $boolean_value) retrieve object from poll by boolean_value, get it from db if not exist in poll
- * @method void setDatetimeValue(datetime $datetime_value) set datetime_value value
- * @method datetime getDatetimeValue() get datetime_value value
- * @method static \ItemProperty[] findByDatetimeValue(datetime $datetime_value) find objects in database by datetime_value
- * @method static \ItemProperty findOneByDatetimeValue(datetime $datetime_value) find object in database by datetime_value
- * @method static \ItemProperty retrieveByDatetimeValue(datetime $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
+
+ * @method void setDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) setDatetimeValue(string $datetime_value) set datetime_value value
+ * @method \Flywheel\Db\Type\DateTime getDatetimeValue() get datetime_value value
+ * @method static \ItemProperty[] findByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findByDatetimeValue(string $datetime_value) find objects in database by datetime_value
+ * @method static \ItemProperty findOneByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findOneByDatetimeValue(string $datetime_value) find object in database by datetime_value
+ * @method static \ItemProperty retrieveByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) retrieveByDatetimeValue(string $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
+
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
  * @method static \ItemProperty[] findByOrdering(integer $ordering) find objects in database by ordering
  * @method static \ItemProperty findOneByOrdering(integer $ordering) find object in database by ordering
  * @method static \ItemProperty retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
+
 
  */
 abstract class ItemPropertyBase extends ActiveRecord {

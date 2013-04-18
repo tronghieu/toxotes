@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UsersProfiles
- *  This class has been auto-generated at 15/04/2013 18:19:49
+ *  This class has been auto-generated at 18/04/2013 11:49:16
  * @version		$Id$
  * @package		Model
 
@@ -18,26 +18,31 @@ use Flywheel\Model\ActiveRecord;
  * @method static \UsersProfiles[] findById(integer $id) find objects in database by id
  * @method static \UsersProfiles findOneById(integer $id) find object in database by id
  * @method static \UsersProfiles retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
+
  * @method void setUserId(integer $user_id) set user_id value
  * @method integer getUserId() get user_id value
  * @method static \UsersProfiles[] findByUserId(integer $user_id) find objects in database by user_id
  * @method static \UsersProfiles findOneByUserId(integer $user_id) find object in database by user_id
  * @method static \UsersProfiles retrieveByUserId(integer $user_id) retrieve object from poll by user_id, get it from db if not exist in poll
+
  * @method void setProfileKey(string $profile_key) set profile_key value
  * @method string getProfileKey() get profile_key value
  * @method static \UsersProfiles[] findByProfileKey(string $profile_key) find objects in database by profile_key
  * @method static \UsersProfiles findOneByProfileKey(string $profile_key) find object in database by profile_key
  * @method static \UsersProfiles retrieveByProfileKey(string $profile_key) retrieve object from poll by profile_key, get it from db if not exist in poll
+
  * @method void setProfileValue(string $profile_value) set profile_value value
  * @method string getProfileValue() get profile_value value
  * @method static \UsersProfiles[] findByProfileValue(string $profile_value) find objects in database by profile_value
  * @method static \UsersProfiles findOneByProfileValue(string $profile_value) find object in database by profile_value
  * @method static \UsersProfiles retrieveByProfileValue(string $profile_value) retrieve object from poll by profile_value, get it from db if not exist in poll
+
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
  * @method static \UsersProfiles[] findByOrdering(integer $ordering) find objects in database by ordering
  * @method static \UsersProfiles findOneByOrdering(integer $ordering) find object in database by ordering
  * @method static \UsersProfiles retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
+
 
  */
 abstract class UsersProfilesBase extends ActiveRecord {

@@ -484,12 +484,25 @@ class BuildModels {
     }
 
     private function _writeClassMagicMethod($class, $column, &$infos) {
+        $s = '';
         $name = Inflection::camelize($column);
-        return ' * @method void set' .$name .'(' .$infos['type'] .' $' .$column .') set ' .$column .' value'.PHP_EOL
-            .' * @method ' .$infos['type'].' get' .$name.'() get '. $column .' value' .PHP_EOL
-            .' * @method static \\'.$class .'[] findBy'.$name.'(' .$infos['type'] .' $' .$column .') find objects in database by ' .$column .PHP_EOL
-            .' * @method static \\'.$class .' findOneBy'.$name.'(' .$infos['type'] .' $' .$column .') find object in database by ' .$column .PHP_EOL
-            .' * @method static \\'.$class .' retrieveBy'.$name.'(' .$infos['type'] .' $' .$column .') retrieve object from poll by ' .$column .', get it from db if not exist in poll' .PHP_EOL;
+        if ($infos['type'] == 'date' || $infos['type'] == 'datetime'
+            || $infos['type'] == 'time' || $infos['type'] == 'timestamp') {
+            $s .= ' * @method void set' .$name .'(\Flywheel\Db\Type\DateTime $' .$column .') set' .$name .'(string $' .$column .') set ' .$column .' value'.PHP_EOL
+                .' * @method \Flywheel\Db\Type\DateTime get' .$name.'() get '. $column .' value' .PHP_EOL
+                .' * @method static \\'.$class .'[] findBy'.$name.'(\Flywheel\Db\Type\DateTime $' .$column .') findBy'.$name.'(string $' .$column .') find objects in database by ' .$column .PHP_EOL
+                .' * @method static \\'.$class .' findOneBy'.$name.'(\Flywheel\Db\Type\DateTime $' .$column .') findOneBy'.$name.'(string $' .$column .') find object in database by ' .$column .PHP_EOL
+                .' * @method static \\'.$class .' retrieveBy'.$name.'(\Flywheel\Db\Type\DateTime $' .$column .') retrieveBy'.$name.'(string $' .$column .') retrieve object from poll by ' .$column .', get it from db if not exist in poll' .PHP_EOL .PHP_EOL;
+        } else {
+            $s .= ' * @method void set' .$name .'(' .$infos['type'] .' $' .$column .') set ' .$column .' value'.PHP_EOL
+                .' * @method ' .$infos['type'].' get' .$name.'() get '. $column .' value' .PHP_EOL
+                .' * @method static \\'.$class .'[] findBy'.$name.'(' .$infos['type'] .' $' .$column .') find objects in database by ' .$column .PHP_EOL
+                .' * @method static \\'.$class .' findOneBy'.$name.'(' .$infos['type'] .' $' .$column .') find object in database by ' .$column .PHP_EOL
+                .' * @method static \\'.$class .' retrieveBy'.$name.'(' .$infos['type'] .' $' .$column .') retrieve object from poll by ' .$column .', get it from db if not exist in poll' .PHP_EOL .PHP_EOL;
+        }
+
+        return $s;
+
     }
 
     private function _writeClassMagicProperties($column, &$infos) {

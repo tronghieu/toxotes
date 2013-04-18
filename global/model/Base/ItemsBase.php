@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Items
- *  This class has been auto-generated at 15/04/2013 18:19:49
+ *  This class has been auto-generated at 18/04/2013 11:49:16
  * @version		$Id$
  * @package		Model
 
@@ -26,66 +26,79 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Items[] findById(integer $id) find objects in database by id
  * @method static \Items findOneById(integer $id) find object in database by id
  * @method static \Items retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
+
  * @method void setTitle(string $title) set title value
  * @method string getTitle() get title value
  * @method static \Items[] findByTitle(string $title) find objects in database by title
  * @method static \Items findOneByTitle(string $title) find object in database by title
  * @method static \Items retrieveByTitle(string $title) retrieve object from poll by title, get it from db if not exist in poll
+
  * @method void setSlug(string $slug) set slug value
  * @method string getSlug() get slug value
  * @method static \Items[] findBySlug(string $slug) find objects in database by slug
  * @method static \Items findOneBySlug(string $slug) find object in database by slug
  * @method static \Items retrieveBySlug(string $slug) retrieve object from poll by slug, get it from db if not exist in poll
+
  * @method void setExcerpt(string $excerpt) set excerpt value
  * @method string getExcerpt() get excerpt value
  * @method static \Items[] findByExcerpt(string $excerpt) find objects in database by excerpt
  * @method static \Items findOneByExcerpt(string $excerpt) find object in database by excerpt
  * @method static \Items retrieveByExcerpt(string $excerpt) retrieve object from poll by excerpt, get it from db if not exist in poll
+
  * @method void setContent(string $content) set content value
  * @method string getContent() get content value
  * @method static \Items[] findByContent(string $content) find objects in database by content
  * @method static \Items findOneByContent(string $content) find object in database by content
  * @method static \Items retrieveByContent(string $content) retrieve object from poll by content, get it from db if not exist in poll
+
  * @method void setStatus(string $status) set status value
  * @method string getStatus() get status value
  * @method static \Items[] findByStatus(string $status) find objects in database by status
  * @method static \Items findOneByStatus(string $status) find object in database by status
  * @method static \Items retrieveByStatus(string $status) retrieve object from poll by status, get it from db if not exist in poll
+
  * @method void setAuthor(string $author) set author value
  * @method string getAuthor() get author value
  * @method static \Items[] findByAuthor(string $author) find objects in database by author
  * @method static \Items findOneByAuthor(string $author) find object in database by author
  * @method static \Items retrieveByAuthor(string $author) retrieve object from poll by author, get it from db if not exist in poll
+
  * @method void setTaxonomy(string $taxonomy) set taxonomy value
  * @method string getTaxonomy() get taxonomy value
  * @method static \Items[] findByTaxonomy(string $taxonomy) find objects in database by taxonomy
  * @method static \Items findOneByTaxonomy(string $taxonomy) find object in database by taxonomy
  * @method static \Items retrieveByTaxonomy(string $taxonomy) retrieve object from poll by taxonomy, get it from db if not exist in poll
+
  * @method void setLanguage(string $language) set language value
  * @method string getLanguage() get language value
  * @method static \Items[] findByLanguage(string $language) find objects in database by language
  * @method static \Items findOneByLanguage(string $language) find object in database by language
  * @method static \Items retrieveByLanguage(string $language) retrieve object from poll by language, get it from db if not exist in poll
- * @method void setModifiedTime(datetime $modified_time) set modified_time value
- * @method datetime getModifiedTime() get modified_time value
- * @method static \Items[] findByModifiedTime(datetime $modified_time) find objects in database by modified_time
- * @method static \Items findOneByModifiedTime(datetime $modified_time) find object in database by modified_time
- * @method static \Items retrieveByModifiedTime(datetime $modified_time) retrieve object from poll by modified_time, get it from db if not exist in poll
- * @method void setCreatedTime(datetime $created_time) set created_time value
- * @method datetime getCreatedTime() get created_time value
- * @method static \Items[] findByCreatedTime(datetime $created_time) find objects in database by created_time
- * @method static \Items findOneByCreatedTime(datetime $created_time) find object in database by created_time
- * @method static \Items retrieveByCreatedTime(datetime $created_time) retrieve object from poll by created_time, get it from db if not exist in poll
+
+ * @method void setModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) setModifiedTime(string $modified_time) set modified_time value
+ * @method \Flywheel\Db\Type\DateTime getModifiedTime() get modified_time value
+ * @method static \Items[] findByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) findByModifiedTime(string $modified_time) find objects in database by modified_time
+ * @method static \Items findOneByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) findOneByModifiedTime(string $modified_time) find object in database by modified_time
+ * @method static \Items retrieveByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) retrieveByModifiedTime(string $modified_time) retrieve object from poll by modified_time, get it from db if not exist in poll
+
+ * @method void setCreatedTime(\Flywheel\Db\Type\DateTime $created_time) setCreatedTime(string $created_time) set created_time value
+ * @method \Flywheel\Db\Type\DateTime getCreatedTime() get created_time value
+ * @method static \Items[] findByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) findByCreatedTime(string $created_time) find objects in database by created_time
+ * @method static \Items findOneByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) findOneByCreatedTime(string $created_time) find object in database by created_time
+ * @method static \Items retrieveByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) retrieveByCreatedTime(string $created_time) retrieve object from poll by created_time, get it from db if not exist in poll
+
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
  * @method static \Items[] findByOrdering(integer $ordering) find objects in database by ordering
  * @method static \Items findOneByOrdering(integer $ordering) find object in database by ordering
  * @method static \Items retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
+
  * @method void setHits(integer $hits) set hits value
  * @method integer getHits() get hits value
  * @method static \Items[] findByHits(integer $hits) find objects in database by hits
  * @method static \Items findOneByHits(integer $hits) find object in database by hits
  * @method static \Items retrieveByHits(integer $hits) retrieve object from poll by hits, get it from db if not exist in poll
+
 
  */
 abstract class ItemsBase extends ActiveRecord {

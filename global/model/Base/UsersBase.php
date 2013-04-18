@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 15/04/2013 18:19:49
+ *  This class has been auto-generated at 18/04/2013 11:49:16
  * @version		$Id$
  * @package		Model
 
@@ -26,66 +26,79 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Users[] findById(integer $id) find objects in database by id
  * @method static \Users findOneById(integer $id) find object in database by id
  * @method static \Users retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
+
  * @method void setUsername(string $username) set username value
  * @method string getUsername() get username value
  * @method static \Users[] findByUsername(string $username) find objects in database by username
  * @method static \Users findOneByUsername(string $username) find object in database by username
  * @method static \Users retrieveByUsername(string $username) retrieve object from poll by username, get it from db if not exist in poll
+
  * @method void setPassword(string $password) set password value
  * @method string getPassword() get password value
  * @method static \Users[] findByPassword(string $password) find objects in database by password
  * @method static \Users findOneByPassword(string $password) find object in database by password
  * @method static \Users retrieveByPassword(string $password) retrieve object from poll by password, get it from db if not exist in poll
+
  * @method void setEmail(string $email) set email value
  * @method string getEmail() get email value
  * @method static \Users[] findByEmail(string $email) find objects in database by email
  * @method static \Users findOneByEmail(string $email) find object in database by email
  * @method static \Users retrieveByEmail(string $email) retrieve object from poll by email, get it from db if not exist in poll
+
  * @method void setName(string $name) set name value
  * @method string getName() get name value
  * @method static \Users[] findByName(string $name) find objects in database by name
  * @method static \Users findOneByName(string $name) find object in database by name
  * @method static \Users retrieveByName(string $name) retrieve object from poll by name, get it from db if not exist in poll
+
  * @method void setPhoneNumber(string $phone_number) set phone_number value
  * @method string getPhoneNumber() get phone_number value
  * @method static \Users[] findByPhoneNumber(string $phone_number) find objects in database by phone_number
  * @method static \Users findOneByPhoneNumber(string $phone_number) find object in database by phone_number
  * @method static \Users retrieveByPhoneNumber(string $phone_number) retrieve object from poll by phone_number, get it from db if not exist in poll
+
  * @method void setStatus(integer $status) set status value
  * @method integer getStatus() get status value
  * @method static \Users[] findByStatus(integer $status) find objects in database by status
  * @method static \Users findOneByStatus(integer $status) find object in database by status
  * @method static \Users retrieveByStatus(integer $status) retrieve object from poll by status, get it from db if not exist in poll
+
  * @method void setBanned(integer $banned) set banned value
  * @method integer getBanned() get banned value
  * @method static \Users[] findByBanned(integer $banned) find objects in database by banned
  * @method static \Users findOneByBanned(integer $banned) find object in database by banned
  * @method static \Users retrieveByBanned(integer $banned) retrieve object from poll by banned, get it from db if not exist in poll
+
  * @method void setActiveEmail(integer $active_email) set active_email value
  * @method integer getActiveEmail() get active_email value
  * @method static \Users[] findByActiveEmail(integer $active_email) find objects in database by active_email
  * @method static \Users findOneByActiveEmail(integer $active_email) find object in database by active_email
  * @method static \Users retrieveByActiveEmail(integer $active_email) retrieve object from poll by active_email, get it from db if not exist in poll
- * @method void setBirthday(date $birthday) set birthday value
- * @method date getBirthday() get birthday value
- * @method static \Users[] findByBirthday(date $birthday) find objects in database by birthday
- * @method static \Users findOneByBirthday(date $birthday) find object in database by birthday
- * @method static \Users retrieveByBirthday(date $birthday) retrieve object from poll by birthday, get it from db if not exist in poll
+
+ * @method void setBirthday(\Flywheel\Db\Type\DateTime $birthday) setBirthday(string $birthday) set birthday value
+ * @method \Flywheel\Db\Type\DateTime getBirthday() get birthday value
+ * @method static \Users[] findByBirthday(\Flywheel\Db\Type\DateTime $birthday) findByBirthday(string $birthday) find objects in database by birthday
+ * @method static \Users findOneByBirthday(\Flywheel\Db\Type\DateTime $birthday) findOneByBirthday(string $birthday) find object in database by birthday
+ * @method static \Users retrieveByBirthday(\Flywheel\Db\Type\DateTime $birthday) retrieveByBirthday(string $birthday) retrieve object from poll by birthday, get it from db if not exist in poll
+
  * @method void setSecret(string $secret) set secret value
  * @method string getSecret() get secret value
  * @method static \Users[] findBySecret(string $secret) find objects in database by secret
  * @method static \Users findOneBySecret(string $secret) find object in database by secret
  * @method static \Users retrieveBySecret(string $secret) retrieve object from poll by secret, get it from db if not exist in poll
- * @method void setRegisterTime(datetime $register_time) set register_time value
- * @method datetime getRegisterTime() get register_time value
- * @method static \Users[] findByRegisterTime(datetime $register_time) find objects in database by register_time
- * @method static \Users findOneByRegisterTime(datetime $register_time) find object in database by register_time
- * @method static \Users retrieveByRegisterTime(datetime $register_time) retrieve object from poll by register_time, get it from db if not exist in poll
- * @method void setLastVisitTime(datetime $last_visit_time) set last_visit_time value
- * @method datetime getLastVisitTime() get last_visit_time value
- * @method static \Users[] findByLastVisitTime(datetime $last_visit_time) find objects in database by last_visit_time
- * @method static \Users findOneByLastVisitTime(datetime $last_visit_time) find object in database by last_visit_time
- * @method static \Users retrieveByLastVisitTime(datetime $last_visit_time) retrieve object from poll by last_visit_time, get it from db if not exist in poll
+
+ * @method void setRegisterTime(\Flywheel\Db\Type\DateTime $register_time) setRegisterTime(string $register_time) set register_time value
+ * @method \Flywheel\Db\Type\DateTime getRegisterTime() get register_time value
+ * @method static \Users[] findByRegisterTime(\Flywheel\Db\Type\DateTime $register_time) findByRegisterTime(string $register_time) find objects in database by register_time
+ * @method static \Users findOneByRegisterTime(\Flywheel\Db\Type\DateTime $register_time) findOneByRegisterTime(string $register_time) find object in database by register_time
+ * @method static \Users retrieveByRegisterTime(\Flywheel\Db\Type\DateTime $register_time) retrieveByRegisterTime(string $register_time) retrieve object from poll by register_time, get it from db if not exist in poll
+
+ * @method void setLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) setLastVisitTime(string $last_visit_time) set last_visit_time value
+ * @method \Flywheel\Db\Type\DateTime getLastVisitTime() get last_visit_time value
+ * @method static \Users[] findByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) findByLastVisitTime(string $last_visit_time) find objects in database by last_visit_time
+ * @method static \Users findOneByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) findOneByLastVisitTime(string $last_visit_time) find object in database by last_visit_time
+ * @method static \Users retrieveByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) retrieveByLastVisitTime(string $last_visit_time) retrieve object from poll by last_visit_time, get it from db if not exist in poll
+
 
  */
 abstract class UsersBase extends ActiveRecord {

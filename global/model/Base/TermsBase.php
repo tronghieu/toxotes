@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Terms
- *  This class has been auto-generated at 15/04/2013 18:19:49
+ *  This class has been auto-generated at 18/04/2013 11:49:16
  * @version		$Id$
  * @package		Model
 
@@ -23,51 +23,61 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Terms[] findById(integer $id) find objects in database by id
  * @method static \Terms findOneById(integer $id) find object in database by id
  * @method static \Terms retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
+
  * @method void setName(string $name) set name value
  * @method string getName() get name value
  * @method static \Terms[] findByName(string $name) find objects in database by name
  * @method static \Terms findOneByName(string $name) find object in database by name
  * @method static \Terms retrieveByName(string $name) retrieve object from poll by name, get it from db if not exist in poll
+
  * @method void setSlug(string $slug) set slug value
  * @method string getSlug() get slug value
  * @method static \Terms[] findBySlug(string $slug) find objects in database by slug
  * @method static \Terms findOneBySlug(string $slug) find object in database by slug
  * @method static \Terms retrieveBySlug(string $slug) retrieve object from poll by slug, get it from db if not exist in poll
+
  * @method void setTaxonomy(string $taxonomy) set taxonomy value
  * @method string getTaxonomy() get taxonomy value
  * @method static \Terms[] findByTaxonomy(string $taxonomy) find objects in database by taxonomy
  * @method static \Terms findOneByTaxonomy(string $taxonomy) find object in database by taxonomy
  * @method static \Terms retrieveByTaxonomy(string $taxonomy) retrieve object from poll by taxonomy, get it from db if not exist in poll
+
  * @method void setDescription(string $description) set description value
  * @method string getDescription() get description value
  * @method static \Terms[] findByDescription(string $description) find objects in database by description
  * @method static \Terms findOneByDescription(string $description) find object in database by description
  * @method static \Terms retrieveByDescription(string $description) retrieve object from poll by description, get it from db if not exist in poll
+
  * @method void setCount(integer $count) set count value
  * @method integer getCount() get count value
  * @method static \Terms[] findByCount(integer $count) find objects in database by count
  * @method static \Terms findOneByCount(integer $count) find object in database by count
  * @method static \Terms retrieveByCount(integer $count) retrieve object from poll by count, get it from db if not exist in poll
+
  * @method void setScope(string $scope) set scope value
  * @method string getScope() get scope value
  * @method static \Terms[] findByScope(string $scope) find objects in database by scope
  * @method static \Terms findOneByScope(string $scope) find object in database by scope
  * @method static \Terms retrieveByScope(string $scope) retrieve object from poll by scope, get it from db if not exist in poll
+
  * @method void setLft(integer $lft) set lft value
  * @method integer getLft() get lft value
  * @method static \Terms[] findByLft(integer $lft) find objects in database by lft
  * @method static \Terms findOneByLft(integer $lft) find object in database by lft
  * @method static \Terms retrieveByLft(integer $lft) retrieve object from poll by lft, get it from db if not exist in poll
+
  * @method void setRgt(integer $rgt) set rgt value
  * @method integer getRgt() get rgt value
  * @method static \Terms[] findByRgt(integer $rgt) find objects in database by rgt
  * @method static \Terms findOneByRgt(integer $rgt) find object in database by rgt
  * @method static \Terms retrieveByRgt(integer $rgt) retrieve object from poll by rgt, get it from db if not exist in poll
+
  * @method void setLvl(integer $lvl) set lvl value
  * @method integer getLvl() get lvl value
  * @method static \Terms[] findByLvl(integer $lvl) find objects in database by lvl
  * @method static \Terms findOneByLvl(integer $lvl) find object in database by lvl
  * @method static \Terms retrieveByLvl(integer $lvl) retrieve object from poll by lvl, get it from db if not exist in poll
+
 
  */
 abstract class TermsBase extends ActiveRecord {

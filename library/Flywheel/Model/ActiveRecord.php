@@ -447,6 +447,9 @@ abstract class ActiveRecord extends \Flywheel\Object {
                 case 'timestamp':
                 case 'date':
                 case 'datetime':
+                    if ($data instanceof \DateTime) {
+                        $data = new DateTime($data->format('Y-m-d H:i:s'));
+                    }
                     if ($data instanceof DateTime) {
                         return $data;
                     }
@@ -823,6 +826,12 @@ abstract class ActiveRecord extends \Flywheel\Object {
             ->where(static::buildFindByWhere($by));
         if ($first)
             $q->setMaxResults(1);
+
+        foreach ($param as &$p) {//toString datetime object
+            if ($p instanceof DateTime) {
+                $p = $p->format('Y-m-d H:i:s');
+            }
+        }
 
         if (null != $param)
             $q->setParameters($param);

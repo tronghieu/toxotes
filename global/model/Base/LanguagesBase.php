@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Languages
- *  This class has been auto-generated at 15/04/2013 18:19:49
+ *  This class has been auto-generated at 18/04/2013 11:49:16
  * @version		$Id$
  * @package		Model
 
@@ -26,66 +26,79 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Languages[] findByLangId(integer $lang_id) find objects in database by lang_id
  * @method static \Languages findOneByLangId(integer $lang_id) find object in database by lang_id
  * @method static \Languages retrieveByLangId(integer $lang_id) retrieve object from poll by lang_id, get it from db if not exist in poll
+
  * @method void setLangCode(string $lang_code) set lang_code value
  * @method string getLangCode() get lang_code value
  * @method static \Languages[] findByLangCode(string $lang_code) find objects in database by lang_code
  * @method static \Languages findOneByLangCode(string $lang_code) find object in database by lang_code
  * @method static \Languages retrieveByLangCode(string $lang_code) retrieve object from poll by lang_code, get it from db if not exist in poll
+
  * @method void setTitle(string $title) set title value
  * @method string getTitle() get title value
  * @method static \Languages[] findByTitle(string $title) find objects in database by title
  * @method static \Languages findOneByTitle(string $title) find object in database by title
  * @method static \Languages retrieveByTitle(string $title) retrieve object from poll by title, get it from db if not exist in poll
+
  * @method void setTitleNative(string $title_native) set title_native value
  * @method string getTitleNative() get title_native value
  * @method static \Languages[] findByTitleNative(string $title_native) find objects in database by title_native
  * @method static \Languages findOneByTitleNative(string $title_native) find object in database by title_native
  * @method static \Languages retrieveByTitleNative(string $title_native) retrieve object from poll by title_native, get it from db if not exist in poll
+
  * @method void setSef(string $sef) set sef value
  * @method string getSef() get sef value
  * @method static \Languages[] findBySef(string $sef) find objects in database by sef
  * @method static \Languages findOneBySef(string $sef) find object in database by sef
  * @method static \Languages retrieveBySef(string $sef) retrieve object from poll by sef, get it from db if not exist in poll
+
  * @method void setImage(string $image) set image value
  * @method string getImage() get image value
  * @method static \Languages[] findByImage(string $image) find objects in database by image
  * @method static \Languages findOneByImage(string $image) find object in database by image
  * @method static \Languages retrieveByImage(string $image) retrieve object from poll by image, get it from db if not exist in poll
+
  * @method void setDescription(string $description) set description value
  * @method string getDescription() get description value
  * @method static \Languages[] findByDescription(string $description) find objects in database by description
  * @method static \Languages findOneByDescription(string $description) find object in database by description
  * @method static \Languages retrieveByDescription(string $description) retrieve object from poll by description, get it from db if not exist in poll
+
  * @method void setMetakey(string $metakey) set metakey value
  * @method string getMetakey() get metakey value
  * @method static \Languages[] findByMetakey(string $metakey) find objects in database by metakey
  * @method static \Languages findOneByMetakey(string $metakey) find object in database by metakey
  * @method static \Languages retrieveByMetakey(string $metakey) retrieve object from poll by metakey, get it from db if not exist in poll
+
  * @method void setMetadesc(string $metadesc) set metadesc value
  * @method string getMetadesc() get metadesc value
  * @method static \Languages[] findByMetadesc(string $metadesc) find objects in database by metadesc
  * @method static \Languages findOneByMetadesc(string $metadesc) find object in database by metadesc
  * @method static \Languages retrieveByMetadesc(string $metadesc) retrieve object from poll by metadesc, get it from db if not exist in poll
+
  * @method void setSitename(string $sitename) set sitename value
  * @method string getSitename() get sitename value
  * @method static \Languages[] findBySitename(string $sitename) find objects in database by sitename
  * @method static \Languages findOneBySitename(string $sitename) find object in database by sitename
  * @method static \Languages retrieveBySitename(string $sitename) retrieve object from poll by sitename, get it from db if not exist in poll
+
  * @method void setPublished(integer $published) set published value
  * @method integer getPublished() get published value
  * @method static \Languages[] findByPublished(integer $published) find objects in database by published
  * @method static \Languages findOneByPublished(integer $published) find object in database by published
  * @method static \Languages retrieveByPublished(integer $published) retrieve object from poll by published, get it from db if not exist in poll
+
  * @method void setAccess(integer $access) set access value
  * @method integer getAccess() get access value
  * @method static \Languages[] findByAccess(integer $access) find objects in database by access
  * @method static \Languages findOneByAccess(integer $access) find object in database by access
  * @method static \Languages retrieveByAccess(integer $access) retrieve object from poll by access, get it from db if not exist in poll
+
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
  * @method static \Languages[] findByOrdering(integer $ordering) find objects in database by ordering
  * @method static \Languages findOneByOrdering(integer $ordering) find object in database by ordering
  * @method static \Languages retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
+
 
  */
 abstract class LanguagesBase extends ActiveRecord {
