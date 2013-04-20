@@ -1,5 +1,8 @@
 <?php
 namespace Flywheel\Router;
+use Flywheel\Exception\Routing;
+use Flywheel\Factory;
+
 class Collection
 {
     public $hasHostInfo = false;
@@ -44,7 +47,7 @@ class Collection
         }
 
         if (!isset($config['route']))
-            throw new \Flywheel\Exception\Routing("Router Collection: missing \"route\" parameter for {$pattern}");
+            throw new Routing("Router Collection: missing \"route\" parameter for {$pattern}");
 
         $this->route = trim($config['route'], '/');
         $tr2['/']=$tr['/']='\\/';
@@ -97,15 +100,100 @@ class Collection
     }
 
     /**
+     * Creates a URL based on this rule.
+     * @param WebRouter $router the manager
+     * @param string $route the route
+     * @param array $params list of parameters
+     * @param string $ampersand the token separating name-value pairs in the URL.
+     * @return mixed the constructed URL or false on error
+     */
+    public function createUrl($router,$route,$params,$ampersand) {
+
+        $tr=array();
+        if($route !== $this->route) {
+            if($this->routePattern!==null && preg_match($this->routePattern,$route,$matches)) {
+                foreach($this->references as $key=>$name) {
+                    $tr[$name]=$matches[$key];
+                }
+            } else {
+                return false;
+            }
+        }
+
+        foreach($this->initParameters as $key => $value) {
+            if(isset($params[$key])) {
+                if($params[$key] == $value) {
+                    unset($params[$key]);
+                } else if(preg_match('/\A'.$value.'\z/u', $params[$key])) {
+                    $tr['{' .$key .'}']=urlencode($params[$key]);
+                    unset($params[$key]);
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        foreach($this->params as $key=>$value) {
+            if(!isset($params[$key])){
+                return false;
+            }
+        }
+
+        //check matching parameter
+        foreach($this->params as $key=>$value) {
+            if(!preg_match('/\A'.$value.'\z/u', $params[$key])) {
+                return false;
+            }
+        }
+
+
+        foreach($this->params as $key => $value) {
+            $tr['{' .$key .'}']=urlencode($params[$key]);
+            unset($params[$key]);
+        }
+
+        if (isset($this->options['urlSuffix']) && null != ($this->options['urlSuffix'])) {
+            $suffix = $this->options['urlSuffix'];
+        } else {
+            $suffix = '';
+        }
+
+        $url = strtr($this->template, $tr);
+
+        if($this->hasHostInfo) {
+            $hostInfo = Factory::getRequest()->getHostInfo();
+            if(stripos($url,$hostInfo)===0) {
+                $url=substr($url,strlen($hostInfo));
+            }
+        }
+
+        if(empty($params)) {
+            return ('' !== $url)? $url.$suffix : $url;
+        }
+
+        if($this->append) {
+            $url.='/'.$router->createPathInfo($params,'/','/').$suffix;
+        } else {
+            if($url!=='') {
+                $url.=$suffix;
+            }
+            $url.='?'.$router->createPathInfo($params,'=',$ampersand);
+        }
+
+        return $url;
+    }
+
+    /**
      * Parses a URL based on this rule.
-     * @param BaseRouter $router the URL manager
+     * @param WebRouter $router the URL manager
      * @param string $pathInfo path info part of the URL
      * @param string $rawPathInfo path info that contains the potential URL suffix
      * @return mixed the route that consists of the controller ID and action ID or false on error
      */
-    public function parseUrl($router,$pathInfo,$rawPathInfo)
-    {
-        $request = \Flywheel\Factory::getRequest();
+    public function parseUrl($router,$pathInfo,$rawPathInfo) {
+        $request = Factory::getRequest();
 
         if (isset($this->filter['method']) && is_array($this->filter['method'])
             && !in_array($request->getMethod(), $this->filter['method'], true))
@@ -122,7 +210,6 @@ class Collection
                 if(!isset($_GET[$name]))
                     $this->params[$name] = $_GET[$name] = $value;
             }
-            //print_r($this->params[$name]);exit;
 
             $tr = array();
             foreach($matches as $key=>$value){

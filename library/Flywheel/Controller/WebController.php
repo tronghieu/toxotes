@@ -87,6 +87,18 @@ abstract class WebController extends BaseController
     }
 
     /**
+     * shortcut call \Flywheel\Router\WebRouter::createUrl() method
+     * @see \Flywheel\Router\WebRouter::createUrl()
+     * @param $route
+     * @param array $params
+     * @param string $ampersand
+     * @return mixed
+     */
+    public function createUrl($route, $params = array(), $ampersand = '&') {
+        return Factory::getRouter()->createUrl($route, $params = array(), $ampersand = '&');
+    }
+
+    /**
      * @return string
      */
     public function getTemplatePath() {

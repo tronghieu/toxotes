@@ -3,7 +3,6 @@ namespace Flywheel\Http;
 use Flywheel\Filter\Input;
 abstract class Request {
     const POST = 'POST', GET = 'GET', PUT = 'PUT', DELETE = 'DELETE', HEAD = 'HEAD';
-
     /**
      * handler request method
      * @var string
@@ -21,6 +20,8 @@ abstract class Request {
     protected $_deleteParams;
     protected $_putParams;
     protected $_restParams;
+    protected $_securePort;
+    protected $_port;
 
     protected $_cleaned = array(
         'GET' => array(),
@@ -273,6 +274,79 @@ abstract class Request {
                 ||
                 (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')
         );
+    }
+
+    /**
+     * Returns the schema and host part of the application URL.
+     * The returned URL does not have an ending slash.
+     * By default this is determined based on the user request information.
+     * You may explicitly specify it by setting the {@link setHostInfo hostInfo} property.
+     * @param string $schema schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
+     * @return string schema and hostname part (with port number if needed) of the request URL (e.g. http://www.domain.com)
+     * @see setHostInfo
+     */
+    public function getHostInfo($schema='') {
+        $secure = $this->isSecure();
+        if(null == $this->_hostInfo) {
+            $http = ($secure)? 'https' : 'http';
+
+            if(isset($_SERVER['HTTP_HOST'])) {
+                $this->_hostInfo = $http.'://'.$_SERVER['HTTP_HOST'];
+            } else {
+                $this->_hostInfo=$http.'://'.$_SERVER['SERVER_NAME'];
+                $port = ($secure)? $this->getSecurePort() : $this->getPort();
+                if(($port!==80 && !$secure) || ($port!==443 && $secure)) {
+                    $this->_hostInfo .= ':'.$port;
+                }
+            }
+        }
+
+        if('' !== $schema) {
+            if($secure && $schema==='https' || !$secure && $schema==='http')
+            {
+                return $this->_hostInfo;
+            }
+
+            $port = $schema === 'https' ? $this->getSecurePort() : $this->getPort();
+            if($port!==80 && $schema==='http' || $port!==443 && $schema==='https') {
+                $port=':'.$port;
+            } else {
+                $port='';
+            }
+
+            $pos=strpos($this->_hostInfo,':');
+            return $schema.substr($this->_hostInfo, $pos, strcspn($this->_hostInfo,':',$pos+1)+1) .$port;
+        } else {
+            return $this->_hostInfo;
+        }
+    }
+
+    /**
+     * Returns the port to use for insecure requests.
+     * Defaults to 80, or the port specified by the server if the current
+     * request is insecure.
+     * You may explicitly specify it by setting the {@link setPort port} property.
+     * @return integer port number for insecure requests.
+     */
+    public function getPort() {
+        if(null == $this->_port) {
+            $this->_port=!$this->isSecure() && isset($_SERVER['SERVER_PORT']) ? (int)$_SERVER['SERVER_PORT'] : 80;
+        }
+        return $this->_port;
+    }
+
+    /**
+     * Returns the port to use for secure requests.
+     * Defaults to 443, or the port specified by the server if the current
+     * request is secure.
+     * You may explicitly specify it by setting the {@link setSecurePort securePort} property.
+     * @return integer port number for secure requests.
+     */
+    public function getSecurePort() {
+        if(null == $this->_securePort) {
+            $this->_securePort=$this->isSecure() && isset($_SERVER['SERVER_PORT']) ? (int)$_SERVER['SERVER_PORT'] : 443;
+        }
+        return $this->_securePort;
     }
 
     /**

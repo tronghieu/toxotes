@@ -49,6 +49,12 @@ return array(
 	'{controller}/{action}/{key:[a-zA-Z0-9-]+}' => array(
 		'route' => '{controller}/{action}'
 	),
+    'login' => array(
+        'route' => 'auth/login'
+    ),
+    'logout' => array(
+        'route' => 'auth/logout',
+    ),
 
 	/*'{main_cat:[a-zA-Z0-9-]+}' => array(
 		'route' => 'category/default'

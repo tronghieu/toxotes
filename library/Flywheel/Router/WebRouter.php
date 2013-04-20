@@ -2,10 +2,14 @@
 namespace Flywheel\Router;
 use Flywheel\Config\ConfigHandler as ConfigHandler;
 use Flywheel\Base;
+use Flywheel\Exception\Routing;
 use Flywheel\Util\Inflection;
 
 class WebRouter extends BaseRouter
 {
+    /**
+     * @var Collection[]
+     */
     protected $_collectors = array();
     protected $_controllerPath;
     protected $_camelControllerName;
@@ -19,7 +23,7 @@ class WebRouter extends BaseRouter
 //        print_r($routes);exit;
         unset($routes['__urlSuffix__']);
         unset($routes['__remap__']);
-        unset($routes['/']);
+//        unset($routes['/']);
 
         if($routes and !empty($routes)){
             foreach ($routes as $pattern => $config){
@@ -98,8 +102,81 @@ class WebRouter extends BaseRouter
         return $i;
     }
 
-    public function parseUrl($url)
-    {
+    /**
+     * Constructs a URL.
+     * @param string $route the controller and the action (e.g. article/read)
+     * @param array $params list of GET parameters (name=>value). Both the name and value will be URL-encoded.
+     * If the name is '#', the corresponding value will be treated as an anchor
+     * and will be appended at the end of the URL.
+     * @param string $ampersand the token separating name-value pairs in the URL. Defaults to '&'.
+     * @return string the constructed URL
+     */
+    public function createUrl($route,$params=array(),$ampersand='&') {
+        $anchor = '';
+
+        foreach($params as $i=>$param) {
+            if($param===null) $params[$i]='';
+        }
+
+        if(isset($params['#'])) {
+            $anchor='#'.$params['#'];
+            unset($params['#']);
+        } else {
+            $anchor='';
+        }
+
+        $route=trim($route,'/');
+
+        if ('/' == ($url = $this->_createFromDefaultController($route))) {
+            return $this->createUrlDefault('', $params, $ampersand);
+        }
+
+        for ($i = 0, $size = sizeof($this->_collectors); $i < $size; ++$i) {
+            if (($url = $this->_collectors[$i]->createUrl($this, $route, $params, $ampersand)) !== false) {
+                if ($this->_collectors[$i]->hasHostInfo) {
+                    return ('' == $url)? '/' .$anchor : $url.$anchor;
+                } else {
+                    return rtrim($this->getBaseUrl(), '/') .'/' .$url .$anchor;
+                }
+            }
+        }
+
+
+        return $this->createUrlDefault($route,$params,$ampersand).$anchor;
+    }
+
+    protected function _createFromDefaultController($route) {
+        $routeCfg = ConfigHandler::get('/', 'routing');
+        if ($route == $routeCfg['route']) {
+            return '/';
+        }
+
+        return false;
+    }
+
+    /**
+     * Creates a URL based on default settings.
+     * @param string $route the controller and the action (e.g. article/read)
+     * @param array $params list of GET parameters
+     * @param string $ampersand the token separating name-value pairs in the URL.
+     * @return string the constructed URL
+     */
+    protected function createUrlDefault($route,$params,$ampersand) {
+        $url = rtrim($this->getBaseUrl(), '/') .(('' != $route)? '/' .$route : '');
+
+        if ('' !== ($query = $this->createPathInfo($params,'=',$ampersand))) {
+            $url .= '?' .$query;
+        }
+
+        return $url;
+    }
+
+
+    /**
+     * @param $url
+     * @throws Routing
+     */
+    public function parseUrl($url) {
 
         $config = ConfigHandler::get('routing', false);
         $rawUrl = $url;
@@ -108,7 +185,7 @@ class WebRouter extends BaseRouter
 
         if ('/' == $url) {
             if (!isset($config['/'])) { //default
-                throw new \Flywheel\Exception\Routing('Router: Not found default "/" in config. Default must be set!');
+                throw new Routing('Router: Not found default "/" in config. Default must be set!');
             }
             $route = $this->_parseDefaultController();
         } else {
