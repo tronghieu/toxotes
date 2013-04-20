@@ -1,3 +1,3 @@
 <?php
 return array(
-    'Hello World!' => 'Bonjour');
+    'Hello World! %name%' => 'Bonjour %name%');

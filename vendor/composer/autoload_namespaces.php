@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'phpredis-phpdoc' => $vendorDir . '/ukko/phpredis-phpdoc/src',
     'Symfony\\Component\\Translation\\' => $vendorDir . '/symfony/translation',
+    'Symfony\\Component\\Config\\' => $vendorDir . '/symfony/config',
 );

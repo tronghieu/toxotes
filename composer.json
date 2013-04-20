@@ -2,6 +2,6 @@
         "ukko/phpredis-phpdoc": "*",
         "symfony/translation" : "2.*",
         "symfony/config" : "2.*"
-    },
-    "minimum-stability": "dev"
+    }
+    //"minimum-stability": "dev"
 }
