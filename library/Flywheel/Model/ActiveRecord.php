@@ -350,10 +350,19 @@ abstract class ActiveRecord extends \Flywheel\Object {
     }
 
     /**
+     * check model's data were validated
      * @return bool
      */
     public function isValid() {
         return $this->_valid;
+    }
+
+    /**
+     * check model has validationFailures
+     * @return bool
+     */
+    public function hasValidationFailures() {
+        return sizeof($this->_validationFailures) > 0;
     }
 
     /**
