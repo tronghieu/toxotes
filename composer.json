@@ -1,6 +1,7 @@
 { "require": {
         "ukko/phpredis-phpdoc": "*",
-        "symfony/Translation" : "*"
+        "symfony/translation" : "2.*",
+        "symfony/config" : "2.*"
     },
     "minimum-stability": "dev"
 }
