@@ -1,1 +1,6 @@
-{ "require": { "ukko/phpredis-phpdoc": "*" }, "minimum-stability": "dev" }
+{ "require": {
+        "ukko/phpredis-phpdoc": "*",
+        "symfony/Translation" : "*"
+    },
+    "minimum-stability": "dev"
+}
