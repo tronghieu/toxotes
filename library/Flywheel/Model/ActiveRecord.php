@@ -2,14 +2,16 @@
 namespace Flywheel\Model;
 use Flywheel\Db\Exception;
 use Flywheel\Db\Type\DateTime;
-use Flywheel\Event\Event as Event;
-use Flywheel\Validator\Util as ValidatorUtil;
+use Flywheel\Event\Event;
+use Flywheel\Model\Validator\Rule;
+use Flywheel\Object;
+use Flywheel\Validator\BaseValidator;
 use Flywheel\Db\Expression;
 use Flywheel\Util\Inflection;
 use Flywheel\Db\Connection;
 use Flywheel\Db\Manager;
 
-abstract class ActiveRecord extends \Flywheel\Object {
+abstract class ActiveRecord extends Object {
     protected static $_tableName;
     protected static $_phpName;
     protected static $_pk;
@@ -19,7 +21,16 @@ abstract class ActiveRecord extends \Flywheel\Object {
     protected static $_schema = array();
     protected static $_alias;
     protected static $_instances = array();
-    protected static $_validators;
+
+    /**
+     * @var Rule[]
+     */
+    protected static $_validatorRules = array();
+
+    /**
+     * @var BaseValidator[]
+     */
+    protected static $_validator = array();
     protected static $_init = false;
     protected static $_readMode = Manager::__SLAVE__;
     protected static $_writeMode = Manager::__MASTER__;
@@ -36,10 +47,12 @@ abstract class ActiveRecord extends \Flywheel\Object {
      */
     private $_new = true;
 
-    public $validate = array();
-
     protected $_data = array();
     protected $_modifiedCols = array();
+
+    /**
+     * @var ValidationFailed[]
+     */
     protected $_validationFailures = array();
     protected $_valid = false;
 
@@ -265,19 +278,14 @@ abstract class ActiveRecord extends \Flywheel\Object {
         return $this->{static::getPrimaryKeyField()};
     }
 
-    public function setValidationFailure($column, $mess)
-    {
-        if (!isset($this->_validationFailures[$column])) {
-            $this->_validationFailures[$column] = array();
-        }
-        $this->_validationFailures[$column][] = $mess;
+    public function setValidationFailure($column, $mess, $validator = null) {
+        $this->_validationFailures[] = new ValidationFailed($column, $mess, $validator);
     }
 
     /**
-     * @return array
+     * @return ValidationFailed[]
      */
-    public function getValidationFailures()
-    {
+    public function getValidationFailures() {
         return $this->_validationFailures;
     }
 
@@ -285,15 +293,14 @@ abstract class ActiveRecord extends \Flywheel\Object {
      * @param string $sep
      * @return null|string
      */
-    public function getValidationFailuresMessage($sep = "<br />") {
+    public function getValidationFailuresMessage($sep = "<br>") {
+        $r = '';
         if (!empty($this->_validationFailures)) {
-            $r = array();
-            foreach ($this->_validationFailures as $col => $mess) {
-                $r[] = $col .' : ' .implode($sep, $mess);
+            for ($i = 0, $size = sizeof($this->_validationFailures); $i < $size; ++$i) {
+                $r .= $this->_validationFailures[$i]->getMessage() .$sep;
             }
-            return implode($sep, $r);
         }
-        return null;
+        return $r;
     }
 
     protected function _beforeSave() {
@@ -434,10 +441,10 @@ abstract class ActiveRecord extends \Flywheel\Object {
      * fix data matche collumn data defined
      * @param $data
      * @param $config
-     * @return bool|float|int|null|string|\Flywheel\Db\Expression
+     * @return bool|float|int|null|string|Expression
      */
     public function fixData($data, $config) {
-        if ($data instanceof \Flywheel\Db\Expression) {
+        if ($data instanceof Expression) {
             return $data;
         }
 
@@ -627,96 +634,62 @@ abstract class ActiveRecord extends \Flywheel\Object {
     public function validate() {
         $this->clearErrors();
         $this->_beforeValidate();
+
         $unique = array();
+
         foreach (static::$_validate as $name => $rules) {
-            $isNull = false;
-            //check not null
-            if (isset($rules['require']) && ValidatorUtil::isEmpty($this->$name)) {
-                if (isset(static::$_schema[$name]['default']) && null != static::$_schema[$name]['default']) {
-                    $this->$name = static::$_schema[$name]['default'];
+            foreach($rules as $rule) {
+                if ($rule['name'] == 'Unique') {
+                    $unique[$name] = $rule;
+                    continue;
+                }
+
+                if (!isset(self::$_validatorRules[$name. '.' .$rule['name']])) {
+                    if (!isset($rule['value'])) {
+                        $rule['value'] = '';
+                    }
+
+                    $rule = new Rule(static::getTableName() .$name);
+                    $rule->setClass($rule['name']);
+                    $rule->setMessage($rule['message']);
+                    $rule->setValue($rule['value']);
+                    self::$_validatorRules[$name. '.' .$rule['name']] = $rule;
                 } else {
-                    $isNull = true;
-                    $this->setValidationFailure($name, $rules['require']); //$rules['require'] store message
+                    $rule = self::$_validatorRules[$name. '.' .$rule['name']];
                 }
-            }
 
-            //check allow value for enum type
-            if (!$isNull && isset($rules['filter']) && !ValidatorUtil::isEmpty($this->$name)
-                && !in_array($this->$name, $rules['filter']['allow'])) {
-                $this->setValidationFailure($name, $rules['filter']['message']);
-            }
-
-            if (!$isNull && isset($rules['length']) && 'string' == static::$_schema[$name]['type']
-                && !ValidatorUtil::isEmpty($this->$name) && mb_strlen($this->$name) > $rules['length']['max']) {
-                $this->setValidationFailure($name, $rules['length']['message']);
-            }
-
-            //check unique
-            if (isset($rules['unique']))
-                $unique[$name] = $rules;
-			
-			//check type
-            if(isset($rules['type'])){
-                //is_numeric()
-                switch ($rules['type']){
-                    case 'number':
-                        if(!is_numeric($this->$name))
-                            $this->setValidationFailure($name,$name.' must be a number');
-                        break;
-                    case 'email':
-                        if(false === ValidatorUtil::isValidEmail($this->$name)){
-                            $this->setValidationFailure($name,$name.' must be a email');
-                        }
-                        break;
-                }
-            }
-
-            //check patent
-            if(isset($rules['pattern'])){
-                if(!preg_match($rules['pattern'], $this->$name)){
-                    $this->setValidationFailure($name, $name.' does not matched pattern');
+                $validator = self::createValidator($rule->getClass());
+                if ($validator->isValid($rule->getValue(), $this->$name)) {
+                    $this->setValidationFailure(static::getTableName() .$name, $rule->getMessage(), $validator);
                 }
             }
         }
 
         if (!empty($unique)) {
-            $where = array();
-            $params = array();
-            foreach ($unique as $name => $mess) {
-                $where[] = static::getTableName().".{$name} = ?";
-                $params[] = $this->$name;
-            }
-
-            if (!$this->isNew()) {
-                $where[] = static::getTableName().'.' .static::getPrimaryKeyField() .' != ?';
-                $params[] = static::getPkValue();
-            }
-            $where = implode(' AND ', $where);
-
-            $fields = array_keys($unique);
-
-            foreach ($fields as &$field) {
-                $field = $this->quote($field);
-            }
-
-            $data = static::read()->select(implode(',', $fields))
-                ->where($where)
-                ->setMaxResults(1)
-                ->setParameters($params)
-                ->execute()
-                ->fetch(\PDO::FETCH_ASSOC);
-
-            if ($data) {
-                foreach ($data as $field => $value) {
-                    if($this->$field == $value)
-                        $this->setValidationFailure($field, static::$_validate[$field]['unique']);
-                }
-            }
+            $validator = self::createValidator('\Flywheel\Model\Validator\UniqueValidator');
+            $validator->isValid($this, $unique);
         }
 
         $this->_afterValidate();
-        $this->_valid = empty($this->_validationFailures);
-        return $this->isValid();
+        $this->_valid = $this->hasValidationFailures();
+        return $this->_valid;
+    }
+
+    /**
+     * @param $validatorName
+     * @return BaseValidator
+     * @throws \Flywheel\Db\Exception
+     */
+    public static function createValidator($validatorName) {
+        try {
+            if (!isset(self::$_validator[$validatorName])) {
+                self::$_validator[$validatorName] = new $validatorName();
+            }
+        } catch (\Exception $e) {
+            throw new Exception("ActiveRecord::createValidator(): failed trying to instantiate {$validatorName}:{$e->getMessage()} in {$e->getFile()} at {$e->getLine()}}");
+        }
+
+        return null;
     }
 
     /**
@@ -745,7 +718,7 @@ abstract class ActiveRecord extends \Flywheel\Object {
      * get instance from pool by key
      * @static
      * @param $key
-     * @return get_called_class() | null
+     * @return static|null
      */
     public static function getInstanceFromPool($key) {
         return isset(static::$_instances[$key])? static::$_instances[$key] : null;
@@ -754,7 +727,7 @@ abstract class ActiveRecord extends \Flywheel\Object {
     /**
      * get all instances from pool by key
      * @static
-     * @return get_called_class()[] | null
+     * @return static[] | null
      */
     public static function getInstancesFromPool() {
         return static::$_instances;

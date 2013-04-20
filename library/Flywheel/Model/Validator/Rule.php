@@ -18,6 +18,8 @@ class Rule {
         'ValidValues' => '\Flywheel\Validator\TypeValidator',
     );
 
+    private $_validator;
+
     /** rule name of this validator */
     private $_name;
     /** the dot-path to class to use for validator */
@@ -48,9 +50,9 @@ class Rule {
     public function setClass($rule) {
         if (self::checkClassesList($rule)) {
             $this->_className = self::$_classesMap[$rule];
+        } else {
+            $this->_className = $rule;
         }
-
-        throw new Exception(get_class($this) .' not support rule:' .$rule);
     }
 
     public function setValue($value) {

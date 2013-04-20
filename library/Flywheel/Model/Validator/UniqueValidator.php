@@ -1,17 +1,17 @@
 <?php
 namespace Flywheel\Model\Validator;
 
-use Flywheel\Exception;
+use Flywheel\Db\Exception;
 use Flywheel\Model\ActiveRecord;
-use Flywheel\Validator\ValidatorMap;
 
 class UniqueValidator extends ModelValidator {
     /**
      * @see BaseValidator::isValid()
      *
      * @param mixed $map
-     * @param string       $str
+     * @param string $str
      *
+     * @throws \Flywheel\Db\Exception
      * @return boolean
      */
     public function isValid($map, $str) {
@@ -21,7 +21,7 @@ class UniqueValidator extends ModelValidator {
 
         $where = array();
         $params = array();
-        foreach ($str as $name => $mess) {
+        foreach ($str as $name => $rule) {
             $where[] = $map::getTableName().".{$name} = ?";
             $params[] = $this->$name;
         }
@@ -48,7 +48,7 @@ class UniqueValidator extends ModelValidator {
         if ($data) {
             foreach ($data as $field => $value) {
                 if($map->$field == $value) {
-                    $map->setValidationFailure($map::getTableName() .$field, $str['name']);
+                    $map->setValidationFailure($map::getTableName() .$field, $str[$field]['message'], $this);
                 }
             }
         }
