@@ -7,12 +7,14 @@ use Flywheel\Controller\BaseController;
 use Flywheel\Exception;
 use Flywheel\Loader;
 use Flywheel\Object;
+use Symfony\Component\Translation\Translator;
 
 abstract class BaseApp extends Object
 {
     const TYPE_WEB = 1;
     const TYPE_CONSOLE = 2;
     const TYPE_API = 3;
+    protected $_translator;
 
     /**
      * Controller
@@ -129,5 +131,22 @@ abstract class BaseApp extends Object
     {
         if(($this->_basePath=realpath($path))===false || !is_dir($this->_basePath))
             throw new Exception("Application: Base path \"{$path}\" is not a valid directory.");
+    }
+
+    public function getTranslator() {
+        if (null == $this->_translator) {
+            $this->_translator = new Translator($this->getLocale());
+        }
+
+        return $this->_translator;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLocale() {
+        $locale = ConfigHandler::get('locale');
+        if (!$locale) $locale = 'en-Us';
+        return $locale;
     }
 }

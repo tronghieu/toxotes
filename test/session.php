@@ -4,7 +4,7 @@ use Flywheel\Factory;
 require_once __DIR__ .'/../bootstrap.php';
 
 $globalCnf = require GLOBAL_PATH . '/config/config.cfg.php';
-$config = array_merge( $globalCnf, require __DIR__ .'/../apps/backend/config/main.cfg.php');
+$config = array_merge( $globalCnf, require __DIR__ . '/../apps/Backend/config/main.cfg.php');
 use \Flywheel\Base;
 try {
     $app = \Flywheel\Base::createWebApp($config, \Flywheel\Base::ENV_DEV, true);

@@ -1,6 +1,6 @@
 <?php
-defined('APP_PATH') or define('APP_PATH', dirname(dirname(__FILE__))) .DIRECTORY_SEPARATOR;
-\Flywheel\Loader::addNamespace('Backend\Event', APP_PATH.'events');
+defined('APP_PATH') or define('APP_PATH', dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR) ;
+\Flywheel\Loader::addNamespace('Backend', dirname(APP_PATH));
 return array(
 	'app_path'=> APP_PATH,
 	'view_path' => APP_PATH .DIRECTORY_SEPARATOR .'templates/',
