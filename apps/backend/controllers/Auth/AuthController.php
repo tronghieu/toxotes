@@ -38,15 +38,15 @@ class AuthController extends AdminBaseController {
                 if ($result == BackendAuth::ERROR_UNKNOWN_IDENTITY
                     || $result == BackendAuth::ERROR_CREDENTIAL_INVALID
                     || $result == BackendAuth::ERROR_IDENTITY_INVALID) {
-                    $error[] = "Credential or password invalid!";
+                    $error[] = t("Credential or password invalid!");
                 }
 
                 if ($result == BackendAuth::ERROR_USER_WAS_BANNED) {
-                    $error[] = "This user was banned by administrator!";
+                    $error[] = t("This user was banned by administrator!");
                 }
 
                 if ($result == BackendAuth::ERROR_USER_NOT_ACCESS_ADMIN) {
-                    $error[] = "This user hasn't access AdminCP permission!";
+                    $error[] = t("This user hasn't access AdminCP permission!");
                 }
             }
         }

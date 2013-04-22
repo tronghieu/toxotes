@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 22/04/2013 16:23:59
+ *  This class has been auto-generated at 22/04/2013 18:00:34
  * @version		$Id$
  * @package		Model
 
@@ -174,6 +174,11 @@ abstract class UsersBase extends ActiveRecord {
         'username' => array(
             array('name' => 'Unique',
                 'message'=> 'username\'s was used'
+            ),
+        ),
+        'email' => array(
+            array('name' => 'Unique',
+                'message'=> 'email\'s was used'
             ),
         ),
     );

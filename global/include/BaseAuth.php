@@ -30,7 +30,7 @@ class BaseAuth extends Flywheel\Session\Authenticate {
         $cookie = Factory::getCookie();
         if ($data = $cookie->readSecure('auth')) {
             $data = json_decode($data, true);
-            if ($user = Users::findOneByUsernameAndSecret($data['username'], $data['secret'])
+            if (($user = Users::findOneByUsernameAndSecret($data['username'], $data['secret']))
             && !$user->getBanned()) {
                 $this->_setSession($user);
                 $this->_setCookie($user);
@@ -75,6 +75,8 @@ class BaseAuth extends Flywheel\Session\Authenticate {
             $this->_setCookie($user);
         }
 
+        $user->setLastVisitTime(new \Flywheel\Db\Type\DateTime());
+        $user->save();
         return $this->isAuthenticated();
     }
 
