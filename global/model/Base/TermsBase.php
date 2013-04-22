@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Terms
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -133,16 +133,9 @@ abstract class TermsBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
-);
+     );
     protected static $_validate = array(
-        'name' => array('require' => '"name" is required!'),
-        'taxonomy' => array('require' => '"taxonomy" is required!'),
-        'count' => array('require' => '"count" is required!'),
-        'scope' => array('require' => '"scope" is required!'),
-        'lft' => array('require' => '"lft" is required!'),
-        'rgt' => array('require' => '"rgt" is required!'),
-        'lvl' => array('require' => '"lvl" is required!'),
-);
+    );
     protected static $_cols = array('id','name','slug','taxonomy','description','count','scope','lft','rgt','lvl');
 
     public function setTableDefinition() {

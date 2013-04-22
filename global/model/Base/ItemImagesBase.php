@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemImages
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -66,11 +66,9 @@ abstract class ItemImagesBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'tinyint(1)',
                 'length' => 1),
-);
+     );
     protected static $_validate = array(
-        'item_id' => array('require' => '"item_id" is required!'),
-        'is_main' => array('require' => '"is_main" is required!'),
-);
+    );
     protected static $_cols = array('id','item_id','caption','is_main');
 
     public function setTableDefinition() {

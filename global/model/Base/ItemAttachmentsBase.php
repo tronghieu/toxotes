@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemAttachments
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -96,15 +96,9 @@ abstract class ItemAttachmentsBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
-);
+     );
     protected static $_validate = array(
-        'item_id' => array('require' => '"item_id" is required!'),
-        'file' => array('require' => '"file" is required!'),
-        'mine_type' => array('require' => '"mine_type" is required!'),
-        'type_group' => array('require' => '"type_group" is required!'),
-        'uploaded_time' => array('require' => '"uploaded_time" is required!'),
-        'hits' => array('require' => '"hits" is required!'),
-);
+    );
     protected static $_cols = array('id','item_id','file','mine_type','type_group','uploaded_time','hits');
 
     public function setTableDefinition() {

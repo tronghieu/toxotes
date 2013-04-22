@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UserRole
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -45,11 +45,9 @@ abstract class UserRoleBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
-);
+     );
     protected static $_validate = array(
-        'user_id' => array('require' => '"user_id" is required!'),
-        'role_id' => array('require' => '"role_id" is required!'),
-);
+    );
     protected static $_cols = array('user_id','role_id');
 
     public function setTableDefinition() {

@@ -586,8 +586,8 @@ class BuildModels {
             .'    protected static $_alias = \'' .$alias .'\';' .PHP_EOL
             .'    protected static $_dbConnectName = \'' .$name .'\';' .PHP_EOL
             .'    protected static $_instances = array();' .PHP_EOL
-            .'    protected static $_schema = array(' .PHP_EOL .$schema .');' .PHP_EOL
-            .'    protected static $_validate = array(' .PHP_EOL .$validate .');' .PHP_EOL
+            .'    protected static $_schema = array(' .PHP_EOL .$schema .'     );' .PHP_EOL
+            .'    protected static $_validate = array(' .PHP_EOL .$validate .'    );' .PHP_EOL
             .'    protected static $_cols = array(\'' .implode("','", array_keys($columns)) .'\');' .PHP_EOL;
 
         return $s;
@@ -637,27 +637,27 @@ class BuildModels {
 
         $option = array();
         if ($property['notnull']) {
-            $option[] = "'require' => '\"{$name}\" is required!'";
-
-            if ($property['unique']) {
-                $option[] = "'unique' => '{$name}\\'s values has already been taken'";
-            }
+            //do nothing
         }
 
         if ('enum' == $property['db_type']) {
-            $option[] = "'filter' => array('allow' => array('" .implode("','", $property['values']) ."'),".PHP_EOL
-                ."                            'message' => '{$name}\\'s values is not allowed')";
+            $option[] = "            array('name' => 'ValidValues'," .PHP_EOL
+                ."                'value' => '" .implode('|', $property['values'])."'," .PHP_EOL
+                ."                'message'=> '{$name}'s values is not allowed" .PHP_EOL
+                ."                )," .PHP_EOL;
         }
 
-        /*if ($property['type'] == 'string' && $property['length'] > 0) {
-            $option[] = "'length' => array('max' => " .$property['length'] .','.PHP_EOL
-                ."                            'message' => '{$name} is too long, can not be longer than {$property['length']} characters')";
-        }*/
+        if ($property['type'] == 'string' && $property['length'] > 0) {
+            /*$option[] = "            array('name' => 'MaxLength'," .PHP_EOL
+                ."                'value' => {$property['length']}, " .PHP_EOL
+                ."                'message' => '{$name} is too long, can not be longer than {$property['length']} characters'," .PHP_EOL
+                ."            )," .PHP_EOL;*/
+        }
 
         if (!empty($option)) {
-            return "        '{$name}' => array("
+            return "        '{$name}' => array(".PHP_EOL
                 .implode(',' .PHP_EOL.'                ', $option)
-                ."),".PHP_EOL;
+                ."        ),".PHP_EOL;
         }
 
         return null;

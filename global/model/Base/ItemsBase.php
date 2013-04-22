@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Items
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -164,17 +164,9 @@ abstract class ItemsBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
-);
+     );
     protected static $_validate = array(
-        'title' => array('require' => '"title" is required!'),
-        'status' => array('require' => '"status" is required!'),
-        'taxonomy' => array('require' => '"taxonomy" is required!'),
-        'language' => array('require' => '"language" is required!'),
-        'modified_time' => array('require' => '"modified_time" is required!'),
-        'created_time' => array('require' => '"created_time" is required!'),
-        'ordering' => array('require' => '"ordering" is required!'),
-        'hits' => array('require' => '"hits" is required!'),
-);
+    );
     protected static $_cols = array('id','title','slug','excerpt','content','status','author','taxonomy','language','modified_time','created_time','ordering','hits');
 
     public function setTableDefinition() {

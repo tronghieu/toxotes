@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Languages
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -167,24 +167,9 @@ abstract class LanguagesBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
-);
+     );
     protected static $_validate = array(
-        'lang_code' => array('require' => '"lang_code" is required!',
-                'unique' => 'lang_code\'s values has already been taken'),
-        'title' => array('require' => '"title" is required!'),
-        'title_native' => array('require' => '"title_native" is required!'),
-        'sef' => array('require' => '"sef" is required!',
-                'unique' => 'sef\'s values has already been taken'),
-        'image' => array('require' => '"image" is required!',
-                'unique' => 'image\'s values has already been taken'),
-        'description' => array('require' => '"description" is required!'),
-        'metakey' => array('require' => '"metakey" is required!'),
-        'metadesc' => array('require' => '"metadesc" is required!'),
-        'sitename' => array('require' => '"sitename" is required!'),
-        'published' => array('require' => '"published" is required!'),
-        'access' => array('require' => '"access" is required!'),
-        'ordering' => array('require' => '"ordering" is required!'),
-);
+    );
     protected static $_cols = array('lang_id','lang_code','title','title_native','sef','image','description','metakey','metadesc','sitename','published','access','ordering');
 
     public function setTableDefinition() {

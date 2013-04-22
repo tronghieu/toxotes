@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UsersProfiles
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -78,13 +78,9 @@ abstract class UsersProfilesBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
-);
+     );
     protected static $_validate = array(
-        'user_id' => array('require' => '"user_id" is required!'),
-        'profile_key' => array('require' => '"profile_key" is required!'),
-        'profile_value' => array('require' => '"profile_value" is required!'),
-        'ordering' => array('require' => '"ordering" is required!'),
-);
+    );
     protected static $_cols = array('id','user_id','profile_key','profile_value','ordering');
 
     public function setTableDefinition() {

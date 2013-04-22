@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * TermRelationship
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -58,11 +58,9 @@ abstract class TermRelationshipBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
-);
+     );
     protected static $_validate = array(
-        'object_id' => array('require' => '"object_id" is required!'),
-        'term_id' => array('require' => '"term_id" is required!'),
-);
+    );
     protected static $_cols = array('object_id','term_id','ordering');
 
     public function setTableDefinition() {

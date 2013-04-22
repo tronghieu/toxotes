@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -169,22 +169,9 @@ abstract class UsersBase extends ActiveRecord {
                 'default' => '0000-00-00 00:00:00',
                 'type' => 'datetime',
                 'db_type' => 'datetime'),
-);
+     );
     protected static $_validate = array(
-        'username' => array('require' => '"username" is required!',
-                'unique' => 'username\'s values has already been taken'),
-        'password' => array('require' => '"password" is required!'),
-        'email' => array('require' => '"email" is required!'),
-        'name' => array('require' => '"name" is required!'),
-        'phone_number' => array('require' => '"phone_number" is required!'),
-        'status' => array('require' => '"status" is required!'),
-        'banned' => array('require' => '"banned" is required!'),
-        'active_email' => array('require' => '"active_email" is required!'),
-        'birthday' => array('require' => '"birthday" is required!'),
-        'secret' => array('require' => '"secret" is required!'),
-        'register_time' => array('require' => '"register_time" is required!'),
-        'last_visit_time' => array('require' => '"last_visit_time" is required!'),
-);
+    );
     protected static $_cols = array('id','username','password','email','name','phone_number','status','banned','active_email','birthday','secret','register_time','last_visit_time');
 
     public function setTableDefinition() {

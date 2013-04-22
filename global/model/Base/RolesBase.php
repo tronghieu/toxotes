@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Roles
- *  This class has been auto-generated at 18/04/2013 11:49:16
+ *  This class has been auto-generated at 22/04/2013 09:59:30
  * @version		$Id$
  * @package		Model
 
@@ -103,13 +103,9 @@ abstract class RolesBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'tinyint(1)',
                 'length' => 1),
-);
+     );
     protected static $_validate = array(
-        'lvl' => array('require' => '"lvl" is required!'),
-        'lft' => array('require' => '"lft" is required!'),
-        'rgt' => array('require' => '"rgt" is required!'),
-        'admin_access' => array('require' => '"admin_access" is required!'),
-);
+    );
     protected static $_cols = array('id','name','lvl','lft','rgt','scope_id','admin_access');
 
     public function setTableDefinition() {
