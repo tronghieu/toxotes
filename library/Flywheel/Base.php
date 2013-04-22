@@ -3,8 +3,6 @@
 namespace Flywheel;
 use Flywheel\Application\BaseApp;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Common.php';
-
 class Base
 {
     const ENV_DEV = 1, ENV_TEST = 2, ENV_PRO = 3;

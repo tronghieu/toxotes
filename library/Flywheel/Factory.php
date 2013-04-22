@@ -188,4 +188,11 @@ class Factory
         return self::$_registry['queue_' .$configKey];
     }
 
+    public static function getTranslator() {
+        if (!isset(self::$_registry['translator'])) {
+
+        }
+
+        return self::$_registry['translator'];
+    }
 }

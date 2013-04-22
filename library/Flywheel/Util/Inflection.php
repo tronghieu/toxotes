@@ -41,7 +41,7 @@ class Inflection
      * Callback function to classify a classname properly.
      *
      * @param  array  $matches  An array of matches from a pcre_replace call
-     * @return string $string   A string with matches 1 and mathces 3 in upper case.
+     * @return string $string   A string with matches 1 and matches 3 in upper case.
      */
     public static function classifyCallback($matches)
     {

@@ -19,9 +19,16 @@ try {
 //
 //    var_dump($user[0]->getRegisterTime());
 
-    $user = Users::retrieveById(1);
-    $user->setPassword(Users::hashPassword('thanhle'));
-    $user->save();
+//    $user = Users::retrieveById(1);
+//    $user->setPassword(Users::hashPassword('thanhle'));
+//    $user->save();
+
+    $user = new Users();
+    $user->setUsername('thuyanh');
+    $user->setEmail('admin@yahoo.com');
+    var_dump($user->validate());
+    var_dump($user->getValidationFailures());
+    var_dump($user->getValidationFailuresMessage());
 } catch (\Exception $e) {
     var_dump($e);
 }

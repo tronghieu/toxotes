@@ -3,6 +3,7 @@ namespace Flywheel\Model\Validator;
 
 use Flywheel\Db\Exception;
 use Flywheel\Model\ActiveRecord;
+use Flywheel\Util\Inflection;
 
 class UniqueValidator extends ModelValidator {
     /**
@@ -23,7 +24,8 @@ class UniqueValidator extends ModelValidator {
         $params = array();
         foreach ($str as $name => $rule) {
             $where[] = $map::getTableName().".{$name} = ?";
-            $params[] = $this->$name;
+            $getter = 'get' .Inflection::camelize($name);
+            $params[] = $map->$getter();
         }
 
         if (!$map->isNew()) {
@@ -53,6 +55,6 @@ class UniqueValidator extends ModelValidator {
             }
         }
 
-        return $map->hasValidationFailures();
+        return !$map->hasValidationFailures();
     }
 }

@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Languages
- *  This class has been auto-generated at 22/04/2013 09:59:30
+ *  This class has been auto-generated at 22/04/2013 16:23:59
  * @version		$Id$
  * @package		Model
 
@@ -169,6 +169,21 @@ abstract class LanguagesBase extends ActiveRecord {
                 'length' => 4),
      );
     protected static $_validate = array(
+        'lang_code' => array(
+            array('name' => 'Unique',
+                'message'=> 'lang code\'s was used'
+            ),
+        ),
+        'sef' => array(
+            array('name' => 'Unique',
+                'message'=> 'sef\'s was used'
+            ),
+        ),
+        'image' => array(
+            array('name' => 'Unique',
+                'message'=> 'image\'s was used'
+            ),
+        ),
     );
     protected static $_cols = array('lang_id','lang_code','title','title_native','sef','image','description','metakey','metadesc','sitename','published','access','ordering');
 

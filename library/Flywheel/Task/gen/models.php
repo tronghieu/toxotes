@@ -635,6 +635,8 @@ class BuildModels {
             return null;
         }
 
+        $real_name = str_replace('_', ' ', $name);
+
         $option = array();
         if ($property['notnull']) {
             //do nothing
@@ -643,20 +645,26 @@ class BuildModels {
         if ('enum' == $property['db_type']) {
             $option[] = "            array('name' => 'ValidValues'," .PHP_EOL
                 ."                'value' => '" .implode('|', $property['values'])."'," .PHP_EOL
-                ."                'message'=> '{$name}'s values is not allowed" .PHP_EOL
-                ."                )," .PHP_EOL;
+                ."                'message'=> '{$real_name}\\'s values is not allowed'" .PHP_EOL
+                ."            )," .PHP_EOL;
         }
 
         if ($property['type'] == 'string' && $property['length'] > 0) {
             /*$option[] = "            array('name' => 'MaxLength'," .PHP_EOL
                 ."                'value' => {$property['length']}, " .PHP_EOL
-                ."                'message' => '{$name} is too long, can not be longer than {$property['length']} characters'," .PHP_EOL
+                ."                'message' => '{$real_name} is too long, can not be longer than {$property['length']} characters'," .PHP_EOL
                 ."            )," .PHP_EOL;*/
+        }
+
+        if ($property['unique']) {
+            $option[] = "            array('name' => 'Unique'," .PHP_EOL
+                ."                'message'=> '{$real_name}\\'s was used'" .PHP_EOL
+                ."            )," .PHP_EOL;
         }
 
         if (!empty($option)) {
             return "        '{$name}' => array(".PHP_EOL
-                .implode(',' .PHP_EOL.'                ', $option)
+                .implode('', $option)
                 ."        ),".PHP_EOL;
         }
 

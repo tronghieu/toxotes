@@ -68,16 +68,18 @@ abstract class ActiveRecord extends Object {
         $this->setNew($isNew);
 
         if (!self::$_init) {
-            self::$_validate = array_merge_recursive(self::$_validate, self::additionRule());
+            $this->validationRules();
             self::$_init = true;
         }
     }
 
     public function setTableDefinition() {}
 
-    public function additionRule() {
-        return array();
-    }
+    /**
+     * customize model validation rules
+     * @return void
+     */
+    public function validationRules() {}
 
     protected function _initDataValue() {
         foreach (static::$_schema as $c => $config) {
@@ -649,29 +651,29 @@ abstract class ActiveRecord extends Object {
                         $rule['value'] = '';
                     }
 
-                    $rule = new Rule(static::getTableName() .$name);
-                    $rule->setClass($rule['name']);
-                    $rule->setMessage($rule['message']);
-                    $rule->setValue($rule['value']);
-                    self::$_validatorRules[$name. '.' .$rule['name']] = $rule;
+                    $validationRule = new Rule(static::getTableName() .$name);
+                    $validationRule->setClass($rule['name']);
+                    $validationRule->setMessage($rule['message']);
+                    $validationRule->setValue($rule['value']);
+                    self::$_validatorRules[$name. '.' .$rule['name']] = $validationRule;
                 } else {
-                    $rule = self::$_validatorRules[$name. '.' .$rule['name']];
+                    $validationRule = self::$_validatorRules[$name. '.' .$rule['name']];
                 }
 
-                $validator = self::createValidator($rule->getClass());
-                if ($validator->isValid($rule->getValue(), $this->$name)) {
-                    $this->setValidationFailure(static::getTableName() .$name, $rule->getMessage(), $validator);
+                $validator = self::createValidator($validationRule->getClass());
+                if (!$validator->isValid($validationRule->getValue(), $this->$name)) {
+                    $this->setValidationFailure(static::getTableName() .'.' .$name, t($validationRule->getMessage()), $validator);
                 }
             }
         }
 
-        if (!empty($unique)) {
+        if (!empty($unique) && !$this->hasValidationFailures()) {
             $validator = self::createValidator('\Flywheel\Model\Validator\UniqueValidator');
             $validator->isValid($this, $unique);
         }
 
         $this->_afterValidate();
-        $this->_valid = $this->hasValidationFailures();
+        $this->_valid = !$this->hasValidationFailures();
         return $this->_valid;
     }
 
@@ -685,6 +687,8 @@ abstract class ActiveRecord extends Object {
             if (!isset(self::$_validator[$validatorName])) {
                 self::$_validator[$validatorName] = new $validatorName();
             }
+
+            return self::$_validator[$validatorName];
         } catch (\Exception $e) {
             throw new Exception("ActiveRecord::createValidator(): failed trying to instantiate {$validatorName}:{$e->getMessage()} in {$e->getFile()} at {$e->getLine()}}");
         }

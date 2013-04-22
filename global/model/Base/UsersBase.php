@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 22/04/2013 09:59:30
+ *  This class has been auto-generated at 22/04/2013 16:23:59
  * @version		$Id$
  * @package		Model
 
@@ -171,6 +171,11 @@ abstract class UsersBase extends ActiveRecord {
                 'db_type' => 'datetime'),
      );
     protected static $_validate = array(
+        'username' => array(
+            array('name' => 'Unique',
+                'message'=> 'username\'s was used'
+            ),
+        ),
     );
     protected static $_cols = array('id','username','password','email','name','phone_number','status','banned','active_email','birthday','secret','register_time','last_visit_time');
 

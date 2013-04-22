@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Items
- *  This class has been auto-generated at 22/04/2013 09:59:30
+ *  This class has been auto-generated at 22/04/2013 16:23:59
  * @version		$Id$
  * @package		Model
 
@@ -160,6 +160,7 @@ abstract class ItemsBase extends ActiveRecord {
                 'db_type' => 'int(11)',
                 'length' => 4),
         'hits' => array('name' => 'hits',
+                'default' => 0,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',

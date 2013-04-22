@@ -1,4 +1,6 @@
 <?php
+use Flywheel\Factory;
+
 if (false == function_exists('array_zip')) {
     function array_zip() {
         $args = func_get_args();
@@ -20,4 +22,9 @@ if (false == function_exists('array_zip')) {
         }
         return $zipped;
     }
+}
+
+function t($id, array $parameters = array(), $domain = 'messages', $locale = null) {
+    return $id;
+    return $translator = Factory::getTranslator();
 }
