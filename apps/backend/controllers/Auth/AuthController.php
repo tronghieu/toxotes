@@ -31,7 +31,7 @@ class AuthController extends AdminBaseController {
                 $back = (null != $back)? urldecode($back) : '/';
 
                 //dispatch event
-                $this->dispatch('onAfterSigningIn', new Event($this));
+                $this->dispatch('afterSigningIn', new Event($this));
                 $this->redirect($back);
             } else {
                 //check and display error
@@ -61,7 +61,7 @@ class AuthController extends AdminBaseController {
         BackendAuth::getInstance()->logout();
 
         //dispatch event
-        $this->dispatch('onAfterSigningOut' , new Event($this));
+        $this->dispatch('afterSigningOut' , new Event($this));
         $this->redirect($this->createUrl('auth/login'));
     }
 

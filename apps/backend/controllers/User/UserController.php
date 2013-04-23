@@ -84,8 +84,16 @@ class UserController extends AdminBaseController {
     }
 
     protected function _save(Users $user, &$error) {
+        $isNew = $user->isNew();
         if (empty($error)) {
             if ($user->save()) {
+                //dispatching event
+                if ($isNew) {
+                    $this->dispatch('afterCreatingUser', new AdminEvent($this, array('user' => $user)));
+                } else {
+                    $this->dispatch('afterSavingUser', new AdminEvent($this, array('user' => $user)));
+                }
+
                 return true;
             } else if (!$user->isValid()) {
                 /** @var \Flywheel\Model\ValidationFailed[] $validationFailures  */
