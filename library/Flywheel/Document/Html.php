@@ -12,6 +12,10 @@
  * @subpackage	Document
  */
 namespace Flywheel\Document;
+use Flywheel\Config\ConfigHandler;
+use Flywheel\Factory;
+use Flywheel\Router\WebRouter;
+
 class Html extends BaseDoc {
 	const JQUERY_OPEN = "\njQuery(document).ready(function () {\n";
 	const JQUERY_CLOSE = "\n});\n";
@@ -95,13 +99,7 @@ class Html extends BaseDoc {
 	private $_jsText = array();
 	
 	public $header = array();
-	
-	/**
-	 * OpenGraph object
-	 * 
-	 * @var Ming_Document_Html_OpenGraph
-	 */
-	public $openGraph;
+
 	private $_buffer;
 	
 	private $_blocks = array();
@@ -112,11 +110,12 @@ class Html extends BaseDoc {
         MODE_ASSETS_END = 2;
 	
 	public function __construct() {
-		$router = \Flywheel\Factory::getRouter();
+        /** @var WebRouter $router */
+		$router = Factory::getRouter();
 		$this->_baseUrl = $router->getBaseUrl();	
 		$this->_domain = $router->getDomain();	
-		$this->_publicPath = $router->getControllerPath();	
-		$this->openGraph = new \Flywheel\Document\Html\OpenGraph();
+		$this->_publicPath = $router->getFrontControllerPath();
+//		$this->openGraph = new \Flywheel\Document\Html\OpenGraph();
 	}
 
     public function setMode($mode) {
@@ -301,8 +300,8 @@ class Html extends BaseDoc {
 			return null;
 		}
 
-        $cssv = \Flywheel\Config\ConfigHandler::get('css_version');
-		if (\Flywheel\Config\ConfigHandler::get('compile_css')) {
+        $cssv = ConfigHandler::get('css_version');
+		if (ConfigHandler::get('compile_css')) {
 			$compressor = new Ming_Document_Compressor_Css();
 			$css = $compressor->process($this->_stylesheet, $cssv);
 			$css = '<link rel="stylesheet" type="text/css" href="'
@@ -331,7 +330,7 @@ class Html extends BaseDoc {
      * @return string
      */
 	public function js($pos = 'BOTTOM') {
-        $jsv = \Flywheel\Config\ConfigHandler::get('js_version');
+        $jsv = ConfigHandler::get('js_version');
 		$pos = strtoupper($pos);
 		$jsCode = '';
 		if (isset($this->_jsText[$pos])) {
@@ -348,7 +347,7 @@ class Html extends BaseDoc {
 		}		
 		$js = '';
 		if (isset($this->_javascript[$pos])) {
-			if (\Flywheel\Config\ConfigHandler::get('compile_js')) {
+			if (ConfigHandler::get('compile_js')) {
 				$compressor = new Ming_Document_Compressor_Js();
 				$js = $compressor->process($this->_javascript[$pos], $jsv);
 				$js = '<script type="text/javascript" src="'

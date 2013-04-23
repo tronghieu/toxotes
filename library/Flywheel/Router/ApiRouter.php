@@ -1,5 +1,6 @@
 <?php
 namespace Flywheel\Router;
+use Flywheel\Base;
 use Flywheel\Exception\Api as ApiException;
 use Flywheel\Util\Inflection;
 use Flywheel\Factory;
@@ -44,7 +45,7 @@ class ApiRouter extends BaseRouter
             $this->_format = $_cf[1];
             $segment[count($segment) - 1] = $_cf[0];
         }
-        $this->_path = \Flywheel\Base::getAppPath() .'/controllers/';
+        $this->_path = Base::getAppPath() .'/controllers/';
         while(!empty($segment)) {
             $seg = array_shift($segment);
             if (is_dir($this->_path.$seg)) {

@@ -1,0 +1,25 @@
+
+<div id="top">
+    <div class="fixed">
+        <a href="<?php echo $this->document()->getBaseUrl(); ?>" title="" class="logo">
+            <img src="img/logo.png" alt="" />
+        </a>
+        <ul class="top-menu">
+            <li><a class="fullview" title="<?php echo t('Full view'); ?>"></a></li>
+            <!--<li><a class="showmenu"></a></li>
+            <li><a href="#" title="" class="messages"><i class="new-message"></i></a></li>-->
+            <li class="dropdown">
+                <a class="user-menu" data-toggle="dropdown">
+                    <!--<img src="img/userpic.png" alt="" />-->
+                    <span><?php echo t('Hi, ' .$user->getName()) ?><b class="caret"></b></span></a>
+                <ul class="dropdown-menu">
+                    <!--<li><a href="#" title=""><i class="icon-user"></i>Profile</a></li>
+                    <li><a href="#" title=""><i class="icon-inbox"></i>Messages<span class="badge badge-info">9</span></a></li>
+                    <li><a href="#" title=""><i class="icon-cog"></i>Settings</a></li>-->
+                    <li><a href="<?php echo $this->createUrl('auth/logout') ?>" title="">
+                            <i class="icon-remove"></i><?php echo t('Logout'); ?></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

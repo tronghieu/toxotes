@@ -2,6 +2,8 @@
 require_once __DIR__ .'./../bootstrap.php';
 \Flywheel\Loader::import('global.model.*');
 try {
+    $user = Users::findOneById(1);
+
 //    $user = Users::read()
 //        ->where('id=?')
 //        ->setParameter(1, 1, PDO::PARAM_INT)

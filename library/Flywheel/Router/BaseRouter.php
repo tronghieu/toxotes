@@ -1,16 +1,20 @@
 <?php
 namespace Flywheel\Router;
 use Flywheel\Config\ConfigHandler as ConfigHandler;
-abstract class BaseRouter extends \Flywheel\Object
+use Flywheel\Object;
+
+abstract class BaseRouter extends Object
 {
     public static $methods = array('GET', 'POST', 'PUT', 'DELETE', 'HEAD');
+
+    public $config;
     protected $_params = array();
     protected $_routes = array();
     protected $_domain;
     protected $_baseUrl;
     protected $_uri;
     protected $_url;
-    public $config;
+    protected $_frontControllerPath;
 
     protected $_camelControllerName;
     protected $_controllerPath;
@@ -20,8 +24,18 @@ abstract class BaseRouter extends \Flywheel\Object
         $this->_url = $this->getPathInfo();
         $this->_domain = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')? 'https://':'http://') .@$_SERVER['HTTP_HOST'];
         $this->_baseUrl = $this->_domain .str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
-        if (isset($_SERVER['SCRIPT_NAME']) && $pos = strripos($this->_url, basename($_SERVER['SCRIPT_NAME'])) !== false)
+
+        $path = explode('/', rtrim($this->_baseUrl, '/'));
+        $script = array_pop($path);
+        if (false === strpos($script, '.php')) {
+            $path[] = $script;
+        }
+        $this->_frontControllerPath = rtrim(implode('/', $path), '/') .'/';
+
+        if (isset($_SERVER['SCRIPT_NAME'])
+            && $pos = strripos($this->_url, basename($_SERVER['SCRIPT_NAME'])) !== false) {
             $this->_baseUrl = substr($this->_baseUrl, 0, $pos);
+        }
 
         $this->_uri = $this->_domain.@$_SERVER['REQUEST_URI'];
 
@@ -47,6 +61,12 @@ abstract class BaseRouter extends \Flywheel\Object
     {
         return $this->_uri;
     }
+
+    public function getFrontControllerPath()
+    {
+        return $this->_frontControllerPath;
+    }
+
 
     /**
      * Creates a path info based on the given parameters.

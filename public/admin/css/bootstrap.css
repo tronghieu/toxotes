@@ -867,7 +867,7 @@ span.green { background-color: #41CA83; }
 
 
 
- /* ===== Widget toolbar ===== */
+ /* ===== widget toolbar ===== */
 
 .toolbar { border: 1px solid #d5d5d5; margin-bottom: 1px; background: #fbfbfb; }
 .toolbar:after { content: ""; display: block; clear: both; }

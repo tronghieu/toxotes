@@ -152,4 +152,33 @@ class Render {
     public function checkViewFileExist($viewFile) {
         return file_exists($this->templatePath.$viewFile.$this->_ext);
     }
+
+    /**
+     * @param $class
+     * @param null $params
+     * @param bool $return
+     *
+     * return void|string
+     */
+    public function widget($class, $params = null, $return = false) {
+        $widget = Factory::getWidget($class, $params, $this);
+        $widget->begin();
+        $buffer = $widget->end();
+        if ($return) {
+            return $buffer;
+        }
+
+        echo $buffer;
+    }
+
+    /**
+     * alias call @see WebRouter::createUrl();
+     * @param $route
+     * @param array $params
+     * @param string $ampersand
+     * @return mixed
+     */
+    public function createUrl($route,$params=array(),$ampersand='&') {
+        return Factory::getRouter()->createUrl($route, $params, $ampersand);
+    }
 }

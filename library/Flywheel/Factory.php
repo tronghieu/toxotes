@@ -195,4 +195,25 @@ class Factory
 
         return self::$_registry['translator'];
     }
+
+    /**
+     * @param $class
+     * @param null $params
+     * @return \Flywheel\Controller\Widget
+     */
+    public static function getWidget($class, $params = null, $render = null) {
+        $k = 'widget_' .$class;
+        if (!isset(self::$_registry[$k])) {
+            $class = Loader::import($class, true);
+            self::$_registry[$k] = new $class($render);
+        }
+
+        if (!empty($params)) {
+            foreach($params as $p => $value) {
+                self::$_registry[$k]->$p = $value;
+            }
+        }
+
+        return self::$_registry[$k];
+    }
 }

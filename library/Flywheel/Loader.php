@@ -159,7 +159,7 @@ class Loader {
                     if(is_file($classFile))
                         require($classFile);
                     else
-                        throw new \Flywheel\Exception("Loader: Alias \"{$alias}\" is invalid. Make sure it points to an existing PHP file and the file is readable.");
+                        throw new Exception("Loader: Alias \"{$alias}\" is invalid. Make sure it points to an existing PHP file and the file is readable.");
                     self::$_imports[$alias]=$alias;
                 }
                 else
@@ -167,7 +167,7 @@ class Loader {
                 return $alias;
             }
             else
-                throw new \Flywheel\Exception("Loader: Alias \"{$alias}\" is invalid. Make sure it points to an existing directory.");
+                throw new Exception("Loader: Alias \"{$alias}\" is invalid. Make sure it points to an existing directory.");
         }
         if(($pos=strrpos($alias,'.'))===false)  // a simple class name
         {
@@ -189,7 +189,7 @@ class Loader {
                     if(is_file($path.$ext))
                         require($path.$ext);
                     else
-                        throw new \Flywheel\Exception("Loader: Alias \"{$alias}\" is invalid. Make sure it points to an existing PHP file and the file is readable.");
+                        throw new Exception("Loader: Alias \"{$alias}\" is invalid. Make sure it points to an existing PHP file and the file is readable.");
                     self::$_imports[$alias]=$className;
                 }
                 else
@@ -211,7 +211,7 @@ class Loader {
             }
         }
         else {
-            throw new \Flywheel\Exception("Loader: Alias \"{$alias}\" is invalid. Make sure it points to an existing directory or file.");
+            throw new Exception("Loader: Alias \"{$alias}\" is invalid. Make sure it points to an existing directory or file.");
         }
     }
 }

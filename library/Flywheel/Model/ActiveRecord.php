@@ -840,14 +840,15 @@ abstract class ActiveRecord extends Object {
     public static function retrieveBy($by, $param) {
         static::create();
         $field = Inflection::camelCaseToHungary($by);
-        if ($by == static::getPrimaryKeyField()) {
+        $id = static::getPrimaryKeyField();
+        if ($field == static::getPrimaryKeyField()) {
             if (null != ($obj = static::getInstanceFromPool($param[0]))) {
                 return $obj;
             }
         } else {
             $objs = static::getInstancesFromPool();
             foreach($objs as $obj) {
-                if ($obj->{$by} == $param[0]) {
+                if ($obj->{$field} == $param[0]) {
                     return $obj;
                 }
             }
