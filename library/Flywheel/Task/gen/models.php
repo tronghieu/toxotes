@@ -608,6 +608,8 @@ class BuildModels {
             $option[] = "'default' => {$default}";
         }
 
+        $option[] = "'not_null' => " .var_export($property['notnull'], true);
+
         $option[] ="'type' => '{$property['type']}'";
         if ($property['primary']) {
             $option[] = "'primary' => " .var_export($property['primary'], true);

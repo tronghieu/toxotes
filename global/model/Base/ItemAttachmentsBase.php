@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemAttachments
- *  This class has been auto-generated at 22/04/2013 18:00:34
+ *  This class has been auto-generated at 24/04/2013 12:22:24
  * @version		$Id$
  * @package		Model
 
@@ -68,30 +68,37 @@ abstract class ItemAttachmentsBase extends ActiveRecord {
     protected static $_instances = array();
     protected static $_schema = array(
         'id' => array('name' => 'id',
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => true,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
         'item_id' => array('name' => 'item_id',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'file' => array('name' => 'file',
+                'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'text'),
         'mine_type' => array('name' => 'mine_type',
+                'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'text'),
         'type_group' => array('name' => 'type_group',
+                'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'varchar(100)',
                 'length' => 100),
         'uploaded_time' => array('name' => 'uploaded_time',
+                'not_null' => true,
                 'type' => 'datetime',
                 'db_type' => 'datetime'),
         'hits' => array('name' => 'hits',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',

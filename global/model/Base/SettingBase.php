@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Setting
- *  This class has been auto-generated at 22/04/2013 18:00:34
+ *  This class has been auto-generated at 24/04/2013 12:22:24
  * @version		$Id$
  * @package		Model
 
@@ -33,11 +33,13 @@ abstract class SettingBase extends ActiveRecord {
     protected static $_instances = array();
     protected static $_schema = array(
         'setting_key' => array('name' => 'setting_key',
+                'not_null' => true,
                 'type' => 'string',
                 'primary' => true,
                 'db_type' => 'varchar(255)',
                 'length' => 255),
         'setting_value' => array('name' => 'setting_value',
+                'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'text'),
      );

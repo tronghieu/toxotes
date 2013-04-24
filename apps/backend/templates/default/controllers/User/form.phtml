@@ -1,1 +1,111 @@
-<?php
+<?php $submit_btn_name = ($user->isNew())? 'Create' : 'Save' ?>
+
+<h5 class="widget-name"><i class="icon-align-justify"></i><?php echo $page_title ?></h5>
+
+<form class="form-horizontal" action="" method="post">
+    <fieldset>
+        <!-- General form elements -->
+        <div class="widget row-fluid">
+
+            <!-- General info -->
+            <div class="span8 offset2">
+                <div class="navbar"><div class="navbar-inner"><h6><?php echo t('General info'); ?></h6></div></div>
+                <div class="well">
+                    <?php if (isset($error) && !empty($error)) :?>
+                    <div class="alert margin">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo implode('<br>-', array_values($error)); ?>
+                    </div>
+                    <?php endif; ?>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Username'); ?> *</label>
+                        <div class="controls">
+                            <input value="<?php echo $user->getUsername() ?>" type="text" name="user[username]" class="span12" placeholder="<?php echo t('From 3-16 character'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Password'); ?> *</label>
+                        <div class="controls">
+                            <input value="<?php echo $new_password ?>" type="password" name="new_password" class="span12">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Confirm password'); ?> *</label>
+                        <div class="controls">
+                            <input value="" type="password" name="confirm_password" class="span12" placeholder="<?php echo t('Type password again'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Email'); ?> *</label>
+                        <div class="controls">
+                            <input value="<?php echo $user->getEmail() ?>" type="text" name="user[email]" class="span12">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Phone number'); ?></label>
+                        <div class="controls">
+                            <input value="<?php echo $user->getPhoneNumber() ?>" type="text" name="user[phone_number]" class="span12">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Status'); ?> </label>
+                        <div class="controls">
+                            <label class="radio inline">
+                                <input type="radio" name="user[status]" class="styled" value="1" checked="checked">
+                                Active
+                            </label>
+                            <label class="radio inline">
+                                <input type="radio" name="user[status]" class="styled" value="0">
+                                No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Banned'); ?> </label>
+                        <div class="controls">
+                            <label class="radio inline">
+                                <input type="radio" name="user[banned]" class="styled" value="1">
+                                Yes
+                            </label>
+                            <label class="radio inline">
+                                <input type="radio" name="user[banned]" class="styled" value="0" checked="checked">
+                                No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Email activate'); ?> </label>
+                        <div class="controls">
+                            <label class="radio inline">
+                                <input type="radio" name="user[active_email]" class="styled" value="1"  checked="checked">
+                                Yes
+                            </label>
+                            <label class="radio inline">
+                                <input type="radio" name="user[active_email]" class="styled" value="0">
+                                No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions align-right">
+                        <button type="submit" class="btn btn-info"><?php echo t($submit_btn_name) ?></button>
+                        <button type="reset" class="btn"><?php echo t('Reset') ?></button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- /general info -->
+        </div>
+        <!-- /general form elements -->
+
+    </fieldset>
+</form>

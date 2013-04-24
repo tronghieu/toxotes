@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UsersProfiles
- *  This class has been auto-generated at 22/04/2013 18:00:34
+ *  This class has been auto-generated at 24/04/2013 12:22:24
  * @version		$Id$
  * @package		Model
 
@@ -54,26 +54,31 @@ abstract class UsersProfilesBase extends ActiveRecord {
     protected static $_instances = array();
     protected static $_schema = array(
         'id' => array('name' => 'id',
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => true,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'user_id' => array('name' => 'user_id',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
         'profile_key' => array('name' => 'profile_key',
+                'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
         'profile_value' => array('name' => 'profile_value',
+                'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
         'ordering' => array('name' => 'ordering',
                 'default' => 0,
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',

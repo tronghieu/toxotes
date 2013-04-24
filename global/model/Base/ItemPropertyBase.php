@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemProperty
- *  This class has been auto-generated at 22/04/2013 18:00:34
+ *  This class has been auto-generated at 24/04/2013 12:22:24
  * @version		$Id$
  * @package		Model
 
@@ -82,43 +82,52 @@ abstract class ItemPropertyBase extends ActiveRecord {
     protected static $_instances = array();
     protected static $_schema = array(
         'id' => array('name' => 'id',
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => true,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
         'item_id' => array('name' => 'item_id',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'property' => array('name' => 'property',
+                'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
         'text_value' => array('name' => 'text_value',
+                'not_null' => false,
                 'type' => 'string',
                 'db_type' => 'text'),
         'int_value' => array('name' => 'int_value',
+                'not_null' => false,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'float_value' => array('name' => 'float_value',
+                'not_null' => false,
                 'type' => 'number',
                 'auto_increment' => false,
                 'db_type' => 'decimal(20,2)',
                 'length' => 20),
         'boolean_value' => array('name' => 'boolean_value',
+                'not_null' => false,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'tinyint(1)',
                 'length' => 1),
         'datetime_value' => array('name' => 'datetime_value',
+                'not_null' => false,
                 'type' => 'datetime',
                 'db_type' => 'datetime'),
         'ordering' => array('name' => 'ordering',
                 'default' => 0,
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',

@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemImages
- *  This class has been auto-generated at 22/04/2013 18:00:34
+ *  This class has been auto-generated at 24/04/2013 12:22:24
  * @version		$Id$
  * @package		Model
 
@@ -47,21 +47,25 @@ abstract class ItemImagesBase extends ActiveRecord {
     protected static $_instances = array();
     protected static $_schema = array(
         'id' => array('name' => 'id',
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => true,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
         'item_id' => array('name' => 'item_id',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'caption' => array('name' => 'caption',
+                'not_null' => false,
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
         'is_main' => array('name' => 'is_main',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'tinyint(1)',

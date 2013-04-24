@@ -358,6 +358,10 @@ abstract class ActiveRecord extends Object {
         return (bool) sizeof($this->_modifiedCols);
     }
 
+    public function isNotNull($col) {
+        return static::$_schema[$col]['not_null'];
+    }
+
     /**
      * check model's data were validated
      * @return bool
@@ -661,7 +665,7 @@ abstract class ActiveRecord extends Object {
                 }
 
                 $validator = self::createValidator($validationRule->getClass());
-                if (!$validator->isValid($validationRule->getValue(), $this->$name)) {
+                if ($validator && ($this->$name != null || $this->isNotNull($name)) && !$validator->isValid($validationRule->getValue(), $this->$name)) {
                     $this->setValidationFailure(static::getTableName() .'.' .$name, t($validationRule->getMessage()), $validator);
                 }
             }

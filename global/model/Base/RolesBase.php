@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Roles
- *  This class has been auto-generated at 22/04/2013 18:00:34
+ *  This class has been auto-generated at 24/04/2013 12:22:24
  * @version		$Id$
  * @package		Model
 
@@ -68,37 +68,44 @@ abstract class RolesBase extends ActiveRecord {
     protected static $_instances = array();
     protected static $_schema = array(
         'id' => array('name' => 'id',
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => true,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
         'name' => array('name' => 'name',
+                'not_null' => false,
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
         'lvl' => array('name' => 'lvl',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'lft' => array('name' => 'lft',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'rgt' => array('name' => 'rgt',
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'scope_id' => array('name' => 'scope_id',
+                'not_null' => false,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'admin_access' => array('name' => 'admin_access',
                 'default' => 0,
+                'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'tinyint(1)',

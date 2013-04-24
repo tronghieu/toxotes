@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * TermRelationship
- *  This class has been auto-generated at 22/04/2013 18:00:34
+ *  This class has been auto-generated at 24/04/2013 12:22:24
  * @version		$Id$
  * @package		Model
 
@@ -41,6 +41,7 @@ abstract class TermRelationshipBase extends ActiveRecord {
     protected static $_schema = array(
         'object_id' => array('name' => 'object_id',
                 'default' => 0,
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => false,
@@ -48,12 +49,14 @@ abstract class TermRelationshipBase extends ActiveRecord {
                 'length' => 4),
         'term_id' => array('name' => 'term_id',
                 'default' => 0,
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
         'ordering' => array('name' => 'ordering',
+                'not_null' => false,
                 'type' => 'integer',
                 'auto_increment' => false,
                 'db_type' => 'int(11)',

@@ -20,6 +20,8 @@ class UserController extends AdminBaseController {
 
         $message = '';
 
+        $new_pass = '';
+
         if ($this->request()->isPostRequest()) {
             if ('' != ($new_pass = $this->request()->post('new_password'))) {
                 //set new password
@@ -32,7 +34,7 @@ class UserController extends AdminBaseController {
                 $error['users.new_password'] = t('password can not be empty!');
             }
 
-            $user->hydrate($this->request()->post('user'));
+            $user->hydrate($this->request()->post('user', 'ARRAY'));
 
             if ($this->_save($user, $error)) {
                 $session = Factory::getSession();
@@ -45,6 +47,8 @@ class UserController extends AdminBaseController {
         $this->view()->assign('error', $error);
         $this->view()->assign('message', $message);
         $this->view()->assign('page_title', t('Create new user'));
+        $this->view()->assign('new_password', $new_pass);
+        return $this->renderComponent();
     }
 
     public function executeEdit() {
@@ -57,6 +61,8 @@ class UserController extends AdminBaseController {
             $session->setFlash('warning', 'user not found');
             $this->redirect($this->createUrl('user'));
         }
+
+        $new_pass = '';
 
         $error = array();
         $message = $session->getFlash('message');
@@ -71,7 +77,7 @@ class UserController extends AdminBaseController {
                 }
             }
 
-            $user->hydrate($this->request()->post('user'));
+            $user->hydrate($this->request()->post('user', 'ARRAY'));
             if ($this->_save($user, $error)) {
                 $message = t("Save successful!");
             }
@@ -81,6 +87,8 @@ class UserController extends AdminBaseController {
         $this->view()->assign('error', $error);
         $this->view()->assign('message', $message);
         $this->view()->assign('page_title', t('Edit user' .$user->username));
+        $this->view()->assign('new_password', $new_pass);
+        return $this->renderComponent();
     }
 
     protected function _save(Users $user, &$error) {
@@ -99,6 +107,9 @@ class UserController extends AdminBaseController {
                 /** @var \Flywheel\Model\ValidationFailed[] $validationFailures  */
                 $validationFailures = $user->getValidationFailures();
                 foreach($validationFailures as $validationFailure) {
+                    if (!isset($error[$validationFailure->getColumn()])) {
+                        $error[$validationFailure->getColumn()] = '';
+                    }
                     $error[$validationFailure->getColumn()] .= $validationFailure->getMessage();
                 }
             }

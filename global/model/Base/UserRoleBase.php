@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * UserRole
- *  This class has been auto-generated at 22/04/2013 18:00:34
+ *  This class has been auto-generated at 24/04/2013 12:22:24
  * @version		$Id$
  * @package		Model
 
@@ -33,6 +33,7 @@ abstract class UserRoleBase extends ActiveRecord {
     protected static $_instances = array();
     protected static $_schema = array(
         'user_id' => array('name' => 'user_id',
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => false,
@@ -40,6 +41,7 @@ abstract class UserRoleBase extends ActiveRecord {
                 'length' => 4),
         'role_id' => array('name' => 'role_id',
                 'default' => 0,
+                'not_null' => true,
                 'type' => 'integer',
                 'primary' => true,
                 'auto_increment' => false,
