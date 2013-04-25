@@ -2,7 +2,11 @@
 namespace Flywheel;
 use Flywheel\Application\BaseApp;
 use Flywheel\Config\ConfigHandler;
+use Flywheel\Translation\Translator;
 use Flywheel\Util\Inflection;
+use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Component\Translation\Loader\PhpFileLoader;
+use Symfony\Component\Translation\MessageSelector;
 
 class Factory
 {
@@ -188,9 +192,30 @@ class Factory
         return self::$_registry['queue_' .$configKey];
     }
 
+    /**
+     * @return null|Translator
+     */
     public static function getTranslator() {
-        if (!isset(self::$_registry['translator'])) {
+        $i18nCfg = ConfigHandler::get('i18n');
+        if (!$i18nCfg['enable']) {
+            return null;
+        }
 
+        if (!isset(self::$_registry['translator'])) {
+            $translator = new Translator($i18nCfg['default_locale'], new MessageSelector());
+            $translator->setFallbackLocales($i18nCfg['default_fallback']);
+            $translator->addLoader('array', new ArrayLoader());
+
+            //add init resource
+            if (isset($i18nCfg['resource']) && is_array($i18nCfg['resource'])) {
+                foreach($i18nCfg['resource'] as $locale => $files) {
+                    for ($i = 0, $size = sizeof($files); $i < $size; ++$i) {
+                        $translator->addResourceFromFile($files[$i], $locale);
+                    }
+                }
+            }
+
+            self::$_registry['translator'] = $translator;
         }
 
         return self::$_registry['translator'];
@@ -199,6 +224,7 @@ class Factory
     /**
      * @param $class
      * @param null $params
+     * @param null $render
      * @return \Flywheel\Controller\Widget
      */
     public static function getWidget($class, $params = null, $render = null) {

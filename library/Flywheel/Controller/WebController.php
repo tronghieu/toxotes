@@ -95,7 +95,7 @@ abstract class WebController extends BaseController
      * @return mixed
      */
     public function createUrl($route, $params = array(), $ampersand = '&') {
-        return Factory::getRouter()->createUrl($route, $params = array(), $ampersand = '&');
+        return Factory::getRouter()->createUrl($route, $params, $ampersand);
     }
 
     /**

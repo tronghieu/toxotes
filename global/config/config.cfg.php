@@ -1,10 +1,13 @@
 <?php
 return array(
-    'x_event_enable' => true,
-    'x_event_url' => 'http://210.211.99.170/x_event_dev/public_html/',
-    'x_event_rest_usr'=>'core',
-    'x_event_rest_pwd'=>'c0r4',
-
-    //core billing
-    'currencies' => array('VND'),
+    'i18n' => array(
+        'enable' => true,
+        'default_fallback' => array('en'),
+        'default_locale' => 'en-US',
+        'resource' => array(
+            'vi-VN' => array(
+                ROOT_PATH .'/resource/languages/vi-VN/common.php',
+            )
+        )
+    ),
 );

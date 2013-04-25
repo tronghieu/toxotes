@@ -12,7 +12,7 @@ try {
     $translator = new Translator('fr_FR', new MessageSelector());
     $translator->setFallbackLocales(array('en'));
     $translator->addLoader('php', new PhpFileLoader());
-    $translator->addResource('php', ROOT_PATH .'/resource/languages/en-Us.php', 'fr');
+    $translator->addResource('php', ROOT_PATH .'/resource/languages/common.php', 'fr');
 
     $name = 'Hiếu';
     echo $translator->trans('Hello World!, ' .'Hiếu')."\n";

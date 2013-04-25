@@ -993,7 +993,9 @@ abstract class ActiveRecord extends Object {
 
             if (isset($by)) {
                 if (!isset($params[0])) {
-                    throw new Exception('You must specify the value to ' . $method);
+                    return false;
+                    //@FIXED not need throw exception
+                    //throw new Exception('You must specify the value to ' . $method);
                 }
 
                 return static::retrieveBy($by, $params);

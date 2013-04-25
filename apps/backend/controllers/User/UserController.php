@@ -39,14 +39,16 @@ class UserController extends AdminBaseController {
             if ($this->_save($user, $error)) {
                 $session = Factory::getSession();
                 $session->setFlash('message', t('Save successful!'));
-                $this->redirect($this->createUrl('user/edit', array('id' => $user->id)));
+                $this->redirect($this->createUrl('user/edit', array('id' => $user->getId())));
             }
         }
 
         $this->view()->assign('user', $user);
         $this->view()->assign('error', $error);
         $this->view()->assign('message', $message);
-        $this->view()->assign('page_title', t('Create new user'));
+        $this->view()->assign('page_title', t('Add new user'));
+        $this->document()->title .= t('Add new user');
+
         $this->view()->assign('new_password', $new_pass);
         return $this->renderComponent();
     }
@@ -86,7 +88,9 @@ class UserController extends AdminBaseController {
         $this->view()->assign('user', $user);
         $this->view()->assign('error', $error);
         $this->view()->assign('message', $message);
-        $this->view()->assign('page_title', t('Edit user' .$user->username));
+        $this->view()->assign('page_title', t('Edit user ' .$user->username));
+        $this->document()->title .= t('Edit user ' .$user->username);
+
         $this->view()->assign('new_password', $new_pass);
         return $this->renderComponent();
     }
