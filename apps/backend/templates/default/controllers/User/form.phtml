@@ -1,8 +1,18 @@
-<?php $submit_btn_name = ($user->isNew())? 'Create' : 'Save' ?>
+<?php
+/** @var \Flywheel\View\Render $this */
+
+$submit_btn_name = ($user->isNew())? 'Create' : 'Save';
+
+$form = $this->createFrom('user_frm');
+$form->setHtmlOption(array(
+    'class' => 'form-horizontal',
+));
+?>
 
 <h5 class="widget-name"><i class="icon-align-justify"></i><?php echo $page_title ?></h5>
 
 <form class="form-horizontal" action="" method="post">
+<?php $form->beginForm(); ?>
     <fieldset>
         <!-- General form elements -->
         <div class="widget row-fluid">
@@ -68,44 +78,49 @@
                     <div class="control-group">
                         <label class="control-label"><?php echo t('Status'); ?> </label>
                         <div class="controls">
-                            <label class="radio inline">
-                                <input type="radio" name="user[status]" class="styled" value="1" checked="checked">
-                                Active
-                            </label>
-                            <label class="radio inline">
-                                <input type="radio" name="user[status]" class="styled" value="0">
-                                No
-                            </label>
+                            <?php $form->radioButton('user[status]', $user->getStatus())
+                                ->add(1, 'Active', array('class' => 'radio inline'))
+                                ->add(0, 'Inactive', array('class' => 'radio inline'))
+                                ->display(); ?>
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label"><?php echo t('Banned'); ?> </label>
                         <div class="controls">
-                            <label class="radio inline">
-                                <input type="radio" name="user[banned]" class="styled" value="1">
-                                Yes
-                            </label>
-                            <label class="radio inline">
-                                <input type="radio" name="user[banned]" class="styled" value="0" checked="checked">
-                                No
-                            </label>
+                            <?php $form->radioButton('user[banned]', $user->getBanned())
+                                ->add(1, 'Yes', array('class' => 'radio inline'))
+                                ->add(0, 'No', array('class' => 'radio inline'))
+                                ->display(); ?>
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label"><?php echo t('Email activate'); ?> </label>
                         <div class="controls">
-                            <label class="radio inline">
-                                <input type="radio" name="user[active_email]" class="styled" value="1"  checked="checked">
-                                Yes
-                            </label>
-                            <label class="radio inline">
-                                <input type="radio" name="user[active_email]" class="styled" value="0">
-                                No
-                            </label>
+                            <?php $form->radioButton('user[active_email]', $user->getActiveEmail())
+                                ->add(1, 'Yes', array('class' => 'radio inline'))
+                                ->add(0, 'No', array('class' => 'radio inline'))
+                                ->display(); ?>
                         </div>
                     </div>
+
+                    <?php if (!$user->isNew()) : ?>
+                        <div class="control-group">
+                            <label class="control-label"><?php echo t('Register time'); ?> </label>
+                            <div class="controls">
+                                <?php echo $user->getRegisterTime(); ?>
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label"><?php echo t('Last login time'); ?> </label>
+                            <div class="controls">
+                                <?php echo $user->getLastVisitTime(); ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="form-actions align-right">
                         <button type="submit" class="btn btn-info"><?php echo t($submit_btn_name) ?></button>
@@ -121,3 +136,4 @@
 
     </fieldset>
 </form>
+<?php $form->endForm(true); ?>

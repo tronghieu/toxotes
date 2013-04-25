@@ -9,12 +9,30 @@
 
 namespace Flywheel\Db\Type;
 
-
 class DateTime extends \DateTime {
+
+    protected $_empty = false;
+
+    public function __construct($time='now', \DateTimeZone $timezone=null) {
+        if ('0000-00-00' == $time || '00:00:00' == $time || '0000-00-00 00:00:00' == $time) {
+            $this->_empty = true;
+        }
+
+        parent::__construct($time, $timezone);
+
+    }
+
+    public function isEmpty() {
+        return $this->_empty;
+    }
+
     /**
      * @return string
      */
     public function toString() {
+        if ($this->isEmpty()) {
+            return '0000-00-00 00:00:00';
+        }
         return $this->format('Y-m-d H:i:s');
     }
 

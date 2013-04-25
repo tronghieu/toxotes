@@ -59,6 +59,42 @@ class WebRequest extends Request
     }
 
     /**
+     * @return string
+     */
+    protected function _generateCsrfToken() {
+        return md5(uniqid() .mt_rand());
+    }
+
+    /**
+     * @param bool $autoGen set auto generate token if not exist
+     * @return mixed|string
+     */
+    public function getCsrfToken($autoGen = true) {
+        $cookie = Factory::getCookie();
+        $token = $cookie->readSecure('csrf');
+        if (null == $token && $autoGen) {
+            $token = $this->_generateCsrfToken();
+            $cookie->writeSecure('csrf', $token, 7200);
+        }
+
+        return $token;
+    }
+
+    /**
+     * check csrf token
+     *
+     * @param $token
+     * @return bool
+     */
+    public function checkCsrfToken($token) {
+        if (null == $token) {
+            return false;
+        }
+
+        return $token === $this->getCsrfToken(false);
+    }
+
+    /**
      * Redirects the browser to the specified URL.
      * @param string $url URL to be redirected to. If the URL is a relative one, the base URL of
      * the application will be inserted at the beginning.

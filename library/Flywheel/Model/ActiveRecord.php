@@ -508,7 +508,7 @@ abstract class ActiveRecord extends Object {
                     case 'timestamp':
                         return new DateTime('0000-00-00 00:00:00');
                     case 'time':
-                        return new DateTime('00:00:00');
+                        return new DateTime('0000-00-00 00:00:00');
                     case 'date':
                         return new DateTime('0000-00-00');
                     case 'datetime':

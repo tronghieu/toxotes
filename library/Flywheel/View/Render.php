@@ -10,6 +10,7 @@
  */
 namespace Flywheel\View;
 use Flywheel\Factory;
+use Flywheel\Html\Form;
 
 class Render {
 	/**
@@ -157,8 +158,7 @@ class Render {
      * @param $class
      * @param null $params
      * @param bool $return
-     *
-     * return void|string
+     * @return string|void
      */
     public function widget($class, $params = null, $return = false) {
         $widget = Factory::getWidget($class, $params, $this);
@@ -180,5 +180,9 @@ class Render {
      */
     public function createUrl($route,$params=array(),$ampersand='&') {
         return Factory::getRouter()->createUrl($route, $params, $ampersand);
+    }
+
+    public function createFrom($name = null, $action = '', $method = 'POST') {
+        return new Form($name, $action, $method);
     }
 }
