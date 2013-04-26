@@ -54,13 +54,14 @@ class MySQLi extends BaseAdapter
      * @param string  $sql
      * @param integer $offset
      * @param integer $limit
+     * @return string
      */
     public function applyLimit(&$sql, $offset, $limit)
     {
-        if ($limit > 0) {
-            $sql .= " LIMIT " . ($offset > 0 ? $offset . ", " : "") . $limit;
-        } elseif ($offset > 0) {
-            $sql .= " LIMIT " . $offset;
+        if ($offset > 0) {
+            $sql .= " LIMIT " . $offset .(($limit > 0 )? ',' . $limit : '');
+        } elseif ($limit > 0) {
+            $sql .= " LIMIT " . $limit;
         }
 
         return $sql;

@@ -922,7 +922,7 @@ class Query
 
         return ($this->_maxResults === null && $this->_firstResult == null)
             ? $query
-            : $this->_connection->getAdapter()->applyLimit($query, $this->_maxResults, $this->_firstResult);
+            : $this->_connection->getAdapter()->applyLimit($query, $this->_firstResult, $this->_maxResults);
     }
 
     /**
