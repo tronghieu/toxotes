@@ -1,0 +1,118 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+/** @var \Users[] $users */
+?>
+
+<h5 class="widget-name"><i class="icon-columns"></i><?php echo t('Users management'); ?></h5>
+
+<!-- Begin user list -->
+<div class="widget">
+    <div class="navbar"><div class="navbar-inner"><h6>Default datatable</h6></div></div>
+    <div class="table-overflow">
+        <?php $this->widget('app.widget.TableData', array(
+                'data' => $users,
+                'fields' => '#,id,username,email,status,banned,active_email',
+                'edit_link' => array(
+                    'route' => 'users/edit',
+                    'param' => 'id',
+                ),
+                'delete_link' => array(
+                    'route' => 'users/delete',
+                    'param' => 'id',
+                    'html_option' => array(
+                        'class' => 'tool delete-btn'
+                    ),
+                ),
+                'table_html_options' => array(
+                        'class' => 'table table-striped table-bordered',
+                        'id' => 'users-data-table'
+                ),
+            ));
+        ?>
+        <table class="table table-striped table-bordered" id="data-table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /end user list -->

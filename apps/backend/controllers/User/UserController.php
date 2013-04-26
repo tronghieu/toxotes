@@ -10,7 +10,44 @@
 use Flywheel\Factory;
 
 class UserController extends AdminBaseController {
-    public function executeDefault() {}
+    public function executeDefault() {
+        $username = $this->request()->get('username');
+        $name = $this->request()->get('name');
+        $status = $this->request()->get('status');
+        $banned = $this->request()->get('banned');
+        $page = $this->request()->get('page', 'INIT', 1);
+        $email = $this->request()->get('email');
+
+        $query = Users::read()->setMaxResults(25)->setFirstResult($page-1);
+        if ($username) {
+            $query->andWhere("username LIKE '%{$username}%'");
+        }
+
+        if ($email) {
+            $query->andWhere("email LIKE '%{$email}%'");
+        }
+
+        if (null !== $status) {
+            $query->andWhere("status = {$status}");
+        }
+
+        if (null !== $banned) {
+            $query->andWhere("banned = {$banned}");
+        }
+
+        $users = $query->execute()->fetchObject('Users', array(null, false));
+
+        $this->view()->assign(array(
+            'users' => $users,
+            'name' => $name,
+            'status' => $status,
+            'banned' => $banned,
+            'email' => $email,
+            'page' => $page,
+        ));
+
+        return $this->renderComponent();
+    }
 
     public function executeCreate() {
         $this->setView('form');
