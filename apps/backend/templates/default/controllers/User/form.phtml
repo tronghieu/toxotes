@@ -7,6 +7,8 @@ $form = $this->createFrom('user_frm');
 $form->setHtmlOption(array(
     'class' => 'form-horizontal',
 ));
+
+AdminRenderHelper::addFormJS();
 ?>
 
 <h5 class="widget-name"><i class="icon-align-justify"></i><?php echo $page_title ?></h5>
@@ -83,8 +85,8 @@ $form->setHtmlOption(array(
                         <label class="control-label"><?php echo t('Status'); ?> </label>
                         <div class="controls">
                             <?php $form->radioButton('user[status]', $user->getStatus())
-                                ->add(1, 'Active', array('class' => 'radio inline'))
-                                ->add(0, 'Inactive', array('class' => 'radio inline'))
+                                ->add(1, 'Active', array('class' => 'radio inline'), array('class' => 'styled'))
+                                ->add(0, 'Inactive', array('class' => 'radio inline'), array('class' => 'styled'))
                                 ->display(); ?>
                         </div>
                     </div>
@@ -93,8 +95,8 @@ $form->setHtmlOption(array(
                         <label class="control-label"><?php echo t('Banned'); ?> </label>
                         <div class="controls">
                             <?php $form->radioButton('user[banned]', $user->getBanned())
-                                ->add(1, 'Yes', array('class' => 'radio inline'))
-                                ->add(0, 'No', array('class' => 'radio inline'))
+                                ->add(1, 'Yes', array('class' => 'radio inline'), array('class' => 'styled'))
+                                ->add(0, 'No', array('class' => 'radio inline'), array('class' => 'styled'))
                                 ->display(); ?>
                         </div>
                     </div>
@@ -103,8 +105,8 @@ $form->setHtmlOption(array(
                         <label class="control-label"><?php echo t('Email activate'); ?> </label>
                         <div class="controls">
                             <?php $form->radioButton('user[active_email]', $user->getActiveEmail())
-                                ->add(1, 'Yes', array('class' => 'radio inline'))
-                                ->add(0, 'No', array('class' => 'radio inline'))
+                                ->add(1, 'Yes', array('class' => 'radio inline'), array('class' => 'styled'))
+                                ->add(0, 'No', array('class' => 'radio inline'), array('class' => 'styled'))
                                 ->display(); ?>
                         </div>
                     </div>

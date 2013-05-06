@@ -21,7 +21,7 @@ $(function() {
 
 	//===== Validation engine =====//
 	
-	$("#validate").validationEngine({promptPosition : "topRight:-122,-5"});
+	//$("#validate").validationEngine({promptPosition : "topRight:-122,-5"});
 
 
 
@@ -254,7 +254,7 @@ $(function() {
 
 	//===== Make Google maps visible inaide tabs =====//
 
-	function initialize()
+	/*function initialize()
 	{
 		var mapProp= {
 			center: new google.maps.LatLng(-37.814666,144.982452),
@@ -269,7 +269,7 @@ $(function() {
 		});
 
 	};
-	google.maps.event.addDomListener(window, 'load', initialize);
+	google.maps.event.addDomListener(window, 'load', initialize);*/
 
 
 

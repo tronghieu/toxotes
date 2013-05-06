@@ -1,7 +1,7 @@
-{ "require": {
-        "ukko/phpredis-phpdoc": "*",
+{
+    "require": {
         "symfony/translation" : "2.*",
-        "symfony/config" : "2.*"
+        "symfony/config" : "2.*",
+        "zendframework/zend-permissions-acl" : "2.*"
     }
-    //"minimum-stability": "dev"
 }

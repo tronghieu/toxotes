@@ -262,8 +262,14 @@ class Html extends BaseDoc {
 	 * @param array		$option
 	 */
 	public function addJs($file, $position = 'BOTTOM', $option = array()) {
-		$position = strtoupper($position);
-		$this->_javascript[$position][$file] = $option;
+        if (is_array($file)) {
+            for ($i = 0, $size = sizeof($file); $i < $size; ++$i) {
+                $this->addJs($file[$i], $position, $option);
+            }
+        } else {
+            $position = strtoupper($position);
+            $this->_javascript[$position][$file] = $option;
+        }
 	}
 	
 	/**
@@ -331,6 +337,9 @@ class Html extends BaseDoc {
      */
 	public function js($pos = 'BOTTOM') {
         $jsv = ConfigHandler::get('js_version');
+        if (null == $jsv) {
+            $jsv = '1';
+        }
 		$pos = strtoupper($pos);
 		$jsCode = '';
 		if (isset($this->_jsText[$pos])) {

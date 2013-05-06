@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'phpredis-phpdoc' => $vendorDir . '/ukko/phpredis-phpdoc/src',
+    'Zend\\Permissions\\Acl\\' => $vendorDir . '/zendframework/zend-permissions-acl',
     'Symfony\\Component\\Translation\\' => $vendorDir . '/symfony/translation',
     'Symfony\\Component\\Config\\' => $vendorDir . '/symfony/config',
 );

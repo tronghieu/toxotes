@@ -85,7 +85,7 @@ class PoFileLoader extends ArrayLoader implements LoaderInterface
      * This parser sacrifices some features of the reference implementation the
      * differences to that implementation are as follows.
      * - No support for comments spanning multiple lines.
-     * - Translation and extracted comments are treated as being the same type.
+     * - Translator and extracted comments are treated as being the same type.
      * - Message IDs are allowed to have other encodings as just US-ASCII.
      *
      * Items with an empty id are ignored.

@@ -11,6 +11,7 @@ use Flywheel\Factory;
 
 class UserController extends AdminBaseController {
     public function executeDefault() {
+        $this->document()->title .= t('Users Management');
         $username = $this->request()->get('username');
         $name = $this->request()->get('name');
         $status = $this->request()->get('status');
@@ -35,7 +36,7 @@ class UserController extends AdminBaseController {
             $query->andWhere("banned = {$banned}");
         }
 
-        $users = $query->execute()->fetchObject('Users', array(null, false));
+        $users = $query->execute()->fetchAll(PDO::FETCH_CLASS, 'Users', array(null, false));
 
         $this->view()->assign(array(
             'users' => $users,
