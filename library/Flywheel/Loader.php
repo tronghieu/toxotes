@@ -150,7 +150,18 @@ class Loader {
 
         if(($pos=strrpos($alias,'\\'))!==false) // a class name in PHP 5.3 namespace format
         {
+            $alias = ltrim($alias,'\\');
+            foreach (self::$_namespaces as $ns => $path) {
+                if (strpos($alias, $ns .'\\') === 0) {
+                    if (file_exists($f = $path .DIRECTORY_SEPARATOR .str_replace('\\', DIRECTORY_SEPARATOR, $alias).'.php')) {
+                        require $f;
+                        return $alias;
+                    }
+                }
+            }
+
             $namespace=str_replace('\\','.',ltrim(substr($alias,0,$pos),'\\'));
+
             if(($path=self::getPathOfAlias($namespace))!==false)
             {
                 $classFile=$path.DIRECTORY_SEPARATOR.substr($alias,$pos+1).$ext;

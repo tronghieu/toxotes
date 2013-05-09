@@ -31,10 +31,11 @@ class Breadcrumbs extends Widget {
 
     public function begin() {
         foreach ($this->links as $label => $link) {
-            $link = array_merge_recursive(array('url' => '', 'htmlOptions' => array()), $link);
             if (is_string($label)) {
+                $link = array_merge_recursive(array('htmlOptions' => array()), $link);
                 $this->_actives[] = array('label' => $label,
-                                    'url' => is_array($link['url'])? Factory::getRouter()->createUrl($link['url'])
+                                    'url' => is_array($link['url'])?
+                                        Factory::getRouter()->createUrl($link['url'][0], array_slice($link['url'], 1))
                                         : $link['url'],
                                     'htmlOptions' => $link['htmlOptions']);
             } else {
@@ -44,21 +45,21 @@ class Breadcrumbs extends Widget {
     }
 
     public function end() {
-        $s = '';
+        $s = array();
         for ($i = 0, $size = sizeof($this->_actives); $i < $size; ++$i) {
-            $s .= strstr($this->activeLinkTemplate, array(
+            $s[] = strtr($this->activeLinkTemplate, array(
                 '{url}' => $this->_actives[$i]['url'],
                 '{label}' => $this->_actives[$i]['label'],
                 '{htmlOptions}' => Html::serializeHtmlOption($this->_actives[$i]['htmlOptions'])
             ));
-
-            $s .= $this->separator;
         }
 
-        for ($i = 0, $size = sizeof($this->_inactives); $i < $size; ++$i) {
-
+        for ($i = 0, $size = sizeof($this->_inactive); $i < $size; ++$i) {
+            $s[] = strtr($this->inactiveLinkTemplate, array(
+                '{label}' => $this->_inactive[$i]
+            ));
         }
 
-        echo $s;
+        echo implode($s, $this->separator);
     }
 }
