@@ -14,13 +14,25 @@ $document = $this->document();
         <link href="<?php echo $document->getPublicPath() ?>/css/bootstrap.css" rel="stylesheet" type="text/css">
         <!--[if IE 8]><link href="<?php echo $document->getPublicPath() ?>/css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet" type="text/css">
+        <link href="<?php echo $document->getPublicPath() ?>/css/style.css" rel="stylesheet" type="text/css">
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&amp;sensor=false"></script><script src="http://maps.gstatic.com/intl/en_us/mapfiles/api-3/12/8a/main.js" type="text/javascript"></script>
 
-        <script type="text/javascript" src="<?php echo $document->getPublicPath() ?>js/plugins/ui/jquery.easytabs.min.js"></script>
-        <script type="text/javascript" src="<?php echo $document->getPublicPath() ?>js/plugins/ui/jquery.collapsible.min.js"></script>
+        <script type="text/javascript" src="js/plugins/ui/jquery.easytabs.min.js"></script>
+        <script type="text/javascript" src="js/plugins/ui/jquery.fancybox.js"></script>
+        <script type="text/javascript" src="js/plugins/ui/jquery.collapsible.min.js"></script>
+        <script type="text/javascript" src="js/plugins/ui/jquery.mousewheel.js"></script>
+        <script type="text/javascript" src="js/plugins/ui/jquery.bootbox.min.js"></script>
+        <script type="text/javascript" src="js/plugins/ui/jquery.colorpicker.js"></script>
+        <script type="text/javascript" src="js/plugins/ui/jquery.timepicker.min.js"></script>
+        <script type="text/javascript" src="js/plugins/ui/jquery.jgrowl.js"></script>
+
+        <!--<script type="text/javascript" src="js/plugins/forms/jquery.uniform.min.js"></script>-->
+        <script type="text/javascript" src="js/plugins/forms/jquery.tagsinput.min.js"></script>
+        <script type="text/javascript" src="js/plugins/forms/jquery.select2.min.js"></script>
+
+
 
         <script type="text/javascript" src="<?php echo $document->getPublicPath() ?>js/plugins/charts/jquery.sparkline.min.js"></script>
 
@@ -66,6 +78,15 @@ $document = $this->document();
     <!-- /footer -->
 
 
+    <!-- Loading -->
+    <div id="loading-box">
+        <div id="loading-box-content">
+            <strong><?php echo t('Loading ...') ?></strong>
+        </div>
+    </div>
+    <!-- /loading -->
+
+    <script type="text/javascript" src="<?php echo $document->getPublicPath() ?>js/files/common.js"></script>
     <?php echo $document->js(); ?>
     </body>
 </html>

@@ -12,27 +12,27 @@ use Flywheel\Factory;
 class UserController extends AdminBaseController {
     public function executeDefault() {
         $this->document()->title .= t('Users Management');
-        $username = $this->request()->get('username');
+        $keyword = $this->request()->get('keyword');
         $name = $this->request()->get('name');
         $status = $this->request()->get('status');
         $banned = $this->request()->get('banned');
         $page = $this->request()->get('page', 'INIT', 1);
-        $email = $this->request()->get('email');
 
-        $query = Users::read()->setMaxResults(25)->setFirstResult($page-1);
-        if ($username) {
-            $query->andWhere("username LIKE '%{$username}%'");
+        $query = Users::read()
+            ->setMaxResults(25)
+            ->setFirstResult($page-1);
+
+        if ($keyword) {
+            $query->andWhere("username LIKE '%{$keyword}%' OR email LIKE '%{$keyword}%'");
         }
 
-        if ($email) {
-            $query->andWhere("email LIKE '%{$email}%'");
-        }
-
-        if (null !== $status) {
+        if ('' != $status) {
             $query->andWhere("status = {$status}");
+        } else {
+            $query->andWhere('`status` != ' .Users::STATUS_DELETED);
         }
 
-        if (null !== $banned) {
+        if ('' != $banned) {
             $query->andWhere("banned = {$banned}");
         }
 
@@ -40,10 +40,10 @@ class UserController extends AdminBaseController {
 
         $this->view()->assign(array(
             'users' => $users,
+            'keyword' => $keyword,
             'name' => $name,
             'status' => $status,
             'banned' => $banned,
-            'email' => $email,
             'page' => $page,
         ));
 
@@ -158,5 +158,32 @@ class UserController extends AdminBaseController {
         }
 
         return false;
+    }
+
+    public function executeDelete() {
+        $this->validAjaxRequest();
+
+        $ids = $this->request()->post('id', 'ARRAY', array());
+
+        $_ids = array();
+        foreach($ids as $id) {
+            $u = Users::retrieveById($id);
+            $u->status = Users::STATUS_DELETED;
+            if ($u->save()) {
+                $_ids[] = $u->getId();
+            }
+        }
+
+        $res = new AjaxResponse();
+
+        if (sizeof($_ids) > 0 ) {
+            $res->type = AjaxResponse::SUCCESS;
+            $res->ids = $_ids;
+        } else {
+            $res->type = AjaxResponse::WARNING;
+            $res->message = t('Something was wrong!');
+        }
+
+        return $this->renderText($res->toString());
     }
 }

@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 24/04/2013 12:22:24
+ *  This class has been auto-generated at 07/05/2013 15:35:32
  * @version		$Id$
  * @package		Model
 
@@ -18,8 +18,10 @@ use Flywheel\Model\ActiveRecord;
  * @property integer $active_email active_email type : tinyint(4)
  * @property date $birthday birthday type : date
  * @property string $secret secret type : char(32) max_length : 32
- * @property datetime $register_time register_time type : datetime
  * @property datetime $last_visit_time last_visit_time type : datetime
+ * @property datetime $register_time register_time type : datetime
+ * @property integer $modified_time modified_time type : int(11)
+ * @property integer $created_time created_time type : int(11)
 
  * @method void setId(integer $id) set id value
  * @method integer getId() get id value
@@ -87,17 +89,29 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Users findOneBySecret(string $secret) find object in database by secret
  * @method static \Users retrieveBySecret(string $secret) retrieve object from poll by secret, get it from db if not exist in poll
 
+ * @method void setLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) setLastVisitTime(string $last_visit_time) set last_visit_time value
+ * @method \Flywheel\Db\Type\DateTime getLastVisitTime() get last_visit_time value
+ * @method static \Users[] findByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) findByLastVisitTime(string $last_visit_time) find objects in database by last_visit_time
+ * @method static \Users findOneByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) findOneByLastVisitTime(string $last_visit_time) find object in database by last_visit_time
+ * @method static \Users retrieveByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) retrieveByLastVisitTime(string $last_visit_time) retrieve object from poll by last_visit_time, get it from db if not exist in poll
+
  * @method void setRegisterTime(\Flywheel\Db\Type\DateTime $register_time) setRegisterTime(string $register_time) set register_time value
  * @method \Flywheel\Db\Type\DateTime getRegisterTime() get register_time value
  * @method static \Users[] findByRegisterTime(\Flywheel\Db\Type\DateTime $register_time) findByRegisterTime(string $register_time) find objects in database by register_time
  * @method static \Users findOneByRegisterTime(\Flywheel\Db\Type\DateTime $register_time) findOneByRegisterTime(string $register_time) find object in database by register_time
  * @method static \Users retrieveByRegisterTime(\Flywheel\Db\Type\DateTime $register_time) retrieveByRegisterTime(string $register_time) retrieve object from poll by register_time, get it from db if not exist in poll
 
- * @method void setLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) setLastVisitTime(string $last_visit_time) set last_visit_time value
- * @method \Flywheel\Db\Type\DateTime getLastVisitTime() get last_visit_time value
- * @method static \Users[] findByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) findByLastVisitTime(string $last_visit_time) find objects in database by last_visit_time
- * @method static \Users findOneByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) findOneByLastVisitTime(string $last_visit_time) find object in database by last_visit_time
- * @method static \Users retrieveByLastVisitTime(\Flywheel\Db\Type\DateTime $last_visit_time) retrieveByLastVisitTime(string $last_visit_time) retrieve object from poll by last_visit_time, get it from db if not exist in poll
+ * @method void setModifiedTime(integer $modified_time) set modified_time value
+ * @method integer getModifiedTime() get modified_time value
+ * @method static \Users[] findByModifiedTime(integer $modified_time) find objects in database by modified_time
+ * @method static \Users findOneByModifiedTime(integer $modified_time) find object in database by modified_time
+ * @method static \Users retrieveByModifiedTime(integer $modified_time) retrieve object from poll by modified_time, get it from db if not exist in poll
+
+ * @method void setCreatedTime(integer $created_time) set created_time value
+ * @method integer getCreatedTime() get created_time value
+ * @method static \Users[] findByCreatedTime(integer $created_time) find objects in database by created_time
+ * @method static \Users findOneByCreatedTime(integer $created_time) find object in database by created_time
+ * @method static \Users retrieveByCreatedTime(integer $created_time) retrieve object from poll by created_time, get it from db if not exist in poll
 
 
  */
@@ -132,7 +146,7 @@ abstract class UsersBase extends ActiveRecord {
                 'db_type' => 'varchar(100)',
                 'length' => 100),
         'name' => array('name' => 'name',
-                'not_null' => true,
+                'not_null' => false,
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
@@ -172,16 +186,30 @@ abstract class UsersBase extends ActiveRecord {
                 'type' => 'string',
                 'db_type' => 'char(32)',
                 'length' => 32),
-        'register_time' => array('name' => 'register_time',
-                'default' => '0000-00-00 00:00:00',
-                'not_null' => true,
-                'type' => 'datetime',
-                'db_type' => 'datetime'),
         'last_visit_time' => array('name' => 'last_visit_time',
                 'default' => '0000-00-00 00:00:00',
                 'not_null' => true,
                 'type' => 'datetime',
                 'db_type' => 'datetime'),
+        'register_time' => array('name' => 'register_time',
+                'default' => '0000-00-00 00:00:00',
+                'not_null' => true,
+                'type' => 'datetime',
+                'db_type' => 'datetime'),
+        'modified_time' => array('name' => 'modified_time',
+                'default' => 0,
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'int(11)',
+                'length' => 4),
+        'created_time' => array('name' => 'created_time',
+                'default' => 0,
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'int(11)',
+                'length' => 4),
      );
     protected static $_validate = array(
         'username' => array(
@@ -195,7 +223,7 @@ abstract class UsersBase extends ActiveRecord {
             ),
         ),
     );
-    protected static $_cols = array('id','username','password','email','name','phone_number','status','banned','active_email','birthday','secret','register_time','last_visit_time');
+    protected static $_cols = array('id','username','password','email','name','phone_number','status','banned','active_email','birthday','secret','last_visit_time','register_time','modified_time','created_time');
 
     public function setTableDefinition() {
     }

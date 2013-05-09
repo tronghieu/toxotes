@@ -1,0 +1,35 @@
+#loading-box {
+    right: 20px;
+    top: 45px;
+    position: fixed;
+    z-index: 9999;
+}
+
+#loading-box > div#loading-box-content {
+    border: none;
+    color: #fff;
+    opacity: .95;
+    filter: alpha(Opacity=95);
+    zoom: 1;
+    width: 108px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    text-align: left;
+    display: none;
+    background-color: #448fb2;
+    background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.025)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.025)), color-stop(0.75, rgba(255, 255, 255, 0.025)), color-stop(0.75, transparent), to(transparent));
+    background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.025) 50%, rgba(255, 255, 255, 0.025) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.025) 50%, rgba(255, 255, 255, 0.025) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.025) 50%, rgba(255, 255, 255, 0.025) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.025) 50%, rgba(255, 255, 255, 0.025) 75%, transparent 75%, transparent);
+    background-repeat: repeat;
+    -webkit-background-size: 10px 10px;
+    -moz-background-size: 10px 10px;
+    -o-background-size: 10px 10px;
+    background-size: 10px 10px;
+    -webkit-animation: growl-stripes 1s linear infinite;
+    -moz-animation: growl-stripes 1s linear infinite;
+    -ms-animation: growl-stripes 1s linear infinite;
+    -o-animation: growl-stripes 1s linear infinite;
+    animation: growl-stripes 1s linear infinite;
+}

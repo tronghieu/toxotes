@@ -1,4 +1,5 @@
 {
+
     "require": {
         "symfony/translation" : "2.*",
         "symfony/config" : "2.*",

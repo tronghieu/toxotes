@@ -208,7 +208,7 @@ $(function() {
 	//===== Tooltips =====//
 
 	$('.tip').tooltip();
-	$('.focustip').tooltip({'trigger':'focus'});
+	//$('.focustip').tooltip({'trigger':'focus'});
 
 
 

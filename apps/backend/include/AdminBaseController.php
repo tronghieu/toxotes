@@ -10,7 +10,7 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
     }
 
     protected function _beforeRender() {
-        $this->view()->assign('controller', &$this);
+        $this->view()->assign('controller', $this);
         parent::_beforeRender();
     }
 

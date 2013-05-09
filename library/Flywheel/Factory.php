@@ -203,7 +203,7 @@ class Factory
 
         if (!isset(self::$_registry['translator'])) {
             $translator = new Translator($i18nCfg['default_locale'], new MessageSelector());
-            $translator->setFallbackLocales($i18nCfg['default_fallback']);
+            $translator->setFallbackLocale($i18nCfg['default_fallback']);
             $translator->addLoader('array', new ArrayLoader());
 
             //add init resource

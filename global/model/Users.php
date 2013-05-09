@@ -10,6 +10,10 @@
 require_once dirname(__FILE__) .'/Base/UsersBase.php';
 class Users extends \UsersBase {
 
+    const STATUS_ACTIVE = 1,
+        STATUS_INACTIVE = 0,
+        STATUS_DELETED = -1;
+
     public function validationRules() {
         self::$_validate['username'][] = array(
             'name' => 'Match',
@@ -37,10 +41,13 @@ class Users extends \UsersBase {
     }
 
     protected function _beforeSave() {
-        if (!$this->isNew()) {
+        if ($this->isNew()) {
+            $this->setCreatedTime(time());
             $this->setRegisterTime(new \Flywheel\Db\Type\DateTime());
             $this->setSecret(ModelPeer::randMd5(32));
         }
+
+        $this->setModifiedTime(time());
     }
 
     public static function hashPassword($plainText, $salt = null) {

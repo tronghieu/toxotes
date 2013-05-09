@@ -28,8 +28,8 @@ class RadioButton extends Html {
         $s = '';
 
         for ($i = 0, $size = sizeof($this->label); $i < $size; ++$i) {
-            $s .= '<label ' .$this->serializeHtmlOption($this->label[$i]['options']) .">\n"
-                . '<input ' .$this->serializeHtmlOption($this->label[$i]['input_options']) .' type="radio" name="' .$this->name .'" value="' .$this->label[$i]['value'] .'"'
+            $s .= '<label ' .$this->_serializeHtmlOption($this->label[$i]['options']) .">\n"
+                . '<input ' .$this->_serializeHtmlOption($this->label[$i]['input_options']) .' type="radio" name="' .$this->name .'" value="' .$this->label[$i]['value'] .'"'
                 . (('' !== $this->checkValue && $this->checkValue == $this->label[$i]['value'])? ' checked="checked" ': '')
                 . ">\n"
                 . $this->label[$i]['label']

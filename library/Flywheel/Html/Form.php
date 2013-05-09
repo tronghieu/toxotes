@@ -11,13 +11,14 @@ namespace Flywheel\Html;
 
 use Flywheel\Factory;
 use Flywheel\Html\Form\RadioButton;
+use Flywheel\Html\Form\SelectOption;
 
 class Form extends Html {
     public $name = '';
     public $action = '';
     public $method = 'POST';
 
-    public function __construct($action = '', $method = '', $name = '') {
+    public function __construct($name = '', $action = '', $method = 'POST') {
         $this->action = $action;
         $this->method = $method;
         $this->name = $name;
@@ -28,7 +29,7 @@ class Form extends Html {
      */
     public function beginForm() {
         echo "<form name=\"{$this->name}\" action=\"{$this->action}\" method=\"{$this->method}\""
-            . $this->serializeHtmlOption()
+            . $this->_serializeHtmlOption()
         .">";
     }
 
@@ -44,5 +45,9 @@ class Form extends Html {
 
     public function radioButton($name, $checkValue = '', $htmlOptions = array()) {
         return new RadioButton($name, $checkValue, $htmlOptions);
+    }
+
+    public function selectOption($name, $selectValues = array(), $htmlOptions = array()) {
+        return new SelectOption($name, $selectValues, $htmlOptions);
     }
 }

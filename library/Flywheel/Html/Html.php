@@ -20,15 +20,19 @@ class Html {
      * @param null $htmlOptions
      * @return string
      */
-    public function serializeHtmlOption($htmlOptions = null) {
-        if (null == $htmlOptions) {
+    protected function _serializeHtmlOption($htmlOptions = null) {
+        if (null === $htmlOptions) {
             $htmlOptions = $this->_htmlOptions;
         }
 
+        return self::serializeHtmlOption($htmlOptions);
+    }
+
+    public static function serializeHtmlOption($htmlOptions = null) {
         $s = '';
         if (!empty($htmlOptions)) {
             foreach ($htmlOptions as $attr => $value) {
-                $s .= $attr .'="' .$value .'" ';
+                $s .= ' ' .$attr .'="' .$value .'"';
             }
         }
 
