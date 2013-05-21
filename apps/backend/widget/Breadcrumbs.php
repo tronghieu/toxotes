@@ -10,10 +10,15 @@
 use Flywheel\Base;
 
 class Breadcrumbs extends \Flywheel\Html\Widget\Breadcrumbs {
-    public function end() {
+    public $viewFile = 'breadcrumbs';
+
+    protected function _init() {
+        parent::_init();
         $this->viewPath = Base::getApp()->getController()->getTemplatePath() .DIRECTORY_SEPARATOR .'widget' .DIRECTORY_SEPARATOR;
-        $this->viewFile = 'breadcrumbs';
-        echo $this->render(array(
+    }
+
+    public function end() {
+        return $this->render(array(
             'activesLink' => $this->_actives,
             'inActivesLink' => $this->_inactive,
         ));

@@ -15,6 +15,7 @@ class WebRouter extends BaseRouter
     protected $_camelControllerName;
     protected $_controller;
     protected $_action;
+    protected $_route;
     
     public $params = array();
 
@@ -32,6 +33,11 @@ class WebRouter extends BaseRouter
         }
         parent::__construct();
     }
+
+    public function getRoute() {
+        return $this->_route;
+    }
+
 
     public function getPathInfo() {
         $pathInfo = parent::getPathInfo();
@@ -197,8 +203,13 @@ class WebRouter extends BaseRouter
                 if(false !== ($route = $this->_collectors[$i]->parseUrl($this, trim($url, '/'), $rawUrl)))
                     break;
             }
-            if (false == $route)$route = trim($url, '/');
+            if (false == $route) {
+                $route = trim($url, '/');
+            }
         }
+
+        $this->_route = $route;
+
         $segment = explode('/', $route);
 
         $seek = $this->_parseControllers($route);
