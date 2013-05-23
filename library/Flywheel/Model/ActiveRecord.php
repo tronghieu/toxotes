@@ -259,6 +259,14 @@ abstract class ActiveRecord extends Object {
      * @throws Exception
      */
     public function reload() {
+        if ($this->isDeleted()) {
+            throw new Exception('Cannot reload a deleted object.');
+        }
+
+        if ($this->isNew()) {
+            throw new Exception('Cannot reload an unsaved object.');
+        }
+
         $data = static::write()->where(static::getPrimaryKeyField() .'= :pk')
             ->setMaxResults(1)
             ->setParameter(':pk', $this->getPkValue())
@@ -306,27 +314,27 @@ abstract class ActiveRecord extends Object {
     }
 
     protected function _beforeSave() {
-        $this->getEventDispatcher()->dispatch('onBeforeSave', new Event($this));
+        $this->getPrivateEventDispatcher()->dispatch('onBeforeSave', new Event($this));
     }
 
     protected function _afterSave() {
-        $this->getEventDispatcher()->dispatch('onAfterSave', new Event($this));
+        $this->getPrivateEventDispatcher()->dispatch('onAfterSave', new Event($this));
     }
 
     protected function _beforeDelete() {
-        $this->getEventDispatcher()->dispatch('onBeforeDelete', new Event($this));
+        $this->getPrivateEventDispatcher()->dispatch('onBeforeDelete', new Event($this));
     }
 
     protected function _afterDelete() {
-        $this->getEventDispatcher()->dispatch('onAfterDelete', new Event($this));
+        $this->getPrivateEventDispatcher()->dispatch('onAfterDelete', new Event($this));
     }
 
     protected function _beforeValidate() {
-        $this->getEventDispatcher()->dispatch('onBeforeValidate', new Event($this));
+        $this->getPrivateEventDispatcher()->dispatch('onBeforeValidate', new Event($this));
     }
 
     protected function _afterValidate() {
-        $this->getEventDispatcher()->dispatch('onAfterValidate', new Event($this));
+        $this->getPrivateEventDispatcher()->dispatch('onAfterValidate', new Event($this));
     }
 
     /**
@@ -868,6 +876,12 @@ abstract class ActiveRecord extends Object {
     }
 
     public function __call($method, $params) {
+        foreach ($this->_behaviors as $behavior) {
+            if($behavior->getEnable() && method_exists($behavior, $method)) {
+                return call_user_func_array(array($behavior, $method), $params);
+            }
+        }
+
         if (strrpos($method, 'set') === 0
             && isset($params[0]) && null !== $params[0]) {
             $name = Inflection::camelCaseToHungary(substr($method, 3, strlen($method)));
@@ -919,8 +933,7 @@ abstract class ActiveRecord extends Object {
             }
         }
 
-        foreach ($this->_behaviors as $behavior) {
-        }
+//        return parent::$method($params);
     }
 
     public function __set($name, $value) {

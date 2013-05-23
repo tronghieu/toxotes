@@ -6,8 +6,22 @@ use Flywheel\Event\Dispatcher;
 use Flywheel\Event\Event as EventCommon;
 
 abstract class Object {
+    /**
+     * @var \Flywheel\Behavior\BaseBehavior[]
+     */
     protected $_behaviors = array();
+
+    protected $_privateDispatcher;
+
     protected static $_dispatcher;
+
+    public function getPrivateEventDispatcher() {
+        if (null == $this->_privateDispatcher) {
+            $this->_privateDispatcher = new Dispatcher();
+        }
+
+        return $this->_privateDispatcher;
+    }
 
     /**
      * Get event dispatcher
@@ -137,5 +151,13 @@ abstract class Object {
      */
     public function dispatch($eventName, EventCommon $event = null) {
         $this->getEventDispatcher()->dispatch($eventName, $event);
+    }
+
+    public function __call($method, $params) {
+        foreach ($this->_behaviors as $behavior) {
+            if($behavior->getEnable() && method_exists($behavior, $method)) {
+                return call_user_func_array(array($behavior, $method), $params);
+            }
+        }
     }
 }

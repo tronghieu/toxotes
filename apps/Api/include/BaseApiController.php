@@ -53,8 +53,8 @@ class BaseApiController extends ApiController {
     }
 
     public function beforeExecute() {
-        $this->_verifyRequest();
-        $this->_checkConsumerAccessPermission();
+//        $this->_verifyRequest();
+//        $this->_checkConsumerAccessPermission();
     }
 
     /**

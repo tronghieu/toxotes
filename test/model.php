@@ -25,12 +25,16 @@ try {
 //    $user->setPassword(Users::hashPassword('thanhle'));
 //    $user->save();
 
-    $user = new Users();
-    $user->setUsername('thuyanh');
-    $user->setEmail('admin@yahoo.com');
-    var_dump($user->validate());
-    var_dump($user->getValidationFailures());
-    var_dump($user->getValidationFailuresMessage());
+//    $user = new Users();
+////    $user->setUsername('thuyanh');
+//    $user->setEmail('admin1ahoo.com');
+//    var_dump($user->validate());
+//    var_dump($user->getValidationFailures());
+//    var_dump($user->getValidationFailuresMessage());
+
+    $role = Roles::findOneById(14);
+    $descendants = $role->getDescendants();
+    print_r($descendants);
 } catch (\Exception $e) {
     var_dump($e);
 }

@@ -1,9 +1,12 @@
 <?php
 namespace Flywheel\Model\Behavior;
+use Flywheel\Model\Exception;
+
 class NestedSet extends ModelBehavior {
     public $left_attr = 'lft';
     public $right_attr = 'rgt';
     public $level_attr = 'level';
+    public $scope_attr = '';
 
     // storage columns accessors
 
@@ -59,6 +62,41 @@ class NestedSet extends ModelBehavior {
         return $owner;
     }
 
+    /**
+     * @param $scope
+     * @return \Flywheel\Model\ActiveRecord
+     */
+    public function setScopeValue($scope) {
+        if (!$this->scope_attr) {
+            return null;
+        }
+
+        if (null !== $scope) {
+            $scope = (int) $scope;
+        }
+
+        $owner = $this->getOwner();
+        /* @var \Flywheel\Model\ActiveRecord $owner; */
+        if ($scope != $owner->{$this->scope_attr}) {
+            $owner->{$this->scope_attr} = $scope;
+        }
+
+        return $owner;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScopeValue() {
+        if (!$this->scope_attr) {
+            return null;
+        }
+
+        return $this->getOwner()->{$this->scope_attr};
+    }
+
+
+
     public function getLevel() {
         return $this->getOwner()->{$this->level_attr};
     }
@@ -75,16 +113,23 @@ class NestedSet extends ModelBehavior {
         return $owner;
     }
 
-    // only for behavior with use_scope
-    public function getScopeValue() {}
-
-    public function setScopeValue($scope) {}
-
     // root maker (requires calling save() afterwards)
-    public function makeRoot() {}
+    public function makeRoot() {
+        if ($this->getLeftValue() || $this->getRightValue()) {
+            throw new Exception('Cannot turn an existing node into a root node.');
+        }
+
+        $this->setLeftValue(1);
+        $this->setRightValue(2);
+        $this->setLevel(0);
+
+        return $this->getOwner();
+    }
 
     // inspection methods
-    public function isInTree() {}
+    public function isInTree() {
+        return $this->getLeftValue() > 0 && $this->getRightValue() > $this->getLeftValue();
+    }
 
     public function isRoot() {}
 
@@ -122,7 +167,24 @@ class NestedSet extends ModelBehavior {
 
     public function getSiblings($includeCurrent = false, $query = null) {}
 
-    public function getDescendants($query = null) {}
+    public function getDescendants($query = null) {
+        /** @var \Flywheel\Model\ActiveRecord $owner */
+        $owner = $this->getOwner();
+        if (null == $query) {
+            $query = $owner->read();
+        }
+
+        $query->andWhere($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
+                AND ' .$owner->quote($this->right_attr) .' < ' .$owner->{$this->right_attr});
+
+        if ($this->scope_attr) {
+            $query->andWhere($owner->quote($this->scope_attr) .'="' .$owner->{$this->scope_attr} .'"');
+        }
+
+        $query->addOrderBy($owner->quote($this->left_attr));
+        return $query->execute()
+            ->fetchAll(\PDO::FETCH_CLASS, get_class($owner), array(null, false));
+    }
 
     public function getBranch($query = null) {}
 
