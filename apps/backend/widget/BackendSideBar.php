@@ -42,6 +42,8 @@ class BackendSideBar extends \Flywheel\Html\Widget\Menu {
                 )
             ),
         );
+
+        $this->dispatch('onAfterInitAdminMenu', new AdminEvent($this));
     }
 
     public function end() {

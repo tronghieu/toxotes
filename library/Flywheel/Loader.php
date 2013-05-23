@@ -97,10 +97,11 @@ class Loader {
      * path alias will be removed.
      */
     public static function setPathOfAlias($alias,$path) {
-        if(empty($path))
+        if(empty($path)) {
             unset(self::$_aliases[$alias]);
-        else
-            self::$_aliases[$alias]=rtrim($path,'\\/');
+        } else {
+            self::$_aliases[$alias] = rtrim($path,'\\/');
+        }
     }
 
     /**

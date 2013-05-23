@@ -1,14 +1,6 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: nobita
- * Date: 5/10/13
- * Time: 10:48 AM
- * To change this template use File | Settings | File Templates.
- */
 
 namespace Flywheel\Html\Widget;
-
 
 use Flywheel\Controller\Widget;
 use Flywheel\Factory;

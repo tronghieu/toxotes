@@ -2,22 +2,23 @@
 namespace Flywheel;
 use Flywheel\Behavior\BaseBehavior;
 use Flywheel\Behavior\IBehavior;
+use Flywheel\Event\Dispatcher;
 use Flywheel\Event\Event as EventCommon;
 
 abstract class Object {
     protected $_behaviors = array();
-    protected $_dispatcher;
+    protected static $_dispatcher;
 
     /**
      * Get event dispatcher
-     * @return \Flywheel\Event\Dispatcher
+     * @return Dispatcher
      */
-    public function getEventDispatcher() {
-        if (null == $this->_dispatcher) {
-            $this->_dispatcher = new \Flywheel\Event\Dispatcher();
+    public static function getEventDispatcher() {
+        if (null == self::$_dispatcher) {
+            self::$_dispatcher = new Dispatcher();
         }
 
-        return $this->_dispatcher;
+        return self::$_dispatcher;
     }
 
     /**
