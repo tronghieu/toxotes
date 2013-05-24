@@ -7,6 +7,7 @@ class Query
     const SELECT = 0;
     const DELETE = 1;
     const UPDATE = 2;
+    const COUNT = 3;
 
     /** The builder states. */
     const STATE_DIRTY = 0;
@@ -122,8 +123,13 @@ class Query
      */
     public function execute()
     {
-        if ($this->_type == self::SELECT) {
-            return $this->_connection->executeQuery($this->getSQL(), $this->params, $this->paramTypes);
+        if ($this->_type == self::SELECT || $this->_type == self::COUNT) {
+            $result = $this->_connection->executeQuery($this->getSQL(), $this->params, $this->paramTypes);
+            if ($this->_type == self::COUNT) {
+                $result = $result->fetch(\PDO::FETCH_ASSOC);
+                return $result['result'];
+            }
+            return $result;
         } else {
             return $this->_connection->executeUpdate($this->getSQL(), $this->params, $this->paramTypes);
         }
@@ -361,6 +367,11 @@ class Query
         $selects = is_array($select) ? $select : func_get_args();
 
         return $this->add('select', $selects, false);
+    }
+
+    public function count($col = '*') {
+        $this->_type = self::COUNT;
+        return $this->add('select', array("COUNT({$col}) AS result"));
     }
 
     /**

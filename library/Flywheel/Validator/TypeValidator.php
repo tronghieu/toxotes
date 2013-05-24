@@ -60,7 +60,7 @@ class TypeValidator extends BaseValidator
                 return function_exists($value);
                 break;
             default:
-                throw new Exception('Unknown type ' . $map->getValue());
+                throw new Exception('Unknown type ' . $map);
                 break;
         }
     }

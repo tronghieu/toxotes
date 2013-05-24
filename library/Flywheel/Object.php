@@ -60,10 +60,11 @@ abstract class Object {
             throw new Exception("Behavior was attached must extends from \\Flywheel\\Behavior\\BaseBehavior");
         }
 
-        $behavior->init();
-        $behavior->setup($option);
+
         $behavior->setEnable(true);
         $behavior->setOwner($this);
+        $behavior->init();
+        $behavior->setup($option);
         $this->_behaviors[$name] = $behavior;
     }
 
