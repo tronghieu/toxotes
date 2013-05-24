@@ -9,5 +9,5 @@ abstract class BaseValidator implements IValidator {
      *
      * @return mixed TRUE if valid, error message otherwise
      */
-    abstract public function isValid($map, $str);
+   public function isValid($map, $str) {}
 }

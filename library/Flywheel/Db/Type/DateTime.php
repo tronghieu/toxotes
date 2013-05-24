@@ -18,6 +18,14 @@ class DateTime extends \DateTime {
             $this->_empty = true;
         }
 
+        /**
+         * @TODO some php version run on WINDOWS OS has bug when assign $timezone null value
+         * fix for stupid bug
+         */
+        if (null == $timezone) {
+            $timezone = new \DateTimeZone(date_default_timezone_get());
+        }
+
         parent::__construct($time, $timezone);
 
     }
