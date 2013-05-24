@@ -700,6 +700,8 @@ class NestedSet extends ModelBehavior {
         }
 
         $this->_moveSubtreeTo($node->getLeftValue() + 1, $node->getLevel() - $this->getLevel() + 1, $node->getScopeValue());
+        $this->getOwner()->reload();
+        $node->reload();
 
         return $this->getOwner();
     }
@@ -713,6 +715,8 @@ class NestedSet extends ModelBehavior {
         }
 
         $this->_moveSubtreeTo($node->getRightValue(), $node->getLevel() - $this->getLevel() + 1, $node->getScopeValue());
+        $this->getOwner()->reload();
+        $node->reload();
 
         return $this->getOwner();
     }
@@ -729,6 +733,8 @@ class NestedSet extends ModelBehavior {
         }
 
         $this->_moveSubtreeTo($node->getLeftValue(), $node->getLevel() - $this->getLevel(), $node->getScopeValue());
+        $this->getOwner()->reload();
+        $node->reload();
 
         return $this->getOwner();
     }
@@ -745,6 +751,8 @@ class NestedSet extends ModelBehavior {
         }
 
         $this->_moveSubtreeTo($node->getRightValue() + 1, $node->getLevel() - $this->getLevel(), $node->getScopeValue());
+        $this->getOwner()->reload();
+        $node->reload();
 
         return $this->getOwner();
     }
@@ -783,6 +791,7 @@ class NestedSet extends ModelBehavior {
             $this->setRightValue($left + 1);
 
             $owner->commit();
+            $owner->reload();
         } catch (Exception $e) {
             $owner->rollback();
             throw $e;

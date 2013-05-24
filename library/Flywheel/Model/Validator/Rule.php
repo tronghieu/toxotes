@@ -15,7 +15,7 @@ class Rule {
         'NotMatch' => '\Flywheel\Validator\NotMatchValidator',
         'Require' => '\Flywheel\Validator\RequireValidator',
         'Type' => '\Flywheel\Validator\TypeValidator',
-        'ValidValues' => '\Flywheel\Validator\TypeValidator',
+        'ValidValues' => '\Flywheel\Validator\ValidValuesValidator',
     );
 
     private $_validator;

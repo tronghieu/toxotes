@@ -2,7 +2,9 @@
 require_once __DIR__ .'./../bootstrap.php';
 \Flywheel\Loader::import('global.model.*');
 try {
-    $user = Users::findOneById(1);
+    $user = new Users();
+    $user->setName('TSB Ông Cường');
+    $user->save();
 
 //    $user = Users::read()
 //        ->where('id=?')
@@ -31,10 +33,6 @@ try {
 //    var_dump($user->validate());
 //    var_dump($user->getValidationFailures());
 //    var_dump($user->getValidationFailuresMessage());
-
-    $role = Roles::findOneById(14);
-    $descendants = $role->getDescendants();
-    print_r($descendants);
 } catch (\Exception $e) {
     var_dump($e);
 }
