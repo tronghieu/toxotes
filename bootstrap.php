@@ -8,12 +8,14 @@ define('RUNTIME_PATH', ROOT_PATH .DIRECTORY_SEPARATOR .'runtime');
 
 require_once ROOT_PATH.'/vendor/autoload.php';
 
-require_once LIBRARY_PATH . '/Flywheel/Common.php';
-require_once LIBRARY_PATH .'/Flywheel/Loader.php';
+//require_once LIBRARY_PATH . '/Flywheel/Common.php';
+//require_once LIBRARY_PATH .'/Flywheel/Loader.php';
+
+//add namespace before register
+Loader::addNamespace('Toxotes', LIBRARY_PATH);
+//Loader::addNamespace('Flywheel', LIBRARY_PATH);
 
 Loader::register();
 Loader::setPathOfAlias('root', ROOT_PATH);
 Loader::setPathOfAlias('global', GLOBAL_PATH);
 Loader::setPathOfAlias('library', LIBRARY_PATH);
-
-Loader::addNamespace('Toxotes', LIBRARY_PATH);

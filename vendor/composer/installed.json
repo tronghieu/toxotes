@@ -107,29 +107,29 @@
     },
     {
         "name": "zendframework/zend-permissions-acl",
-        "version": "2.1.5",
-        "version_normalized": "2.1.5.0",
+        "version": "2.2.0",
+        "version_normalized": "2.2.0.0",
         "target-dir": "Zend/Permissions/Acl",
         "source": {
             "type": "git",
             "url": "https://github.com/zendframework/Component_ZendPermissionsAcl.git",
-            "reference": "release-2.1.5"
+            "reference": "release-2.2.0rc3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/zendframework/Component_ZendPermissionsAcl/zipball/release-2.1.5",
-            "reference": "release-2.1.5",
+            "url": "https://api.github.com/repos/zendframework/Component_ZendPermissionsAcl/zipball/release-2.2.0rc3",
+            "reference": "release-2.2.0rc3",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2013-04-15 17:51:11",
+        "time": "2013-05-01 21:53:46",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.1-dev",
-                "dev-develop": "2.2-dev"
+                "dev-master": "2.2-dev",
+                "dev-develop": "2.3-dev"
             }
         },
         "installation-source": "dist",
@@ -146,6 +146,54 @@
         "keywords": [
             "acl",
             "zf2"
+        ]
+    },
+    {
+        "name": "tronghieu1012/flywheel-framework",
+        "version": "dev-1.0-alpha",
+        "version_normalized": "dev-1.0-alpha",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tronghieu/flywheel-framework.git",
+            "reference": "a122f083a99d2cc07973c591566d384b3207cd4d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/a122f083a99d2cc07973c591566d384b3207cd4d",
+            "reference": "a122f083a99d2cc07973c591566d384b3207cd4d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/config": "2.*",
+            "symfony/translation": "2.*",
+            "zendframework/zend-permissions-acl": "2.*"
+        },
+        "time": "2013-05-25 05:05:40",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Flywheel": "/"
+            },
+            "files": [
+                "Flywheel/Common.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Luu Trong Hieu",
+                "email": "tronghieu.luu@gmail.com"
+            }
+        ],
+        "description": "The Flywheel PHP framework",
+        "homepage": "http://luutronghieu.com",
+        "keywords": [
+            "framework"
         ]
     }
 ]

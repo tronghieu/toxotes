@@ -1,8 +1,5 @@
 {
-
     "require": {
-        "symfony/translation" : "2.*",
-        "symfony/config" : "2.*",
-        "zendframework/zend-permissions-acl" : "2.*"
+        "tronghieu1012/flywheel-framework": "dev-1.0-alpha"
     }
 }
