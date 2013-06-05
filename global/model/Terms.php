@@ -62,6 +62,8 @@ require_once dirname(__FILE__) .'/Base/TermsBase.php';
  * @method void makeRoomForLeaf(int $level, $scope = null)
  */
 class Terms extends \TermsBase {
+    protected $_properties;
+
     public function init() {
         $this->attachBehavior('NestedSet', new NestedSet(), array(
             'left_attr' => 'lft',
@@ -69,5 +71,50 @@ class Terms extends \TermsBase {
             'level_attr' => 'lvl',
             'scope_attr' => 'scope',
         ));
+    }
+
+    public function validationRules() {
+        self::$_validate['name'] = array(
+            'name' => 'Require',
+            'message' => "name can not be blank!"
+        );
+
+        self::$_validate['taxonomy'] = array(
+            'name' => 'Require',
+            'message' => "taxonomy can not be blank!"
+        );
+    }
+
+    /**
+     * get Term's properties
+     *
+     * @return TermProperty[]
+     */
+    public function getProperties() {
+        if (null == $this->_properties) {
+            $this->_properties = TermProperty::read()
+                                ->where('`term_id`=?')
+                                ->orderBy('ordering')
+                                ->setParameter(1, $this->id, \PDO::PARAM_INT)
+                                ->execute()
+                                ->fetchAll(\PDO::FETCH_CLASS, 'TermProperty', array(null, false));
+        }
+
+        return $this->_properties;
+    }
+
+    public static function retrieveRoot($scope = null) {
+        $root = new Terms();
+        $root = $root->findRoot($scope);
+        if (!$root) {
+            $root = new Terms();
+            $root->scope = $scope;
+            $root->taxonomy = $scope;
+            $root->name = 'Root of ' .$scope;
+            $root->makeRoot();
+            $root->save();
+        }
+
+        return $root;
     }
 }

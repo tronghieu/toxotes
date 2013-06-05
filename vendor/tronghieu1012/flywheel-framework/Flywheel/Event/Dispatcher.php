@@ -13,7 +13,7 @@ class Dispatcher implements IDispatcher
     public function dispatch($eventName, \Flywheel\Event\Event $event = null)
     {
         if (null === $event) {
-            $event = new \Flywheel\Event\Event();
+            $event = new Event();
         }
 
         $event->setDispatcher($this);
@@ -131,7 +131,7 @@ class Dispatcher implements IDispatcher
      * @param string          $eventName The name of the event to dispatch.
      * @param \Flywheel\Event\Event $event The event object to pass to the event handlers/listeners.
      */
-    protected function doDispatch($listeners, $eventName, \Flywheel\Event\Event $event)
+    protected function doDispatch($listeners, $eventName, Event $event)
     {
         foreach ($listeners as $listener) {
             call_user_func($listener, $event);

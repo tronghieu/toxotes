@@ -62,9 +62,9 @@ $this->document()->addJs('js/files/user.js');
             <div class="span3">
                     <?php $form->selectOption('status', ('' != $status? $status : null), array(
                                     'class' => 'styled'))
-                                ->addOption('Status', '')
-                                ->addOption('Active', 1)
-                                ->addOption('Inactive', 0)
+                                ->addOption(t('Status'), '')
+                                ->addOption(t('Active'), 1)
+                                ->addOption(t('Inactive'), 0)
                                 ->display(); ?>
             </div>
             <div class="span4">

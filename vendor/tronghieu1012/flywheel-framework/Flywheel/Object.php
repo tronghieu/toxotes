@@ -151,7 +151,7 @@ abstract class Object {
      * @api
      */
     public function dispatch($eventName, EventCommon $event = null) {
-        $this->getEventDispatcher()->dispatch($eventName, $event);
+        return $this->getEventDispatcher()->dispatch($eventName, $event);
     }
 
     public function __call($method, $params) {

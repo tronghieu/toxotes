@@ -10,20 +10,32 @@ use Flywheel\Event\Event;
  */
 
 class SimpleEvent {
+    public $propertyValueMap = array();
+
     public function addMenu(Event $event) {
         /** @var BackendSidebar $owner */
         $owner = $event->sender;
         $owner->items[] = array(
             'label' => t('Training/Events'),
-            'url' => array('post/default', 'type' => 'event'),
+            'url' => array('post/default', 'taxonomy' => 'event_manager'),
             'items' => array(
                 array('label' => t('Add Event'),
-                    'url' => array('post/create', 'type' => 'event')
+                    'url' => array('post/create', 'taxonomy' => 'event_manager')
                 ),
                 array('label' => t('Event Categories'),
-                    'url' => array('category/default', 'type' => 'event')
+                    'url' => array('category/default', 'taxonomy' => 'event_manager')
                 ),
             ),
+        );
+    }
+
+    public function afterCreateTerm(Event $event) {
+        $term = $event->params['term'];
+    }
+
+    public function customTermColumn($columns) {
+        $columns['event'] = array(
+            'label' => t('Event')
         );
     }
 }

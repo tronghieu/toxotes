@@ -1,0 +1,110 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+
+/** @var \Users[] $users */
+
+/** @var \Flywheel\Controller\WebController $controller */
+
+$addNewFrm = new Flywheel\Html\Form('add-new-term');
+$addNewFrm->setHtmlOption(array(
+    'class' => 'form-no-widget'
+));
+
+$this->document()->title .= $page_title;
+
+?>
+
+<?php $this->widget('app.widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t($page_title)
+    ),
+)) ?>
+
+<div class="page-header">
+    <div class="page-title">
+        <h3><?php echo t($page_title) ?></h3>
+    </div>
+
+    <div class="page-stats">&nbsp;
+    </div>
+</div>
+
+<!-- Actions Wrapper -->
+<div class="actions-wrapper">
+    <div class="actions" data-easytabs="true">
+    </div>
+</div>
+<!--/ actions wrapper -->
+
+
+<div class="row-fluid">
+    <!-- Add Term Form -->
+    <div class="span4">
+        <h5 class="widget-name">
+            <?php echo t('Add New') ?>
+        </h5>
+
+        <?php $addNewFrm->beginForm() ?>
+
+        <div class="control-group<?php if(isset($error['name'])) echo ' error' ?>">
+            <label class="control-label"><?php echo t('Name') ?> (*)</label>
+            <div class="controls">
+                <input type="text" class="span12" name="term[name]" value="<?php echo @$inputTerm->name ?>">
+                <?php if (isset($error['name'])) : ?>
+                <span class="help-block"><?php echo implode('. ', $error['name']) ?></span>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="control-group<?php if(isset($error['parent'])) echo ' error' ?>">
+            <label class="control-label"><?php echo t('Parent') ?> (*)</label>
+            <div class="controls">
+                <?php
+                $parentSltOpt = $addNewFrm->selectOption('term_parent', isset($inputTerm->parent_id)? $inputTerm->parent_id:0)
+                                    ->addOption(t('None'), 0);
+                foreach ($terms as $term) {
+                    $selectName = ($term->level > 1)? str_repeat('&nbsp;', $term->level) .'-': $term->name;
+                    $parentSltOpt->addOption($term->name, $term->id);
+                }
+                \Toxotes\Plugin::applyFilters('dropdown_term', $parentSltOpt);
+                $parentSltOpt->display();
+                ?>
+            </div>
+            <?php if (isset($error['parent'])) : ?>
+                <span class="help-block"><?php echo implode('. ', $error['parent']) ?></span>
+            <?php endif; ?>
+        </div>
+
+        <div class="control-group<?php if(isset($error['description'])) echo ' error' ?>">
+            <label class="control-label"><?php echo t('Description') ?></label>
+            <div class="controls">
+                <textarea rows="5" cols="5" name="term[description]" class="span12"><?php echo @$inputTerm->description ?></textarea>
+                <?php if (isset($error['description'])) : ?>
+                    <span class="help-block"><?php echo implode('. ', $error['description']) ?></span>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <?php \Toxotes\Plugin::doAction($taxonomy .'_add_form_fields') ?>
+
+        <div class="form-actions align-center">
+            <button type="submit" class="btn btn-info"><?php echo t('Add New') ?></button>
+        </div>
+
+        <input name="term[taxonomy]" value="<?php echo $taxonomy ?>" type="hidden">
+        <?php $addNewFrm->endForm() ?>
+
+    </div>
+    <!-- /add term form -->
+
+    <!-- Term list -->
+    <div class="span8">
+        <div class="table-overflow">
+            <?php //$table->display(); ?>
+        </div>
+    </div>
+    <!-- /term list -->
+</div>

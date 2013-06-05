@@ -691,7 +691,7 @@ abstract class ActiveRecord extends Object {
 
     /**
      * @param $validatorName
-     * @return BaseValidator
+     * @return null|BaseValidator
      * @throws \Flywheel\Db\Exception
      */
     public static function createValidator($validatorName) {

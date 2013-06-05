@@ -76,6 +76,36 @@ class NestedSet extends ModelBehavior {
         /** @var \Flywheel\Model\ActiveRecord $owner */
         $owner = $this->getOwner();
         $owner->getPrivateEventDispatcher()->addListener('onBeforeSave', array($this, 'checkBeforeSave'));
+        $owner->getPrivateEventDispatcher()->addListener('onBeforeDelete', array($this, 'beforeDelete'));
+        $owner->getPrivateEventDispatcher()->addListener('onAfterDelete', array($this, 'afterDelete'));
+    }
+
+    public function beforeDelete(Event $event) {
+        /** @var \Flywheel\Model\ActiveRecord $owner */
+        $owner = $event->sender;
+
+        if ($owner->isRoot()) {
+            throw new Exception('Deletion of a root node is disabled for nested sets.');
+        }
+
+        if ($owner->isInTree()) {
+            $owner->deleteDescendants();
+        }
+    }
+
+    public function afterDelete(Event $event) {
+        /** @var \Flywheel\Model\ActiveRecord $owner */
+        $owner = $event->sender;
+
+        if (!$owner->isDeleted()) {
+            return;
+        }
+
+        if ($owner->isInTree()) {
+            $scope = ($this->scope_attr)? $owner->{$this->scope_attr} : null;
+            // fill up the room that was used by the node
+            $owner->shiftRLValues(-2, $owner->{$this->right_attr} + 1, null, $scope);
+        }
     }
 
     public function checkBeforeSave(Event $event) {
