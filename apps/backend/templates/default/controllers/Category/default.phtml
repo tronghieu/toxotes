@@ -43,23 +43,21 @@ $this->document()->title .= $page_title;
 <div class="row-fluid">
     <!-- Add Term Form -->
     <div class="span4">
-        <h5 class="widget-name">
-            <?php echo t('Add New') ?>
-        </h5>
+        <h5><?php echo t('Add New') ?></h5>
 
         <?php $addNewFrm->beginForm() ?>
 
-        <div class="control-group<?php if(isset($error['name'])) echo ' error' ?>">
+        <div class="control-group<?php if(isset($error['terms.name'])) echo ' error' ?>">
             <label class="control-label"><?php echo t('Name') ?> (*)</label>
             <div class="controls">
                 <input type="text" class="span12" name="term[name]" value="<?php echo @$inputTerm->name ?>">
-                <?php if (isset($error['name'])) : ?>
-                <span class="help-block"><?php echo implode('. ', $error['name']) ?></span>
+                <?php if (isset($error['terms.name'])) : ?>
+                <span class="help-block"><?php echo implode('. ', $error['terms.name']) ?></span>
                 <?php endif; ?>
             </div>
         </div>
 
-        <div class="control-group<?php if(isset($error['parent'])) echo ' error' ?>">
+        <div class="control-group<?php if(isset($error['terms.parent'])) echo ' error' ?>">
             <label class="control-label"><?php echo t('Parent') ?> (*)</label>
             <div class="controls">
                 <?php
@@ -69,21 +67,28 @@ $this->document()->title .= $page_title;
                     $selectName = ($term->level > 1)? str_repeat('&nbsp;', $term->level) .'-': $term->name;
                     $parentSltOpt->addOption($term->name, $term->id);
                 }
-                \Toxotes\Plugin::applyFilters('dropdown_term', $parentSltOpt);
+                $parentSltOpt = \Toxotes\Plugin::applyFilters('dropdown_term', $parentSltOpt);
                 $parentSltOpt->display();
                 ?>
             </div>
-            <?php if (isset($error['parent'])) : ?>
-                <span class="help-block"><?php echo implode('. ', $error['parent']) ?></span>
+            <?php if (isset($error['terms.parent'])) : ?>
+                <span class="help-block"><?php echo implode('. ', $error['terms.parent']) ?></span>
             <?php endif; ?>
         </div>
 
-        <div class="control-group<?php if(isset($error['description'])) echo ' error' ?>">
+        <?php $this->widget('app.widget.SelectLanguage', array(
+                                    'selected' => '*',
+                                    'elementName' => 'term[language]',
+                                    'form' => $addNewFrm
+                                ));
+        ?>
+
+        <div class="control-group<?php if(isset($error['terms.description'])) echo ' error' ?>">
             <label class="control-label"><?php echo t('Description') ?></label>
             <div class="controls">
                 <textarea rows="5" cols="5" name="term[description]" class="span12"><?php echo @$inputTerm->description ?></textarea>
-                <?php if (isset($error['description'])) : ?>
-                    <span class="help-block"><?php echo implode('. ', $error['description']) ?></span>
+                <?php if (isset($error['terms.description'])) : ?>
+                    <span class="help-block"><?php echo implode('. ', $error['terms.description']) ?></span>
                 <?php endif; ?>
             </div>
         </div>

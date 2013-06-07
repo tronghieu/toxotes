@@ -31,9 +31,9 @@ abstract class ActiveRecord extends Object {
      * @var BaseValidator[]
      */
     protected static $_validator = array();
-    protected static $_init = false;
     protected static $_readMode = Manager::__SLAVE__;
     protected static $_writeMode = Manager::__MASTER__;
+    protected static $_init = false;
 
     /**
      * status of deleted om. If object had been delete from database
@@ -66,10 +66,9 @@ abstract class ActiveRecord extends Object {
         }
 
         $this->setNew($isNew);
-
-        if (!self::$_init) {
+        if (!static::$_init) {
             $this->validationRules();
-            self::$_init = true;
+            static::$_init = true;
         }
     }
 
@@ -106,11 +105,11 @@ abstract class ActiveRecord extends Object {
     }
 
     public static function getReadMode() {
-        return self::$_readMode;
+        return static::$_readMode;
     }
 
     public static function getWriteMode() {
-        return self::$_writeMode;
+        return static::$_writeMode;
     }
 
     public static function create() {
@@ -776,7 +775,7 @@ abstract class ActiveRecord extends Object {
         $fieldName = Inflection::camelCaseToHungary($name);
         if (isset(static::$_schema[$fieldName])) {
             return (static::getTableAlias()? static::getTableAlias() .'.' :'')
-                .self::getReadConnection()->getAdapter()->quoteIdentifier($fieldName);
+            .self::getReadConnection()->getAdapter()->quoteIdentifier($fieldName);
         }
 
         return false;

@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * TermProperty
- *  This class has been auto-generated at 04/06/2013 14:44:47
+ *  This class has been auto-generated at 06/06/2013 17:25:47
  * @version		$Id$
  * @package		Model
 
@@ -136,6 +136,7 @@ abstract class TermPropertyBase extends ActiveRecord {
      );
     protected static $_validate = array(
     );
+    protected static $_init = false;
     protected static $_cols = array('id','term_id','property','text_value','int_value','float_value','bolean_value','datetime_value','ordering');
 
     public function setTableDefinition() {

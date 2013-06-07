@@ -43,6 +43,105 @@
         ]
     },
     {
+        "name": "symfony/filesystem",
+        "version": "v2.3.0",
+        "version_normalized": "2.3.0.0",
+        "target-dir": "Symfony/Component/Filesystem",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Filesystem.git",
+            "reference": "v2.3.0-RC1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Filesystem/zipball/v2.3.0-RC1",
+            "reference": "v2.3.0-RC1",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2013-05-06 20:03:44",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Filesystem\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Filesystem Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "symfony/config",
+        "version": "v2.3.0",
+        "version_normalized": "2.3.0.0",
+        "target-dir": "Symfony/Component/Config",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Config.git",
+            "reference": "v2.3.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Config/zipball/v2.3.0",
+            "reference": "v2.3.0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/filesystem": ">=2.3,<3.0"
+        },
+        "time": "2013-05-18 21:11:24",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Config\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Config Component",
+        "homepage": "http://symfony.com"
+    },
+    {
         "name": "symfony/translation",
         "version": "v2.3.0",
         "version_normalized": "2.3.0.0",
@@ -100,67 +199,18 @@
         "homepage": "http://symfony.com"
     },
     {
-        "name": "symfony/config",
-        "version": "v2.2.2",
-        "version_normalized": "2.2.2.0",
-        "target-dir": "Symfony/Component/Config",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/Config.git",
-            "reference": "v2.2.2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Config/zipball/v2.2.2",
-            "reference": "v2.2.2",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2013-05-10 18:08:31",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.2-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\Config\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Config Component",
-        "homepage": "http://symfony.com"
-    },
-    {
         "name": "tronghieu1012/flywheel-framework",
-        "version": "dev-1.0-alpha",
-        "version_normalized": "dev-1.0-alpha",
+        "version": "dev-1.1-alpha",
+        "version_normalized": "dev-1.1-alpha",
         "source": {
             "type": "git",
             "url": "https://github.com/tronghieu/flywheel-framework.git",
-            "reference": "ee519f6a4e0eed8ed703f9d0700ca546219fe61f"
+            "reference": "4a2da961fe34dfd2ea25222e6d64c3ff54cc7c03"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/ee519f6a4e0eed8ed703f9d0700ca546219fe61f",
-            "reference": "ee519f6a4e0eed8ed703f9d0700ca546219fe61f",
+            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/4a2da961fe34dfd2ea25222e6d64c3ff54cc7c03",
+            "reference": "4a2da961fe34dfd2ea25222e6d64c3ff54cc7c03",
             "shasum": ""
         },
         "require": {
@@ -169,7 +219,7 @@
             "symfony/translation": "2.*",
             "zendframework/zend-permissions-acl": "2.*"
         },
-        "time": "2013-06-04 06:53:42",
+        "time": "2013-06-07 03:44:01",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

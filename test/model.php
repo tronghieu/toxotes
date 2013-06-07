@@ -2,6 +2,21 @@
 require_once __DIR__ .'./../bootstrap.php';
 \Flywheel\Loader::import('global.model.*');
 try {
+    var_dump(Terms::$_init);
+    var_dump(Users::$_init);
+    $user = new Users();
+    var_dump(Users::$_init);
+
+
+    var_dump(Terms::$_init);
+    $term = new Terms();
+    var_dump(Terms::$_init);
+
+    var_dump(Extension::$_init);
+    $extension = new Extension();
+    var_dump(Extension::$_init);
+
+    exit;
     $user = new Users();
     $user->setName('TSB Ông Cường');
     $user->save();

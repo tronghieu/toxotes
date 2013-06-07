@@ -65,6 +65,7 @@ class Terms extends \TermsBase {
     protected $_properties;
 
     public function init() {
+        parent::init();
         $this->attachBehavior('NestedSet', new NestedSet(), array(
             'left_attr' => 'lft',
             'right_attr' => 'rgt',
@@ -74,15 +75,16 @@ class Terms extends \TermsBase {
     }
 
     public function validationRules() {
-        self::$_validate['name'] = array(
+        self::$_validate['name'][] = array(
             'name' => 'Require',
-            'message' => "name can not be blank!"
+            'message' => 'name can not be blank!',
         );
 
-        self::$_validate['taxonomy'] = array(
+        self::$_validate['taxonomy'][] = array(
             'name' => 'Require',
-            'message' => "taxonomy can not be blank!"
+            'message' => 'taxonomy can not be blank!',
         );
+
     }
 
     /**

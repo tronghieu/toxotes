@@ -55,6 +55,7 @@ class CategoryController extends AdminBaseController {
 
             $term = new Terms();
             if ($this->_save($term, $error)) {
+                $inputTerm = array();
             }
         }
 
@@ -115,7 +116,7 @@ class CategoryController extends AdminBaseController {
         $isNew = $term->isNew();
         $term->insertAsLastChildOf($parent);
 
-        if ($term->isValid()) {
+        if (!$term->isValid()) {
             $failures = $term->getValidationFailures();
             foreach ($failures as $failure) {
                 if (!isset($error[$failure->getColumn()])) {
@@ -123,8 +124,7 @@ class CategoryController extends AdminBaseController {
                 }
                 $error[$failure->getColumn()][] = $failure->getMessage();
             }
-
-            $error = Plugin::applyFilters('after_' .$term->taxonomy .'_save_error');
+            $error = Plugin::applyFilters('after_' .$term->taxonomy .'_save_error', $error);
         }
 
         return (sizeof($error) > 0);

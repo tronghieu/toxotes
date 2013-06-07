@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemProperty
- *  This class has been auto-generated at 04/06/2013 14:44:46
+ *  This class has been auto-generated at 06/06/2013 17:25:47
  * @version		$Id$
  * @package		Model
 
@@ -135,6 +135,7 @@ abstract class ItemPropertyBase extends ActiveRecord {
      );
     protected static $_validate = array(
     );
+    protected static $_init = false;
     protected static $_cols = array('id','item_id','property','text_value','int_value','float_value','boolean_value','datetime_value','ordering');
 
     public function setTableDefinition() {

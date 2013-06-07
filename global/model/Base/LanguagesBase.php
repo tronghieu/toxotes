@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Languages
- *  This class has been auto-generated at 04/06/2013 14:44:46
+ *  This class has been auto-generated at 06/06/2013 17:25:47
  * @version		$Id$
  * @package		Model
 
@@ -18,7 +18,7 @@ use Flywheel\Model\ActiveRecord;
  * @property string $metadesc metadesc type : text max_length : 
  * @property string $sitename sitename type : varchar(1024) max_length : 1024
  * @property integer $published published type : int(11)
- * @property integer $access access type : int(10) unsigned
+ * @property integer $default default type : int(10) unsigned
  * @property integer $ordering ordering type : int(11)
 
  * @method void setLangId(integer $lang_id) set lang_id value
@@ -87,11 +87,11 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Languages findOneByPublished(integer $published) find object in database by published
  * @method static \Languages retrieveByPublished(integer $published) retrieve object from poll by published, get it from db if not exist in poll
 
- * @method void setAccess(integer $access) set access value
- * @method integer getAccess() get access value
- * @method static \Languages[] findByAccess(integer $access) find objects in database by access
- * @method static \Languages findOneByAccess(integer $access) find object in database by access
- * @method static \Languages retrieveByAccess(integer $access) retrieve object from poll by access, get it from db if not exist in poll
+ * @method void setDefault(integer $default) set default value
+ * @method integer getDefault() get default value
+ * @method static \Languages[] findByDefault(integer $default) find objects in database by default
+ * @method static \Languages findOneByDefault(integer $default) find object in database by default
+ * @method static \Languages retrieveByDefault(integer $default) retrieve object from poll by default, get it from db if not exist in poll
 
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
@@ -166,7 +166,7 @@ abstract class LanguagesBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
-        'access' => array('name' => 'access',
+        'default' => array('name' => 'default',
                 'default' => 0,
                 'not_null' => true,
                 'type' => 'integer',
@@ -198,7 +198,8 @@ abstract class LanguagesBase extends ActiveRecord {
             ),
         ),
     );
-    protected static $_cols = array('lang_id','lang_code','title','title_native','sef','image','description','metakey','metadesc','sitename','published','access','ordering');
+    protected static $_init = false;
+    protected static $_cols = array('lang_id','lang_code','title','title_native','sef','image','description','metakey','metadesc','sitename','published','default','ordering');
 
     public function setTableDefinition() {
     }

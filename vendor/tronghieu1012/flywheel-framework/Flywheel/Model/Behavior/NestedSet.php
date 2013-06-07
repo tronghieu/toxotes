@@ -637,16 +637,22 @@ class NestedSet extends ModelBehavior {
         $scope = $node->getScopeValue();
         $this->setScopeValue($scope);
 
+        /** @var \Flywheel\Model\ActiveRecord $owner */
+        $owner = $this->getOwner();
+
+        if (!$owner->validate()) {//check validate before save
+            return $owner;
+        }
         // Keep the tree modification query for the save() transaction
         $this->nestedSetQueries []= array(
             'callable'  => array($this, 'makeRoomForLeaf'),
             'arguments' => array($left, $scope)
         );
 
-        $this->getOwner()->save();
+        $owner->save();
         $node->reload();
 
-        return $this->getOwner();
+        return $this->_owner;
 
     }
 
@@ -664,15 +670,21 @@ class NestedSet extends ModelBehavior {
         $scope = $node->getScopeValue();
         $this->setScopeValue($scope);
 
+        /** @var \Flywheel\Model\ActiveRecord $owner */
+        $owner = $this->getOwner();
+        if (!$owner->validate()) {//check validate before save
+            return $owner;
+        }
+        // Keep the tree modification query for the save() transaction
         $this->nestedSetQueries []= array(
             'callable'  => array($this, 'makeRoomForLeaf'),
             'arguments' => array($left, $scope)
         );
 
-        $this->getOwner()->save();
+        $owner->save();
         $node->reload();
 
-        return $this->getOwner();
+        return $this->_owner;
     }
 
     public function insertAsPrevSiblingOf($node) {

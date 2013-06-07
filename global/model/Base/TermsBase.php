@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Terms
- *  This class has been auto-generated at 04/06/2013 14:44:47
+ *  This class has been auto-generated at 06/06/2013 17:25:47
  * @version		$Id$
  * @package		Model
 
@@ -12,6 +12,7 @@ use Flywheel\Model\ActiveRecord;
  * @property string $slug slug type : varchar(255) max_length : 255
  * @property string $taxonomy taxonomy type : varchar(100) max_length : 100
  * @property string $description description type : text max_length : 
+ * @property string $language language type : varchar(20) max_length : 20
  * @property integer $count count type : int(11)
  * @property string $scope scope type : varchar(100) max_length : 100
  * @property integer $lft lft type : int(11)
@@ -47,6 +48,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Terms[] findByDescription(string $description) find objects in database by description
  * @method static \Terms findOneByDescription(string $description) find object in database by description
  * @method static \Terms retrieveByDescription(string $description) retrieve object from poll by description, get it from db if not exist in poll
+
+ * @method void setLanguage(string $language) set language value
+ * @method string getLanguage() get language value
+ * @method static \Terms[] findByLanguage(string $language) find objects in database by language
+ * @method static \Terms findOneByLanguage(string $language) find object in database by language
+ * @method static \Terms retrieveByLanguage(string $language) retrieve object from poll by language, get it from db if not exist in poll
 
  * @method void setCount(integer $count) set count value
  * @method integer getCount() get count value
@@ -114,6 +121,12 @@ abstract class TermsBase extends ActiveRecord {
                 'not_null' => false,
                 'type' => 'string',
                 'db_type' => 'text'),
+        'language' => array('name' => 'language',
+                'default' => '*',
+                'not_null' => true,
+                'type' => 'string',
+                'db_type' => 'varchar(20)',
+                'length' => 20),
         'count' => array('name' => 'count',
                 'not_null' => true,
                 'type' => 'integer',
@@ -146,7 +159,8 @@ abstract class TermsBase extends ActiveRecord {
      );
     protected static $_validate = array(
     );
-    protected static $_cols = array('id','name','slug','taxonomy','description','count','scope','lft','rgt','lvl');
+    protected static $_init = false;
+    protected static $_cols = array('id','name','slug','taxonomy','description','language','count','scope','lft','rgt','lvl');
 
     public function setTableDefinition() {
     }

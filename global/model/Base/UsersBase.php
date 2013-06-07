@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 04/06/2013 14:44:47
+ *  This class has been auto-generated at 06/06/2013 17:25:47
  * @version		$Id$
  * @package		Model
 
@@ -223,6 +223,7 @@ abstract class UsersBase extends ActiveRecord {
             ),
         ),
     );
+    protected static $_init = false;
     protected static $_cols = array('id','username','password','email','name','phone_number','status','banned','active_email','birthday','secret','last_visit_time','register_time','modified_time','created_time');
 
     public function setTableDefinition() {

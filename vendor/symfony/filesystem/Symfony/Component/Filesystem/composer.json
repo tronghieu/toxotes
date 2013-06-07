@@ -1,7 +1,7 @@
 {
-    "name": "symfony/config",
+    "name": "symfony/filesystem",
     "type": "library",
-    "description": "Symfony Config Component",
+    "description": "Symfony Filesystem Component",
     "keywords": [],
     "homepage": "http://symfony.com",
     "license": "MIT",
@@ -16,13 +16,12 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "symfony/filesystem": "~2.3"
+        "php": ">=5.3.3"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\Config\\": "" }
+        "psr-0": { "Symfony\\Component\\Filesystem\\": "" }
     },
-    "target-dir": "Symfony/Component/Config",
+    "target-dir": "Symfony/Component/Filesystem",
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
