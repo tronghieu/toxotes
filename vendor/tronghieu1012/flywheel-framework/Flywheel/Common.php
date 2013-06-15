@@ -41,3 +41,15 @@ function t($id, array $parameters = array(), $domain = 'messages', $locale = nul
 
     return $id;
 }
+
+/**
+ * display translation message @see t()
+ * @param $id
+ * @param array $parameters
+ * @param string $domain
+ * @param null $locale
+ */
+
+function td($id, array $parameters = array(), $domain = 'messages', $locale = null) {
+    echo t($id, $parameters, $domain, $locale);
+}

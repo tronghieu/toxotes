@@ -25,7 +25,7 @@ class AuthController extends AdminBaseController {
             $password = $this->request()->post('password');
 
             $auth = BackendAuth::getInstance();
-            if (true == ($result = $auth->authenticate($credential, $password))) {
+            if (true === ($result = $auth->authenticate($credential, $password))) {
                 //authenticated, redirect to pre-page
                 $back = $this->request()->get('r');
                 $back = (null != $back)? urldecode($back) : '/';

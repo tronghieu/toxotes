@@ -1,0 +1,28 @@
+<?php
+$form = new \Flywheel\Html\Form('login-frm');
+?>
+<div class="login-body">
+    <h2><?php echo t('SIGN IN'); ?></h2>
+    <?php $form->beginForm();?>
+    <?php if (isset($error) && !empty($error)) :?>
+        <div class="alert alert-error margin">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <?php echo implode('<br>',$error) ?>
+        </div>
+    <?php endif; ?>
+        <div class="control-group email">
+            <input value="<?php echo $credential; ?>" type="text" name='credential' placeholder="<?php td('Username or Email address'); ?>" class='input-block-level'>
+        </div>
+        <div class="control-group pw">
+            <input type="password" name="password" placeholder="<?php td('Password'); ?>" class='input-block-level'>
+        </div>
+        <div class="submit">
+            <input type="submit" value="<?php td('Sign me in') ?>" class='btn btn-primary'>
+        </div>
+
+    <?php $form->endForm(); ?>
+
+    <div class="forget">
+        <a href="#"><span>&copy; 2013 by Flywheel Team</span></a>
+    </div>
+</div>

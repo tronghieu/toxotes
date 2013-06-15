@@ -119,4 +119,23 @@ class Terms extends \TermsBase {
 
         return $root;
     }
+
+    /**
+     * check term has items @see Terms::countItems();
+     * @return bool
+     */
+    public function hasItems() {
+        return (boolean) $this->countItems();
+    }
+
+    public function countItems() {
+        return Items::read()->where('`term_id` = ?')
+                        ->count('id')
+                        ->setParameter(1, $this->getId(), \PDO::PARAM_INT)
+                        ->execute();
+    }
+
+    protected function _beforeSave() {
+        $this->setSlug($this->getName());
+    }
 }

@@ -2,7 +2,7 @@
 class ListTable {
     public $columns = array();
     public $items = array();
-    public $tableHtmlOptions;
+    public $tableHtmlOptions = array();
     public $taxonomy;
 
     public function __construct($taxonomy) {

@@ -1,0 +1,123 @@
+
+<div id="navigation">
+    <div class="container-fluid">
+        <a href="<?php echo $this->document()->getBaseUrl(); ?>" id="brand">ADMIN</a>
+        <a href="#" class="toggle-nav" rel="tooltip" data-placement="bottom" title="" data-original-title="Toggle navigation"><i class="icon-reorder"></i></a>
+
+            <!-- MAIN NAV -->
+        <ul class="main-nav">
+            <?php for ($i = 0, $size = sizeof($items); $i < $size; ++$i) : ?>
+                <li<?php if ($items[$i]['active']):?> class="active"<?php endif; ?>>
+                    <?php
+                        $hasChild = (isset($items[$i]['items']) && sizeof($items[$i]['items']) > 0);
+                    ?>
+                    <a href="<?php echo $items[$i]['url'] ?>"<?php if ($items[$i]['active']):?> id="current"<?php endif; ?><?php if($hasChild):?> data-toggle="dropdown" class="dropdown-toggle"<?php endif?>>
+                        <span><?php echo $items[$i]['label'] ?></span>
+                        <?php if ($hasChild): ?>
+                        <span class="caret"></span>
+                        <?php endif; ?>
+                    </a>
+
+                <?php if ($hasChild): ?>
+                    <ul class="dropdown-menu">
+                        <?php for($j = 0, $sizeOfSub = sizeof($items[$i]['items']); $j < $sizeOfSub; ++$j) :?>
+                            <li>
+                                <a href="<?php echo $items[$i]['items'][$j]['url'] ?>"<?php if ($items[$i]['items'][$j]['active']):?> class="current"<?php endif; ?>>
+                                    <?php echo $items[$i]['items'][$j]['label'] ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                <?php endif; ?>
+                </li>
+            <?php endfor; ?>
+        </ul>
+        <!--/ main nav -->
+
+        <div class="user">
+            <ul class="icon-nav">
+                <li class="dropdown sett">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></a>
+                    <ul class="dropdown-menu pull-right theme-settings">
+                        <li>
+                            <span>Layout-width</span>
+                            <div class="version-toggle">
+                                <a href="#" class="set-fixed">Fixed</a>
+                                <a href="#" class="active set-fluid">Fluid</a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Topbar</span>
+                            <div class="topbar-toggle">
+                                <a href="#" class="set-topbar-fixed">Fixed</a>
+                                <a href="#" class="active set-topbar-default">Default</a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Sidebar</span>
+                            <div class="sidebar-toggle">
+                                <a href="#" class="set-sidebar-fixed">Fixed</a>
+                                <a href="#" class="active set-sidebar-default">Default</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown colo">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-tint"></i></a>
+                    <ul class="dropdown-menu pull-right theme-colors">
+                        <li class="subtitle">
+                            Predefined colors
+                        </li>
+                        <li>
+                            <span class="red"></span>
+                            <span class="orange"></span>
+                            <span class="green"></span>
+                            <span class="brown"></span>
+                            <span class="blue"></span>
+                            <span class="lime"></span>
+                            <span class="teal"></span>
+                            <span class="purple"></span>
+                            <span class="pink"></span>
+                            <span class="magenta"></span>
+                            <span class="grey"></span>
+                            <span class="darkblue"></span>
+                            <span class="lightred"></span>
+                            <span class="lightgrey"></span>
+                            <span class="satblue"></span>
+                            <span class="satgreen"></span>
+                        </li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <a href="more-locked.html" class="lock-screen" rel="tooltip" title="" data-placement="bottom" data-original-title="Lock screen"><i class="icon-lock"></i></a>
+                </li>-->
+            </ul>
+
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $user->getUsername(); ?> <img src="img/demo/user-avatar.jpg" alt=""></a>
+                <ul class="dropdown-menu pull-right">
+                    <li>
+                        <a href="<?php echo $this->createUrl('user/edit', array('id' => $user->getId())) ?>">
+                            <?php td('Edit profile'); ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->createUrl('auth/logout'); ?>"><?php td('Sign out'); ?></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE MAIN NAV -->
+    <ul class="mobile-nav">
+        <?php for ($i = 0, $size = sizeof($items); $i < $size; ++$i) : ?>
+            <li<?php if ($items[$i]['active']):?> class="active"<?php endif; ?>>
+                <a href="<?php echo $items[$i]['url'] ?>"<?php if ($items[$i]['active']):?> id="current"<?php endif; ?>>
+                    <span><?php echo $items[$i]['label'] ?></span>
+                </a>
+            </li>
+        <?php endfor; ?>
+    </ul>
+    <!--/ mobile main nav -->
+</div>

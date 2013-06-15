@@ -5,7 +5,10 @@ use Flywheel\Exception;
 use Flywheel\Object;
 
 class Plugin extends Object {
-    static $filter = array();
+    public static $filter = array();
+    public static $taxonomy = array();
+
+    public static function registerTaxonomy() {}
 
     public static function listen($eventName, $listener) {
         self::getEventDispatcher()->addListener($eventName, $listener);

@@ -611,7 +611,7 @@ abstract class ActiveRecord extends Object {
         }
 
         $pkField = static::getPrimaryKeyField();
-        $affectedRows = self::getWriteConnection()->delete(static::getTableName(), array($pkField, $this->getPkValue()));
+        $affectedRows = self::getWriteConnection()->delete(static::getTableName(), array($pkField => $this->getPkValue()));
         if ($affectedRows)
             $this->_deleted = true;
         return $affectedRows;

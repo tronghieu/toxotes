@@ -8,7 +8,8 @@
  */
 
 class SelectLanguage extends AdminBaseWidget {
-    protected function _init() {
+
+    public function begin() {
         $this->languages = Languages::findByPublished(1);
     }
 

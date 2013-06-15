@@ -12,5 +12,5 @@ return array(
 	),
 	'factory' => array(),
 	'timezone' => 'Asia/Ho_Chi_Minh',
-	'template' => 'default'
+	'template' => 'flat_responsive'
 );

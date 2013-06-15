@@ -1,0 +1,162 @@
+<?php
+use Flywheel\Html\DataGrid\Row;
+use Flywheel\Html\DataGrid\Table;
+
+/** @var \Flywheel\View\Render $this */
+
+/** @var \Users[] $users */
+
+/** @var \Flywheel\Controller\WebController $controller */
+
+$currentUser = BackendAuth::getInstance()->getUser();
+
+$this->document()->addJs('js/user.js');
+
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo t('Users Management') ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="teal">
+                <a href="<?php echo $this->createUrl('roles/default') ?>"><i class="icon-group"></i></a>
+            </li>
+            <li class="red">
+                <a href="<?php echo $this->createUrl('roles/permission') ?>"><i class="icon-cogs"></i></a>
+            </li>
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('user/create') ?>"><i class="icon-plus"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Users Management')
+    ),
+)) ?>
+
+<!-- Search Form -->
+<div class="row-fluid">
+    <?php
+    $form = $this->createFrom('search-user', $this->createUrl('user'), 'GET');
+    $form->setHtmlOption(array(
+        'class' => 'form-horizontal',
+    ));
+    $form->beginForm();
+
+    ?>
+    <div class="box">
+        <div class="box-title">
+            <h3>
+                <i class="icon-table"></i>
+                <?php td('Users List'); ?>
+            </h3>
+        </div>
+
+        <div class="box-content">
+            <div class="span5">
+                <input name="keyword" class="span12" type="text" value="<?php echo $keyword ?>" placeholder="<?php echo t('Find by username or email'); ?>">
+            </div>
+            <div class="span3">
+                    <?php $form->selectOption('status', ('' != $status? $status : null), array(
+                                    'class' => 'styled'))
+                                ->addOption(t('Status'), '')
+                                ->addOption(t('Active'), 1)
+                                ->addOption(t('Inactive'), 0)
+                                ->display(); ?>
+            </div>
+            <div class="span4">
+                    <?php $form->selectOption('banned', ('' != $banned? $banned : null), array(
+                        'class' => 'styled'))
+                        ->addOption('Banned', '')
+                        ->addOption('Yes', 1)
+                        ->addOption('No', 0)
+                        ->display(); ?>
+                    <button class="btn pull-right">
+                        <i class="icon-search"></i>&nbsp;
+                        <?php echo t('Find') ?>
+                    </button>
+            </div>
+        </div>
+    </div>
+    <?php $form->endForm(false); ?>
+</div>
+<!--/search form -->
+
+
+<!-- Begin user list -->
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box">
+            <div class="box-content nopadding">
+                <?php if (sizeof($users) == 0) : ?>
+                    <div class="alert alert-info">
+                        <strong><?php echo t('No results found!') ?></strong>
+                    </div>
+                <?php else :?>
+                    <table class="table table-nomargin" id="data-table">
+                        <thead>
+                        <tr>
+                            <th><label>
+                                    <input type="checkbox" id="check-all"> &darr;
+                                </label></th>
+                            <th width="20%"><?php echo t('Username'); ?></th>
+                            <th><?php echo t('Email'); ?></th>
+                            <th><?php echo t('Full name'); ?></th>
+                            <th><?php echo t('Active'); ?></th>
+                            <th><?php echo t('Banned'); ?></th>
+                            <th><?php echo t('Active email'); ?></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php for($i = 0, $size = sizeof($users); $i < $size; ++$i) : ?>
+                            <tr id="user-row-<?php echo $users[$i]->getId() ?>">
+                                <td><label>
+                                        <input type="checkbox" class="check-list" value="<?php echo $users[$i]->getId() ?>">
+                                    </label>
+                                </td>
+
+                                <td><strong><?php echo $users[$i]->getUsername() ?></strong></td>
+
+                                <td><a href="mailto:<?php echo $users[$i]->getEmail() ?>"><?php echo $users[$i]->getEmail() ?></td>
+
+                                <td><?php echo $users[$i]->getName() ?></td>
+
+                                <td><?php echo ($users[$i]->getStatus()? t('Yes') : t('No')) ?></td>
+
+                                <td><?php echo ($users[$i]->getBanned()? t('Yes') : t('No')) ?></td>
+
+                                <td><?php echo ($users[$i]->getActiveEmail()? t('Yes') : t('No')) ?></td>
+
+                                <td>
+                                    <!-- edit link -->
+                                    <a class="tool-link tool-edit" href="<?php echo $this->createUrl('user/edit/', array('id' => $users[$i]->getId()))?>">
+                                        <?php echo t('Edit') ?>
+                                    </a>
+
+                                    <?php if ($currentUser->getId() != $users[$i]->getId()) : ?>
+                                        <!-- remove link -->
+                                        |
+                                        <a class="tool-link tool-remove" data-id="<?php echo $users[$i]->getId() ?>" href="<?php echo $this->createUrl('user/delete', array('id' => $users[$i]->getId())) ?>">
+                                            <?php echo t('Remove') ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endfor; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /end user list -->
