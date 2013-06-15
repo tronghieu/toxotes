@@ -3,12 +3,13 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Items
- *  This class has been auto-generated at 06/06/2013 17:25:47
+ *  This class has been auto-generated at 15/06/2013 16:13:17
  * @version		$Id$
  * @package		Model
 
  * @property integer $id id primary auto_increment type : int(11) unsigned
  * @property string $title title type : varchar(255) max_length : 255
+ * @property integer $term_id term_id type : int(11)
  * @property string $slug slug type : varchar(255) max_length : 255
  * @property string $excerpt excerpt type : text max_length : 
  * @property string $content content type : text max_length : 
@@ -32,6 +33,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Items[] findByTitle(string $title) find objects in database by title
  * @method static \Items findOneByTitle(string $title) find object in database by title
  * @method static \Items retrieveByTitle(string $title) retrieve object from poll by title, get it from db if not exist in poll
+
+ * @method void setTermId(integer $term_id) set term_id value
+ * @method integer getTermId() get term_id value
+ * @method static \Items[] findByTermId(integer $term_id) find objects in database by term_id
+ * @method static \Items findOneByTermId(integer $term_id) find object in database by term_id
+ * @method static \Items retrieveByTermId(integer $term_id) retrieve object from poll by term_id, get it from db if not exist in poll
 
  * @method void setSlug(string $slug) set slug value
  * @method string getSlug() get slug value
@@ -121,6 +128,12 @@ abstract class ItemsBase extends ActiveRecord {
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
+        'term_id' => array('name' => 'term_id',
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'int(11)',
+                'length' => 4),
         'slug' => array('name' => 'slug',
                 'not_null' => false,
                 'type' => 'string',
@@ -182,7 +195,7 @@ abstract class ItemsBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','title','slug','excerpt','content','status','author','taxonomy','language','modified_time','created_time','ordering','hits');
+    protected static $_cols = array('id','title','term_id','slug','excerpt','content','status','author','taxonomy','language','modified_time','created_time','ordering','hits');
 
     public function setTableDefinition() {
     }

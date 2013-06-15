@@ -1,6 +1,7 @@
 <?php
 
 use Flywheel\Model\Behavior\NestedSet;
+use Flywheel\Util\Slugify;
 
 require_once dirname(__FILE__) .'/Base/TermsBase.php';
 
@@ -136,6 +137,7 @@ class Terms extends \TermsBase {
     }
 
     protected function _beforeSave() {
-        $this->setSlug($this->getName());
+        $this->setSlug(Slugify::filter($this->getName()));
+        parent::_beforeSave();
     }
 }
