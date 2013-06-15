@@ -952,7 +952,7 @@ class NestedSet extends ModelBehavior {
         $updateQuery = $owner->write()
                         ->update($owner->getTableName())
                         ->set($owner->quote($this->level_attr), $owner->quote($this->level_attr) .' + ?')
-                        ->setParameter(1, $delta)
+                        ->setParameter(1, $delta, \PDO::PARAM_INT)
                         ->where($owner->quote($this->left_attr) .'>=' .$first)
                         ->andWhere($owner->quote($this->right_attr) .'<=' .$last);
 
