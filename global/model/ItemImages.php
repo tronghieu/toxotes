@@ -7,6 +7,17 @@
 
  */
 
+use Flywheel\Db\Type\DateTime;
+
 require_once dirname(__FILE__) .'/Base/ItemImagesBase.php';
 class ItemImages extends \ItemImagesBase {
+    protected function _beforeSave() {
+        if ($this->isNew()) {
+            $this->setCreatedTime(new DateTime());
+            $this->setModifiedTime(new DateTime());
+        } else if ($this->hasColumnsModified()) {
+            $this->setModifiedTime(new DateTime());
+        }
+        parent::_beforeSave();
+    }
 }

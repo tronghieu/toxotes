@@ -50,4 +50,16 @@
     margin-top: 10px;
 }
 
+a.tool-link {font-size: 12px;}
+
 a.tool-remove {color:#e51400}
+
+<!-- -->
+tr.term-row > td.column-name div {
+    display: block;
+}
+
+tr.term-row .sub-tool {visibility: hidden}
+
+tr.term-row:hover .sub-tool {visibility: visible}
+<!-- -->

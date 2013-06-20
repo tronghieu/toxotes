@@ -1,4 +1,5 @@
 <?php
+use Flywheel\Factory;
 use Flywheel\Util\Inflection;
 use Toxotes\Plugin;
 
@@ -35,8 +36,6 @@ class TermListTable extends ListTable {
             'init_' .$this->taxonomy.'_term_columns',
             $this->columns
         );
-
-        $this->columns[] = 'tool';
     }
 
     public function display() {
@@ -72,8 +71,6 @@ class TermListTable extends ListTable {
 
             if ('cb' == $name) {
                 $s .= '<label><input class="check-all" type="checkbox"> &darr;</label>';
-            } else if ('tool' == $name) {
-                $s .= '&nbsp;';
             } else {
                 $s .= $column['label'];
             }
@@ -96,7 +93,7 @@ class TermListTable extends ListTable {
 
     protected function _rows($item) {
         $s = '';
-        $s .='<tr>';
+        $s .='<tr class="term-row">';
 
         foreach ($this->columns as $name => $column) {
             if (is_int($name)) {
@@ -111,10 +108,6 @@ class TermListTable extends ListTable {
                 $s .= '<label>
                             <input type="checkbox" name="bulk_actions[]" value="' .$item->id .'" class="check-list">
                         </label>';
-            } else if ('tool' == $name) {
-                $removeLink = \Flywheel\Factory::getRouter()->createUrl('category/delete', array('id' => $item->id));
-                $editLink = \Flywheel\Factory::getRouter()->createUrl('category/edit', array('id' => $item->id));
-                $s .= '<a href="' .$editLink .'">' .t('Edit') .'</a> | <a href="' .$removeLink .'" class="tool-link tool-remove" rel="term-' .$item->getId() .'">' .t('Remove') .'</a>';
             } else {
                 $method = '_column' . Inflection::camelize($name);
                 if (method_exists($this, $method)) {
@@ -135,8 +128,22 @@ class TermListTable extends ListTable {
 
     protected function _columnName($item) {
         $name = $item->getName();
-        $s = '<strong><span style="font-family: sans-serif;">' .(($item->getLevel() > 1)? str_repeat('&#8212;', $item->getLevel()-1): '').'</span> '
-            .$name .'</strong>';
+        $s = '<div class="row-title"><strong><span style="font-family: sans-serif;">' .(($item->getLevel() > 1)? str_repeat('&#8212;', $item->getLevel()-1): '').'</span> '
+            .$name .'</strong></div>';
+
+
+        $s .= '<div class="sub-tool">';
+        if (\Toxotes\Plugin::getTaxonomyOption('taxonomy', 'category', 'enable_custom_fields', true)) {
+            $s .= '<a href="' .Factory::getRouter()->createUrl('category/custom_fields', array('taxonomy' => $item->taxonomy, 'id' => $item->id)) .'" class="tool-link tool-custom-field">'
+                .t('Custom Fields')
+                .'</a> | ';
+        }
+
+        $removeLink = Factory::getRouter()->createUrl('category/delete', array('id' => $item->id));
+        $editLink = Factory::getRouter()->createUrl('category/edit', array('id' => $item->id));
+        $s .= '<a href="' .$editLink .'" class="tool-link tool-edit">' .t('Edit') .'</a> | <a href="' .$removeLink .'" class="tool-link tool-remove" rel="term-' .$item->getId() .'">' .t('Remove') .'</a>';
+        $s .= '</div>';
+
         return $s;
     }
 
@@ -172,8 +179,6 @@ class TermListTable extends ListTable {
 
             if ('cb' == $name) {
                 $s .= '<label><input class="check-all" type="checkbox"> &uarr;</label>';
-            }else if ('tool' == $name) {
-                $s .= '&nbsp;';
             } else {
                 $s .= $column['label'];
             }

@@ -7,6 +7,15 @@
 
  */
 
+use Flywheel\Db\Type\DateTime;
+
 require_once dirname(__FILE__) .'/Base/ItemAttachmentsBase.php';
 class ItemAttachments extends \ItemAttachmentsBase {
+    protected function _beforeSave() {
+        if ($this->isNew()) {
+            $this->setUploadedTime(new DateTime());
+        }
+
+        parent::_beforeSave();
+    }
 }

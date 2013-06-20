@@ -2,6 +2,7 @@
 abstract class AdminBaseController extends \Flywheel\Controller\WebController {
     public function beforeExecute() {
         parent::beforeExecute();
+        $this->_registerDefaultTaxonomies();
         $this->loadPlugin();
         if($this->getName() != 'Auth' && !BackendAuth::getInstance()->isAuthenticated()) {
             $this->redirect(
@@ -30,5 +31,12 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
      */
     public function getSessionUser() {
         return BackendAuth::getInstance()->getUser();
+    }
+
+    protected function _registerDefaultTaxonomies() {
+        \Toxotes\Plugin::registerTaxonomy('category', 'category', array(
+            'label' => t('Category'),
+            'enable_custom_fields' => true,
+        ));
     }
 }

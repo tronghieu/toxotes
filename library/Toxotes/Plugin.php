@@ -8,7 +8,19 @@ class Plugin extends Object {
     public static $filter = array();
     public static $taxonomy = array();
 
-    public static function registerTaxonomy() {}
+    public static function registerTaxonomy($taxonomy, $object, $param) {
+        $default = array();
+        $param = array_merge_recursive($default, $param);
+
+        $object = (array) $object;
+        foreach ($object as $obj) {
+            if (!isset(self::$taxonomy[$obj])) {
+                self::$taxonomy[$obj] = array();
+            }
+
+            self::$taxonomy[$obj][$taxonomy] = $param;
+        }
+    }
 
     public static function listen($eventName, $listener) {
         self::getEventDispatcher()->addListener($eventName, $listener);
@@ -99,5 +111,15 @@ class Plugin extends Object {
         }
 
         throw new \Exception('Not support callback');
+    }
+
+    public static function getTaxonomyOption($taxonomy, $object, $option, $default = null) {
+        if (!isset(self::$taxonomy[$object])
+            || !isset(self::$taxonomy[$object][$taxonomy])
+            || !isset(self::$taxonomy[$object][$taxonomy][$option])) {
+            return $default;
+        }
+
+        return self::$taxonomy[$object][$taxonomy][$option];
     }
 }

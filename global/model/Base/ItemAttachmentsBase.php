@@ -3,14 +3,15 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * ItemAttachments
- *  This class has been auto-generated at 15/06/2013 16:13:17
+ *  This class has been auto-generated at 19/06/2013 18:40:11
  * @version		$Id$
  * @package		Model
 
  * @property integer $id id primary auto_increment type : int(11) unsigned
  * @property integer $item_id item_id type : int(11)
  * @property string $file file type : text max_length : 
- * @property string $mine_type mine_type type : text max_length : 
+ * @property string $file_name file_name type : varchar(255) max_length : 255
+ * @property string $mime_type mime_type type : text max_length : 
  * @property string $type_group type_group type : varchar(100) max_length : 100
  * @property datetime $uploaded_time uploaded_time type : datetime
  * @property integer $hits hits type : int(11)
@@ -33,11 +34,17 @@ use Flywheel\Model\ActiveRecord;
  * @method static \ItemAttachments findOneByFile(string $file) find object in database by file
  * @method static \ItemAttachments retrieveByFile(string $file) retrieve object from poll by file, get it from db if not exist in poll
 
- * @method void setMineType(string $mine_type) set mine_type value
- * @method string getMineType() get mine_type value
- * @method static \ItemAttachments[] findByMineType(string $mine_type) find objects in database by mine_type
- * @method static \ItemAttachments findOneByMineType(string $mine_type) find object in database by mine_type
- * @method static \ItemAttachments retrieveByMineType(string $mine_type) retrieve object from poll by mine_type, get it from db if not exist in poll
+ * @method void setFileName(string $file_name) set file_name value
+ * @method string getFileName() get file_name value
+ * @method static \ItemAttachments[] findByFileName(string $file_name) find objects in database by file_name
+ * @method static \ItemAttachments findOneByFileName(string $file_name) find object in database by file_name
+ * @method static \ItemAttachments retrieveByFileName(string $file_name) retrieve object from poll by file_name, get it from db if not exist in poll
+
+ * @method void setMimeType(string $mime_type) set mime_type value
+ * @method string getMimeType() get mime_type value
+ * @method static \ItemAttachments[] findByMimeType(string $mime_type) find objects in database by mime_type
+ * @method static \ItemAttachments findOneByMimeType(string $mime_type) find object in database by mime_type
+ * @method static \ItemAttachments retrieveByMimeType(string $mime_type) retrieve object from poll by mime_type, get it from db if not exist in poll
 
  * @method void setTypeGroup(string $type_group) set type_group value
  * @method string getTypeGroup() get type_group value
@@ -84,7 +91,12 @@ abstract class ItemAttachmentsBase extends ActiveRecord {
                 'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'text'),
-        'mine_type' => array('name' => 'mine_type',
+        'file_name' => array('name' => 'file_name',
+                'not_null' => true,
+                'type' => 'string',
+                'db_type' => 'varchar(255)',
+                'length' => 255),
+        'mime_type' => array('name' => 'mime_type',
                 'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'text'),
@@ -98,6 +110,7 @@ abstract class ItemAttachmentsBase extends ActiveRecord {
                 'type' => 'datetime',
                 'db_type' => 'datetime'),
         'hits' => array('name' => 'hits',
+                'default' => 0,
                 'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
@@ -107,7 +120,7 @@ abstract class ItemAttachmentsBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','item_id','file','mine_type','type_group','uploaded_time','hits');
+    protected static $_cols = array('id','item_id','file','file_name','mime_type','type_group','uploaded_time','hits');
 
     public function setTableDefinition() {
     }

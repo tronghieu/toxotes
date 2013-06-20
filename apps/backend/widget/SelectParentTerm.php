@@ -21,7 +21,7 @@ class SelectParentTerm extends AdminBaseWidget {
             ->addOption(t('Select Parent'), '*');
 
         foreach ($this->terms as $term) {
-            $selectName = ($term->getLevel() > 1)? str_repeat('&nbsp;', $term->getLevel()-1) .'-' .$term->getName(): $term->getName();
+            $selectName = ($term->getLevel() > 1)? str_repeat('&#8212;', $term->getLevel()-1) .$term->getName(): $term->getName();
             $select->addOption($selectName, $term->getId());
         }
 

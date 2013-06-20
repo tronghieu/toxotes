@@ -102,17 +102,17 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v2.3.0",
+            "version": "v2.3.1",
             "target-dir": "Symfony/Component/Translation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "v2.3.0-RC1"
+                "reference": "v2.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/v2.3.0-RC1",
-                "reference": "v2.3.0-RC1",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/v2.3.1",
+                "reference": "v2.3.1",
                 "shasum": ""
             },
             "require": {
@@ -161,12 +161,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tronghieu/flywheel-framework.git",
-                "reference": "2e7d5d85ca7e9e330ac419e0675c7f54819e6c1f"
+                "reference": "6c87bbda415475624df5f62cc7f3ecccd85f49bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/2e7d5d85ca7e9e330ac419e0675c7f54819e6c1f",
-                "reference": "2e7d5d85ca7e9e330ac419e0675c7f54819e6c1f",
+                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/6c87bbda415475624df5f62cc7f3ecccd85f49bc",
+                "reference": "6c87bbda415475624df5f62cc7f3ecccd85f49bc",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +199,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-06-15 08:55:57"
+            "time": "2013-06-19 04:39:57"
         },
         {
             "name": "zendframework/zend-permissions-acl",

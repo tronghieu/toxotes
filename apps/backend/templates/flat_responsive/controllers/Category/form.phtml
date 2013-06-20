@@ -23,6 +23,9 @@ $this->widget('app.widget.Breadcrumbs', array(
         t('Dashboard') => array(
             'url' => $this->document()->getBaseUrl()
         ),
+        \Toxotes\Plugin::getTaxonomyOption($taxonomy, 'category', 'label') => array(
+            'url' => array('category/default', array('taxonomy' => $taxonomy))
+        ),
         t($page_title)
     ),
 )); ?>

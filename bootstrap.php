@@ -5,6 +5,8 @@ define('ROOT_PATH', dirname(__FILE__));
 define('GLOBAL_PATH', ROOT_PATH .DIRECTORY_SEPARATOR .'global');
 define('LIBRARY_PATH', ROOT_PATH .DIRECTORY_SEPARATOR .'library');
 define('RUNTIME_PATH', ROOT_PATH .DIRECTORY_SEPARATOR .'runtime');
+define('PUBLIC_DIR', ROOT_PATH .DIRECTORY_SEPARATOR .'public');
+define('MEDIA_DIR', ROOT_PATH .DIRECTORY_SEPARATOR .'public' .DIRECTORY_SEPARATOR .'media');
 
 require_once ROOT_PATH.'/vendor/autoload.php';
 

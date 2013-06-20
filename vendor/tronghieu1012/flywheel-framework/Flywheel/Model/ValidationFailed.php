@@ -15,7 +15,7 @@ class ValidationFailed {
     private $_colName;
 
     /** Message to display to user. */
-    private $_message;
+    private $_message = array();
 
     /** Validator object that caused this to fail. */
     private $_validator;
@@ -58,7 +58,7 @@ class ValidationFailed {
      * @param string $v
      */
     public function setMessage($v) {
-        $this->_message = $v;
+        $this->_message[] = $v;
     }
 
     /**
@@ -67,7 +67,7 @@ class ValidationFailed {
      * @return string
      */
     public function getMessage() {
-        return $this->_message;
+        return implode('.', $this->_message);
     }
 
     /**
