@@ -133,7 +133,7 @@ class TermListTable extends ListTable {
 
 
         $s .= '<div class="sub-tool">';
-        if (\Toxotes\Plugin::getTaxonomyOption('taxonomy', 'category', 'enable_custom_fields', true)) {
+        if (\Toxotes\Plugin::getTaxonomyOption('category', 'item', 'enable_custom_fields', true)) {
             $s .= '<a href="' .Factory::getRouter()->createUrl('category/custom_fields', array('taxonomy' => $item->taxonomy, 'id' => $item->id)) .'" class="tool-link tool-custom-field">'
                 .t('Custom Fields')
                 .'</a> | ';

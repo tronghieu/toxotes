@@ -1,4 +1,6 @@
 <?php
+use Toxotes\Plugin;
+
 /**
  * Created by JetBrains PhpStorm.
  * User: nobita
@@ -9,6 +11,9 @@
 
 class SelectParentTerm extends AdminBaseWidget {
     protected function _init() {
+        if (!$this->label) {
+            $this->label = t('Select Parent');
+        }
     }
 
     public function begin() {
@@ -18,14 +23,12 @@ class SelectParentTerm extends AdminBaseWidget {
 
     public function end() {
         $select = $this->form->selectOption($this->elementName, $this->selected, (array) $this->htmlOptions)
-            ->addOption(t('Select Parent'), '*');
+            ->addOption($this->label, '*');
 
         foreach ($this->terms as $term) {
             $selectName = ($term->getLevel() > 1)? str_repeat('&#8212;', $term->getLevel()-1) .$term->getName(): $term->getName();
             $select->addOption($selectName, $term->getId());
         }
-
-        $select = \Toxotes\Plugin::applyFilters('dropdown_language', $select);
 
         ob_start();
         echo '<div class="control-group' .(!empty($this->error)? ' error' : '') .'">

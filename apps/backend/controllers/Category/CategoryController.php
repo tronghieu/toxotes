@@ -7,6 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
+use Flywheel\Base;
 use Flywheel\Factory;
 use Flywheel\Loader;
 use Toxotes\Plugin;
@@ -192,7 +193,7 @@ class CategoryController extends AdminBaseController {
 
     public function executeDelete() {
         if (!$this->validAjaxRequest() || !$this->request()->isPostRequest()) {
-            \Flywheel\Base::end('Invalid Request');
+            Base::end('Invalid Request');
         }
 
         $term = Terms::retrieveById($this->request()->get('id'));
@@ -230,5 +231,115 @@ class CategoryController extends AdminBaseController {
         }
 
         return $this->renderText($ajax->toString());
+    }
+
+    public function executeCustomField() {
+        $term = Terms::retrieveById($this->request()->get('id'));
+        $this->setView('custom_fields');
+        $session = Factory::getSession();
+
+        if (!$term) {
+            $session->setFlash('term_message', t('Term not found with' .$this->request()->get('id')));
+            $this->redirect($this->createUrl('category', array('taxonomy' => $this->request()->get('taxonomy'))));
+        }
+
+        $error = array();
+        $message = array();
+
+        $input = new TermCustomFields();
+        if ($this->request()->isPostRequest()) {
+            $input->hydrate($this->request()->post('custom_fields'));
+            $input->setTermId($term->getId());
+
+            if (!($acceptValues = $this->request()->post('accept_values'))) {
+                $acceptValues = explode("\n", $acceptValues);
+                $input->setAcceptValue(json_encode($acceptValues));
+            }
+
+            if ($input->save()) {
+                $message = t('Save new custom fields success!');
+            } else {
+                if (!$input->isValid()) {
+                    foreach($input->getValidationFailures() as $validationFailures) {
+                        $error[$validationFailures->getColumn()] = $validationFailures->getMessage();
+                    }
+                }
+            }
+        }
+
+        $customFields = TermCustomFields::findByTermId($term->getId());
+        $this->setView('custom_fields');
+        $this->view()->assign(array(
+            'error' => $error,
+            'message' => $message,
+            'term' => $term,
+            'input' => $input,
+            'custom_fields' => $customFields
+        ));
+
+        return $this->renderComponent();
+    }
+
+    public function executeRemoveCf() {
+        if ($this->validAjaxRequest() || !$this->request()->isPostRequest()) {
+            Base::end('Invalid request!');
+        }
+
+        $ajax = new AjaxResponse();
+
+        $customField = TermCustomFields::retrieveById($this->request()->get('id'));
+        if (!$customField) {
+            $ajax->message = t("Custom field not found!");
+            $ajax->type = AjaxResponse::ERROR;
+            return $this->renderText($ajax->toString());
+        }
+
+        $customField->beginTransaction();
+        if ($customField->delete()) {
+            ItemCustomFields::write()
+                ->delete(ItemCustomFields::getTableName())
+                ->where('cf_id = ?')
+                ->setParameter(1, $customField->getId(), \PDO::PARAM_INT)
+                ->execute();
+
+            $customField->commit();
+            $ajax->message = t($customField->getName() .' was removed!');
+            $ajax->type = AjaxResponse::SUCCESS;
+            return $this->renderText($ajax->toString());
+        }
+
+        $customField->rollBack();
+        $ajax->message = t("Could not remove {$customField->getName()}!");
+        $ajax->type = AjaxResponse::ERROR;
+        return $this->renderText($ajax->toString());
+    }
+
+    public function executeEditCf() {
+        $session = Factory::getSession();
+        $cf = TermCustomFields::retrieveById($this->request()->get('id'));
+        $term_id = $this->request()->get('term_id');
+        if (!$cf) {
+            $session->setFlash('cf_error', t('Custom field not found'));
+            $this->redirect($this->createUrl('category/custom_field', array('id' => $term_id)));
+        }
+
+        $error = array();
+
+        if ($this->request()->isPostRequest()) {
+            $cf->hydrate($this->request()->post('custom_fields', 'ARRAY', array()));
+            $acceptValues = explode("\n", $this->request()->post('accept_values'));
+            $cf->setAcceptValue(json_encode($acceptValues));
+
+            if ($cf->save()) {
+            }
+        }
+
+        $formData = (object) $cf->toArray();
+        $formData['accept_values'] = implode("\n", json_decode($formData['accept_values']));
+        $this->setView('cf_form');
+        $this->view()->assign(array(
+            'data' => $formData,
+            'custom_fields' => $cf
+        ));
     }
 }

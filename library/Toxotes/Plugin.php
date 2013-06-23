@@ -6,7 +6,7 @@ use Flywheel\Object;
 
 class Plugin extends Object {
     public static $filter = array();
-    public static $taxonomy = array();
+    public static $taxonomies = array();
 
     public static function registerTaxonomy($taxonomy, $object, $param) {
         $default = array();
@@ -14,11 +14,11 @@ class Plugin extends Object {
 
         $object = (array) $object;
         foreach ($object as $obj) {
-            if (!isset(self::$taxonomy[$obj])) {
-                self::$taxonomy[$obj] = array();
+            if (!isset(self::$taxonomies[$obj])) {
+                self::$taxonomies[$obj] = array();
             }
 
-            self::$taxonomy[$obj][$taxonomy] = $param;
+            self::$taxonomies[$obj][$taxonomy] = $param;
         }
     }
 
@@ -114,12 +114,12 @@ class Plugin extends Object {
     }
 
     public static function getTaxonomyOption($taxonomy, $object, $option, $default = null) {
-        if (!isset(self::$taxonomy[$object])
-            || !isset(self::$taxonomy[$object][$taxonomy])
-            || !isset(self::$taxonomy[$object][$taxonomy][$option])) {
+        if (!isset(self::$taxonomies[$object])
+            || !isset(self::$taxonomies[$object][$taxonomy])
+            || !isset(self::$taxonomies[$object][$taxonomy][$option])) {
             return $default;
         }
 
-        return self::$taxonomy[$object][$taxonomy][$option];
+        return self::$taxonomies[$object][$taxonomy][$option];
     }
 }

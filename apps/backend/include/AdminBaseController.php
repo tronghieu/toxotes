@@ -1,4 +1,6 @@
 <?php
+use Toxotes\Plugin;
+
 abstract class AdminBaseController extends \Flywheel\Controller\WebController {
     public function beforeExecute() {
         parent::beforeExecute();
@@ -34,9 +36,13 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
     }
 
     protected function _registerDefaultTaxonomies() {
-        \Toxotes\Plugin::registerTaxonomy('category', 'category', array(
+        Plugin::registerTaxonomy('category', 'item', array(
             'label' => t('Category'),
             'enable_custom_fields' => true,
+        ));
+
+        Plugin::registerTaxonomy('post', 'item', array(
+            'label' => t('Post')
         ));
     }
 }
