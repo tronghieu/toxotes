@@ -4,6 +4,7 @@
 $document = $this->document();
 ?>
 <!DOCTYPE html>
+<html>
 <head>
     <base href="<?php echo $document->getBaseUrl(); ?>">
     <meta charset="utf8">
@@ -76,8 +77,8 @@ $document = $this->document();
     <!-- Apple devices Homescreen icon -->
     <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
     <?php
-    $document->js('TOP');
-    $document->css();
+    echo $document->js('TOP');
+    echo $document->css();
     ?>
 </head>
 	
@@ -115,6 +116,6 @@ $document = $this->document();
     <!-- /loading -->
 
     <script type="text/javascript" src="<?php echo $document->getPublicPath() ?>js/common.js"></script>
-    <?php echo $document->js(); ?>
+    <?php echo $document->js('BOTTOM'); ?>
     </body>
 </html>

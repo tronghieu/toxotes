@@ -347,8 +347,8 @@ class Html extends BaseDoc {
 				if ('standard' == $lib) {
 					$jsCode .= implode("\n", $code) ."\n";				
 				} else {
-					$open = constant(strtoupper('Ming_Document_Html::' .$lib) .'_OPEN');
-					$close = constant(strtoupper('Ming_Document_Html::' .$lib) .'_CLOSE');
+					$open = constant(strtoupper('self::' .$lib) .'_OPEN');
+					$close = constant(strtoupper('self::' .$lib) .'_CLOSE');
 					$jsCode .= $open .implode("\n", $code) .$close;
 				}				
 			}
@@ -356,18 +356,10 @@ class Html extends BaseDoc {
 		}		
 		$js = '';
 		if (isset($this->_javascript[$pos])) {
-			if (ConfigHandler::get('compile_js')) {
-				$compressor = new Ming_Document_Compressor_Js();
-				$js = $compressor->process($this->_javascript[$pos], $jsv);
-				$js = '<script type="text/javascript" src="'
-						. $this->_publicPath .'temp/' .$js
-                        .'?v=' .$jsv .'"></script>' ."\n";
-			} else {
-				foreach($this->_javascript[$pos] as $file=>$option) {
-					$js .= '<script type="text/javascript" src="'
-						.$this->jsBaseUrl .$file .'?v=' .$jsv .'"></script>';
-				}				
-			}			
+            foreach($this->_javascript[$pos] as $file=>$option) {
+                $js .= '<script type="text/javascript" src="'
+                    .$this->jsBaseUrl .$file .'?v=' .$jsv .'"></script>';
+            }
 		}
 		
 		if ('TOP' == $pos) {

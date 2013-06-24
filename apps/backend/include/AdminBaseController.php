@@ -36,12 +36,12 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
     }
 
     protected function _registerDefaultTaxonomies() {
-        Plugin::registerTaxonomy('category', 'item', array(
+        Plugin::registerTaxonomy('category', 'post', array(
             'label' => t('Category'),
             'enable_custom_fields' => true,
         ));
 
-        Plugin::registerTaxonomy('post', 'item', array(
+        Plugin::registerTaxonomy('post', 'post', array(
             'label' => t('Post')
         ));
     }

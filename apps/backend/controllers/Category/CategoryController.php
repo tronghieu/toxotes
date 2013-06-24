@@ -211,8 +211,8 @@ class CategoryController extends AdminBaseController {
             $error[] = t($term->getName() .' has children, can not be deleted');
         }
 
-        if ($term->hasItems()) {//check has items
-            $error[] = t($term->getName() .' has items, can not be deleted');
+        if ($term->hasPosts()) {//check has posts
+            $error[] = t($term->getName() .' has posts, can not be deleted');
         }
 
         if (empty($error)) {
@@ -296,8 +296,8 @@ class CategoryController extends AdminBaseController {
 
         $customField->beginTransaction();
         if ($customField->delete()) {
-            ItemCustomFields::write()
-                ->delete(ItemCustomFields::getTableName())
+            PostCustomFields::write()
+                ->delete(PostCustomFields::getTableName())
                 ->where('cf_id = ?')
                 ->setParameter(1, $customField->getId(), \PDO::PARAM_INT)
                 ->execute();

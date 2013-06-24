@@ -14,11 +14,11 @@ class PostController extends AdminBaseController {
 
     public function executeCreate() {
         $taxonomy = $this->request()->get('taxonomy', 'STRING', 'post');
-        $item = new Items();
+        $post = new Posts();
         $this->setView('form');
 
         $this->view()->assign(array(
-            'item' => $item,
+            'post' => $post,
             'taxonomy' => $taxonomy,
         ));
 
@@ -37,7 +37,7 @@ class PostController extends AdminBaseController {
             return $this->renderText('');
         }
 
-        $item_id = $this->request()->post('item_id');
+        $post_id = $this->request()->post('post_id');
 
         //load category custom fields
         $categoryCfs = TermCustomFields::findByTermId($category_id);
@@ -45,17 +45,17 @@ class PostController extends AdminBaseController {
             return $this->renderText('');
         }
 
-        /** @var ItemCustomFields[] $itemCfs */
-        $itemCfs = array();
+        /** @var PostCustomFields[] $postCfs */
+        $postCfs = array();
 
         //load item custom field value if exist
-        if ($item_id) {
-            $_itemCfs = ItemCustomFields::findByItemId($item_id);
-            for ($i = 0, $size = sizeof($_itemCfs); $i < $size; ++$i) {
-                $itemCfs[$_itemCfs[$i]->getCfId()] = $_itemCfs;
+        if ($post_id) {
+            $_postCfs = PostCustomFields::findByItemId($post_id);
+            for ($i = 0, $size = sizeof($_postCfs); $i < $size; ++$i) {
+                $postCfs[$_postCfs[$i]->getCfId()] = $_postCfs;
             }
 
-            unset($_itemCfs);
+            unset($_postCfs);
         }
         //end load item custom field value
 
@@ -64,8 +64,8 @@ class PostController extends AdminBaseController {
             $d = (object) $catCf->toArray();
             $d->value = '';
 
-            if (isset($itemCfs[$catCf->getId()])) {//exist items
-                $i = $itemCfs[$catCf->getId()];
+            if (isset($postCfs[$catCf->getId()])) {//exist items
+                $i = $postCfs[$catCf->getId()];
                 switch($catCf->getFormat()) {
                     case 'NUMBER':
                         $d->value = (float) $i->getNumberValue();
@@ -95,36 +95,36 @@ class PostController extends AdminBaseController {
         return $buf;
     }
 
-    protected function _save(Items &$item, &$error) {
-        $input = $this->request()->post('items', 'ARRAY', array());
+    protected function _save(Posts &$post, &$error) {
+        $input = $this->request()->post('posts', 'ARRAY', array());
 
-        $isNew = $item->isNew();
+        $isNew = $post->isNew();
 
-        $item->hydrate($input);
+        $post->hydrate($input);
 
-        $item->beginTransaction();
-        if ($item->save()) {
+        $post->beginTransaction();
+        if ($post->save()) {
             if ($isNew) {
                 //save item's images
                 $imgs = $this->request()->post('imgs', 'ARRAY', array());
                 foreach ($imgs as $index => $img) {
-                    $itemImg = new ItemImages();
-                    $itemImg->setPath($img);
-                    $itemImg->setCaption($this->request()->post('img_caption_'.$index));
-                    $itemImg = Plugin::applyFilters('process_item_'.$item->taxonomy .'_img', $itemImg);
-                    $itemImg->save();
+                    $postImg = new PostImages();
+                    $postImg->setPath($img);
+                    $postImg->setCaption($this->request()->post('img_caption_'.$index));
+                    $postImg = Plugin::applyFilters('process_post_'.$post->taxonomy .'_img', $postImg);
+                    $postImg->save();
                 }
                 //end save item images
 
                 //save attachments
                 $attachments = $this->request()->post('attachments', 'ARRAY', array());
                 foreach ($attachments as $attachment) {
-                    $itemAttachment = new ItemAttachments();
+                    $postAttachment = new PostAttachments();
                     $file = MEDIA_DIR .'attachments' .DIRECTORY_SEPARATOR .$attachment;
                     $mime = mime_content_type($file);
-                    $itemAttachment->setFile($attachment);
-                    $itemAttachment->setFile($mime);
-                    $itemAttachment->save();
+                    $postAttachment->setFile($attachment);
+                    $postAttachment->setFile($mime);
+                    $postAttachment->save();
                 }
                 //end save attachments
             }
@@ -137,13 +137,13 @@ class PostController extends AdminBaseController {
 
             //end save properties
 
-            $item->commit();
+            $post->commit();
             return true;
         } else {
         }
 
-        $item->setNew(true);
-        $item->rollBack();
+        $post->setNew(true);
+        $post->rollBack();
         return false;
     }
 }

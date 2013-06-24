@@ -1,20 +1,21 @@
 <?php
 /** @var \Flywheel\View\Render $this */
-/** @var Items $item */
+/** @var Posts $item */
 
 use Flywheel\Html\Form;
 use Toxotes\Plugin;
 
-$form = new Form('item');
+$form = new Form('post');
 $form->setHtmlOption(array(
-    'class' => 'form-horizontal'
 ));
-$taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'item', 'label');
+$taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'post', 'label');
+
+$this->document()->title .= ($post->isNew()? t('Create new') : t('Edit')) .' ' .$taxonomy_label;
 ?>
 
     <div class="page-header">
         <div class="pull-left">
-            <h1><?php echo ($item->isNew()? t('Create New ' .$taxonomy_label) : t('Edit ' .$item->getTitle())); ?></h1>
+            <h1><?php echo ($post->isNew()? t('Create new ' .$taxonomy_label) : t('Edit ' .$post->getTitle())); ?></h1>
         </div>
         <div class="pull-right">
             <ul class="minitiles">
@@ -33,7 +34,7 @@ $taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'item', 'label');
         $taxonomy_label => array(
             'url' => array('post/default', array('taxonomy' => $taxonomy)),
         ),
-        ($item->isNew()? t('Create New ' .$taxonomy_label) : t('Edit ' .$item->getTitle()))
+        ($post->isNew()? t('Create New ' .$taxonomy_label) : t('Edit ' .$post->getTitle()))
     ),
 )) ?>
 
@@ -41,25 +42,76 @@ $taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'item', 'label');
 <div class="row-fluid">
     <!-- Main input -->
     <div class="span8">
-        <div class="box notitle">
-            <div class="control-group">
-                <input name="item[title]" value="<?php echo $item->getTitle() ?>" class="input-huge" id="item-title" placeholder="<?php echo t('Enter Title here') ?>">
+        <div class="box">
+            <div class="box-title">
+                <h3><i class="icon-edit"></i>
+                    <?php echo t('Common information'); ?>
+                </h3>
             </div>
+            <div class="box-content">
+                <div class="control-group">
+                    <input name="post[title]" value="<?php echo $post->getTitle() ?>" class="input-huge" id="post-title" placeholder="<?php echo t('Enter Title here') ?>">
+                </div>
 
-            <?php $this->widget('app.widget.SelectItemCategory', array(
-                'label' => t('Select Category'),
-                'taxonomy' => $taxonomy,
-                'selected' => $item->getTermId(),
-                'elementName' => 'term_parent',
-                'error' => isset($error['items.term_id'])? $error['items.term_id']: null,
-                'form' => $form,
-            ));
-            ?>
+                <?php $this->widget('app.widget.SelectItemCategory', array(
+                    'label' => t('Select Category'),
+                    'taxonomy' => $taxonomy,
+                    'selected' => $post->getTermId(),
+                    'elementName' => 'term_parent',
+                    'error' => isset($error['posts.term_id'])? $error['posts.term_id']: null,
+                    'form' => $form,
+                ));
+                ?>
+
+                <!-- editor -->
+
+                <div class="control-group">
+                    <?php $this->widget('app.widget.editor.TinyMCE', array(
+                        'selector' => '#post-content',
+                        'heigth' => 360
+                    )); ?>
+                    <textarea name="post[content]" id="post-content" class="input-block-level">
+                        <?php echo ($post->getExcerpt()? $post->getExcerpt() .'<hr class="read-more-sep" />' : '');?>
+                        <?php echo $post->getContent() ?>
+                    </textarea>
+                </div>
+                <!-- /editor -->
+            </div>
         </div>
     </div>
     <!-- /main input -->
     <div class="span4">
+        <div class="box box-bordered box-color">
 
+            <div class="box-title"><h3><?php echo t('Publish'); ?></h3></div>
+            <div class="box-content">
+                <?php $this->widget('app.widget.SelectLanguage', array(
+                    'selected' => $post->getLanguage(),
+                    'elementName' => 'post[language]',
+                    'form' => $form
+                )) ?>
+
+                <div class="control-group">
+                    <label class="control-label"><?php echo t('Status'); ?></label>
+                    <div class="controls">
+                        <?php
+                        $statusOpt = $form->selectOption('post[status]', $post->getStatus())
+                                    ->addOption(t('Publish'), 'PUBLISH')
+                                    ->addOption(t('Unpublish'), 'UNPUBLISH');
+
+                        $statusOpt = Plugin::applyFilters('custom_' .$taxonomy .'_status_options', $statusOpt);
+                        $statusOpt->display();
+                        ?>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button name="submit" type="submit" class="btn btn-primary">
+                        <i class="icon-save"></i>
+                        <?php echo t('Save'); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
