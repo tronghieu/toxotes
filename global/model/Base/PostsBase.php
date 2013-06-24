@@ -2,8 +2,8 @@
 use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
- * Items
- *  This class has been auto-generated at 19/06/2013 18:40:11
+ * Posts
+ *  This class has been auto-generated at 24/06/2013 23:21:05
  * @version		$Id$
  * @package		Model
 
@@ -109,11 +109,11 @@ use Flywheel\Model\ActiveRecord;
 
  */
 abstract class PostsBase extends ActiveRecord {
-    protected static $_tableName = 'items';
-    protected static $_phpName = 'Items';
+    protected static $_tableName = 'posts';
+    protected static $_phpName = 'Posts';
     protected static $_pk = 'id';
-    protected static $_alias = 'i';
-    protected static $_dbConnectName = 'items';
+    protected static $_alias = 'p';
+    protected static $_dbConnectName = 'posts';
     protected static $_instances = array();
     protected static $_schema = array(
         'id' => array('name' => 'id',

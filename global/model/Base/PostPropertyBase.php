@@ -2,13 +2,13 @@
 use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
- * ItemProperty
- *  This class has been auto-generated at 19/06/2013 18:40:11
+ * PostProperty
+ *  This class has been auto-generated at 24/06/2013 23:21:05
  * @version		$Id$
  * @package		Model
 
  * @property integer $id id primary auto_increment type : int(11) unsigned
- * @property integer $item_id item_id type : int(11)
+ * @property integer $post_id post_id type : int(11)
  * @property string $property property type : varchar(255) max_length : 255
  * @property string $text_value text_value type : text max_length : 
  * @property integer $int_value int_value type : int(11)
@@ -19,66 +19,66 @@ use Flywheel\Model\ActiveRecord;
 
  * @method void setId(integer $id) set id value
  * @method integer getId() get id value
- * @method static \ItemProperty[] findById(integer $id) find objects in database by id
- * @method static \ItemProperty findOneById(integer $id) find object in database by id
- * @method static \ItemProperty retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
+ * @method static \PostProperty[] findById(integer $id) find objects in database by id
+ * @method static \PostProperty findOneById(integer $id) find object in database by id
+ * @method static \PostProperty retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
 
- * @method void setItemId(integer $item_id) set item_id value
- * @method integer getItemId() get item_id value
- * @method static \ItemProperty[] findByItemId(integer $item_id) find objects in database by item_id
- * @method static \ItemProperty findOneByItemId(integer $item_id) find object in database by item_id
- * @method static \ItemProperty retrieveByItemId(integer $item_id) retrieve object from poll by item_id, get it from db if not exist in poll
+ * @method void setPostId(integer $post_id) set post_id value
+ * @method integer getPostId() get post_id value
+ * @method static \PostProperty[] findByPostId(integer $post_id) find objects in database by post_id
+ * @method static \PostProperty findOneByPostId(integer $post_id) find object in database by post_id
+ * @method static \PostProperty retrieveByPostId(integer $post_id) retrieve object from poll by post_id, get it from db if not exist in poll
 
  * @method void setProperty(string $property) set property value
  * @method string getProperty() get property value
- * @method static \ItemProperty[] findByProperty(string $property) find objects in database by property
- * @method static \ItemProperty findOneByProperty(string $property) find object in database by property
- * @method static \ItemProperty retrieveByProperty(string $property) retrieve object from poll by property, get it from db if not exist in poll
+ * @method static \PostProperty[] findByProperty(string $property) find objects in database by property
+ * @method static \PostProperty findOneByProperty(string $property) find object in database by property
+ * @method static \PostProperty retrieveByProperty(string $property) retrieve object from poll by property, get it from db if not exist in poll
 
  * @method void setTextValue(string $text_value) set text_value value
  * @method string getTextValue() get text_value value
- * @method static \ItemProperty[] findByTextValue(string $text_value) find objects in database by text_value
- * @method static \ItemProperty findOneByTextValue(string $text_value) find object in database by text_value
- * @method static \ItemProperty retrieveByTextValue(string $text_value) retrieve object from poll by text_value, get it from db if not exist in poll
+ * @method static \PostProperty[] findByTextValue(string $text_value) find objects in database by text_value
+ * @method static \PostProperty findOneByTextValue(string $text_value) find object in database by text_value
+ * @method static \PostProperty retrieveByTextValue(string $text_value) retrieve object from poll by text_value, get it from db if not exist in poll
 
  * @method void setIntValue(integer $int_value) set int_value value
  * @method integer getIntValue() get int_value value
- * @method static \ItemProperty[] findByIntValue(integer $int_value) find objects in database by int_value
- * @method static \ItemProperty findOneByIntValue(integer $int_value) find object in database by int_value
- * @method static \ItemProperty retrieveByIntValue(integer $int_value) retrieve object from poll by int_value, get it from db if not exist in poll
+ * @method static \PostProperty[] findByIntValue(integer $int_value) find objects in database by int_value
+ * @method static \PostProperty findOneByIntValue(integer $int_value) find object in database by int_value
+ * @method static \PostProperty retrieveByIntValue(integer $int_value) retrieve object from poll by int_value, get it from db if not exist in poll
 
  * @method void setFloatValue(number $float_value) set float_value value
  * @method number getFloatValue() get float_value value
- * @method static \ItemProperty[] findByFloatValue(number $float_value) find objects in database by float_value
- * @method static \ItemProperty findOneByFloatValue(number $float_value) find object in database by float_value
- * @method static \ItemProperty retrieveByFloatValue(number $float_value) retrieve object from poll by float_value, get it from db if not exist in poll
+ * @method static \PostProperty[] findByFloatValue(number $float_value) find objects in database by float_value
+ * @method static \PostProperty findOneByFloatValue(number $float_value) find object in database by float_value
+ * @method static \PostProperty retrieveByFloatValue(number $float_value) retrieve object from poll by float_value, get it from db if not exist in poll
 
  * @method void setBooleanValue(integer $boolean_value) set boolean_value value
  * @method integer getBooleanValue() get boolean_value value
- * @method static \ItemProperty[] findByBooleanValue(integer $boolean_value) find objects in database by boolean_value
- * @method static \ItemProperty findOneByBooleanValue(integer $boolean_value) find object in database by boolean_value
- * @method static \ItemProperty retrieveByBooleanValue(integer $boolean_value) retrieve object from poll by boolean_value, get it from db if not exist in poll
+ * @method static \PostProperty[] findByBooleanValue(integer $boolean_value) find objects in database by boolean_value
+ * @method static \PostProperty findOneByBooleanValue(integer $boolean_value) find object in database by boolean_value
+ * @method static \PostProperty retrieveByBooleanValue(integer $boolean_value) retrieve object from poll by boolean_value, get it from db if not exist in poll
 
  * @method void setDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) setDatetimeValue(string $datetime_value) set datetime_value value
  * @method \Flywheel\Db\Type\DateTime getDatetimeValue() get datetime_value value
- * @method static \ItemProperty[] findByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findByDatetimeValue(string $datetime_value) find objects in database by datetime_value
- * @method static \ItemProperty findOneByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findOneByDatetimeValue(string $datetime_value) find object in database by datetime_value
- * @method static \ItemProperty retrieveByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) retrieveByDatetimeValue(string $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
+ * @method static \PostProperty[] findByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findByDatetimeValue(string $datetime_value) find objects in database by datetime_value
+ * @method static \PostProperty findOneByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findOneByDatetimeValue(string $datetime_value) find object in database by datetime_value
+ * @method static \PostProperty retrieveByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) retrieveByDatetimeValue(string $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
 
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
- * @method static \ItemProperty[] findByOrdering(integer $ordering) find objects in database by ordering
- * @method static \ItemProperty findOneByOrdering(integer $ordering) find object in database by ordering
- * @method static \ItemProperty retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
+ * @method static \PostProperty[] findByOrdering(integer $ordering) find objects in database by ordering
+ * @method static \PostProperty findOneByOrdering(integer $ordering) find object in database by ordering
+ * @method static \PostProperty retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
 
 
  */
-abstract class ItemPropertyBase extends ActiveRecord {
-    protected static $_tableName = 'item_property';
-    protected static $_phpName = 'ItemProperty';
+abstract class PostPropertyBase extends ActiveRecord {
+    protected static $_tableName = 'post_property';
+    protected static $_phpName = 'PostProperty';
     protected static $_pk = 'id';
-    protected static $_alias = 'i';
-    protected static $_dbConnectName = 'item_property';
+    protected static $_alias = 'p';
+    protected static $_dbConnectName = 'post_property';
     protected static $_instances = array();
     protected static $_schema = array(
         'id' => array('name' => 'id',
@@ -88,7 +88,7 @@ abstract class ItemPropertyBase extends ActiveRecord {
                 'auto_increment' => true,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
-        'item_id' => array('name' => 'item_id',
+        'post_id' => array('name' => 'post_id',
                 'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
@@ -136,7 +136,7 @@ abstract class ItemPropertyBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','item_id','property','text_value','int_value','float_value','boolean_value','datetime_value','ordering');
+    protected static $_cols = array('id','post_id','property','text_value','int_value','float_value','boolean_value','datetime_value','ordering');
 
     public function setTableDefinition() {
     }

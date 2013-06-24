@@ -2,13 +2,13 @@
 use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
- * ItemCustomFields
- *  This class has been auto-generated at 19/06/2013 18:40:11
+ * PostCustomFields
+ *  This class has been auto-generated at 24/06/2013 23:21:05
  * @version		$Id$
  * @package		Model
 
  * @property integer $id id primary auto_increment type : int(11) unsigned
- * @property integer $item_id item_id type : int(11)
+ * @property integer $post_id post_id type : int(11)
  * @property integer $cf_id cf_id type : int(11)
  * @property string $text_value text_value type : text max_length : 
  * @property number $number_value number_value type : double(20,2)
@@ -21,11 +21,11 @@ use Flywheel\Model\ActiveRecord;
  * @method static \PostCustomFields findOneById(integer $id) find object in database by id
  * @method static \PostCustomFields retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
 
- * @method void setItemId(integer $item_id) set item_id value
- * @method integer getItemId() get item_id value
- * @method static \PostCustomFields[] findByItemId(integer $item_id) find objects in database by item_id
- * @method static \PostCustomFields findOneByItemId(integer $item_id) find object in database by item_id
- * @method static \PostCustomFields retrieveByItemId(integer $item_id) retrieve object from poll by item_id, get it from db if not exist in poll
+ * @method void setPostId(integer $post_id) set post_id value
+ * @method integer getPostId() get post_id value
+ * @method static \PostCustomFields[] findByPostId(integer $post_id) find objects in database by post_id
+ * @method static \PostCustomFields findOneByPostId(integer $post_id) find object in database by post_id
+ * @method static \PostCustomFields retrieveByPostId(integer $post_id) retrieve object from poll by post_id, get it from db if not exist in poll
 
  * @method void setCfId(integer $cf_id) set cf_id value
  * @method integer getCfId() get cf_id value
@@ -60,11 +60,11 @@ use Flywheel\Model\ActiveRecord;
 
  */
 abstract class PostCustomFieldsBase extends ActiveRecord {
-    protected static $_tableName = 'item_custom_fields';
-    protected static $_phpName = 'ItemCustomFields';
+    protected static $_tableName = 'post_custom_fields';
+    protected static $_phpName = 'PostCustomFields';
     protected static $_pk = 'id';
-    protected static $_alias = 'i';
-    protected static $_dbConnectName = 'item_custom_fields';
+    protected static $_alias = 'p';
+    protected static $_dbConnectName = 'post_custom_fields';
     protected static $_instances = array();
     protected static $_schema = array(
         'id' => array('name' => 'id',
@@ -74,7 +74,7 @@ abstract class PostCustomFieldsBase extends ActiveRecord {
                 'auto_increment' => true,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
-        'item_id' => array('name' => 'item_id',
+        'post_id' => array('name' => 'post_id',
                 'not_null' => true,
                 'type' => 'integer',
                 'auto_increment' => false,
@@ -113,7 +113,7 @@ abstract class PostCustomFieldsBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','item_id','cf_id','text_value','number_value','bool_value','datetime_value');
+    protected static $_cols = array('id','post_id','cf_id','text_value','number_value','bool_value','datetime_value');
 
     public function setTableDefinition() {
     }
