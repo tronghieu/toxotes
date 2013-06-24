@@ -122,15 +122,15 @@ class Terms extends \TermsBase {
     }
 
     /**
-     * check term has items @see Terms::countItems();
+     * check term has items @see Terms::countPosts(countPosts;
      * @return bool
      */
-    public function hasItems() {
-        return (boolean) $this->countItems();
+    public function hasPosts() {
+        return (boolean) $this->countPosts();
     }
 
-    public function countItems() {
-        return Items::read()->where('`term_id` = ?')
+    public function countPosts() {
+        return Posts::read()->where('`term_id` = ?')
                         ->count('id')
                         ->setParameter(1, $this->getId(), \PDO::PARAM_INT)
                         ->execute();

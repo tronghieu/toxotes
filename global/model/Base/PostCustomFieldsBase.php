@@ -17,49 +17,49 @@ use Flywheel\Model\ActiveRecord;
 
  * @method void setId(integer $id) set id value
  * @method integer getId() get id value
- * @method static \ItemCustomFields[] findById(integer $id) find objects in database by id
- * @method static \ItemCustomFields findOneById(integer $id) find object in database by id
- * @method static \ItemCustomFields retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
+ * @method static \PostCustomFields[] findById(integer $id) find objects in database by id
+ * @method static \PostCustomFields findOneById(integer $id) find object in database by id
+ * @method static \PostCustomFields retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
 
  * @method void setItemId(integer $item_id) set item_id value
  * @method integer getItemId() get item_id value
- * @method static \ItemCustomFields[] findByItemId(integer $item_id) find objects in database by item_id
- * @method static \ItemCustomFields findOneByItemId(integer $item_id) find object in database by item_id
- * @method static \ItemCustomFields retrieveByItemId(integer $item_id) retrieve object from poll by item_id, get it from db if not exist in poll
+ * @method static \PostCustomFields[] findByItemId(integer $item_id) find objects in database by item_id
+ * @method static \PostCustomFields findOneByItemId(integer $item_id) find object in database by item_id
+ * @method static \PostCustomFields retrieveByItemId(integer $item_id) retrieve object from poll by item_id, get it from db if not exist in poll
 
  * @method void setCfId(integer $cf_id) set cf_id value
  * @method integer getCfId() get cf_id value
- * @method static \ItemCustomFields[] findByCfId(integer $cf_id) find objects in database by cf_id
- * @method static \ItemCustomFields findOneByCfId(integer $cf_id) find object in database by cf_id
- * @method static \ItemCustomFields retrieveByCfId(integer $cf_id) retrieve object from poll by cf_id, get it from db if not exist in poll
+ * @method static \PostCustomFields[] findByCfId(integer $cf_id) find objects in database by cf_id
+ * @method static \PostCustomFields findOneByCfId(integer $cf_id) find object in database by cf_id
+ * @method static \PostCustomFields retrieveByCfId(integer $cf_id) retrieve object from poll by cf_id, get it from db if not exist in poll
 
  * @method void setTextValue(string $text_value) set text_value value
  * @method string getTextValue() get text_value value
- * @method static \ItemCustomFields[] findByTextValue(string $text_value) find objects in database by text_value
- * @method static \ItemCustomFields findOneByTextValue(string $text_value) find object in database by text_value
- * @method static \ItemCustomFields retrieveByTextValue(string $text_value) retrieve object from poll by text_value, get it from db if not exist in poll
+ * @method static \PostCustomFields[] findByTextValue(string $text_value) find objects in database by text_value
+ * @method static \PostCustomFields findOneByTextValue(string $text_value) find object in database by text_value
+ * @method static \PostCustomFields retrieveByTextValue(string $text_value) retrieve object from poll by text_value, get it from db if not exist in poll
 
  * @method void setNumberValue(number $number_value) set number_value value
  * @method number getNumberValue() get number_value value
- * @method static \ItemCustomFields[] findByNumberValue(number $number_value) find objects in database by number_value
- * @method static \ItemCustomFields findOneByNumberValue(number $number_value) find object in database by number_value
- * @method static \ItemCustomFields retrieveByNumberValue(number $number_value) retrieve object from poll by number_value, get it from db if not exist in poll
+ * @method static \PostCustomFields[] findByNumberValue(number $number_value) find objects in database by number_value
+ * @method static \PostCustomFields findOneByNumberValue(number $number_value) find object in database by number_value
+ * @method static \PostCustomFields retrieveByNumberValue(number $number_value) retrieve object from poll by number_value, get it from db if not exist in poll
 
  * @method void setBoolValue(integer $bool_value) set bool_value value
  * @method integer getBoolValue() get bool_value value
- * @method static \ItemCustomFields[] findByBoolValue(integer $bool_value) find objects in database by bool_value
- * @method static \ItemCustomFields findOneByBoolValue(integer $bool_value) find object in database by bool_value
- * @method static \ItemCustomFields retrieveByBoolValue(integer $bool_value) retrieve object from poll by bool_value, get it from db if not exist in poll
+ * @method static \PostCustomFields[] findByBoolValue(integer $bool_value) find objects in database by bool_value
+ * @method static \PostCustomFields findOneByBoolValue(integer $bool_value) find object in database by bool_value
+ * @method static \PostCustomFields retrieveByBoolValue(integer $bool_value) retrieve object from poll by bool_value, get it from db if not exist in poll
 
  * @method void setDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) setDatetimeValue(string $datetime_value) set datetime_value value
  * @method \Flywheel\Db\Type\DateTime getDatetimeValue() get datetime_value value
- * @method static \ItemCustomFields[] findByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findByDatetimeValue(string $datetime_value) find objects in database by datetime_value
- * @method static \ItemCustomFields findOneByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findOneByDatetimeValue(string $datetime_value) find object in database by datetime_value
- * @method static \ItemCustomFields retrieveByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) retrieveByDatetimeValue(string $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
+ * @method static \PostCustomFields[] findByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findByDatetimeValue(string $datetime_value) find objects in database by datetime_value
+ * @method static \PostCustomFields findOneByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findOneByDatetimeValue(string $datetime_value) find object in database by datetime_value
+ * @method static \PostCustomFields retrieveByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) retrieveByDatetimeValue(string $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
 
 
  */
-abstract class ItemCustomFieldsBase extends ActiveRecord {
+abstract class PostCustomFieldsBase extends ActiveRecord {
     protected static $_tableName = 'item_custom_fields';
     protected static $_phpName = 'ItemCustomFields';
     protected static $_pk = 'id';

@@ -9,8 +9,8 @@
 
 use Flywheel\Db\Type\DateTime;
 
-require_once dirname(__FILE__) .'/Base/ItemImagesBase.php';
-class ItemImages extends \ItemImagesBase {
+require_once dirname(__FILE__) . '/Base/PostImagesBase.php';
+class PostImages extends \PostImagesBase {
     protected function _beforeSave() {
         if ($this->isNew()) {
             $this->setCreatedTime(new DateTime());

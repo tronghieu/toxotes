@@ -7,6 +7,6 @@
 
  */
 
-require_once dirname(__FILE__) .'/Base/ItemsBase.php';
-class Items extends \ItemsBase {
+require_once dirname(__FILE__) . '/Base/PostsBase.php';
+class Posts extends \PostsBase {
 }

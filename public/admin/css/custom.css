@@ -8,6 +8,11 @@
     padding: 3px;
 }
 
+hr.read-more-sep {
+    border: 0;
+    border-bottom: 2px dashed #990000;
+}
+
 #loading-box {
     right: 20px;
     top: 45px;

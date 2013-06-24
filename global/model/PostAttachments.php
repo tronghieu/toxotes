@@ -9,8 +9,8 @@
 
 use Flywheel\Db\Type\DateTime;
 
-require_once dirname(__FILE__) .'/Base/ItemAttachmentsBase.php';
-class ItemAttachments extends \ItemAttachmentsBase {
+require_once dirname(__FILE__) . '/Base/PostAttachmentsBase.php';
+class PostAttachments extends \PostAttachmentsBase {
     protected function _beforeSave() {
         if ($this->isNew()) {
             $this->setUploadedTime(new DateTime());
