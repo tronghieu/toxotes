@@ -11,6 +11,8 @@ $form->setHtmlOption(array(
 $taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'post', 'label');
 
 $this->document()->title .= ($post->isNew()? t('Create new') : t('Edit')) .' ' .$taxonomy_label;
+
+$taxonomy = $taxonomy || 'post';
 ?>
 
     <div class="page-header">
@@ -81,6 +83,7 @@ $this->document()->title .= ($post->isNew()? t('Create new') : t('Edit')) .' ' .
     </div>
     <!-- /main input -->
     <div class="span4">
+        <?php Plugin::doAction('custom_before' .$taxonomy .'_publish_box', $post, $form); ?>
         <div class="box box-bordered box-color">
 
             <div class="box-title"><h3><?php echo t('Publish'); ?></h3></div>
@@ -112,6 +115,25 @@ $this->document()->title .= ($post->isNew()? t('Create new') : t('Edit')) .' ' .
                 </div>
             </div>
         </div>
+        <?php Plugin::doAction('custom_after' .$taxonomy .'_publish_box', $post, $form); ?>
+
+        <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_images', true)) :?>
+        <div class="box">
+            <div class="box-title"><h3><?php echo t('Images'); ?></h3></div>
+            <div class="box-content">
+
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_attachments', true)) :?>
+            <div class="box">
+                <div class="box-title"><h3><?php echo t('Files attachment'); ?></h3></div>
+                <div class="box-content">
+
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
