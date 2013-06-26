@@ -547,11 +547,12 @@ abstract class ActiveRecord extends Object {
     }
 
     /**
+     * @param bool $validate
+     * @throws \Flywheel\Db\Exception
      * @return bool
-     * @throws Exception
      */
-    public function saveToDb() {
-        if (!$this->validate()) {
+    public function saveToDb($validate = true) {
+        if ($validate && !$this->validate()) {
             return false;
         }
 
@@ -641,7 +642,7 @@ abstract class ActiveRecord extends Object {
         return self::getWriteConnection()->rollBack();
     }
 
-    abstract public function save();
+    abstract public function save($validate = true);
     abstract public function delete();
 
     public function validate() {

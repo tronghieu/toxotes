@@ -15,6 +15,8 @@ class PostController extends AdminBaseController {
     public function executeCreate() {
         $taxonomy = $this->request()->get('taxonomy', 'STRING', 'post');
         $post = new Posts();
+        $post->setIsDraft(true);
+        $post->save(false); //save Draft before
         $this->setView('form');
 
         $this->view()->assign(array(

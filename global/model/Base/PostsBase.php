@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Posts
- *  This class has been auto-generated at 24/06/2013 23:21:05
+ *  This class has been auto-generated at 27/06/2013 00:26:50
  * @version		$Id$
  * @package		Model
 
@@ -14,6 +14,7 @@ use Flywheel\Model\ActiveRecord;
  * @property string $excerpt excerpt type : text max_length : 
  * @property string $content content type : text max_length : 
  * @property string $status status type : varchar(20) max_length : 20
+ * @property integer $is_draft is_draft type : tinyint(1)
  * @property string $author author type : varchar(255) max_length : 255
  * @property string $taxonomy taxonomy type : varchar(100) max_length : 100
  * @property string $language language type : varchar(20) max_length : 20
@@ -63,6 +64,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Posts[] findByStatus(string $status) find objects in database by status
  * @method static \Posts findOneByStatus(string $status) find object in database by status
  * @method static \Posts retrieveByStatus(string $status) retrieve object from poll by status, get it from db if not exist in poll
+
+ * @method void setIsDraft(integer $is_draft) set is_draft value
+ * @method integer getIsDraft() get is_draft value
+ * @method static \Posts[] findByIsDraft(integer $is_draft) find objects in database by is_draft
+ * @method static \Posts findOneByIsDraft(integer $is_draft) find object in database by is_draft
+ * @method static \Posts retrieveByIsDraft(integer $is_draft) retrieve object from poll by is_draft, get it from db if not exist in poll
 
  * @method void setAuthor(string $author) set author value
  * @method string getAuthor() get author value
@@ -153,6 +160,13 @@ abstract class PostsBase extends ActiveRecord {
                 'type' => 'string',
                 'db_type' => 'varchar(20)',
                 'length' => 20),
+        'is_draft' => array('name' => 'is_draft',
+                'default' => 0,
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'tinyint(1)',
+                'length' => 1),
         'author' => array('name' => 'author',
                 'not_null' => false,
                 'type' => 'string',
@@ -195,7 +209,7 @@ abstract class PostsBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','title','term_id','slug','excerpt','content','status','author','taxonomy','language','modified_time','created_time','ordering','hits');
+    protected static $_cols = array('id','title','term_id','slug','excerpt','content','status','is_draft','author','taxonomy','language','modified_time','created_time','ordering','hits');
 
     public function setTableDefinition() {
     }
@@ -205,12 +219,12 @@ abstract class PostsBase extends ActiveRecord {
      * @return boolean
      * @throws \Exception
      */
-    public function save() {
+    public function save($validate = true) {
         $conn = Manager::getConnection(self::getDbConnectName());
         $conn->beginTransaction();
         try {
             $this->_beforeSave();
-            $status = $this->saveToDb();
+            $status = $this->saveToDb($validate);
             $this->_afterSave();
             $conn->commit();
             self::addInstanceToPool($this, $this->getPkValue());

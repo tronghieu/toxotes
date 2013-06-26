@@ -13,6 +13,28 @@ hr.read-more-sep {
     border-bottom: 2px dashed #990000;
 }
 
+#post-frm .post-main-img, #post-frm .post-image {
+    margin-top: 10px;
+}
+
+#post-frm .img-preview {
+    width: 65px;
+    float: left;
+    position: relative;
+}
+
+#post-frm .img-preview img.no-img {
+    border: 2px dashed #ddd;
+}
+
+#post-frm .main-img-preview img.main-img {
+    border: 2px solid #002266;
+}
+
+#post-frm .img-property {
+    padding-left: 80px;
+}
+
 #loading-box {
     right: 20px;
     top: 45px;

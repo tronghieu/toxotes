@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * TermRelationship
- *  This class has been auto-generated at 24/06/2013 23:21:05
+ *  This class has been auto-generated at 27/06/2013 00:26:50
  * @version		$Id$
  * @package		Model
 
@@ -75,12 +75,12 @@ abstract class TermRelationshipBase extends ActiveRecord {
      * @return boolean
      * @throws \Exception
      */
-    public function save() {
+    public function save($validate = true) {
         $conn = Manager::getConnection(self::getDbConnectName());
         $conn->beginTransaction();
         try {
             $this->_beforeSave();
-            $status = $this->saveToDb();
+            $status = $this->saveToDb($validate);
             $this->_afterSave();
             $conn->commit();
             self::addInstanceToPool($this, $this->getPkValue());

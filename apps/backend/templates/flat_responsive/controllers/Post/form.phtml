@@ -1,6 +1,8 @@
 <?php
 /** @var \Flywheel\View\Render $this */
-/** @var Posts $item */
+/** @var Posts $post */
+/** @var PostImages[] $postImages */
+/** @var PostAttachments[] $postAttachments */
 
 use Flywheel\Html\Form;
 use Toxotes\Plugin;
@@ -13,8 +15,14 @@ $taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'post', 'label');
 $this->document()->title .= ($post->isNew()? t('Create new') : t('Edit')) .' ' .$taxonomy_label;
 
 $taxonomy = $taxonomy || 'post';
-?>
 
+if ($post->isNew()) {
+    $main_img_url = $this->document()->getBaseUrl().'/img/no_img.png';
+}
+
+@$postImages = $postImages || array();
+@$postAttachments = $postAttachments | array();
+?>
     <div class="page-header">
         <div class="pull-left">
             <h1><?php echo ($post->isNew()? t('Create new ' .$taxonomy_label) : t('Edit ' .$post->getTitle())); ?></h1>
@@ -40,6 +48,7 @@ $taxonomy = $taxonomy || 'post';
     ),
 )) ?>
 
+<div id="post-frm">
 <?php $form->beginForm(); ?>
 <div class="row-fluid">
     <!-- Main input -->
@@ -120,7 +129,37 @@ $taxonomy = $taxonomy || 'post';
         <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_images', true)) :?>
         <div class="box">
             <div class="box-title"><h3><?php echo t('Images'); ?></h3></div>
-            <div class="box-content">
+            <div class="box-content nopadding">
+                <div class="post-main-img span12">
+                    <div class="img-preview">
+                        <img src="<?php echo $main_img_url?>" width="60" class="<?php echo ($post->isNew()?'no-img':'main-img'); ?>">
+                    </div>
+                    <div class="img-property">
+                        <strong><?php td('Main image') ?></strong>
+                    </div>
+                </div>
+                <!-- Post Images -->
+                <div class="post-image span12">
+                <?php foreach($postImages as $postImage) : ?>
+                    <div id="post-img-<?php echo $postImage->getId(); ?>">
+                        <div class="img-preview">
+                            <img src="form.phtml" width="60" class="post-img">
+                        </div>
+                        <div class="img-property">
+                            <label><?php td('Caption'); ?></label>
+                            <input name="post_img_<?php echo $postImage->getId()?>[caption]" value="<?php echo $postImage->getCaption()?>" class="input-block-level">
+                            <a href="javascript:void(0)" class="post-img-set-default" data-obj="<?php echo $postImage->getId();?>"><?php td('Set default') ?></a>
+                            |
+                            <a href="javascript:void(0)" class="post-img-remove" data-obj=""
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                </div>
+                <!-- /post images -->
+
+                <div class="form-actions right">
+                    <a href="#" class="btn pl_start btn-success"><i class="icon-cloud-upload"></i> <?php td('Add image'); ?></a>
+                </div>
 
             </div>
         </div>
@@ -136,5 +175,6 @@ $taxonomy = $taxonomy || 'post';
         <?php endif; ?>
     </div>
 </div>
-
+<input name="post[id]" value="<?php echo $post->getId()?>" type="hidden">
 <?php $form->endForm(); ?>
+</div>

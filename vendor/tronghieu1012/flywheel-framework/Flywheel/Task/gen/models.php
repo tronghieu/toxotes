@@ -437,12 +437,12 @@ class BuildModels {
             .'     * @return boolean' .PHP_EOL
             .'     * @throws \Exception' .PHP_EOL
             .'     */'.PHP_EOL
-            .'    public function save() {' .PHP_EOL
+            .'    public function save($validate = true) {' .PHP_EOL
             .'        $conn = Manager::getConnection(self::getDbConnectName());'.PHP_EOL
             .'        $conn->beginTransaction();'.PHP_EOL
             .'        try {'.PHP_EOL
             .'            $this->_beforeSave();' .PHP_EOL
-            .'            $status = $this->saveToDb();' .PHP_EOL
+            .'            $status = $this->saveToDb($validate);' .PHP_EOL
             .'            $this->_afterSave();' .PHP_EOL
             .'            $conn->commit();' .PHP_EOL
             .'            self::addInstanceToPool($this, $this->getPkValue());'.PHP_EOL
