@@ -1251,6 +1251,10 @@ ul.icons li [class^="icon-"], ul.icons li [class*=" icon-"] {
     box-shadow: none
 }
 
+.dropdown-menu li {
+    list-style: none;
+}
+
 .dropdown-menu:before {
     border: 0
 }
@@ -1265,6 +1269,10 @@ ul.icons li [class^="icon-"], ul.icons li [class*=" icon-"] {
     background: #ddd;
     color: #333;
     filter: none
+}
+
+.dropdown-menu>li>ul>li>a:hover {
+    font-size: 12px;
 }
 
 .uneditable-input {

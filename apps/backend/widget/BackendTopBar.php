@@ -15,6 +15,14 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
                 'url' => array('dashboard/default'),
             ),
             array(
+                'label' => t('Menu'),
+                'url' => array('menu/default'),
+                'items' => array(
+                    array('label' => t('Menu List'),
+                        'url' => array('menu/default'))
+                ),
+            ),
+            array(
                 'label' => t('Posts Management'),
                 'url' => array('post/default'),
                 'items' => array(
@@ -51,6 +59,20 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
                 'url' => array('setting/default'),
             ),
         );
+
+        $menuGs = Menu::getMenuGroup();
+        if (!empty($menuGs)) {
+            foreach($menuGs as $menuG) {
+                $this->items[1]['items'][] = array(
+                    'label'=> $menuG->getName(),
+                    'url' => array('menu/default', 'group_id' => $menuG->getId()),
+                    'items' => array(
+                        array('label' => t('Add menu'),
+                            'url' => array('menu/add', 'group_id' => $menuG->getId()))
+                    ),
+                );
+            }
+        }
 
         $this->items = \Toxotes\Plugin::applyFilters('after_init_admin_main_nav', $this->items);
     }
