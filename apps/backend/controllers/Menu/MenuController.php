@@ -6,7 +6,9 @@
  * Time: 12:48 AM
  * To change this template use File | Settings | File Templates.
  */
+use Flywheel\Loader;
 
+Loader::import('app.include.Tables.*');
 class MenuController extends AdminBaseController {
     public function executeDefault() {
         $input = new stdClass();
@@ -32,12 +34,15 @@ class MenuController extends AdminBaseController {
         $groups = Menu::getMenuGroup();
         $menusList = array();
         $group = false;
+        $table = null;
         if (($groupId = $this->request()->get('group_id', 'INT', 0))) {
             if (!($group = Menu::retrieveById($groupId))) {
                 $this->redirect($this->createUrl('menu/default'));
             }
 
             $menusList = $group->getDescendants();
+            $table = new TermListTable('menu');
+            $table->setItems($menusList);
         }
 
         if (!empty($error) && !isset($error['global'])) {
@@ -49,10 +54,26 @@ class MenuController extends AdminBaseController {
             'list' => $menusList,
             'menu' => $groups,
             'select_menu' => $group,
+            'table' => $table,
             'error' => $error,
-            'message' => $message
+            'message' => $message,
         ));
 
         return $this->renderComponent();
+    }
+
+    /**
+     * add new menu child items
+     */
+    public function executeAdd() {
+        $step = 1;
+        $error = null;
+        if ($this->request()->isPostRequest()) {
+            $step = $this->request()->post('step', 'INT', 1);
+
+            if (1 == $step) {//chose
+                $type = $this->request()->post('type');
+            }
+        }
     }
 }

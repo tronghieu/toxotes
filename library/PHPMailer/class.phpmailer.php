@@ -1112,7 +1112,7 @@ class PHPMailer {
       $lastChunk = substr($encodedText, $maxLength - $lookBack, $lookBack);
       $encodedCharPos = strpos($lastChunk, "=");
       if ($encodedCharPos !== false) {
-        // Found start of encoded character byte within $lookBack block.
+        // Found start of encoded character byte within $lookBack widget.
         // Check the encoded byte value (the 2 chars after the '=')
         $hex = substr($encodedText, $maxLength - $lookBack + $encodedCharPos + 1, 2);
         $dec = hexdec($hex);

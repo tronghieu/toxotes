@@ -1271,7 +1271,7 @@ ul.icons li [class^="icon-"], ul.icons li [class*=" icon-"] {
     filter: none
 }
 
-.dropdown-menu>li>ul>li>a:hover {
+.dropdown-menu>li>ul>li>a {
     font-size: 12px;
 }
 

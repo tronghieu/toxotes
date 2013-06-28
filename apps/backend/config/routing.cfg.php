@@ -26,7 +26,7 @@ return array(
 	 * rules description
 	 * exp
 	 *  'pattern' => array(
-	 *	  'route' => 'path/to/Controllers/action', path to controller and action
+	 *	  'route' => 'path/to/Controllers/action', path to controllers and action
 	 *	  'params' => [p1, p2, p3], optional parameters
 	 *	  'filter' => array(
 	 *		  'method' => 'ANY' //filter by request method POST, GET, PUT, DELETE or all
@@ -36,7 +36,7 @@ return array(
 	 *	  ),
 	 *  );
 	 */
-	//default controller
+	//default controllers
 	'/' => array(
 		'route' => 'dashboard/default'
 	),

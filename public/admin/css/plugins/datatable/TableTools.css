@@ -134,7 +134,7 @@ button.DTTT_button_xls span,
 button.DTTT_button_copy span,
 button.DTTT_button_pdf span,
 button.DTTT_button_print span {
-	display: inline-block;
+	display: inline-widget;
 	height: 24px;
 	line-height: 24px;
 	padding-right: 30px;

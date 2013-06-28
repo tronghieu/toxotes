@@ -10,11 +10,9 @@ use Flywheel\Html\Form;
 
 $form = new Form('menu-frm');
 $this->document()->title .= t('Menu Management');
-
-$select_menu = ($select_menu)? $select_menu : new Menu();
 $menu = !empty($menu)? $menu:array();
 
-$this->document()->addCss('menu.css');
+$this->document()->addCss('css/menu.css');
 
 ?>
 
@@ -53,6 +51,7 @@ $this->document()->addCss('menu.css');
 <?php endif; ?>
 
 <div class="row-fluid">
+    <!-- Menu List and Form -->
     <div class="span3">
         <div class="box box-color">
             <div class="box-title"><h3><?php td('Menu'); ?></h3></div>
@@ -60,8 +59,10 @@ $this->document()->addCss('menu.css');
                 <?php $form->beginForm(); ?>
                 <ul class="menu-list">
                     <?php foreach($menu as $_menu) :?>
-                        <li class="menu-row<?php if($select_menu->getId() == $_menu->getId()):?> selected<?php endif; ?>">
-                            <a href="<?php echo $this->createUrl('menu/default', array('group_id' => $_menu->getId())); ?>"><?php echo $_menu->getName(); ?></a>
+                        <li class="menu-row<?php if($select_menu && $select_menu->getId() == $_menu->getId()):?> selected<?php endif; ?>">
+                            <a href="<?php echo $this->createUrl('menu/default', array('group_id' => $_menu->getId())); ?>">
+                                <i class="icon-th-large"></i> <?php echo $_menu->getName(); ?>
+                            </a>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -88,4 +89,31 @@ $this->document()->addCss('menu.css');
             </div>
         </div>
     </div>
+    <!-- /menu list and form -->
+
+    <?php if ($select_menu) {
+        ?>
+    <!-- Term list -->
+    <div class="span8">
+        <div class="box box-color">
+            <div class="box-title">
+                <h3>
+                    <i class="icon-reorder"></i>
+                    <?php echo $select_menu->getName() ;?>
+                </h3>
+
+                <div class="actions">
+                    <a href="<?php echo $this->createUrl('menu/add', array('id' => $select_menu->getId())) ?>" class="btn btn-mini content-refresh"><i class="icon-plus"></i></a>
+                    <a href="<?php echo $this->createUrl('menu/edit', array('id' => $select_menu->getId())) ?>" class="btn btn-mini content-slideUp"><i class="icon-pencil"></i></a>
+                    <a href="<?php echo $this->createUrl('category/delete', array('id' => $select_menu->getId())) ?>" class="btn btn-mini content-remove tool-remove"><i class="icon-remove"></i></a>
+                </div>
+            </div>
+
+            <div class="box-content nopadding">
+                <?php $table->display(); ?>
+            </div>
+        </div>
+    </div>
+    <!-- /term list -->
+    <?php } ?>
 </div>

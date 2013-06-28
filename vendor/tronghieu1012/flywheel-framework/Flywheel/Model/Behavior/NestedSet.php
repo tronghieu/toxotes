@@ -447,7 +447,7 @@ class NestedSet extends ModelBehavior {
 
         $query->andWhere($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
                     AND ' .$owner->quote($this->right_attr) .' < ' .$owner->{$this->right_attr})
-            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLeftValue() + 1))
+            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLevel() + 1))
             ->orderBy($owner->quote($this->left_attr));
 
         if ($this->scope_attr) {
@@ -573,7 +573,7 @@ class NestedSet extends ModelBehavior {
         }
 
         $query->andWhere($owner->quote($this->left_attr) .' >= ' .$owner->{$this->left_attr} .'
-                AND ' .$owner->quote($this->right_attr) .' < ' .$owner->{$this->right_attr});
+                AND ' .$owner->quote($this->right_attr) .' <= ' .$owner->{$this->right_attr});
 
         if ($this->scope_attr) {
             $query->andWhere($owner->quote($this->scope_attr) .'=' .$this->getScopeValue(true));

@@ -1,0 +1,42 @@
+.menu-list {
+    margin: 0px;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+
+.menu-list li {
+    list-style: none;
+}
+
+.menu-list li a {
+    display: block;
+    padding: 7px 10px;
+    color: #000000;
+    background-color: #f9f9f9;
+}
+
+.menu-list li a:hover {
+    text-decoration: none;
+    background-color: #f0f0f0;
+}
+
+.menu-list li.selected a {
+    background-color: rgb(87, 172, 238);
+    color: #fff;
+}
+
+.menu-list li.selected a:hover {
+    background-color: rgb(87, 172, 238);
+}
+
+#new_menu {
+    background-color: #efefef;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    padding: 10px;
+}
+
+#new_menu h5 {
+    margin-top: 0px;
+}

@@ -43,7 +43,7 @@ var sh = {
 		/** First line number. */
 		'first-line' : 1,
 		
-		/** Font size of the SyntaxHighlighter block. */
+		/** Font size of the SyntaxHighlighter widget. */
 		'font-size' : null,
 		
 		/** Lines to highlight. */
@@ -930,9 +930,9 @@ var sh = {
 		},
 		
 		/**
-		 * Unindents a block of text by the lowest common indent amount.
+		 * Unindents a widget of text by the lowest common indent amount.
 		 * @param {String} str   Text to unindent.
-		 * @return {String}      Returns unindented text block.
+		 * @return {String}      Returns unindented text widget.
 		 */
 		unindent: function(str)
 		{
@@ -1296,7 +1296,7 @@ sh.Highlighter.prototype = {
 	},
 	
 	/**
-	 * Splits block of text into individual DIV lines.
+	 * Splits widget of text into individual DIV lines.
 	 * @param {String} code     Code to highlight.
 	 * @return {String}         Returns highlighted code in HTML form.
 	 */

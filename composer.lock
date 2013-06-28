@@ -161,12 +161,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tronghieu/flywheel-framework.git",
-                "reference": "93ee55e1f186e57a9e82526c5d971c676e4186ca"
+                "reference": "7a3872cc79a8bf4a351a866c50f9bcba110a0ac9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/93ee55e1f186e57a9e82526c5d971c676e4186ca",
-                "reference": "93ee55e1f186e57a9e82526c5d971c676e4186ca",
+                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/7a3872cc79a8bf4a351a866c50f9bcba110a0ac9",
+                "reference": "7a3872cc79a8bf4a351a866c50f9bcba110a0ac9",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +199,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-06-27 01:30:51"
+            "time": "2013-06-28 05:00:08"
         },
         {
             "name": "zendframework/zend-permissions-acl",

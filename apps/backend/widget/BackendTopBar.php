@@ -65,10 +65,10 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
             foreach($menuGs as $menuG) {
                 $this->items[1]['items'][] = array(
                     'label'=> $menuG->getName(),
-                    'url' => array('menu/default', 'group_id' => $menuG->getId()),
+                    'url' => array('menu/default', 'id' => $menuG->getId()),
                     'items' => array(
                         array('label' => t('Add menu'),
-                            'url' => array('menu/add', 'group_id' => $menuG->getId()))
+                            'url' => array('menu/add', 'id' => $menuG->getId()))
                     ),
                 );
             }

@@ -17,7 +17,7 @@
    display: inline-block; /* should be inline to take effect of parent's white-space: nowrap */
    vertical-align: top;
    margin-left: 7px;
-   /* inline-block emulation for IE7*/
+   /* inline-widget emulation for IE7*/
    zoom: 1; 
    *display: inline;
 }
@@ -131,7 +131,7 @@
     display: inline-block; 
     vertical-align: middle;
     width: auto;
-    /* inline-block emulation for IE7*/
+    /* inline-widget emulation for IE7*/
     zoom: 1; 
     *display: inline;    
 }
