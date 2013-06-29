@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * SystemFields
- *  This class has been auto-generated at 29/06/2013 13:57:07
+ *  This class has been auto-generated at 30/06/2013 06:04:52
  * @version		$Id$
  * @package		Model
 
@@ -66,7 +66,7 @@ abstract class SystemFieldsBase extends ActiveRecord {
                 'db_type' => 'varchar(255)',
                 'length' => 255),
         'title' => array('name' => 'title',
-                'not_null' => false,
+                'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),

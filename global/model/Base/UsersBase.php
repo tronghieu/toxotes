@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Users
- *  This class has been auto-generated at 29/06/2013 13:57:07
+ *  This class has been auto-generated at 30/06/2013 06:04:53
  * @version		$Id$
  * @package		Model
 

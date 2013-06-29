@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * PostImages
- *  This class has been auto-generated at 29/06/2013 13:57:07
+ *  This class has been auto-generated at 30/06/2013 06:04:52
  * @version		$Id$
  * @package		Model
 
