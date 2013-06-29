@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * PostCustomFields
- *  This class has been auto-generated at 28/06/2013 11:45:28
+ *  This class has been auto-generated at 29/06/2013 13:57:07
  * @version		$Id$
  * @package		Model
 

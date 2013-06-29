@@ -132,12 +132,18 @@ class TermListTable extends ListTable {
             .$name .'</strong></div>';
 
 
-        $s .= '<div class="sub-tool">';
-        if (\Toxotes\Plugin::getTaxonomyOption('category', 'item', 'enable_custom_fields', true)) {
-            $s .= '<a href="' .Factory::getRouter()->createUrl('category/custom_fields', array('taxonomy' => $item->taxonomy, 'id' => $item->id)) .'" class="tool-link tool-custom-field">'
-                .t('Custom Fields')
-                .'</a> | ';
+        $subtool = '';
+        if ('menu' != $item->taxonomy)
+        {
+            $subtool = '<div class="sub-tool">';
+            if (\Toxotes\Plugin::getTaxonomyOption('category', 'item', 'enable_custom_fields', true)) {
+                $s .= '<a href="' .Factory::getRouter()->createUrl('category/custom_fields', array('taxonomy' => $item->taxonomy, 'id' => $item->id)) .'" class="tool-link tool-custom-field">'
+                    .t('Custom Fields')
+                    .'</a> | ';
+            }
         }
+        $subtool = Plugin::applyFilters('custom_' .$item->taxonomy.'_subtool', $subtool);
+        $s .= $subtool;
 
         $removeLink = Factory::getRouter()->createUrl('category/delete', array('id' => $item->id));
         $editLink = Factory::getRouter()->createUrl('category/edit', array('id' => $item->id));
