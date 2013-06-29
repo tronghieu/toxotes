@@ -16,7 +16,9 @@ class LatestNews extends \Toxotes\Widget {
             $select->addOption(str_repeat('&#8212;', $category->getLevel()) .$category->getName(), $category->getId());
         }
 
-        $html .= '<div class="control-group' .(isset($error['property.category'])? ' error' : '') .'">
+        ob_start();
+
+        echo '<div class="control-group' .(isset($error['property.category'])? ' error' : '') .'">
                     <label class="control-label">' .t('Select Category') .'</label>
                     <div class="controls">' .$select->display()
                     .(isset($error['property.category'])? '<span class="help-block">' .implode('. ', $error['property.title']) .'</span>' : '')
@@ -27,10 +29,12 @@ class LatestNews extends \Toxotes\Widget {
                 ->add(1, t('Yes'))
                 ->add(0, t('No'));
 
-        $html .= '<div class="control-group">
+        echo '<div class="control-group">
                     <label class="control-label">' .t('Include child category') .'</label>
                     <div class="controls">' .$radio->display() .'</div>
                 </div>';
+
+        $html .= ob_get_clean();
 
         return $html;
     }
