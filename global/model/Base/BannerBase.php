@@ -3,11 +3,12 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Banner
- *  This class has been auto-generated at 01/07/2013 01:07:01
+ *  This class has been auto-generated at 01/07/2013 01:32:44
  * @version		$Id$
  * @package		Model
 
  * @property integer $id id primary auto_increment type : int(11) unsigned
+ * @property integer $term_id term_id type : int(11)
  * @property string $file file type : varchar(255) max_length : 255
  * @property string $title title type : varchar(255) max_length : 255
  * @property integer $ordering ordering type : int(11)
@@ -30,6 +31,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Banner[] findById(integer $id) find objects in database by id
  * @method static \Banner findOneById(integer $id) find object in database by id
  * @method static \Banner retrieveById(integer $id) retrieve object from poll by id, get it from db if not exist in poll
+
+ * @method void setTermId(integer $term_id) set term_id value
+ * @method integer getTermId() get term_id value
+ * @method static \Banner[] findByTermId(integer $term_id) find objects in database by term_id
+ * @method static \Banner findOneByTermId(integer $term_id) find object in database by term_id
+ * @method static \Banner retrieveByTermId(integer $term_id) retrieve object from poll by term_id, get it from db if not exist in poll
 
  * @method void setFile(string $file) set file value
  * @method string getFile() get file value
@@ -144,6 +151,12 @@ abstract class BannerBase extends ActiveRecord {
                 'auto_increment' => true,
                 'db_type' => 'int(11) unsigned',
                 'length' => 4),
+        'term_id' => array('name' => 'term_id',
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'int(11)',
+                'length' => 4),
         'file' => array('name' => 'file',
                 'not_null' => true,
                 'type' => 'string',
@@ -235,7 +248,7 @@ abstract class BannerBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','file','title','ordering','img_alt','link','link_target','auto_size','width','height','wrapper_id','wrapper_class','is_visible','language','description','created_date','modified_time');
+    protected static $_cols = array('id','term_id','file','title','ordering','img_alt','link','link_target','auto_size','width','height','wrapper_id','wrapper_class','is_visible','language','description','created_date','modified_time');
 
     public function setTableDefinition() {
     }
