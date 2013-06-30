@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * WidgetBlock
- *  This class has been auto-generated at 30/06/2013 06:04:53
+ *  This class has been auto-generated at 01/07/2013 01:07:01
  * @version		$Id$
  * @package		Model
 

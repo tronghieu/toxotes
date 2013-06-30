@@ -3,13 +3,14 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Banner
- *  This class has been auto-generated at 30/06/2013 06:04:52
+ *  This class has been auto-generated at 01/07/2013 01:07:01
  * @version		$Id$
  * @package		Model
 
  * @property integer $id id primary auto_increment type : int(11) unsigned
  * @property string $file file type : varchar(255) max_length : 255
  * @property string $title title type : varchar(255) max_length : 255
+ * @property integer $ordering ordering type : int(11)
  * @property string $img_alt img_alt type : varchar(255) max_length : 255
  * @property string $link link type : varchar(255) max_length : 255
  * @property string $link_target link_target type : varchar(10) max_length : 10
@@ -19,7 +20,10 @@ use Flywheel\Model\ActiveRecord;
  * @property string $wrapper_id wrapper_id type : varchar(255) max_length : 255
  * @property string $wrapper_class wrapper_class type : varchar(255) max_length : 255
  * @property string $is_visible is_visible type : varchar(255) max_length : 255
+ * @property string $language language type : char(10) max_length : 10
+ * @property string $description description type : text max_length : 
  * @property datetime $created_date created_date type : datetime
+ * @property datetime $modified_time modified_time type : datetime
 
  * @method void setId(integer $id) set id value
  * @method integer getId() get id value
@@ -38,6 +42,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Banner[] findByTitle(string $title) find objects in database by title
  * @method static \Banner findOneByTitle(string $title) find object in database by title
  * @method static \Banner retrieveByTitle(string $title) retrieve object from poll by title, get it from db if not exist in poll
+
+ * @method void setOrdering(integer $ordering) set ordering value
+ * @method integer getOrdering() get ordering value
+ * @method static \Banner[] findByOrdering(integer $ordering) find objects in database by ordering
+ * @method static \Banner findOneByOrdering(integer $ordering) find object in database by ordering
+ * @method static \Banner retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
 
  * @method void setImgAlt(string $img_alt) set img_alt value
  * @method string getImgAlt() get img_alt value
@@ -93,11 +103,29 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Banner findOneByIsVisible(string $is_visible) find object in database by is_visible
  * @method static \Banner retrieveByIsVisible(string $is_visible) retrieve object from poll by is_visible, get it from db if not exist in poll
 
+ * @method void setLanguage(string $language) set language value
+ * @method string getLanguage() get language value
+ * @method static \Banner[] findByLanguage(string $language) find objects in database by language
+ * @method static \Banner findOneByLanguage(string $language) find object in database by language
+ * @method static \Banner retrieveByLanguage(string $language) retrieve object from poll by language, get it from db if not exist in poll
+
+ * @method void setDescription(string $description) set description value
+ * @method string getDescription() get description value
+ * @method static \Banner[] findByDescription(string $description) find objects in database by description
+ * @method static \Banner findOneByDescription(string $description) find object in database by description
+ * @method static \Banner retrieveByDescription(string $description) retrieve object from poll by description, get it from db if not exist in poll
+
  * @method void setCreatedDate(\Flywheel\Db\Type\DateTime $created_date) setCreatedDate(string $created_date) set created_date value
  * @method \Flywheel\Db\Type\DateTime getCreatedDate() get created_date value
  * @method static \Banner[] findByCreatedDate(\Flywheel\Db\Type\DateTime $created_date) findByCreatedDate(string $created_date) find objects in database by created_date
  * @method static \Banner findOneByCreatedDate(\Flywheel\Db\Type\DateTime $created_date) findOneByCreatedDate(string $created_date) find object in database by created_date
  * @method static \Banner retrieveByCreatedDate(\Flywheel\Db\Type\DateTime $created_date) retrieveByCreatedDate(string $created_date) retrieve object from poll by created_date, get it from db if not exist in poll
+
+ * @method void setModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) setModifiedTime(string $modified_time) set modified_time value
+ * @method \Flywheel\Db\Type\DateTime getModifiedTime() get modified_time value
+ * @method static \Banner[] findByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) findByModifiedTime(string $modified_time) find objects in database by modified_time
+ * @method static \Banner findOneByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) findOneByModifiedTime(string $modified_time) find object in database by modified_time
+ * @method static \Banner retrieveByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) retrieveByModifiedTime(string $modified_time) retrieve object from poll by modified_time, get it from db if not exist in poll
 
 
  */
@@ -126,6 +154,13 @@ abstract class BannerBase extends ActiveRecord {
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
+        'ordering' => array('name' => 'ordering',
+                'default' => 0,
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'int(11)',
+                'length' => 4),
         'img_alt' => array('name' => 'img_alt',
                 'not_null' => true,
                 'type' => 'string',
@@ -178,7 +213,21 @@ abstract class BannerBase extends ActiveRecord {
                 'type' => 'string',
                 'db_type' => 'varchar(255)',
                 'length' => 255),
+        'language' => array('name' => 'language',
+                'default' => '*',
+                'not_null' => true,
+                'type' => 'string',
+                'db_type' => 'char(10)',
+                'length' => 10),
+        'description' => array('name' => 'description',
+                'not_null' => false,
+                'type' => 'string',
+                'db_type' => 'text'),
         'created_date' => array('name' => 'created_date',
+                'not_null' => true,
+                'type' => 'datetime',
+                'db_type' => 'datetime'),
+        'modified_time' => array('name' => 'modified_time',
                 'not_null' => true,
                 'type' => 'datetime',
                 'db_type' => 'datetime'),
@@ -186,7 +235,7 @@ abstract class BannerBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','file','title','img_alt','link','link_target','auto_size','width','height','wrapper_id','wrapper_class','is_visible','created_date');
+    protected static $_cols = array('id','file','title','ordering','img_alt','link','link_target','auto_size','width','height','wrapper_id','wrapper_class','is_visible','language','description','created_date','modified_time');
 
     public function setTableDefinition() {
     }

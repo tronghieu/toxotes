@@ -7,6 +7,8 @@
 
  */
 
+use Flywheel\Db\Type\DateTime;
+
 require_once dirname(__FILE__) .'/Base/BannerBase.php';
 class Banner extends \BannerBase {
     public function validationRules() {
@@ -18,5 +20,30 @@ class Banner extends \BannerBase {
             'name' => 'Require',
             'message' => 'Banner title can not be blank!',
         );
+
+        self::$_validate['ordering'][] = array(
+            'name' => 'Type',
+            'value' => 'integer',
+            'message' => 'Ordering must be a integer number!',
+        );
+
+        self::$_validate['width'][] = array(
+            'name' => 'Type',
+            'value' => 'integer',
+            'message' => 'Width must be a integer number!',
+        );
+
+        self::$_validate['height'][] = array(
+            'name' => 'Type',
+            'value' => 'integer',
+            'message' => 'Height must be a integer number!',
+        );
+    }
+
+    protected function _beforeSave() {
+        if (!$this->isNew()) {
+            $this->setCreatedDate(new DateTime());
+        }
+        $this->setModifiedTime(new DateTime());
     }
 }
