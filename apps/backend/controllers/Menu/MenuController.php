@@ -40,7 +40,7 @@ class MenuController extends AdminBaseController {
                 $this->redirect($this->createUrl('menu/default'));
             }
 
-            $menusList = $group->getBranch();
+            $menusList = $group->getDescendants();
             $table = new TermListTable('menu');
             $table->setItems($menusList);
         }

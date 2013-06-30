@@ -19,6 +19,10 @@ class SimpleEvent {
             'label' => t('Training/Events'),
             'url' => array('post/default', 'taxonomy' => 'event_manager'),
             'items' => array(
+                array('label' => t('Events'),
+                    'url' => array('post/default', 'taxonomy' => 'event_manager')
+                ),
+
                 array('label' => t('Add Event'),
                     'url' => array('post/create', 'taxonomy' => 'event_manager')
                 ),

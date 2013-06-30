@@ -218,7 +218,8 @@ class CategoryController extends AdminBaseController {
         if (empty($error)) {
             $term->delete();
             if ($term->delete()) {
-                $ajax->term = $term;
+                $ajax->term = $term->toArray();
+                $ajax->id = $term->getId();
                 $ajax->message = t($term->getName() .' was deleted!');
                 $ajax->type = AjaxResponse::SUCCESS;
             } else {

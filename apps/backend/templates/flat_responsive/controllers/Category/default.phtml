@@ -10,6 +10,9 @@ $addNewFrm->setHtmlOption(array(
     'class' => 'form-no-widget'
 ));
 
+$title = \Toxotes\Plugin::getTaxonomyOption($taxonomy, 'post', 'label');
+$page_title = t($title .' Management');
+
 $this->document()->title .= $page_title;
 
 ?>
@@ -109,7 +112,7 @@ $this->document()->title .= $page_title;
             <div class="box-title">
                 <h3>
                     <i class="icon-reorder"></i>
-                    <?php td('Categories'); ;?>
+                    <?php echo $title ?>
                 </h3>
             </div>
 

@@ -30,9 +30,11 @@ class SelectParentTerm extends AdminBaseWidget {
             $select->addOption($selectName, $term->getId());
         }
 
+        $label = ($this->label)? $this->label : t('Parent');
+
         ob_start();
         echo '<div class="control-group' .(!empty($this->error)? ' error' : '') .'">
-                    <label class="control-label">' .t('Parent') .' (*) </label>
+                    <label class="control-label">' .$label .' (*) </label>
                     <div class="controls">';
         $select->display();
         echo '</div>';

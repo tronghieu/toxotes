@@ -62,4 +62,39 @@ class Folder {
 
         return $path;
     }
+
+    public static function cleanFileName($filename) {
+        $bad = array(
+            "<!--",
+            "-->",
+            "'",
+            "<",
+            ">",
+            '"',
+            '&',
+            '$',
+            '=',
+            ';',
+            '?',
+            '/',
+            "%20",
+            "%22",
+            "%3c",		// <
+            "%253c", 	// <
+            "%3e", 		// >
+            "%0e", 		// >
+            "%28", 		// (
+            "%29", 		// )
+            "%2528", 	// (
+            "%26", 		// &
+            "%24", 		// $
+            "%3f", 		// ?
+            "%3b", 		// ;
+            "%3d"		// =
+        );
+
+        $filename = str_replace($bad, '', $filename);
+
+        return stripslashes($filename);
+    }
 }

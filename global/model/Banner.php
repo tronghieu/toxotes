@@ -21,6 +21,11 @@ class Banner extends \BannerBase {
             'message' => 'Banner title can not be blank!',
         );
 
+        self::$_validate['term_id'][] = array(
+            'name' => 'Require',
+            'message' => 'Banner group is required!',
+        );
+
         self::$_validate['ordering'][] = array(
             'name' => 'Type',
             'value' => 'integer',

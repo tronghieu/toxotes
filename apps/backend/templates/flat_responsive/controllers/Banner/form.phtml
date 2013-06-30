@@ -1,0 +1,198 @@
+<?php
+use Flywheel\Html\Form;
+
+/** @var \Flywheel\View\Render $this */
+
+/** @var \Flywheel\Controller\WebController $controller */
+
+/** @var \Banner $banner */
+
+$form = new Form('banner-frm');
+$form->setHtmlOption(array(
+    'enctype' => 'multipart/form-data',
+    'class' => 'form-horizontal form-bordered'));
+
+$page_title = ($banner->isNew())? t('Add new banner') : t('Edit banner ');
+$this->document()->title .= $page_title;
+$menu = !empty($menu)? $menu:array();
+
+$this->document()->addCss('css/menu.css');
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $page_title ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('banner/default') ?>"><i class="icon-th-list"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Banner Manager') => array(
+            'url' => $this->createUrl('banner/default')
+        ),
+        $page_title
+    ),
+)) ?>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box box-color">
+            <div class="box-title">
+                <h3><i class="icon-edit"></i> <?php echo $page_title ?></h3>
+            </div>
+
+            <div class="box-content nopadding">
+                <!-- User From -->
+                <?php $form->beginForm(); ?>
+                <fieldset>
+                    <!-- General form elements -->
+                    <div class="widget row-fluid">
+                        <?php if (isset($error) && !empty($error)) :?>
+                            <div class="alert alert-error margin">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <?php echo implode('<br>', array_values($error)); ?>
+                            </div>
+                        <?php elseif (isset($message) && !empty($message)) : ?>
+                            <div class="alert alert-success margin">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <?php echo $message; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="control-group<?php if(isset($error['banner.title'])) echo ' error' ?>">
+                            <label class="control-label"><?php echo t('Title'); ?> *</label>
+                            <div class="controls">
+                                <input value="<?php echo $banner->getTitle() ?>" type="text" name="input[title]" class="input-xlarge">
+                                <?php if (isset($error['banner.title'])) : ?>
+                                    <span class="help-block"><?php echo $error['banner.title'] ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <?php $this->widget('app.widget.SelectParentTerm', array(
+                            'label' => t('Select Group'),
+                            'taxonomy' => 'banner',
+                            'selected' => $banner->getTermId(),
+                            'elementName' => 'input[term_id]',
+                            'error' => isset($error['banner.term_id'])? $error['banner.term_id']: null,
+                            'form' => $form,
+                        ));
+                        ?>
+
+                        <div class="control-group<?php if(isset($error['banner.ordering'])) echo ' error' ?>">
+                            <label class="control-label"><?php echo t('Ordering'); ?> *</label>
+                            <div class="controls">
+                                <input value="<?php echo $banner->getOrdering() ?>" type="text" name="input[ordering]" class="input-mini">
+                                <?php if (isset($error['banner.ordering'])) : ?>
+                                    <span class="help-block"><?php echo $error['banner.ordering'] ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="control-group<?php if(isset($error['banner.file'])) {echo ' error';} ?>">
+                            <label class="control-label"><?php echo t('File'); ?> *</label>
+                            <div class="controls">
+                                <input value="" type="file" name="file_upload" class="input-xlarge">
+                                <?php if (isset($error['banner.file'])) : ?>
+                                    <span class="help-block"><?php echo $error['banner.file'] ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label"><?php echo t('Link'); ?> </label>
+                            <div class="controls">
+                                <input value="<?php echo $banner->getLink() ?>" type="text" name="input[link]" class="input-xlarge">
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label"><?php echo t('Link Target'); ?> </label>
+                            <div class="controls">
+                                <?php $form->selectOption('input[link_target]', $banner->getLinkTarget())
+                                    ->addOption('_self','_self')
+                                    ->addOption('_blank', '_blank')
+                                    ->addOption('_parent', '_parent')
+                                    ->addOption('_top', '_top')
+                                    ->display(); ?>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label"><?php echo t('Banner size'); ?> </label>
+                            <div class="controls">
+                                <?php td('Auto')?>: <input name="input[auto_size]" value="1" type="checkbox" <?php if ($banner->getAutoSize()) {echo 'checked="checked"';} ?>>
+                                    <?php td('Check this to set the original sizes of the banner'); ?><br />
+                                <label class="sub-control">
+                                    <strong><?php td('Width'); ?></strong>
+                                    <input value="<?php echo $banner->getWidth() ?>" type="text" name="input[width]" class="input-mini"> (px)<br />
+                                </label>
+                                <label class="sub-control">
+                                    <strong><?php td('Height'); ?></strong>
+                                    <input value="<?php echo $banner->getHeight() ?>" type="text" name="input[height]" class="input-mini"> (px)
+                                </label>
+
+
+                            </div>
+                        </div>
+
+                        <?php $this->widget('app.widget.SelectLanguage', array(
+                            'selected' => $banner->getLanguage(),
+                            'elementName' => 'input[language]',
+                            'form' => $form
+                        ));
+                        ?>
+
+                        <div class="control-group">
+                            <label class="control-label"><?php td('Description'); ?></label>
+                            <?php $this->widget('app.widget.editor.TinyMCE', array(
+                                'selector' => '#banner-desc',
+                                'heigth' => 360
+                            )); ?>
+                            <div class="controls">
+                                <textarea name="input[description]" id="banner-desc" class="input-block-level"><?php echo $banner->getDescription(); ?>
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <?php if (!$banner->isNew()) : ?>
+                            <div class="control-group">
+                                <label class="control-label"><?php echo t('Created time'); ?> </label>
+                                <div class="controls">
+                                    <?php echo $banner->getCreatedDate() ?>
+                                </div>
+                            </div>
+
+
+                            <div class="control-group">
+                                <label class="control-label"><?php echo t('Last modified time'); ?> </label>
+                                <div class="controls">
+                                    <?php echo $banner->getModifiedTime() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="form-actions align-right">
+                            <button type="submit" class="btn btn-primary"><?php td('Save') ?></button>
+                            <a href="<?php $this->createUrl('banner/default')?>"><?php td('Cancel') ;?></a>
+                        </div>
+                    </div>
+                    <!-- /general form elements -->
+
+                </fieldset>
+                <?php $form->endForm(true); ?>
+            </div>
+        <!-- /user form -->
+        </div>
+    </div>
+</div>

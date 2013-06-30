@@ -11,6 +11,23 @@ class BackendSideBar extends \Flywheel\Html\Widget\Menu {
 
         $this->items = array();
 
+        $this->items[] = array(
+            'label' => t('Banners'),
+            'url' => array('banner/default'),
+            'items' => array(
+                array('label' => t('List All Banners'),
+                    'url' => array('banner/default')
+                ),
+                array(
+                    'label' => t('Banner Groups'),
+                    'url' => array('category/default', 'taxonomy' => 'banner')
+                ),
+                array('label' => t('Add New Banner'),
+                    'url' => array('banner/new')
+                ),
+            )
+        );
+
         $this->dispatch('onAfterInitAdminMenu', new AdminEvent($this));
     }
 

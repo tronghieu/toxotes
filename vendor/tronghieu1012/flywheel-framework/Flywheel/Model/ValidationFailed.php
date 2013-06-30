@@ -30,7 +30,7 @@ class ValidationFailed {
     public function __construct($colName, $message, $validator = null)
     {
         $this->_colName = $colName;
-        $this->_message = $message;
+        $this->_message[] = $message;
         $this->_validator = $validator;
     }
 

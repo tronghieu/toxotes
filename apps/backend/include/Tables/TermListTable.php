@@ -27,6 +27,10 @@ class TermListTable extends ListTable {
             'name' => array(
                 'label' => t('Name'),
             ),
+            'language' => array(
+                'label' => t('Language'),
+                'value' => '$item->getLanguage();'
+            ),
             'description' => array(
                 'label' => t('Description')
             )
@@ -93,7 +97,7 @@ class TermListTable extends ListTable {
 
     protected function _rows($item) {
         $s = '';
-        $s .='<tr class="term-row">';
+        $s .='<tr class="term-row" id="term-' .$item->getId() .'">';
 
         foreach ($this->columns as $name => $column) {
             if (is_int($name)) {
@@ -102,7 +106,7 @@ class TermListTable extends ListTable {
 
             $class = "class=\"term-item column-{$name}\"";
 
-            $s .= "<td $class id=\"term-{$item->getId()}\">";
+            $s .= "<td $class>";
 
             if ('cb' == $name) {
                 $s .= '<label>
@@ -133,14 +137,14 @@ class TermListTable extends ListTable {
 
 
         $subtool = '';
+        $subtool = '<div class="sub-tool">';
         if ('menu' != $item->taxonomy)
         {
-            $subtool = '<div class="sub-tool">';
-            if (\Toxotes\Plugin::getTaxonomyOption('category', 'item', 'enable_custom_fields', true)) {
+            /*if (\Toxotes\Plugin::getTaxonomyOption('category', 'item', 'enable_custom_fields', true)) {
                 $s .= '<a href="' .Factory::getRouter()->createUrl('category/custom_fields', array('taxonomy' => $item->taxonomy, 'id' => $item->id)) .'" class="tool-link tool-custom-field">'
                     .t('Custom Fields')
                     .'</a> | ';
-            }
+            }*/
         }
         $subtool = Plugin::applyFilters('custom_' .$item->taxonomy.'_subtool', $subtool);
         $s .= $subtool;
@@ -163,7 +167,14 @@ class TermListTable extends ListTable {
     }
 
     protected function _columnCustom($name, $item) {
-        return Plugin::applyFilters('manage_' .$this->taxonomy .'_custom_column', '', $name, $item->id);
+        $value = null;
+        if (isset($this->columns[$name]['value'])) {
+            eval('$value = ' .$this->columns[$name]['value']);
+        }
+
+        $value =  Plugin::applyFilters('manage_' .$this->taxonomy .'_custom_column', $value, $name, $item->id);
+
+        return $value;
     }
 
     public function displayFootRow() {

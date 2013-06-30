@@ -41,6 +41,11 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
             'enable_custom_fields' => true,
         ));
 
+        Plugin::registerTaxonomy('banner', 'post', array(
+            'label' => t('Banner'),
+            'enable_custom_fields' => false,
+        ));
+
         Plugin::registerTaxonomy('post', 'post', array(
             'label' => t('Post')
         ));

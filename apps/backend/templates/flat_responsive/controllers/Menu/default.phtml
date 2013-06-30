@@ -105,7 +105,7 @@ $this->document()->addCss('css/menu.css');
                 <div class="actions">
                     <a href="<?php echo $this->createUrl('menu/add', array('id' => $select_menu->getId())) ?>" class="btn btn-mini content-refresh"><i class="icon-plus"></i></a>
                     <a href="<?php echo $this->createUrl('menu/edit', array('id' => $select_menu->getId())) ?>" class="btn btn-mini content-slideUp"><i class="icon-pencil"></i></a>
-                    <a href="<?php echo $this->createUrl('category/delete', array('id' => $select_menu->getId())) ?>" class="btn btn-mini content-remove tool-remove"><i class="icon-remove"></i></a>
+                    <a href="<?php echo $this->createUrl('category/delete', array('id' => $select_menu->getId())) ?>" class="btn btn-mini tool-remove" rel="term-<?php echo $select_menu->getId(); ?>"><i class="icon-remove"></i></a>
                 </div>
             </div>
 
