@@ -103,6 +103,7 @@ $this->document()->addCss('css/menu.css');
                             <label class="control-label"><?php echo t('File'); ?> *</label>
                             <div class="controls">
                                 <input value="" type="file" name="file_upload" class="input-xlarge">
+                                <span class="help-inline"><?php td('Max: ' .$upload_max_filesize .' Mb'); ?></span>
                                 <?php if (isset($error['banner.file'])) : ?>
                                     <span class="help-block"><?php echo $error['banner.file'] ?></span>
                                 <?php endif; ?>

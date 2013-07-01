@@ -257,22 +257,22 @@ class Uploader {
         if ($_FILES[$field]['error'] != 0) {
             switch ($_FILES[$field]['error']) {
                 case 1:
-                    $this->_error[] = 'The file is too large (server).';
+                    $this->_error[] = 'The file is too large (server)';
                     break;
                 case 2:
-                    $this->_error[] = 'The file is too large (form).';
+                    $this->_error[] = 'The file is too large (form)';
                     break;
                 case 3:
-                    $this->_error[] = 'The file was only partially uploaded.';
+                    $this->_error[] = 'The file was only partially uploaded';
                     break;
                 case 4:
-                    $this->_error[] = 'No file was uploaded.';
+                    $this->_error[] = 'No file was uploaded';
                     break;
                 case 5:
-                    $this->_error[] = 'The servers temporary folder is missing.';
+                    $this->_error[] = 'The servers temporary folder is missing';
                     break;
                 case 6:
-                    $this->_error[]  = 'Failed to write to the temporary folder.';
+                    $this->_error[]  = 'Failed to write to the temporary folder';
                     break;
             }
             return false;

@@ -24,7 +24,8 @@ class BannerController extends AdminBaseController {
         $this->setView('form');
         $this->view()->assign(array(
             'banner' => $banner,
-            'error' => $error
+            'error' => $error,
+            'upload_max_filesize' => str_replace('M','', ini_get('upload_max_filesize'))
         ));
 
         return $this->renderComponent();
@@ -43,7 +44,8 @@ class BannerController extends AdminBaseController {
         $this->setView('form');
         $this->view()->assign(array(
             'banner' => $banner,
-            'error' => $error
+            'error' => $error,
+            'upload_max_filesize' => str_replace('M','', ini_get('upload_max_filesize'))
         ));
 
         return $this->renderComponent();
@@ -78,7 +80,7 @@ class BannerController extends AdminBaseController {
                 $upload_dir = PUBLIC_DIR .'/media/banner';
                 \Flywheel\Util\Folder::create($upload_dir, 0777);
                 $fileUploader = new Uploader(PUBLIC_DIR .'/media/banner/', 'file_upload');
-                $fileUploader->setMaximumFileSize(2);
+                $fileUploader->setMaximumFileSize(ini_get('upload_max_filesize'));
                 $fileUploader->setFilterType('.jpg, .jpeg, .png, .bmp, .gif');
                 $fileUploader->setIsEncryptFileName(true);
                 if($fileUploader->upload()) {
@@ -86,11 +88,11 @@ class BannerController extends AdminBaseController {
                     $banner->setFile('/media/' .$data['file_name']);
                 } else {
                     $uploadErr = $fileUploader->getError();
-                    $error['banner.file'] = $uploadErr;
+                    $error['banner.file'] = implode('.' ,$uploadErr);
                 }
             }
 
-            if ($banner->save()) {
+            if (empty($error) && $banner->save()) {
                 return true;
             }
 
