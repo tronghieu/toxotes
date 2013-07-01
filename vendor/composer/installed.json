@@ -254,12 +254,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/tronghieu/flywheel-framework.git",
-            "reference": "1e868825cbc39c0e6ef7b61d89e19feca779c0b4"
+            "reference": "131d021e08a72df911d3f05e6e62a6375909a46a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/1e868825cbc39c0e6ef7b61d89e19feca779c0b4",
-            "reference": "1e868825cbc39c0e6ef7b61d89e19feca779c0b4",
+            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/131d021e08a72df911d3f05e6e62a6375909a46a",
+            "reference": "131d021e08a72df911d3f05e6e62a6375909a46a",
             "shasum": ""
         },
         "require": {
@@ -270,7 +270,7 @@
             "symfony/translation": "2.*",
             "zendframework/zend-permissions-acl": "2.*"
         },
-        "time": "2013-06-30 04:13:32",
+        "time": "2013-07-01 10:26:10",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a7ed4849d2b17ca8ddb17e9d73ae149a",
+    "hash": "5eaab51edb3ad28f2eff9bc0f98cec92",
     "packages": [
         {
             "name": "symfony/config",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tronghieu/flywheel-framework.git",
-                "reference": "1e868825cbc39c0e6ef7b61d89e19feca779c0b4"
+                "reference": "131d021e08a72df911d3f05e6e62a6375909a46a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/1e868825cbc39c0e6ef7b61d89e19feca779c0b4",
-                "reference": "1e868825cbc39c0e6ef7b61d89e19feca779c0b4",
+                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/131d021e08a72df911d3f05e6e62a6375909a46a",
+                "reference": "131d021e08a72df911d3f05e6e62a6375909a46a",
                 "shasum": ""
             },
             "require": {
@@ -248,7 +248,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-06-30 04:13:32"
+            "time": "2013-07-01 10:26:10"
         },
         {
             "name": "zendframework/zend-permissions-acl",

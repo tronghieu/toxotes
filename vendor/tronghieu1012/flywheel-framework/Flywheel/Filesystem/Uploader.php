@@ -30,7 +30,7 @@ class Uploader {
      * @param array		$config
      */
     public function __construct($dir, $field = null, $config = array()) {
-        $this->_allowedMimeType = ConfigHandler::load('global.config.mime');
+        $this->_allowedMimeType = self::getDefinedMime();
         $this->_dir = $dir;
         $this->setFieldUpload($field);
         if (count($config) > 0) {
@@ -218,7 +218,7 @@ class Uploader {
          */
         if (!@copy($this->_data['file_temp'], $this->_dir .$this->_data['file_name'])) {
             if (!@move_uploaded_file($this->_data['file_temp'], $this->_dir .$this->_data['file_name'])) {
-                $this->_error[] = 'upload file không thành công.';
+                $this->_error[] = 'Upload fail';
                 return false;
             }
 
@@ -285,8 +285,8 @@ class Uploader {
         }
 
         //check file size
-        if ($_FILES[$field]['size']/1024 > $this->_maxSize) {
-            $this->_error[] = 'File size is too big (more than allowed size:' .$this->_maxSize .' Kb)';
+        if ($_FILES[$field]['size']/(1024*1024) > $this->_maxSize) {
+            $this->_error[] = 'File size (' .$_FILES[$field]['size']/(1024*1024) .') is too big (more than allowed size:' .$this->_maxSize .' Mb)';
             $valid = false;
         }
 
@@ -315,16 +315,16 @@ class Uploader {
         $fileMimeType = $this->getMimeTypeByExtension($ext, $mime);
         if (is_array($fileMimeType)) {
             if (!in_array($_FILES[$field]['type'], $fileMimeType)) {
-                $this->_error[] = 'Mime type does not allow.';
+                $this->_error[] = 'Mime (' .$ext .'-' .$_FILES[$field]['type'] .') type does not allow';
                 return false;
             }
         } elseif (is_string($fileMimeType)) {
             if ($fileMimeType != $_FILES[$field]['type']) {
-                $this->_error[] = 'Mine type does not allow.';
+                $this->_error[] = 'Mime (' .$ext .'-' .$_FILES[$field]['type'] .') type does not allow';
                 return false;
             }
         } elseif (false == $fileMimeType) {
-            $this->_error[] = 'Mine type does not allow.';
+            $this->_error[] = 'Mime (' .$ext .'-' .$_FILES[$field]['type'] .') type does not allow';
             return false;
         }
 
@@ -426,7 +426,105 @@ class Uploader {
         $this->_ansiName = true;
         $this->_removeSpaceName = true;
         $this->_field = null;
+    }
 
+    /**
+     * @return array
+     */
+    public static function getDefinedMime() {
+        return array(	'hqx'	=>	'application/mac-binhex40',
+            'cpt'	=>	'application/mac-compactpro',
+            'csv'	=>	array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel'),
+            'bin'	=>	'application/macbinary',
+            'dms'	=>	'application/octet-stream',
+            'lha'	=>	'application/octet-stream',
+            'lzh'	=>	'application/octet-stream',
+            'exe'	=>	'application/octet-stream',
+            'class'	=>	'application/octet-stream',
+            'psd'	=>	'application/x-photoshop',
+            'so'	=>	'application/octet-stream',
+            'sea'	=>	'application/octet-stream',
+            'dll'	=>	'application/octet-stream',
+            'oda'	=>	'application/oda',
+            'pdf'	=>	array('application/pdf', 'application/x-download'),
+            'ai'	=>	'application/postscript',
+            'eps'	=>	'application/postscript',
+            'ps'	=>	'application/postscript',
+            'smi'	=>	'application/smil',
+            'smil'	=>	'application/smil',
+            'mif'	=>	'application/vnd.mif',
+            'xls'	=>	array('application/excel', 'application/vnd.ms-excel', 'application/msexcel'),
+            'ppt'	=>	array('application/powerpoint', 'application/vnd.ms-powerpoint'),
+            'wbxml'	=>	'application/wbxml',
+            'wmlc'	=>	'application/wmlc',
+            'dcr'	=>	'application/x-director',
+            'dir'	=>	'application/x-director',
+            'dxr'	=>	'application/x-director',
+            'dvi'	=>	'application/x-dvi',
+            'gtar'	=>	'application/x-gtar',
+            'gz'	=>	'application/x-gzip',
+            'php'	=>	'application/x-httpd-php',
+            'php4'	=>	'application/x-httpd-php',
+            'php3'	=>	'application/x-httpd-php',
+            'phtml'	=>	'application/x-httpd-php',
+            'phps'	=>	'application/x-httpd-php-source',
+            'js'	=>	'application/x-javascript',
+            'swf'	=>	'application/x-shockwave-flash',
+            'sit'	=>	'application/x-stuffit',
+            'tar'	=>	'application/x-tar',
+            'tgz'	=>	'application/x-tar',
+            'xhtml'	=>	'application/xhtml+xml',
+            'xht'	=>	'application/xhtml+xml',
+            'zip'	=>  array('application/x-zip', 'application/zip', 'application/x-zip-compressed'),
+            'rar'	=> 	array('application/x-rar-compressed', 'application/x-rar'),
+            'rev'	=>	array('application/x-rar-compressed', 'application/x-rar'),
+            'mid'	=>	'audio/midi',
+            'midi'	=>	'audio/midi',
+            'mpga'	=>	'audio/mpeg',
+            'mp2'	=>	'audio/mpeg',
+            'mp3'	=>	array('audio/mpeg', 'audio/mpg'),
+            'aif'	=>	'audio/x-aiff',
+            'aiff'	=>	'audio/x-aiff',
+            'aifc'	=>	'audio/x-aiff',
+            'ram'	=>	'audio/x-pn-realaudio',
+            'rm'	=>	'audio/x-pn-realaudio',
+            'rpm'	=>	'audio/x-pn-realaudio-plugin',
+            'ra'	=>	'audio/x-realaudio',
+            'rv'	=>	'video/vnd.rn-realvideo',
+            'wav'	=>	'audio/x-wav',
+            'bmp'	=>	'image/bmp',
+            'gif'	=>	'image/gif',
+            'jpeg'	=>	array('image/jpeg', 'image/pjpeg'),
+            'jpg'	=>	array('image/jpeg', 'image/pjpeg'),
+            'jpe'	=>	array('image/jpeg', 'image/pjpeg'),
+            'png'	=>	array('image/png',  'image/x-png'),
+            'tiff'	=>	'image/tiff',
+            'tif'	=>	'image/tiff',
+            'css'	=>	'text/css',
+            'html'	=>	'text/html',
+            'htm'	=>	'text/html',
+            'shtml'	=>	'text/html',
+            'txt'	=>	'text/plain',
+            'text'	=>	'text/plain',
+            'log'	=>	array('text/plain', 'text/x-log'),
+            'rtx'	=>	'text/richtext',
+            'rtf'	=>	'text/rtf',
+            'xml'	=>	'text/xml',
+            'xsl'	=>	'text/xml',
+            'mpeg'	=>	'video/mpeg',
+            'mpg'	=>	'video/mpeg',
+            'mpe'	=>	'video/mpeg',
+            'qt'	=>	'video/quicktime',
+            'mov'	=>	'video/quicktime',
+            'avi'	=>	'video/x-msvideo',
+            'movie'	=>	'video/x-sgi-movie',
+            'doc'	=>	'application/msword',
+            'docx'	=>	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xlsx'	=>	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'word'	=>	array('application/msword', 'application/octet-stream'),
+            'xl'	=>	'application/excel',
+            'eml'	=>	'message/rfc822'
+        );
     }
 
     public function __destruct() {
