@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Banner
- *  This class has been auto-generated at 01/07/2013 01:32:44
+ *  This class has been auto-generated at 02/07/2013 15:29:10
  * @version		$Id$
  * @package		Model
 
@@ -22,6 +22,8 @@ use Flywheel\Model\ActiveRecord;
  * @property string $wrapper_class wrapper_class type : varchar(255) max_length : 255
  * @property string $is_visible is_visible type : varchar(255) max_length : 255
  * @property string $language language type : char(10) max_length : 10
+ * @property string $status status type : enum('ACTIVE','INACTIVE') max_length : 8
+ * @property integer $clicked clicked type : int(11)
  * @property string $description description type : text max_length : 
  * @property datetime $created_date created_date type : datetime
  * @property datetime $modified_time modified_time type : datetime
@@ -115,6 +117,18 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Banner[] findByLanguage(string $language) find objects in database by language
  * @method static \Banner findOneByLanguage(string $language) find object in database by language
  * @method static \Banner retrieveByLanguage(string $language) retrieve object from poll by language, get it from db if not exist in poll
+
+ * @method void setStatus(string $status) set status value
+ * @method string getStatus() get status value
+ * @method static \Banner[] findByStatus(string $status) find objects in database by status
+ * @method static \Banner findOneByStatus(string $status) find object in database by status
+ * @method static \Banner retrieveByStatus(string $status) retrieve object from poll by status, get it from db if not exist in poll
+
+ * @method void setClicked(integer $clicked) set clicked value
+ * @method integer getClicked() get clicked value
+ * @method static \Banner[] findByClicked(integer $clicked) find objects in database by clicked
+ * @method static \Banner findOneByClicked(integer $clicked) find object in database by clicked
+ * @method static \Banner retrieveByClicked(integer $clicked) retrieve object from poll by clicked, get it from db if not exist in poll
 
  * @method void setDescription(string $description) set description value
  * @method string getDescription() get description value
@@ -232,6 +246,19 @@ abstract class BannerBase extends ActiveRecord {
                 'type' => 'string',
                 'db_type' => 'char(10)',
                 'length' => 10),
+        'status' => array('name' => 'status',
+                'default' => 'ACTIVE',
+                'not_null' => true,
+                'type' => 'string',
+                'db_type' => 'enum(\'ACTIVE\',\'INACTIVE\')',
+                'length' => 8),
+        'clicked' => array('name' => 'clicked',
+                'default' => 0,
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'int(11)',
+                'length' => 4),
         'description' => array('name' => 'description',
                 'not_null' => false,
                 'type' => 'string',
@@ -246,9 +273,15 @@ abstract class BannerBase extends ActiveRecord {
                 'db_type' => 'datetime'),
      );
     protected static $_validate = array(
+        'status' => array(
+            array('name' => 'ValidValues',
+                'value' => 'ACTIVE|INACTIVE',
+                'message'=> 'status\'s values is not allowed'
+            ),
+        ),
     );
     protected static $_init = false;
-    protected static $_cols = array('id','term_id','file','title','ordering','img_alt','link','link_target','auto_size','width','height','wrapper_id','wrapper_class','is_visible','language','description','created_date','modified_time');
+    protected static $_cols = array('id','term_id','file','title','ordering','img_alt','link','link_target','auto_size','width','height','wrapper_id','wrapper_class','is_visible','language','status','clicked','description','created_date','modified_time');
 
     public function setTableDefinition() {
     }

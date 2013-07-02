@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * TermProperty
- *  This class has been auto-generated at 01/07/2013 01:32:44
+ *  This class has been auto-generated at 02/07/2013 15:29:10
  * @version		$Id$
  * @package		Model
 
