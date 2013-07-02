@@ -8,17 +8,22 @@ class Plugin extends Object {
     public static $filter = array();
     public static $taxonomies = array();
 
-    public static function registerTaxonomy($taxonomy, $object, $param) {
+    public static function registerTaxonomy($taxonomy, $namespace, $param) {
         $default = array();
         $param = array_merge_recursive($default, $param);
 
-        $object = (array) $object;
-        foreach ($object as $obj) {
-            if (!isset(self::$taxonomies[$obj])) {
-                self::$taxonomies[$obj] = array();
+        $namespace = (array) $namespace;
+
+        if (!isset($param['namespace'])) {
+            $param['namespace'] = $namespace;
+        }
+
+        foreach ($namespace as $ns) {
+            if (!isset(self::$taxonomies[$ns])) {
+                self::$taxonomies[$ns] = array();
             }
 
-            self::$taxonomies[$obj][$taxonomy] = $param;
+            self::$taxonomies[$ns][$taxonomy] = $param;
         }
     }
 

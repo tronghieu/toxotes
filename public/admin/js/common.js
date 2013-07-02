@@ -142,12 +142,10 @@ $(function() {
         bootbox.confirm("Are you sure?", function(confirmed) {
             if (confirmed) {
                 $.postJSON(url, {}, function (response) {
-                    if (response.type == 1 && response.id) {
-                        for (var i = 0; i < response.ids.length; ++i) {
-                            rel.fadeOut(function () {
-                                $(this).remove();
-                            });
-                        }
+                    if (response.type == 1) {
+                        rel.fadeOut(function () {
+                            $(this).remove();
+                        });
                     } else if (response.message) {
                         bootbox.alert(response.message, function() {});
                     }

@@ -23,7 +23,7 @@ class SelectParentTerm extends AdminBaseWidget {
 
     public function end() {
         $select = $this->form->selectOption($this->elementName, $this->selected, (array) $this->htmlOptions)
-            ->addOption($this->label, '*');
+            ->addOption($this->label, '0');
 
         foreach ($this->terms as $term) {
             $selectName = ($term->getLevel() > 1)? str_repeat('&#8212;', $term->getLevel()-1) .$term->getName(): $term->getName();

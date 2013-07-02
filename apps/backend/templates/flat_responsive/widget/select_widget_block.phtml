@@ -1,7 +1,7 @@
 <div class="control-group<?php if(!empty($error)? ' error' : '') ?> .">
     <label class="control-label"><?php echo $label ?></label>
     <div class="controls">
-        <?php echo $select->display(); ?>
+        <?php echo $selectTerm->display(); ?>
     </div>
     <?php if (!empty($error)) :
         if (!is_array($error)) {

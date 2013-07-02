@@ -1,14 +1,39 @@
 <?php
 
+use Flywheel\Factory;
 use Flywheel\Filesystem\Uploader;
 
 class BannerController extends AdminBaseController {
     public function executeDefault() {
-        $banners = Banner::findAll();
+        $error = Factory::getSession()->getFlash('banner_error');
+        $message = Factory::getSession()->getFlash('banner');
+        $q = Banner::read();
+
+        $filter = $this->request()->post('filter', 'ARRAY', array());
+        if (isset($filter['keyword']) && '' != $filter['keyword']) {
+            $q->andWhere('`title` LIKE "%' .$filter['keyword'] .'%"');
+        }
+
+        if (isset($filter['term_id']) && 0 != $filter['term_id']) {
+            $q->andWhere('`term_id`= :term_id')
+                ->setParameter(':term_id', $filter['term_id'], \PDO::PARAM_INT);
+        }
+
+        if (isset($filter['status']) && 'All' != $filter['status']) {
+            $q->andWhere('`status` = :status')
+                ->setParameter(':status', $filter['status'], \PDO::PARAM_STR);
+        }
+
+        $banners = $q->execute()->fetchAll(\PDO::FETCH_CLASS, 'Banner', array(null, false));
 
         $this->view()->assign(array(
-            'banners' => $banners
+            'banners' => $banners,
+            'error' => $error,
+            'message' => $message,
+            'filter' => $filter
         ));
+
+        return $this->renderComponent();
     }
 
     public function executeNew() {
@@ -16,7 +41,7 @@ class BannerController extends AdminBaseController {
         $banner = new Banner();
         if ($this->request()->isPostRequest()) {
             if ($this->_save($banner, $error)) {
-                \Flywheel\Factory::getSession()->setFlash('banner', t($banner->getTitle() .' was saved'));
+                Factory::getSession()->setFlash('banner', t($banner->getTitle() .' was saved'));
                 $this->redirect($this->createUrl('banner/default'));
             }
         }
@@ -33,12 +58,18 @@ class BannerController extends AdminBaseController {
 
     public function executeEdit() {
         if (!($banner = Banner::retrieveById($this->request()->get('id')))) {
-            \Flywheel\Factory::getSession()->setFlash('banner_error', t('Banner not found'));
+            Factory::getSession()->setFlash('banner_error', t('Banner not found'));
+            $this->redirect($this->createUrl('banner/default'));
         }
+
+        $message = Factory::getSession()->getFlash('banner');
 
         $error = array();
         if ($this->request()->isPostRequest()) {
-            $this->_save($banner, $error);
+            if ($this->_save($banner, $error)) {
+                Factory::getSession()->setFlash('banner', t($banner->getTitle()) .' was saved');
+                $this->redirect($this->createUrl('banner/edit', array('id' => $banner->getId())));
+            }
         }
 
         $this->setView('form');
@@ -63,6 +94,8 @@ class BannerController extends AdminBaseController {
 
         $banner->delete();
         $res->type = AjaxResponse::SUCCESS;
+        $res->id = $banner->getId();
+        $res->banner = $banner->toArray();
         $res->message = t('Banner ' .$banner->getTitle() .' was removed!');
         return $this->renderText($res->toString());
     }
@@ -72,6 +105,10 @@ class BannerController extends AdminBaseController {
         $file_upload = @$_FILES['file_upload']['tmp_name'];
         if ($banner->isNew() && null == $file_upload) {
             @$error['banner.file'] = t('Banner file is required!');
+        }
+
+        if (!$banner->getTermId()) {
+            @$error['banner.term_id'] = t('Banner group is required!');
         }
 
         if (empty($error)) {
@@ -85,7 +122,7 @@ class BannerController extends AdminBaseController {
                 $fileUploader->setIsEncryptFileName(true);
                 if($fileUploader->upload()) {
                     $data = $fileUploader->getData();
-                    $banner->setFile('/media/' .$data['file_name']);
+                    $banner->setFile('/media/banner/' .$data['file_name']);
                 } else {
                     $uploadErr = $fileUploader->getError();
                     $error['banner.file'] = implode('.' ,$uploadErr);

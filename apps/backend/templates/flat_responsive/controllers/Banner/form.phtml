@@ -79,12 +79,28 @@ $this->document()->addCss('css/menu.css');
                             </div>
                         </div>
 
+                        <div class="control-group<?php if(isset($error['banner.status'])) echo ' error' ?>">
+                            <label class="control-label"><?php echo t('Title'); ?> *</label>
+                            <div class="controls">
+                                <?php $form->selectOption('input[status]', $banner->getStatus(), array(
+                                    'class' => 'styled'))
+                                    ->addOption(t('Status'), '')
+                                    ->addOption(t('Active'), 'ACTIVE')
+                                    ->addOption(t('Inactive'), 'INACTIVE')
+                                    ->display(); ?>
+
+                                <?php if (isset($error['banner.status'])) : ?>
+                                    <span class="help-block"><?php echo $error['banner.status'] ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
                         <?php $this->widget('app.widget.SelectParentTerm', array(
                             'label' => t('Select Group'),
                             'taxonomy' => 'banner',
                             'selected' => $banner->getTermId(),
                             'elementName' => 'input[term_id]',
-                            'error' => isset($error['banner.term_id'])? $error['banner.term_id']: null,
+                            'error' => @$error['banner.term_id'],
                             'form' => $form,
                         ));
                         ?>
@@ -102,11 +118,20 @@ $this->document()->addCss('css/menu.css');
                         <div class="control-group<?php if(isset($error['banner.file'])) {echo ' error';} ?>">
                             <label class="control-label"><?php echo t('File'); ?> *</label>
                             <div class="controls">
-                                <input value="" type="file" name="file_upload" class="input-xlarge">
-                                <span class="help-inline"><?php td('Max: ' .$upload_max_filesize .' Mb'); ?></span>
-                                <?php if (isset($error['banner.file'])) : ?>
-                                    <span class="help-block"><?php echo $error['banner.file'] ?></span>
-                                <?php endif; ?>
+                                <div class="fileupload">
+                                    <?php if (!$banner->isNew()) :?>
+                                        <div class="thumbnail">
+                                            <img src="./../<?php echo $banner->getFile() ;?>" width="200px">
+                                        </div>
+                                    <?php endif; ?>
+                                    <div>
+                                        <input value="" type="file" name="file_upload" class="input-xlarge">
+                                        <span class="help-inline"><?php td('Max: ' .$upload_max_filesize .' Mb'); ?></span>
+                                        <?php if (isset($error['banner.file'])) : ?>
+                                            <span class="help-block"><?php echo $error['banner.file'] ?></span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
