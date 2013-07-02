@@ -8,12 +8,11 @@
 $page_title = t('Banners Management');
 $this->document()->title .= $page_title;
 
-$filter = array_merge_recursive(array(
+$filter = array_merge(array(
     'keyword' => '',
     'status' => 'All',
     'term_id' => 0
 ), $filter);
-
 ?>
 <div class="page-header">
     <div class="pull-left">
@@ -63,7 +62,7 @@ $filter = array_merge_recursive(array(
     $root = Terms::retrieveRoot('banner');
     $terms = $root->getDescendants();
 
-    $selectTerm = $form->selectOption('filter[status]', $filter['status'])
+    $selectTerm = $form->selectOption('filter[term_id]', $filter['term_id'])
         ->addOption(t('Select Group'), '0');
 
     foreach ($terms as $term) {
@@ -119,7 +118,9 @@ $filter = array_merge_recursive(array(
                         <th><?php td('File') ;?></th>
                         <th><?php td('Group'); ?></th>
                         <th><?php td('Order'); ?></th>
+                        <th><?php td('Status'); ?></th>
                         <th><?php td('Language'); ?></th>
+                        <th><?php td('Clicks'); ?></th>
                         <th><?php td('Id'); ?></th>
                     </tr>
                 </thead>
@@ -152,7 +153,13 @@ $filter = array_merge_recursive(array(
                             <?php echo $banner->getOrdering(); ?>
                         </td>
                         <td>
+                            <?php echo $banner->getStatus(); ?>
+                        </td>
+                        <td>
                             <?php echo $banner->getLanguage(); ?>
+                        </td>
+                        <td>
+                            <?php echo $banner->getClicked(); ?>
                         </td>
                         <td>
                             <?php echo $banner->getId(); ?>

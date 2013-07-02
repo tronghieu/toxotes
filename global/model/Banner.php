@@ -46,7 +46,7 @@ class Banner extends \BannerBase {
     }
 
     protected function _beforeSave() {
-        if (!$this->isNew()) {
+        if ($this->isNew()) {
             $this->setCreatedDate(new DateTime());
         }
         $this->setModifiedTime(new DateTime());

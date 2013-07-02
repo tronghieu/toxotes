@@ -80,13 +80,11 @@ $this->document()->addCss('css/menu.css');
                         </div>
 
                         <div class="control-group<?php if(isset($error['banner.status'])) echo ' error' ?>">
-                            <label class="control-label"><?php echo t('Title'); ?> *</label>
+                            <label class="control-label"><?php echo t('Status'); ?> *</label>
                             <div class="controls">
-                                <?php $form->selectOption('input[status]', $banner->getStatus(), array(
-                                    'class' => 'styled'))
-                                    ->addOption(t('Status'), '')
-                                    ->addOption(t('Active'), 'ACTIVE')
-                                    ->addOption(t('Inactive'), 'INACTIVE')
+                                <?php $form->radioButton('input[status]', $banner->getStatus())
+                                    ->add('ACTIVE', t('Active'), array('class' => 'radio inline'), array('class' => 'styled'))
+                                    ->add('INACTIVE', t('Inactive'), array('class' => 'radio inline'), array('class' => 'styled'))
                                     ->display(); ?>
 
                                 <?php if (isset($error['banner.status'])) : ?>

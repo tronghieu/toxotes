@@ -9,7 +9,7 @@ class BannerController extends AdminBaseController {
         $message = Factory::getSession()->getFlash('banner');
         $q = Banner::read();
 
-        $filter = $this->request()->post('filter', 'ARRAY', array());
+        $filter = $this->request()->get('filter', 'ARRAY', array());
         if (isset($filter['keyword']) && '' != $filter['keyword']) {
             $q->andWhere('`title` LIKE "%' .$filter['keyword'] .'%"');
         }
@@ -24,7 +24,10 @@ class BannerController extends AdminBaseController {
                 ->setParameter(':status', $filter['status'], \PDO::PARAM_STR);
         }
 
-        $banners = $q->execute()->fetchAll(\PDO::FETCH_CLASS, 'Banner', array(null, false));
+        $banners = $q->orderBy('term_id')
+                ->addOrderBy('ordering')
+                ->execute()
+                ->fetchAll(\PDO::FETCH_CLASS, 'Banner', array(null, false));
 
         $this->view()->assign(array(
             'banners' => $banners,
@@ -76,6 +79,7 @@ class BannerController extends AdminBaseController {
         $this->view()->assign(array(
             'banner' => $banner,
             'error' => $error,
+            'message' => $message,
             'upload_max_filesize' => str_replace('M','', ini_get('upload_max_filesize'))
         ));
 

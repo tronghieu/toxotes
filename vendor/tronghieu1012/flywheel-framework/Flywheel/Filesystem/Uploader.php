@@ -20,7 +20,7 @@ class Uploader {
     private $_removeSpaceName = true;
     private $_field;
     private $_newName;
-    private	$_fileMod = 755;
+    private	$_fileMod = 0755;
 
     /**
      * Constructor
