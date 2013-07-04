@@ -20,8 +20,8 @@ if ($post->isNew()) {
     $main_img_url = $this->document()->getBaseUrl().'/img/no_img.png';
 }
 
-@$postImages = $postImages || array();
-@$postAttachments = $postAttachments | array();
+$mainImg = PostPeer::getPostMainImg($post->getId());
+$postImages = PostPeer::getPostImg($post->getId());
 ?>
     <div class="page-header">
         <div class="pull-left">
@@ -89,6 +89,36 @@ if ($post->isNew()) {
                 <!-- /editor -->
             </div>
         </div>
+
+        <!-- Post Images -->
+        <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_images', true)) :?>
+        <div class="box">
+            <div class="box-title">
+                <h3><?php td('Post Images'); ?></h3>
+            </div>
+            <div class="box-content">
+            <?php if (!empty($postImages)) :?>
+                <ul class="gallery">
+                <?php foreach ($postImages as $postImage) :?>
+                <li>
+                    <a href="">
+                        <img src="./../<?php echo $postImage->getPath()?>" width="200">
+                    </a>
+                    <div class="extras">
+                        <div class="extras-inner">
+                            <a href="<?php echo $this->createUrl('post_img/make_star', array('id' => $postImage->getId()))?>"><i class="icon-star"></i></a>
+                            <a href="<?php echo $this->createUrl('post_img/edit', array('id' => $postImage->getId()))?>"><i class="icon-pencil"></i></a>
+                            <a href="<?php echo $this->createUrl('post_img/remove', array('id' => $postImage->getId()))?>" class="tool-remove"><i class="icon-trash"></i></a>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+            </div>
+        </div>
+        <?php endif;?>
+        <!-- /post images -->
     </div>
     <!-- /main input -->
     <div class="span4">
@@ -126,55 +156,16 @@ if ($post->isNew()) {
         </div>
         <?php Plugin::doAction('custom_after' .$taxonomy .'_publish_box', $post, $form); ?>
 
-        <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_images', true)) :?>
-        <div class="box">
-            <div class="box-title"><h3><?php echo t('Images'); ?></h3></div>
-            <div class="box-content nopadding">
-                <div class="post-main-img span12">
-                    <div class="img-preview">
-                        <img src="<?php echo $main_img_url?>" width="60" class="<?php echo ($post->isNew()?'no-img':'main-img'); ?>">
-                    </div>
-                    <div class="img-property">
-                        <strong><?php td('Main image') ?></strong>
-                    </div>
-                </div>
-                <!-- Post Images -->
-                <div class="post-image span12">
-                <?php foreach($postImages as $postImage) : ?>
-                    <div id="post-img-<?php echo $postImage->getId(); ?>">
-                        <div class="img-preview">
-                            <img src="form.phtml" width="60" class="post-img">
-                        </div>
-                        <div class="img-property">
-                            <label><?php td('Caption'); ?></label>
-                            <input name="post_img_<?php echo $postImage->getId()?>[caption]" value="<?php echo $postImage->getCaption()?>" class="input-block-level">
-                            <a href="javascript:void(0)" class="post-img-set-default" data-obj="<?php echo $postImage->getId();?>"><?php td('Set default') ?></a>
-                            |
-                            <a href="javascript:void(0)" class="post-img-remove" data-obj=""
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-                </div>
-                <!-- /post images -->
-
-                <div class="form-actions right">
-                    <a href="#" class="btn pl_start btn-success"><i class="icon-cloud-upload"></i> <?php td('Add image'); ?></a>
-                </div>
-
-            </div>
-        </div>
-        <?php endif; ?>
-
         <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_attachments', true)) :?>
             <div class="box">
-                <div class="box-title"><h3><?php echo t('Files attachment'); ?></h3></div>
-                <div class="box-content">
+                <div class="box-title nopadding"><h3><?php echo t('Files attachment'); ?></h3></div>
+                <div class="box-content nopadding">
 
                 </div>
             </div>
         <?php endif; ?>
     </div>
 </div>
-<input name="post[id]" value="<?php echo $post->getId()?>" type="hidden">
+<input name="post_id" value="<?php echo $post->getId()?>" type="hidden">
 <?php $form->endForm(); ?>
 </div>

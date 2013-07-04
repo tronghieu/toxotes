@@ -13,6 +13,6 @@
         }
     ],
     "require": {
-        "tronghieu1012/flywheel-framework": "dev-1.1-alpha"
+        "tronghieu/flywheel-framework": "1.0.*@dev"
     }
 }
