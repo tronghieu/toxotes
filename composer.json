@@ -13,6 +13,7 @@
         }
     ],
     "require": {
+        "tronghieu/flyapi": "dev-master",
         "tronghieu/flywheel-framework": "1.0.*@dev"
     }
 }
