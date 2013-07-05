@@ -148,20 +148,4 @@ class PostController extends AdminBaseController {
         $post->rollBack();
         return false;
     }
-
-    public function executeUploadImg() {
-
-    }
-
-    public function executeMakeStarImg() {
-
-    }
-
-    public function executeEditImg() {
-
-    }
-
-    public function executeRemoveImg() {
-
-    }
 }

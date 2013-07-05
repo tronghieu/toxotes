@@ -77,11 +77,14 @@ $document = $this->document();
     <!-- Apple devices Homescreen icon -->
     <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
     <?php
-    echo $document->js('TOP');
     echo $document->css();
+    echo $document->js('TOP');
     ?>
+    <script type="text/javascript">
+        var base_url = "<?php echo $document->getBaseUrl(); ?>";
+    </script>
 </head>
-	
+
 	<body>
     <!-- Fixed top -->
     <?php $this->widget('app.widget.BackendTopBar'); ?>

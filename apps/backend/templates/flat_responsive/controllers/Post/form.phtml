@@ -7,6 +7,10 @@
 use Flywheel\Html\Form;
 use Toxotes\Plugin;
 
+$this->document()->addCss('css/jquery.fileupload-ui.css');
+$this->document()->addJs('js/post.js');
+$this->document()->addJs('js/plugins/file-upload/jquery.fileupload.js', 'TOP');
+
 $form = new Form('post');
 $form->setHtmlOption(array(
 ));
@@ -96,12 +100,12 @@ $postImages = PostPeer::getPostImg($post->getId());
             <div class="box-title">
                 <h3><?php td('Post Images'); ?></h3>
             </div>
-            <div class="box-content">
+            <div class="box-content nopadding">
             <?php if (!empty($postImages)) :?>
                 <ul class="gallery">
                 <?php foreach ($postImages as $postImage) :?>
                 <li>
-                    <a href="">
+                    <a href="#">
                         <img src="./../<?php echo $postImage->getPath()?>" width="200">
                     </a>
                     <div class="extras">
@@ -115,6 +119,27 @@ $postImages = PostPeer::getPostImg($post->getId());
                 <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
+
+                <!-- Upload tool -->
+                <div class="row-fluid">
+                    <div class="span3">
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <div class="btn btn-danger fileinput-button"><i class="icon-cloud-upload"></i>
+                                    <span><?php td('Upload new image'); ?></span>
+                                    <input id="post-img-upload" type="file" name="upload_images" multiple="" data-post-id="<?php echo $post->getId(); ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span9">
+                        <br />
+                        <div id="progress" class="progress progress-success">
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /upload tool -->
             </div>
         </div>
         <?php endif;?>

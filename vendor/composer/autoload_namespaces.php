@@ -11,5 +11,6 @@ return array(
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
     'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
-    'Flywheel' => array($vendorDir . '/tronghieu1012/flywheel-framework'),
+    'Flywheel' => array($vendorDir . '/tronghieu/flywheel-framework'),
+    'FlyApi' => array($vendorDir . '/tronghieu/flyapi'),
 );

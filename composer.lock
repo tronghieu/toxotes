@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "5eaab51edb3ad28f2eff9bc0f98cec92",
+    "hash": "f0ff1586a4e5d0f0e3e24d4dce5b8d18",
     "packages": [
         {
             "name": "symfony/config",
@@ -203,17 +203,58 @@
             "time": "2013-05-13 14:36:40"
         },
         {
-            "name": "tronghieu1012/flywheel-framework",
-            "version": "dev-1.1-alpha",
+            "name": "tronghieu/flyapi",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tronghieu/flywheel-framework.git",
-                "reference": "e0298ef8b1e7133d35270cfeadf38b62e6019cac"
+                "url": "https://github.com/tronghieu/flyapi.git",
+                "reference": "7daa015d4c441e1042ba1b86d4e203b91cebefdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/e0298ef8b1e7133d35270cfeadf38b62e6019cac",
-                "reference": "e0298ef8b1e7133d35270cfeadf38b62e6019cac",
+                "url": "https://api.github.com/repos/tronghieu/flyapi/zipball/7daa015d4c441e1042ba1b86d4e203b91cebefdf",
+                "reference": "7daa015d4c441e1042ba1b86d4e203b91cebefdf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "FlyApi": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luu Trong Hieu",
+                    "email": "tronghieu.luu@gmail.com"
+                }
+            ],
+            "description": "Flywheel API lib for server",
+            "homepage": "http://luutronghieu.com",
+            "keywords": [
+                "api",
+                "framework"
+            ],
+            "time": "2013-07-05 04:06:17"
+        },
+        {
+            "name": "tronghieu/flywheel-framework",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tronghieu/flywheel-framework.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/1.0.0",
+                "reference": "1.0.0",
                 "shasum": ""
             },
             "require": {
@@ -225,6 +266,11 @@
                 "zendframework/zend-permissions-acl": "2.*"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Flywheel": "/"
@@ -248,7 +294,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-07-02 06:58:04"
+            "time": "2013-07-04 08:33:05"
         },
         {
             "name": "zendframework/zend-permissions-acl",
@@ -300,7 +346,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tronghieu1012/flywheel-framework": 20
+        "tronghieu/flyapi": 20,
+        "tronghieu/flywheel-framework": 20
     },
     "platform": [
 
