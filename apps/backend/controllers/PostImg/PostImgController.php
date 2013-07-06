@@ -15,9 +15,13 @@ class PostImgController extends AdminBaseController {
 
     public function executeUpload() {
         $upload_max_filesize = str_replace('M', '', ini_get('upload_max_filesize'));
+        $res = new AjaxResponse();
         $postId = $this->request()->post('post_id');
+
         $upload_dir = PUBLIC_DIR .'/media/post_img/';
         Folder::create($upload_dir, 0777);
+        $error = array();
+
         $fileUploader = new Uploader($upload_dir, 'file_upload');
         $fileUploader->setMaximumFileSize($upload_max_filesize);
         $fileUploader->setFilterType('.jpg, .jpeg, .png, .bmp, .gif');
@@ -27,27 +31,30 @@ class PostImgController extends AdminBaseController {
             $filePath = '/media/post_img/' .$data['file_name'];
             $fileUrl = $this->document()->getBaseUrl() .'/../' .$filePath;
 
+            $postImg  = new PostImages();
+            $postImg->setPath($filePath);
+            $postImg->setPostId($postId);
 
-            return $this->renderText(json_encode(array(
-                'file' => $fileUrl
-            )));
+            if (!PostPeer::getPostMainImg($postId)) {
+                $postImg->setIsMain(true);
+            }
+
+            if ($postImg->save()) {
+                $res->type = AjaxResponse::SUCCESS;
+                $res->postImage = $postImg->toArray();
+                return $this->renderText($res->toString());
+            } else {
+                foreach ($postImg->getValidationFailures() as $validationFailure) {
+                    $error[$validationFailure->getColumn()] = $validationFailure->getMessage();
+                }
+            }
+        } else {
+            $error['upload'] = $fileUploader->getError();
         }
 
-        return $this->renderText('Not ok');
+        $res->type = AjaxResponse::ERROR;
+        $res->error = $error;
 
-        $uploader = new AjaxUploadHandler(
-            array(
-                'param_name' => 'upload_images',
-                'upload_dir' => $upload_dir,
-                'upload_url' => $this->document()->getDomain() .'/media/post_img/'
-            ),
-            false
-        );
-
-        $result = $uploader->post(false);
-        var_dump($result); exit;
-        $res = new AjaxResponse();
-        $res->result = $result;
         return $this->renderText($res->toString());
     }
 

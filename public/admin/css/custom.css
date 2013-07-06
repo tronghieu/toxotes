@@ -23,11 +23,11 @@ hr.read-more-sep {
     position: relative;
 }
 
-#post-frm .img-preview img.no-img {
+#post-frm img.no-img {
     border: 2px dashed #ddd;
 }
 
-#post-frm .main-img-preview img.main-img {
+#post-frm img.main-img {
     border: 2px solid #002266;
 }
 
