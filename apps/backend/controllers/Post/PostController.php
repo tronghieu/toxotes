@@ -1,5 +1,6 @@
 <?php
 
+use Flywheel\Factory;
 use Toxotes\Plugin;
 
 class PostController extends AdminBaseController {
@@ -16,18 +17,57 @@ class PostController extends AdminBaseController {
         $taxonomy = $this->request()->get('taxonomy', 'STRING', 'post');
         $post = new Posts();
         $post->setIsDraft(true);
+        $post->setTaxonomy($taxonomy);
         $post->save(false); //save Draft before
         $this->setView('form');
+
+        $error = array();
+        if ($this->request()->isPostRequest()) {
+            if ($this->_save($post, $error)) {
+                Factory::getSession()->setFlash('post_message', t($post->getTitle() .'  was saved!'));
+                $this->redirect($this->createUrl('post/default', array('taxonomy' => $taxonomy)));
+            }
+        }
 
         $this->view()->assign(array(
             'post' => $post,
             'taxonomy' => $taxonomy,
+            'error' => $error,
+            'page_title' => t('New post')
         ));
 
         return $this->renderComponent();
     }
 
     public function executeEdit() {
+        $post = Posts::retrieveById($this->request()->get('id'));
+        $taxonomy = $this->request()->get('taxonomy');
+        if (null == $taxonomy) {
+            $taxonomy = $post->getTaxonomy();
+        }
+
+        if (!$post) {
+            Factory::getSession()->setFlash('post_error', t('Post not found'));
+            $this->redirect($this->createUrl('post/default', array('taxonomy' => $taxonomy)));
+        }
+
+        $error = array();
+        if ($this->request()->isPostRequest()) {
+            if ($this->_save($post, $error)) {
+                Factory::getSession()->setFlash('post_message', t($post->getTitle() .' was saved'));
+                $this->redirect($this->createUrl('post/default', array('taxonomy'=>$taxonomy)));
+            }
+        }
+
+        $this->setView('form');
+        $this->view()->assign(array(
+            'post' => $post,
+            'taxonomy' => $taxonomy,
+            'error' => $error,
+            'page_title' => t('Edit ' .$post->getTitle())
+        ));
+
+        return $this->renderComponent();
     }
 
     public function executeLoadCustomFieldFrm() {
@@ -98,54 +138,21 @@ class PostController extends AdminBaseController {
     }
 
     protected function _save(Posts &$post, &$error) {
-        $input = $this->request()->post('posts', 'ARRAY', array());
-
-        $isNew = $post->isNew();
-
+        $input = $this->request()->post('post', 'ARRAY', array());
         $post->hydrate($input);
+        $post->setIsDraft(false);
 
-        $post->beginTransaction();
-        if ($post->save()) {
-            if ($isNew) {
-                //save item's images
-                $imgs = $this->request()->post('imgs', 'ARRAY', array());
-                foreach ($imgs as $index => $img) {
-                    $postImg = new PostImages();
-                    $postImg->setPath($img);
-                    $postImg->setCaption($this->request()->post('img_caption_'.$index));
-                    $postImg = Plugin::applyFilters('process_post_'.$post->taxonomy .'_img', $postImg);
-                    $postImg->save();
-                }
-                //end save item images
-
-                //save attachments
-                $attachments = $this->request()->post('attachments', 'ARRAY', array());
-                foreach ($attachments as $attachment) {
-                    $postAttachment = new PostAttachments();
-                    $file = MEDIA_DIR .'attachments' .DIRECTORY_SEPARATOR .$attachment;
-                    $mime = mime_content_type($file);
-                    $postAttachment->setFile($attachment);
-                    $postAttachment->setFile($mime);
-                    $postAttachment->save();
-                }
-                //end save attachments
-            }
-
-            //save custom fields
-
-            //end save custom fields
-
-            //save properties
-
-            //end save properties
-
-            $post->commit();
-            return true;
-        } else {
+        if ($post->getAuthor()) {
+            $post->setAuthor($this->getSessionUser()->getName());
         }
 
-        $post->setNew(true);
-        $post->rollBack();
+        if ($post->save()) {
+            return true;
+        } else {
+            foreach($post->getValidationFailures() as $validationFailure) {
+                $error[$validationFailure->getColumn()] = $validationFailure->getMessage();
+            }
+        }
         return false;
     }
 }

@@ -1,0 +1,13 @@
+ul#post-files {
+    margin-left: 0;
+    padding: 0 10px;
+}
+ul#post-files li {
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+}
+
+ul#post-files li .sub-tool {
+    font-size: 12px;
+}

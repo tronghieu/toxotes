@@ -8,20 +8,23 @@ use Flywheel\Html\Form;
 use Toxotes\Plugin;
 
 $this->document()->addCss('css/jquery.fileupload-ui.css');
+$this->document()->addCss('css/post.css');
 $this->document()->addJs('js/post.js');
 $this->document()->addJs('js/plugins/file-upload/jquery.fileupload.js', 'TOP');
 
 $form = new Form('post');
 $form->setHtmlOption(array(
 ));
-$taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'post', 'label');
+$taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'post', 'label', t('Post'));
 
-$this->document()->title .= ($post->isNew()? t('Create new') : t('Edit')) .' ' .$taxonomy_label;
+$this->document()->title .= $page_title;
 
 $taxonomy = $taxonomy || 'post';
 
 $mainImg = PostPeer::getPostMainImg($post->getId());
 $postImages = PostPeer::getPostImg($post->getId());
+
+$files = PostPeer::getPostAttachments($post->getId());
 ?>
     <div class="page-header">
         <div class="pull-left">
@@ -60,6 +63,18 @@ $postImages = PostPeer::getPostImg($post->getId());
                 </h3>
             </div>
             <div class="box-content">
+                <?php if (isset($error) && !empty($error)) :?>
+                    <div class="alert alert-error margin">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo implode('<br>', array_values($error)); ?>
+                    </div>
+                <?php elseif (isset($message) && !empty($message)) : ?>
+                    <div class="alert alert-success margin">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo $message; ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="control-group">
                     <input name="post[title]" value="<?php echo $post->getTitle() ?>" class="input-huge" id="post-title" placeholder="<?php echo t('Enter Title here') ?>">
                 </div>
@@ -158,6 +173,46 @@ $postImages = PostPeer::getPostImg($post->getId());
     </div>
     <!-- /main input -->
     <div class="span4">
+        <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_attachments', true)) :?>
+            <div class="box" id="post-attachments-area">
+                <div class="box-title nopadding">
+                    <h3><?php echo t('Files attachment'); ?></h3>
+                    <div class="actions">
+                        <div class="btn-group">
+                            <a class="btn btn-danger fileinput-button"><i class="icon-cloud-upload"></i>
+                                <span><?php td('Upload'); ?></span>
+                                <input id="_post-files-upload" type="file" name="upload_files" multiple="" data-post-id="<?php echo $post->getId(); ?>">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-content nopadding">
+                    <ul id="post-files">
+                        <?php foreach ($files as $file): ?>
+                            <li id="_post-file-<?php echo $file->getId(); ?>">
+                                <span><?php echo $file->getFileName() ;?></span>
+                                <div class="sub-tool">
+                                    <span class="post-file-download-hits"><?php td('Downloads: ' .$file->getHits()) ?></span>
+                                    - <a href="<?php echo $this->createUrl('post_files/remove', array('id' => $file->getId()))?>" class="_tool-remove"><?php td('Remove'); ?></a>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                    <div class="highlight-toolbar">
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <div class="btn btn-danger fileinput-button"><i class="icon-cloud-upload"></i>
+                                    <span><?php td('Upload file'); ?></span>
+                                    <input id="_post-files-upload" type="file" name="upload_files" multiple="" data-post-id="<?php echo $post->getId(); ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <?php Plugin::doAction('custom_before' .$taxonomy .'_publish_box', $post, $form); ?>
         <div class="box box-bordered box-color">
 
@@ -182,26 +237,26 @@ $postImages = PostPeer::getPostImg($post->getId());
                         ?>
                     </div>
                 </div>
+
+                <div class="control-group">
+                    <label class="control-label"><?php td('Ordering') ;?></label>
+                    <div class="controls">
+                        <input name="post[ordering]" type="text" class="input-mini" value="<?php echo $post->getOrdering(); ?>">
+                    </div>
+                </div>
+
                 <div class="text-center">
-                    <button name="submit" type="submit" class="btn btn-primary">
-                        <i class="icon-save"></i>
-                        <?php echo t('Save'); ?>
+                    <button name="submit" type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;
+                        <i class="icon-save"></i>&nbsp;&nbsp;&nbsp;
+                        <?php echo t('SAVE POST'); ?>&nbsp;&nbsp;&nbsp;
                     </button>
                 </div>
             </div>
         </div>
         <?php Plugin::doAction('custom_after' .$taxonomy .'_publish_box', $post, $form); ?>
-
-        <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_attachments', true)) :?>
-            <div class="box">
-                <div class="box-title nopadding"><h3><?php echo t('Files attachment'); ?></h3></div>
-                <div class="box-content nopadding">
-
-                </div>
-            </div>
-        <?php endif; ?>
     </div>
 </div>
 <input name="post_id" value="<?php echo $post->getId()?>" type="hidden">
+<input name="post[taxonomy]" value="<?php echo $taxonomy; ?>" type="hidden">
 <?php $form->endForm(); ?>
 </div>

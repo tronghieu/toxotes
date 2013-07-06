@@ -16,4 +16,12 @@ class PostPeer {
     public static function getPostImg($postId) {
         return (array) PostImages::findByPostId($postId);
     }
+
+    /**
+     * @param $postId
+     * @return PostAttachments[]|null
+     */
+    public static function getPostAttachments($postId) {
+        return (array) PostAttachments::findByPostId($postId);
+    }
 }

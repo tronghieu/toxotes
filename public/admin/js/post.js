@@ -3,9 +3,9 @@ $(function() {
         url: base_url + '/post_img/upload',
         dataType: 'json',
         formData : {post_id : $("#post-img-upload").data('postId')},
-        start : function (e) {
-            $('#progress .bar').css('width', '0%');
-        },
+//        start : function (e) {
+//            $('#progress .bar').css('width', '0%');
+//        },
         done: function (e, data) {
             var result = data.result;
 
@@ -54,13 +54,38 @@ $(function() {
 
                 $('ul.gallery').append(li).fadeIn('slow');
             }
-        },
-        progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .bar').css(
-                'width',
-                progress + '%'
-            );
+        }
+//        progressall: function (e, data) {
+//            var progress = parseInt(data.loaded / data.total * 100, 10);
+//            $('#progress .bar').css(
+//                'width',
+//                progress + '%'
+//            );
+//        }
+    });
+
+    $('#_post-files-upload').fileupload({
+        url: base_url + '/post_files/upload',
+        dataType: 'json',
+        formData : {post_id : $('#_post-files-upload').data('postId')},
+        done : function (e, data) {
+            var result = data.result;
+            if (result.type == 1) {
+                var li = $('<li />', {id : '_post-file-' + result.postFile.id})
+                li.append($('<span />').html(result.postFile.file_name))
+                    .append($('<div />', {class: 'sub-tool'})
+                        .append($('<span />', {class : 'post-file-download-hits'}).html('Download: ' + result.postFile.hits))
+                        .append(' - ')
+                        .append($('<a />', {
+                            href: base_url + 'post_files/remove?id=' + result.postFile.id,
+                            class : '_tool-remove'
+                        }).html('Remove'))
+                    );
+
+                $('ul#post-files').append(li).fadeIn();
+            }
         }
     });
 });
+
+

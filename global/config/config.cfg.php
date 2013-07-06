@@ -10,4 +10,5 @@ return array(
             )
         )
     ),
+    'upload_allow' => '.psd, .pdf, .xls, .ppt, .gtar, .gz, .tar, .tgz, .zip, .rar, .rev, .mp3, .ram, .wav, .bmp, .gif, .jpeg, .jpg, .jpe, .png, .txt, .text, .rtx, .xml, .xsl, .mpeg, .mpg, .mpe, .mov, .avi, .movie, .doc, .docx, .xlsx, .word, .xl'
 );
