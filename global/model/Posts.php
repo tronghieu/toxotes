@@ -19,6 +19,12 @@ class Posts extends \PostsBase {
         self::$_validate['taxonomy'][] = array(
             'name' => 'Require',
             'message' => "Taxonomy can not be blank!");
+
+        self::$_validate['ordering'][] = array(
+            'name' => 'Type',
+            'value' => 'integer',
+            'message' => 'Ordering must be a integer number!',
+        );
     }
 
     protected function _beforeSave() {

@@ -74,7 +74,7 @@ $(function() {
                 var li = $('<li />', {id : '_post-file-' + result.postFile.id})
                 li.append($('<span />').html(result.postFile.file_name))
                     .append($('<div />', {class: 'sub-tool'})
-                        .append($('<span />', {class : 'post-file-download-hits'}).html('Download: ' + result.postFile.hits))
+                        .append($('<strong />', {class : 'post-file-download-hits'}).html('Download: ' + result.postFile.hits))
                         .append(' - ')
                         .append($('<a />', {
                             href: base_url + 'post_files/remove?id=' + result.postFile.id,

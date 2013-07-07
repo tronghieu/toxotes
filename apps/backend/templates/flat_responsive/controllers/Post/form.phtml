@@ -19,7 +19,7 @@ $taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'post', 'label', t('Post'
 
 $this->document()->title .= $page_title;
 
-$taxonomy = $taxonomy || 'post';
+$taxonomy = ($taxonomy)? $taxonomy : 'POST';
 
 $mainImg = PostPeer::getPostMainImg($post->getId());
 $postImages = PostPeer::getPostImg($post->getId());
@@ -75,15 +75,18 @@ $files = PostPeer::getPostAttachments($post->getId());
                     </div>
                 <?php endif; ?>
 
-                <div class="control-group">
+                <div class="control-group<?php if(isset($error['posts.title'])) echo ' error' ?>">
                     <input name="post[title]" value="<?php echo $post->getTitle() ?>" class="input-huge" id="post-title" placeholder="<?php echo t('Enter Title here') ?>">
+                    <?php if (isset($error['posts.title'])) : ?>
+                        <span class="help-block"><?php echo $error['posts.title'] ?></span>
+                    <?php endif; ?>
                 </div>
 
                 <?php $this->widget('app.widget.SelectItemCategory', array(
                     'label' => t('Select Category'),
                     'taxonomy' => $taxonomy,
                     'selected' => $post->getTermId(),
-                    'elementName' => 'term_parent',
+                    'elementName' => 'post[term_id]',
                     'error' => isset($error['posts.term_id'])? $error['posts.term_id']: null,
                     'form' => $form,
                 ));
@@ -190,7 +193,7 @@ $files = PostPeer::getPostAttachments($post->getId());
                     <ul id="post-files">
                         <?php foreach ($files as $file): ?>
                             <li id="_post-file-<?php echo $file->getId(); ?>">
-                                <span><?php echo $file->getFileName() ;?></span>
+                                <strong><?php echo $file->getFileName() ;?></strong>
                                 <div class="sub-tool">
                                     <span class="post-file-download-hits"><?php td('Downloads: ' .$file->getHits()) ?></span>
                                     - <a href="<?php echo $this->createUrl('post_files/remove', array('id' => $file->getId()))?>" class="_tool-remove"><?php td('Remove'); ?></a>
@@ -199,7 +202,7 @@ $files = PostPeer::getPostAttachments($post->getId());
                         <?php endforeach; ?>
                     </ul>
 
-                    <div class="highlight-toolbar">
+                    <!--<div class="highlight-toolbar">
                         <div class="btn-toolbar">
                             <div class="btn-group">
                                 <div class="btn btn-danger fileinput-button"><i class="icon-cloud-upload"></i>
@@ -208,7 +211,7 @@ $files = PostPeer::getPostAttachments($post->getId());
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         <?php endif; ?>
@@ -238,10 +241,13 @@ $files = PostPeer::getPostAttachments($post->getId());
                     </div>
                 </div>
 
-                <div class="control-group">
+                <div class="control-group<?php if(isset($error['posts.ordering'])) echo ' error' ?>">
                     <label class="control-label"><?php td('Ordering') ;?></label>
                     <div class="controls">
                         <input name="post[ordering]" type="text" class="input-mini" value="<?php echo $post->getOrdering(); ?>">
+                        <?php if (isset($error['posts.ordering'])) : ?>
+                            <span class="help-block"><?php echo $error['posts.ordering'] ?></span>
+                        <?php endif; ?>
                     </div>
                 </div>
 

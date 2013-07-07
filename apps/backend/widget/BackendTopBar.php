@@ -14,14 +14,14 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
                 'label' => t('Dashboard'),
                 'url' => array('dashboard/default'),
             ),
-            array(
+            /*array(
                 'label' => t('Menu'),
                 'url' => array('menu/default'),
                 'items' => array(
                     array('label' => t('Menu List'),
                         'url' => array('menu/default'))
                 ),
-            ),
+            ),*/
             array(
                 'label' => t('Posts Management'),
                 'url' => array('post/default'),
@@ -54,10 +54,10 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
                     ),
                 )
             ),
-            array(
+            /*array(
                 'label' => t('Setting'),
                 'url' => array('setting/default'),
-            ),
+            ),*/
         );
 
         $menuGs = Menu::getMenuGroup();

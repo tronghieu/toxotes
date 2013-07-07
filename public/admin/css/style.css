@@ -1606,7 +1606,7 @@ input, textarea {
 }
 
 label, input, button, select, textarea {
-    font-size: 13px
+    font-size: 12px
 }
 
 .form-actions {
@@ -1766,7 +1766,7 @@ html, body {
 body {
     background: #fff;
     font-family: "Open Sans", sans-serif;
-    font-size: 13px !important
+    font-size: 12px !important
 }
 
 a {
