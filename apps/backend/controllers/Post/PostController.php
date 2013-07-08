@@ -21,7 +21,7 @@ class PostController extends AdminBaseController {
             $query->andWhere('`status` = "' .$filter['status'] .'"');
         }
 
-        if (isset($filter['language'])) {
+        if (isset($filter['language']) && '*' != $filter['language']) {
             $query->andWhere('`language` = "' .$filter['language'] .'"');
         }
 
