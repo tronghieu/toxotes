@@ -99,3 +99,8 @@ tr.term-row .sub-tool {visibility: hidden}
 
 tr.term-row:hover .sub-tool {visibility: visible}
 <!-- -->
+
+select.filter {
+    width: 100%;
+    display: block;
+}

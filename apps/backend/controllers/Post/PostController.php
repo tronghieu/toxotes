@@ -1,14 +1,66 @@
 <?php
 
 use Flywheel\Factory;
+use Flywheel\Loader;
 use Toxotes\Plugin;
-
+Loader::import('app.include.Tables.*');
 class PostController extends AdminBaseController {
     public function executeDefault() {
-        $type = $this->request()->get('type', 'STRING', 'post');
-        $this->dispatch('onBeginListingItem', new AdminEvent($this));
+        $taxonomy = $this->request()->get('taxonomy', 'STRING', 'POST');
+        $page_title = Plugin::getTaxonomyOption($taxonomy, 'POST', 'label', t('Post Management'));
 
-        $this->dispatch('onAfterListingItem', new AdminEvent($this));
+        $this->document()->title .= $page_title;
+        $filter = $this->request()->get('filter', 'ARRAY', array());
+
+        $query = Posts::read();
+        if (isset($filter['keyword']) && !empty($filter['keyword'])) {
+            $query->andWhere('`title` LIKE "%' .$filter['keyword'] .'%"');
+        }
+
+        if (isset($filter['status'])) {
+            $query->andWhere('`status` = "' .$filter['status'] .'"');
+        }
+
+        if (isset($filter['language'])) {
+            $query->andWhere('`language` = "' .$filter['language'] .'"');
+        }
+
+        if (isset($filter['cat_id']) && $filter['cat_id'] != 0) {
+            $cat = Terms::retrieveById($filter['cat_id']);
+            $_c = array();
+            if ($cat) {
+                $branches = $cat->getBranch();
+                foreach ($branches as $branch) {
+                    $_c[] = $branch->getId();
+                }
+                $query->andWhere('`term_id` IN (' .implode(',', $_c) .')');
+            }
+        }
+
+        //paging
+        $page = $this->request()->get('page', 'INIT', 1);
+        $query->setMaxResults(20)
+            ->setFirstResult(($page-1)*20);
+
+        $list = $query->execute()
+            ->fetchAll(\PDO::FETCH_CLASS, 'Posts', array(null, false));
+
+        $total = $query->count()->execute();
+
+        $taxonomy_term = Plugin::getTaxonomyOption($taxonomy, 'POST', 'term_taxonomy', 'category');
+
+        $table = new PostListTable($taxonomy);
+        $table->setItems($list);
+
+        $this->view()->assign(array(
+            'page_title' => $page_title,
+            'taxonomy' => $taxonomy,
+            'taxonomy_term' => $taxonomy_term,
+            'table' => $table,
+            'list' => $list,
+            'filter' => $filter,
+            'total' => $total
+        ));
 
         return $this->renderComponent();
     }
