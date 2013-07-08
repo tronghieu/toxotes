@@ -17,7 +17,7 @@ class PostController extends AdminBaseController {
             $query->andWhere('`title` LIKE "%' .$filter['keyword'] .'%"');
         }
 
-        if (isset($filter['status'])) {
+        if (isset($filter['status']) && 'All' != $filter['status']) {
             $query->andWhere('`status` = "' .$filter['status'] .'"');
         }
 
