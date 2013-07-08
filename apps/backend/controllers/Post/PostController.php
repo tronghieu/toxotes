@@ -6,6 +6,7 @@ use Toxotes\Plugin;
 Loader::import('app.include.Tables.*');
 class PostController extends AdminBaseController {
     public function executeDefault() {
+        $pageSize = 20;
         $taxonomy = $this->request()->get('taxonomy', 'STRING', 'POST');
         $page_title = Plugin::getTaxonomyOption($taxonomy, 'POST', 'label', t('Post Management'));
 
@@ -17,7 +18,7 @@ class PostController extends AdminBaseController {
             $query->andWhere('`title` LIKE "%' .$filter['keyword'] .'%"');
         }
 
-        if (isset($filter['status']) && 'All' != $filter['status']) {
+        if (isset($filter['status']) && '' != $filter['status'] && 'All' != $filter['status']) {
             $query->andWhere('`status` = "' .$filter['status'] .'"');
         }
 
@@ -37,15 +38,16 @@ class PostController extends AdminBaseController {
             }
         }
 
+        $countQuery = clone $query;
+        $total = $countQuery->count()->execute();
+
         //paging
         $page = $this->request()->get('page', 'INIT', 1);
-        $query->setMaxResults(20)
-            ->setFirstResult(($page-1)*20);
+        $query->setMaxResults($pageSize)
+            ->setFirstResult(($page-1)*$pageSize);
 
         $list = $query->execute()
             ->fetchAll(\PDO::FETCH_CLASS, 'Posts', array(null, false));
-
-        $total = $query->count()->execute();
 
         $taxonomy_term = Plugin::getTaxonomyOption($taxonomy, 'POST', 'term_taxonomy', 'category');
 
@@ -59,7 +61,8 @@ class PostController extends AdminBaseController {
             'table' => $table,
             'list' => $list,
             'filter' => $filter,
-            'total' => $total
+            'total' => $total,
+            'page_size' => $pageSize
         ));
 
         return $this->renderComponent();

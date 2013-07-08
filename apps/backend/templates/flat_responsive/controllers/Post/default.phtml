@@ -110,12 +110,13 @@ $filter = array_merge(array(
 
     <div class="span12">
     <?php
-        $route = $filter;
+        $route = array();
         $route[0] = 'post/default';
         $route['taxonomy'] = $taxonomy;
+        $route['filter'] = $filter;
 
         $this->widget('app.widget.BackendPagination', array(
-            'pageSize' => 20,
+            'pageSize' => $page_size,
             'total' => $total,
             'currentPage' => $this->request()->get('page', 'INT', 1),
             'route' => $route,
