@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class HomeController {
+class HomeController extends FrontendBaseController {
     public function executeDefault() {
+        return $this->renderComponent();
     }
 }

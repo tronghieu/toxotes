@@ -1,5 +1,5 @@
 <?php
-return array(
+$r = array(
 //	'__urlSuffix__' => '.html',
 
 	/* default component
@@ -38,7 +38,7 @@ return array(
 	 */
 	//default controllers
 	'/' => array(
-		'route' => 'dashboard/default'
+		'route' => 'home/default'
 	),
     'login' => array(
         'route' => 'auth/login'
@@ -64,3 +64,6 @@ return array(
 		'route' => 'category/default'
 	),*/
 );
+
+$r = \Toxotes\Cms::route($r);
+return $r;

@@ -250,6 +250,8 @@ abstract class WebController extends BaseController
             $viewFile = $this->getTemplatePath() .'/controllers/' .$this->_view;
         }
 
+        // assign current controller
+        Factory::getView()->assign('controller', $this);
         return $view->render($viewFile, $vars);
     }
 
@@ -368,7 +370,7 @@ abstract class WebController extends BaseController
 
         //@TODO same as view
         $view = Factory::getView();
-        $view->assign('controller', $buffer);
+        $view->assign('buffer', $buffer);
 
         if ($this->_layout == null) {
             $config = ConfigHandler::get('template');

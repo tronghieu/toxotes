@@ -8,7 +8,7 @@ define('RUNTIME_PATH', ROOT_PATH .DIRECTORY_SEPARATOR .'runtime');
 define('PUBLIC_DIR', ROOT_PATH .DIRECTORY_SEPARATOR .'public');
 define('MEDIA_DIR', ROOT_PATH .DIRECTORY_SEPARATOR .'public' .DIRECTORY_SEPARATOR .'media');
 define('EXTENSION_DIR', ROOT_PATH .DIRECTORY_SEPARATOR .'extension');
-define('FRONTEND_DIR', ROOT_PATH .DIRECTORY_SEPARATOR.'apps/frontend');
+define('FRONTEND_DIR', ROOT_PATH .DIRECTORY_SEPARATOR.'apps/Frontend');
 
 require_once ROOT_PATH.'/vendor/autoload.php';
 

@@ -46,4 +46,8 @@ class LatestNews extends \Toxotes\Widget {
         $root = Terms::retrieveRoot('category');
         return $root->getDescendants();
     }
+
+    public function html() {
+        return '';
+    }
 }
