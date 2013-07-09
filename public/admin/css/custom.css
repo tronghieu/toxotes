@@ -95,9 +95,9 @@ tr.term-row > td.column-name div {
     display: block;
 }
 
-tr.term-row .sub-tool {visibility: hidden}
+tr.term-row .sub-tool, tr.post-row .sub-tool {visibility: hidden}
 
-tr.term-row:hover .sub-tool {visibility: visible}
+tr.term-row:hover .sub-tool, tr.post-row:hover .sub-tool {visibility: visible}
 <!-- -->
 
 select.filter {

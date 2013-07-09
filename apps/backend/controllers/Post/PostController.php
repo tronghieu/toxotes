@@ -10,6 +10,17 @@ class PostController extends AdminBaseController {
         $taxonomy = $this->request()->get('taxonomy', 'STRING', 'POST');
         $page_title = Plugin::getTaxonomyOption($taxonomy, 'POST', 'label', t('Post Management'));
 
+        if ($this->request()->isPostRequest()) {
+            $ordering = $this->request()->post('ordering', 'ARRAY', array());
+            foreach ($ordering as $id => $value) {
+                $_p = Posts::retrieveById($id);
+                if ($_p) {
+                    $_p->setOrdering($value);
+                    $_p->save();
+                }
+            }
+        }
+
         $this->document()->title .= $page_title;
         $filter = $this->request()->get('filter', 'ARRAY', array());
 
@@ -44,7 +55,9 @@ class PostController extends AdminBaseController {
         //paging
         $page = $this->request()->get('page', 'INIT', 1);
         $query->setMaxResults($pageSize)
-            ->setFirstResult(($page-1)*$pageSize);
+            ->setFirstResult(($page-1)*$pageSize)
+            ->orderBy('is_draft')
+            ->addOrderBy('id');
 
         $list = $query->execute()
             ->fetchAll(\PDO::FETCH_CLASS, 'Posts', array(null, false));
@@ -125,6 +138,27 @@ class PostController extends AdminBaseController {
         return $this->renderComponent();
     }
 
+    public function executeRemove() {
+        $this->validAjaxRequest();
+
+        $res = new AjaxResponse();
+
+        if (!($post = Posts::retrieveById($this->request()->get('id')))) {
+            $res->type = AjaxResponse::ERROR;
+            $res->message = 'Post not found!';
+            return $this->renderText($res->toString());
+        }
+
+        if ($post->delete()) {
+            $res->type = AjaxResponse::SUCCESS;
+            $res->message = 'Post was deleted!';
+            $res->id = $post->id;
+            $res->post = $post->toArray();
+            return $this->renderText($res->toString());
+        }
+
+    }
+
     public function executeLoadCustomFieldFrm() {
         $category_id = $this->request()->post('category_id');
 
@@ -197,7 +231,7 @@ class PostController extends AdminBaseController {
         $post->hydrate($input);
         $post->setIsDraft(false);
 
-        if ($post->getAuthor()) {
+        if (!$post->getAuthor()) {
             $post->setAuthor($this->getSessionUser()->getName());
         }
 

@@ -94,8 +94,13 @@ $filter = array_merge(array(
     </div>
 </div>
 
+<?php $postForm = new \Flywheel\Html\Form('post-frm');
+$postForm->beginForm();
+?>
+
 <!-- Begin Posts List -->
 <div class="row-fluid">
+
     <div class="span12">
         <div class="box">
             <div class="box-title" style="border-bottom: none"></div>
@@ -107,21 +112,34 @@ $filter = array_merge(array(
             </div>
         </div>
     </div>
-
-    <div class="span12">
-    <?php
-        $route = array();
-        $route[0] = 'post/default';
-        $route['taxonomy'] = $taxonomy;
-        $route['filter'] = $filter;
-
-        $this->widget('app.widget.BackendPagination', array(
-            'pageSize' => $page_size,
-            'total' => $total,
-            'currentPage' => $this->request()->get('page', 'INT', 1),
-            'route' => $route,
-        ));
-    ?>
-    </div>
 </div>
 <!-- end posts list -->
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box">
+            <div class="box-content nopadding">
+                <div class="pull-left" style="padding: 20px 0;">
+                    <button class="btn btn-success" id="_save-ordering"><i class="icon-list-ol"></i> <?php td('Save ordering'); ?></button>
+                </div>
+                <div class="pull-right">
+                    <?php
+                    $route = array();
+                    $route[0] = 'post/default';
+                    $route['taxonomy'] = $taxonomy;
+                    $route['filter'] = $filter;
+
+                    $this->widget('app.widget.BackendPagination', array(
+                        'pageSize' => $page_size,
+                        'total' => $total,
+                        'currentPage' => $this->request()->get('page', 'INT', 1),
+                        'route' => $route,
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php $postForm->endForm(); ?>
