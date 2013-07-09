@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Posts
- *  This class has been auto-generated at 02/07/2013 15:29:10
+ *  This class has been auto-generated at 09/07/2013 08:00:30
  * @version		$Id$
  * @package		Model
 
@@ -18,10 +18,10 @@ use Flywheel\Model\ActiveRecord;
  * @property string $author author type : varchar(255) max_length : 255
  * @property string $taxonomy taxonomy type : varchar(100) max_length : 100
  * @property string $language language type : varchar(20) max_length : 20
- * @property datetime $modified_time modified_time type : datetime
- * @property datetime $created_time created_time type : datetime
  * @property integer $ordering ordering type : int(11)
  * @property integer $hits hits type : int(11)
+ * @property datetime $modified_time modified_time type : datetime
+ * @property datetime $created_time created_time type : datetime
 
  * @method void setId(integer $id) set id value
  * @method integer getId() get id value
@@ -89,18 +89,6 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Posts findOneByLanguage(string $language) find object in database by language
  * @method static \Posts retrieveByLanguage(string $language) retrieve object from poll by language, get it from db if not exist in poll
 
- * @method void setModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) setModifiedTime(string $modified_time) set modified_time value
- * @method \Flywheel\Db\Type\DateTime getModifiedTime() get modified_time value
- * @method static \Posts[] findByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) findByModifiedTime(string $modified_time) find objects in database by modified_time
- * @method static \Posts findOneByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) findOneByModifiedTime(string $modified_time) find object in database by modified_time
- * @method static \Posts retrieveByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) retrieveByModifiedTime(string $modified_time) retrieve object from poll by modified_time, get it from db if not exist in poll
-
- * @method void setCreatedTime(\Flywheel\Db\Type\DateTime $created_time) setCreatedTime(string $created_time) set created_time value
- * @method \Flywheel\Db\Type\DateTime getCreatedTime() get created_time value
- * @method static \Posts[] findByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) findByCreatedTime(string $created_time) find objects in database by created_time
- * @method static \Posts findOneByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) findOneByCreatedTime(string $created_time) find object in database by created_time
- * @method static \Posts retrieveByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) retrieveByCreatedTime(string $created_time) retrieve object from poll by created_time, get it from db if not exist in poll
-
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
  * @method static \Posts[] findByOrdering(integer $ordering) find objects in database by ordering
@@ -112,6 +100,18 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Posts[] findByHits(integer $hits) find objects in database by hits
  * @method static \Posts findOneByHits(integer $hits) find object in database by hits
  * @method static \Posts retrieveByHits(integer $hits) retrieve object from poll by hits, get it from db if not exist in poll
+
+ * @method void setModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) setModifiedTime(string $modified_time) set modified_time value
+ * @method \Flywheel\Db\Type\DateTime getModifiedTime() get modified_time value
+ * @method static \Posts[] findByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) findByModifiedTime(string $modified_time) find objects in database by modified_time
+ * @method static \Posts findOneByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) findOneByModifiedTime(string $modified_time) find object in database by modified_time
+ * @method static \Posts retrieveByModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) retrieveByModifiedTime(string $modified_time) retrieve object from poll by modified_time, get it from db if not exist in poll
+
+ * @method void setCreatedTime(\Flywheel\Db\Type\DateTime $created_time) setCreatedTime(string $created_time) set created_time value
+ * @method \Flywheel\Db\Type\DateTime getCreatedTime() get created_time value
+ * @method static \Posts[] findByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) findByCreatedTime(string $created_time) find objects in database by created_time
+ * @method static \Posts findOneByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) findOneByCreatedTime(string $created_time) find object in database by created_time
+ * @method static \Posts retrieveByCreatedTime(\Flywheel\Db\Type\DateTime $created_time) retrieveByCreatedTime(string $created_time) retrieve object from poll by created_time, get it from db if not exist in poll
 
 
  */
@@ -184,14 +184,6 @@ abstract class PostsBase extends ActiveRecord {
                 'type' => 'string',
                 'db_type' => 'varchar(20)',
                 'length' => 20),
-        'modified_time' => array('name' => 'modified_time',
-                'not_null' => true,
-                'type' => 'datetime',
-                'db_type' => 'datetime'),
-        'created_time' => array('name' => 'created_time',
-                'not_null' => true,
-                'type' => 'datetime',
-                'db_type' => 'datetime'),
         'ordering' => array('name' => 'ordering',
                 'not_null' => true,
                 'type' => 'integer',
@@ -205,11 +197,19 @@ abstract class PostsBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
+        'modified_time' => array('name' => 'modified_time',
+                'not_null' => true,
+                'type' => 'datetime',
+                'db_type' => 'datetime'),
+        'created_time' => array('name' => 'created_time',
+                'not_null' => true,
+                'type' => 'datetime',
+                'db_type' => 'datetime'),
      );
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','title','term_id','slug','excerpt','content','status','is_draft','author','taxonomy','language','modified_time','created_time','ordering','hits');
+    protected static $_cols = array('id','title','term_id','slug','excerpt','content','status','is_draft','author','taxonomy','language','ordering','hits','modified_time','created_time');
 
     public function setTableDefinition() {
     }
@@ -243,6 +243,7 @@ abstract class PostsBase extends ActiveRecord {
      */
     public function delete() {
         $conn = Manager::getConnection(self::getDbConnectName());
+        $conn->beginTransaction();
         try {
             $this->_beforeDelete();
             $this->deleteFromDb();

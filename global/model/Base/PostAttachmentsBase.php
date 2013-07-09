@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * PostAttachments
- *  This class has been auto-generated at 02/07/2013 15:29:10
+ *  This class has been auto-generated at 09/07/2013 08:00:30
  * @version		$Id$
  * @package		Model
 
@@ -13,8 +13,8 @@ use Flywheel\Model\ActiveRecord;
  * @property string $file_name file_name type : varchar(255) max_length : 255
  * @property string $mime_type mime_type type : text max_length : 
  * @property string $type_group type_group type : varchar(100) max_length : 100
- * @property datetime $uploaded_time uploaded_time type : datetime
  * @property integer $hits hits type : int(11)
+ * @property datetime $uploaded_time uploaded_time type : datetime
 
  * @method void setId(integer $id) set id value
  * @method integer getId() get id value
@@ -52,17 +52,17 @@ use Flywheel\Model\ActiveRecord;
  * @method static \PostAttachments findOneByTypeGroup(string $type_group) find object in database by type_group
  * @method static \PostAttachments retrieveByTypeGroup(string $type_group) retrieve object from poll by type_group, get it from db if not exist in poll
 
- * @method void setUploadedTime(\Flywheel\Db\Type\DateTime $uploaded_time) setUploadedTime(string $uploaded_time) set uploaded_time value
- * @method \Flywheel\Db\Type\DateTime getUploadedTime() get uploaded_time value
- * @method static \PostAttachments[] findByUploadedTime(\Flywheel\Db\Type\DateTime $uploaded_time) findByUploadedTime(string $uploaded_time) find objects in database by uploaded_time
- * @method static \PostAttachments findOneByUploadedTime(\Flywheel\Db\Type\DateTime $uploaded_time) findOneByUploadedTime(string $uploaded_time) find object in database by uploaded_time
- * @method static \PostAttachments retrieveByUploadedTime(\Flywheel\Db\Type\DateTime $uploaded_time) retrieveByUploadedTime(string $uploaded_time) retrieve object from poll by uploaded_time, get it from db if not exist in poll
-
  * @method void setHits(integer $hits) set hits value
  * @method integer getHits() get hits value
  * @method static \PostAttachments[] findByHits(integer $hits) find objects in database by hits
  * @method static \PostAttachments findOneByHits(integer $hits) find object in database by hits
  * @method static \PostAttachments retrieveByHits(integer $hits) retrieve object from poll by hits, get it from db if not exist in poll
+
+ * @method void setUploadedTime(\Flywheel\Db\Type\DateTime $uploaded_time) setUploadedTime(string $uploaded_time) set uploaded_time value
+ * @method \Flywheel\Db\Type\DateTime getUploadedTime() get uploaded_time value
+ * @method static \PostAttachments[] findByUploadedTime(\Flywheel\Db\Type\DateTime $uploaded_time) findByUploadedTime(string $uploaded_time) find objects in database by uploaded_time
+ * @method static \PostAttachments findOneByUploadedTime(\Flywheel\Db\Type\DateTime $uploaded_time) findOneByUploadedTime(string $uploaded_time) find object in database by uploaded_time
+ * @method static \PostAttachments retrieveByUploadedTime(\Flywheel\Db\Type\DateTime $uploaded_time) retrieveByUploadedTime(string $uploaded_time) retrieve object from poll by uploaded_time, get it from db if not exist in poll
 
 
  */
@@ -105,10 +105,6 @@ abstract class PostAttachmentsBase extends ActiveRecord {
                 'type' => 'string',
                 'db_type' => 'varchar(100)',
                 'length' => 100),
-        'uploaded_time' => array('name' => 'uploaded_time',
-                'not_null' => true,
-                'type' => 'datetime',
-                'db_type' => 'datetime'),
         'hits' => array('name' => 'hits',
                 'default' => 0,
                 'not_null' => true,
@@ -116,11 +112,15 @@ abstract class PostAttachmentsBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
+        'uploaded_time' => array('name' => 'uploaded_time',
+                'not_null' => true,
+                'type' => 'datetime',
+                'db_type' => 'datetime'),
      );
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','post_id','file','file_name','mime_type','type_group','uploaded_time','hits');
+    protected static $_cols = array('id','post_id','file','file_name','mime_type','type_group','hits','uploaded_time');
 
     public function setTableDefinition() {
     }
@@ -154,6 +154,7 @@ abstract class PostAttachmentsBase extends ActiveRecord {
      */
     public function delete() {
         $conn = Manager::getConnection(self::getDbConnectName());
+        $conn->beginTransaction();
         try {
             $this->_beforeDelete();
             $this->deleteFromDb();

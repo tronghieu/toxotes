@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Setting
- *  This class has been auto-generated at 02/07/2013 15:29:10
+ *  This class has been auto-generated at 09/07/2013 08:00:30
  * @version		$Id$
  * @package		Model
 
@@ -80,6 +80,7 @@ abstract class SettingBase extends ActiveRecord {
      */
     public function delete() {
         $conn = Manager::getConnection(self::getDbConnectName());
+        $conn->beginTransaction();
         try {
             $this->_beforeDelete();
             $this->deleteFromDb();
