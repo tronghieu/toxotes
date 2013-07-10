@@ -1,0 +1,140 @@
+
+/* ------------- article detail ------------- */
+#article-detail,#event-detail{
+    .desc-img{
+        width: 100%;
+    }
+    .art-title{
+        padding-top: 5px;
+        font-size: 2em;
+        line-height: 2.2em;
+    }
+    .art-ultility{
+        background: #f9f9f9;
+        padding: 5px 8px;
+        border: 1px solid #ededed;
+        .border-radius(3px);
+        .date-created{
+            float: left;
+            margin-top: 3px;
+            font-size: 0.9714em;
+            color: #666;
+            .sep{
+                margin: 0 7px;
+            }
+        }
+        .art-tool{
+            float: right;
+            > span{
+                float: left;
+                margin-top:3px;
+                &.sep{
+                    height:16px;
+                    border-left: 1px solid #e7e7e7;
+                    border-right: 1px solid #fff;
+                    margin: 3px 9px 0;
+                }
+                &.like-fb{
+                    position: relative;
+                    width: 71px;
+                    height: 22px;
+                    margin: 0;
+                }
+            }
+            .iPrinter{
+                vertical-align: -2px;
+                margin-right: 2px;
+            }
+            .iEmail{
+                vertical-align: -1px;
+                margin-right: 2px;
+            }
+        }
+    }
+    .text-content{
+        padding-bottom: 10px;
+    }
+    .art-comment{
+        margin-bottom:10px;
+        padding-bottom:10px;
+        border-bottom: 1px solid #e3e3e3;
+        margin-bottom:10px;
+        > h4.title{
+            font-size: 1em;
+            margin-bottom: 6px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e3e3e3;
+        }
+    }
+    .relation-articles{
+        padding-bottom:30px;
+        h3.title{
+            padding-bottom: 5px;
+        }
+        ul{
+             li{
+                background: url("../images/iPickRightRed.png") no-repeat 0 5px;
+                padding: 0 0 12px 15px;
+            }
+        }
+    }
+}
+#event-detail{
+    padding-bottom:30px;
+    .art-full-info{
+        border-top: 1px solid #dfdfdf;
+    }
+    .art-ultility{
+        margin-bottom: 10px;
+    }
+    .event-fixed-time{
+        font-weight: bold;
+        padding: 6px 0;
+    }
+    .iClock,.iPlace{
+        vertical-align: -4px;
+        margin-right:10px;
+    }
+    .view-more{
+        &.active{
+            .iPickDownR{
+                background-position: -4px -20px;
+                vertical-align: 2px;
+            }
+        }
+        .iPickDownR{
+            margin-left: 5px;
+        }
+    }
+    .text-content{
+        padding: 0;
+    }
+    .art-comment{
+        padding-top: 20px;
+    }
+    .lst-other-event{
+        li{
+            padding: 6px 15px;
+            background: url("../images/iPickRightRed.png") no-repeat 0 10px;
+        }
+    }
+    .btn-regiter{
+        background: url("../images/btn-yellow.png") no-repeat left top;
+        padding-left: 5px;
+        text-align: center;
+        color: #FFF;
+        font-weight: bold;
+        text-shadow: 0 1px #e99301;
+        display: inline-block;
+        .ie7-inline-block();
+        > span{
+            background: url("../images/btn-yellow.png") no-repeat right top;
+            padding-right: 5px;
+            width:140px;
+            height: 40px;
+            line-height: 42px;
+            display: inline-block;
+            .ie7-inline-block();
+        }
+    }
+}
