@@ -24,7 +24,7 @@ class PostController extends AdminBaseController {
         $this->document()->title .= $page_title;
         $filter = $this->request()->get('filter', 'ARRAY', array());
 
-        $query = Posts::read();
+        $query = Posts::read()->where('`is_draft` = 0');
         if (isset($filter['keyword']) && !empty($filter['keyword'])) {
             $query->andWhere('`title` LIKE "%' .$filter['keyword'] .'%"');
         }
@@ -56,8 +56,7 @@ class PostController extends AdminBaseController {
         $page = $this->request()->get('page', 'INIT', 1);
         $query->setMaxResults($pageSize)
             ->setFirstResult(($page-1)*$pageSize)
-            ->orderBy('is_draft')
-            ->addOrderBy('id');
+            ->orderBy('id', 'DESC');
 
         $list = $query->execute()
             ->fetchAll(\PDO::FETCH_CLASS, 'Posts', array(null, false));
@@ -229,6 +228,7 @@ class PostController extends AdminBaseController {
     protected function _save(Posts &$post, &$error) {
         $input = $this->request()->post('post', 'ARRAY', array());
         $post->hydrate($input);
+        $post->setExcerpt(nl2br($post->getExcerpt()));
         $post->setIsDraft(false);
 
         if (!$post->getAuthor()) {
@@ -243,5 +243,43 @@ class PostController extends AdminBaseController {
             }
         }
         return false;
+    }
+
+    public function executeUnpin() {
+        $this->validAjaxRequest();
+        $res = new AjaxResponse();
+
+        if (!($post = Posts::retrieveById($this->request()->get('id')))) {
+            $res->type = AjaxResponse::ERROR;
+            $res->message = t('Post not found!');
+            return $this->renderText($res->toString());
+        }
+
+        $post->setIsPin(false);
+
+        $post->save(false);
+        $res->type = AjaxResponse::SUCCESS;
+        $res->id = $post->getId();
+        $res->post = $post->toArray();
+        return $this->renderText($res->toString());
+    }
+
+    public function executePin() {
+        $this->validAjaxRequest();
+        $res = new AjaxResponse();
+
+        if (!($post = Posts::retrieveById($this->request()->get('id')))) {
+            $res->type = AjaxResponse::ERROR;
+            $res->message = t('Post not found!');
+            return $this->renderText($res->toString());
+        }
+
+        $post->setIsPin(true);
+
+        $post->save(false);
+        $res->type = AjaxResponse::SUCCESS;
+        $res->id = $post->getId();
+        $res->post = $post->toArray();
+        return $this->renderText($res->toString());
     }
 }

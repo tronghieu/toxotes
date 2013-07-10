@@ -76,33 +76,47 @@ $files = PostPeer::getPostAttachments($post->getId());
                 <?php endif; ?>
 
                 <div class="control-group<?php if(isset($error['posts.title'])) echo ' error' ?>">
+                    <label class="big"><?php td('Title'); ?></label>
                     <input name="post[title]" value="<?php echo $post->getTitle() ?>" class="input-huge" id="post-title" placeholder="<?php echo t('Enter Title here') ?>">
                     <?php if (isset($error['posts.title'])) : ?>
                         <span class="help-block"><?php echo $error['posts.title'] ?></span>
                     <?php endif; ?>
                 </div>
 
-                <?php $this->widget('app.widget.SelectItemCategory', array(
-                    'label' => t('Select Category'),
-                    'taxonomy' => $taxonomy,
-                    'selected' => $post->getTermId(),
-                    'elementName' => 'post[term_id]',
-                    'error' => isset($error['posts.term_id'])? $error['posts.term_id']: null,
-                    'form' => $form,
-                ));
-                ?>
-
-                <!-- editor -->
+                <div class="control-group<?php if(isset($error['posts.term_id'])) echo ' error' ?>">
+                    <label class="big"><?php td('Category'); ?></label>
+                    <?php $this->widget('app.widget.SelectItemCategory', array(
+                        'label' => t('Select Category'),
+                        'taxonomy' => $taxonomy,
+                        'selected' => $post->getTermId(),
+                        'elementName' => 'post[term_id]',
+                        'error' => isset($error['posts.term_id'])? $error['posts.term_id']: null,
+                        'form' => $form,
+                    ));
+                    ?>
+                    <?php if (isset($error['posts.term_id'])) : ?>
+                        <span class="help-block"><?php echo $error['posts.term_id'] ?></span>
+                    <?php endif; ?>
+                </div>
 
                 <div class="control-group">
+                    <label class="big"><?php td('Intro'); ?></label>
+                    <?php
+                        $excerpt = $post->getExcerpt();
+                        $excerpt = str_replace('<br />', '<br>', $excerpt);
+                        $excerpt = str_replace('<br>', "", $excerpt);
+                    ?>
+                    <textarea name="post[excerpt]" class="input-block-level" rows="5"><?php echo $excerpt;  ?></textarea>
+                </div>
+
+                <!-- Editor -->
+                <div class="control-group">
+                    <label class="big"><?php td('Content'); ?></label>
                     <?php $this->widget('app.widget.editor.TinyMCE', array(
                         'selector' => '#post-content',
                         'heigth' => 360
                     )); ?>
-                    <textarea name="post[content]" id="post-content" class="input-block-level">
-                        <?php echo ($post->getExcerpt()? $post->getExcerpt() .'<hr class="read-more-sep" />' : '');?>
-                        <?php echo $post->getContent() ?>
-                    </textarea>
+                    <textarea name="post[content]" id="post-content" class="input-block-level"><?php echo $post->getContent() ?></textarea>
                 </div>
                 <!-- /editor -->
             </div>
@@ -251,7 +265,21 @@ $files = PostPeer::getPostAttachments($post->getId());
                     </div>
                 </div>
 
-                <div class="text-center">
+                <div class="control-group<?php if(isset($error['posts.is_pin'])) echo ' error' ?>">
+                    <label class="control-label"><?php td('Highlight') ;?></label>
+                    <div class="controls">
+                        <?php $form->radioButton('posts[is_pin]', $post->getIsPin())
+                                ->add(1, t('Yes'), array('class' => 'radio inline'))
+                                ->add(0, t('No'), array('class' => 'radio inline'))
+                                ->display();
+                        ?>
+                        <?php if (isset($error['posts.is_pin'])) : ?>
+                            <span class="help-block"><?php echo $error['posts.is_pin'] ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="text-center" style="margin-top:10px; padding: 10px 0 0; border-top: 1px dashed #999">
                     <button name="submit" type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;
                         <i class="icon-save"></i>&nbsp;&nbsp;&nbsp;
                         <?php echo t('SAVE POST'); ?>&nbsp;&nbsp;&nbsp;

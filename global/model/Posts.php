@@ -16,6 +16,12 @@ class Posts extends \PostsBase {
             'name' => 'Require',
             'message' => "Title can not be blank!");
 
+        self::$_validate['term_id'][] = array(
+            'name' => 'MinValue',
+            'value' => '1',
+            'message' => 'Post term is required!',
+        );
+
         self::$_validate['taxonomy'][] = array(
             'name' => 'Require',
             'message' => "Taxonomy can not be blank!");
