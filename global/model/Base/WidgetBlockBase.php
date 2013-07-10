@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * WidgetBlock
- *  This class has been auto-generated at 09/07/2013 08:00:30
+ *  This class has been auto-generated at 10/07/2013 09:42:58
  * @version		$Id$
  * @package		Model
 
@@ -15,6 +15,7 @@ use Flywheel\Model\ActiveRecord;
  * @property string $language language type : varchar(10) max_length : 10
  * @property string $note note type : text max_length : 
  * @property string $properties properties type : text max_length : 
+ * @property integer $ordering ordering type : int(11)
  * @property datetime $created_time created_time type : datetime
  * @property datetime $modified_time modified_time type : datetime
 
@@ -65,6 +66,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \WidgetBlock[] findByProperties(string $properties) find objects in database by properties
  * @method static \WidgetBlock findOneByProperties(string $properties) find object in database by properties
  * @method static \WidgetBlock retrieveByProperties(string $properties) retrieve object from poll by properties, get it from db if not exist in poll
+
+ * @method void setOrdering(integer $ordering) set ordering value
+ * @method integer getOrdering() get ordering value
+ * @method static \WidgetBlock[] findByOrdering(integer $ordering) find objects in database by ordering
+ * @method static \WidgetBlock findOneByOrdering(integer $ordering) find object in database by ordering
+ * @method static \WidgetBlock retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
 
  * @method void setCreatedTime(\Flywheel\Db\Type\DateTime $created_time) setCreatedTime(string $created_time) set created_time value
  * @method \Flywheel\Db\Type\DateTime getCreatedTime() get created_time value
@@ -130,6 +137,13 @@ abstract class WidgetBlockBase extends ActiveRecord {
                 'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'text'),
+        'ordering' => array('name' => 'ordering',
+                'default' => 0,
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'int(11)',
+                'length' => 4),
         'created_time' => array('name' => 'created_time',
                 'not_null' => true,
                 'type' => 'datetime',
@@ -148,7 +162,7 @@ abstract class WidgetBlockBase extends ActiveRecord {
         ),
     );
     protected static $_init = false;
-    protected static $_cols = array('id','name','position','path','status','language','note','properties','created_time','modified_time');
+    protected static $_cols = array('id','name','position','path','status','language','note','properties','ordering','created_time','modified_time');
 
     public function setTableDefinition() {
     }

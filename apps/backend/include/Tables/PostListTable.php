@@ -1,5 +1,6 @@
 <?php
 use Flywheel\Factory;
+use Flywheel\Router\WebRouter;
 use Flywheel\Util\Inflection;
 use Toxotes\Plugin;
 
@@ -16,6 +17,9 @@ class PostListTable extends ListTable {
             'cb',
             'title' => array(
                 'label' => t('Title'),
+            ),
+            'highlight' => array(
+                'label' => '<span class="highlight-column-title"><i class="icon-star"></i></span>',
             ),
             'status' => array(
                 'label' => t('Status'),
@@ -40,6 +44,10 @@ class PostListTable extends ListTable {
                 'value' => '$item->getId();'
             ),
         );
+
+        if ('POST' != $this->taxonomy) {
+            unset($this->columns['highlight']);
+        }
 
         $this->columns = Plugin::applyFilters(
             'init_' .$this->taxonomy.'_post_columns',
@@ -142,6 +150,26 @@ class PostListTable extends ListTable {
         $editLink = Factory::getRouter()->createUrl('post/edit', array('id' => $item->id));
         $s .= '<a href="' .$editLink .'" class="tool-link tool-edit">' .t('Edit') .'</a> | <a href="' .$removeLink .'" class="tool-link tool-remove" rel="post-' .$item->getId() .'">' .t('Remove') .'</a>';
         $s .= '</div>';
+
+        return $s;
+    }
+
+    protected function _columnHighlight($item) {
+        /** @var Posts $item $s */
+        /** @var WebRouter $router */
+
+        $router = Factory::getRouter();
+
+        if ($item->getIsDraft()) {
+            return '<span class="highlight-column">--</span>';
+        }
+
+        $s = '';
+        if ($item->getIsPin()) {
+            $s .= '<a href="' .$router->createUrl('post/unpin', array('id' => $item->getId())) . '" class="tool-unpin"><i class="icon-star"></i> </a>';
+        } else {
+            $s .= '<a href="' .$router->createUrl('post/pin', array('id' => $item->getId())) . '" class="tool-pin"><i class="icon-star-empty"></i> </a>';
+        }
 
         return $s;
     }

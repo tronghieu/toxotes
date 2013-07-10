@@ -1,0 +1,191 @@
+<?php
+/** @var \Flywheel\Document\Html $document */
+$document = $this->document();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?php echo $document->title ;?></title>
+    <base href="<?php echo $document->getBaseUrl(); ?>">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="assets/css/ie7.css">
+    <![endif]-->
+    <script type="text/javascript" src="assets/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.tinycarousel.js"></script>
+    <script type="text/javascript" src="assets/js/script.js"></script>
+    <?php
+    echo $document->css();
+    echo $document->js('TOP');
+    ?>
+</head>
+<body>
+
+<div class="main-layout">
+    <!-- Header -->
+    <div id="header" class="clearfix">
+        <h1 class="rs">
+            <a href="#">
+                <img src="assets/images/logo.png" alt="<?php echo $setting['site_name'] ?>">
+            </a>
+        </h1>
+        <div class="right-panel">
+            <div class="clearfix">
+                <?php if ($controller->currentLang) : ?>
+                <div class="language">
+                    <div class="current-lang">
+                        <img src="assets/images/<?php echo $controller->currentLang->getImage() ?>.png" alt="<?php echo $controller->currentLang->getTitle() ?>">
+                        <span><?php echo $controller->currentLang->getTitle() ?></span>
+                        <i class="icon iPickDownW"></i>
+                    </div>
+
+                    <ul id="sys-lst-language" class="rs">
+                    <?php foreach ($controller->languages as $lang) :?>
+                        <li><a href="<?php echo $controller->makeLangUrl($lang->getLangCode()) ?>">
+                                <img src="assets/images/<?php echo $lang->getImage(); ?>.png" alt="<?php echo $lang->getTitle(); ?>">
+                                <span><?php echo $lang->getTitle(); ?></span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                    </ul>
+
+                </div>
+                <?php endif; ?>
+
+                <!--
+                <div class="sign-in">
+                    <a href="#">Sign in</a>
+                    <span class="sep">|</span>
+                    <a href="#">Sign out</a>
+                </div>
+                -->
+            </div>
+            <h3 class="rs small-logo">
+                <img src="assets/images/logo-small.png" alt="#SITE_NAME">
+            </h3>
+        </div>
+    </div>
+    <!-- /header -->
+</div>
+
+<div id="main-menu">
+    <?php $controller->block('main_menu'); ?>
+</div>
+
+<?php echo $buffer ?>
+
+<div id="footer">
+    <div class="fixCenter1K">
+        <div class="top-thumb">
+            <img src="images/ex/th-227x50.png" alt="#NAME">
+            <img src="images/ex/th-227x50-1.png" alt="#NAME">
+            <img src="images/ex/th-227x50-2.png" alt="#NAME">
+        </div>
+        <div class="clearfix">
+            <div class="col-type1">
+                <div class="wrap-foot-item">
+                    <h5 class="rs title">VN - ATTC</h5>
+                    <ul class="rs">
+                        <li>
+                            <a href="home.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="about.html">About us</a>
+                        </li>
+                        <li>
+                            <a href="training-event.html">Training/event</a>
+                        </li>
+                        <li>
+                            <a href="#">Resources</a>
+                        </li>
+                        <li>
+                            <a href="#">Online Conversation</a>
+                        </li>
+                        <li>
+                            <a href="news-list.html">News</a>
+                        </li>
+                        <li>
+                            <a href="contact.html">Contact us</a>
+                        </li>
+                        <li>
+                            <a href="#">Sitemap</a>
+                        </li>
+                        <li>
+                            <a href="#">Rss</a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!--end: col-type1 -->
+            <div class="col-type1">
+                <div class="wrap-foot-item">
+                    <h5 class="rs title">Quick Links</h5>
+                    <ul class="rs">
+                        <li>
+
+                            <a href="#">NIDA/SAMHSA Blending Initiative</a>
+                        </li>
+                        <li>
+                            <a href="#">Leadership Initiative</a>
+                        </li>
+                        <li>
+                            <a href="#">Directory of Addiction Study Programs (DASP)</a>
+                        </li>
+                        <li>
+                            <a href="#">Certification Information</a>
+                        </li>
+                        <li>
+                            <a href="#">Featured Topics Library</a>
+                        </li>
+                        <li>
+                            <a href="#">Addiction Messenger</a>
+                        </li>
+                        <li>
+                            <a href="#">AddictionCarreers.org</a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!--end: col-type1 -->
+            <div class="col-type1">
+                <div class="wrap-foot-item">
+                    <h5 class="rs title">Contact Us</h5>
+                    <p class="rs desc-contact">Maecenas euismod molestie viverra. Nam viverra neque ut eros pharetra mattis. Aliquam venenatis eros commodo nisi</p>
+
+                    <p class="rs item-info">
+                        <span class="lbl">Hotline:</span>
+                        <span class="val">+84 9876 54321</span>
+                    </p>
+                    <p class="rs item-info">
+                        <span class="lbl">Email:</span>
+                        <a href="mailto:sdfafa@fsa.com" class="val fc-w">noreply@youtdomain.com</a>
+                    </p>
+                </div>
+            </div><!--end: col-type1 -->
+            <div class="col-type2">
+                <div class="wrap-foot-item">
+                    <h5 class="rs title">Connect with us</h5>
+                    <div class="social-contact">
+                        <a href="#">
+                            <i class="icon iFb"></i>
+                        </a>
+                        <a href="#">
+                            <i class="icon iTw"></i>
+                        </a>
+                    </div>
+                    <h5 class="rs title">Email to Subcrible</h5>
+                    <form class="email-subcrible clearfix" name="email">
+                        <label for="email-subcrible">
+                            <input type="text" id="email-subcrible" placeholder="Your email">
+                            <i class="icon iPickRightW"></i>
+                        </label>
+                        <input type="submit" value="Send">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php echo $document->js('BOTTOM'); ?>
+</body>
+</html>

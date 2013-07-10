@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Posts
- *  This class has been auto-generated at 09/07/2013 08:00:30
+ *  This class has been auto-generated at 10/07/2013 09:42:57
  * @version		$Id$
  * @package		Model
 
@@ -20,6 +20,7 @@ use Flywheel\Model\ActiveRecord;
  * @property string $language language type : varchar(20) max_length : 20
  * @property integer $ordering ordering type : int(11)
  * @property integer $hits hits type : int(11)
+ * @property integer $is_pin is_pin type : tinyint(1)
  * @property datetime $modified_time modified_time type : datetime
  * @property datetime $created_time created_time type : datetime
 
@@ -100,6 +101,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Posts[] findByHits(integer $hits) find objects in database by hits
  * @method static \Posts findOneByHits(integer $hits) find object in database by hits
  * @method static \Posts retrieveByHits(integer $hits) retrieve object from poll by hits, get it from db if not exist in poll
+
+ * @method void setIsPin(integer $is_pin) set is_pin value
+ * @method integer getIsPin() get is_pin value
+ * @method static \Posts[] findByIsPin(integer $is_pin) find objects in database by is_pin
+ * @method static \Posts findOneByIsPin(integer $is_pin) find object in database by is_pin
+ * @method static \Posts retrieveByIsPin(integer $is_pin) retrieve object from poll by is_pin, get it from db if not exist in poll
 
  * @method void setModifiedTime(\Flywheel\Db\Type\DateTime $modified_time) setModifiedTime(string $modified_time) set modified_time value
  * @method \Flywheel\Db\Type\DateTime getModifiedTime() get modified_time value
@@ -197,6 +204,13 @@ abstract class PostsBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'int(11)',
                 'length' => 4),
+        'is_pin' => array('name' => 'is_pin',
+                'default' => 0,
+                'not_null' => true,
+                'type' => 'integer',
+                'auto_increment' => false,
+                'db_type' => 'tinyint(1)',
+                'length' => 1),
         'modified_time' => array('name' => 'modified_time',
                 'not_null' => true,
                 'type' => 'datetime',
@@ -209,7 +223,7 @@ abstract class PostsBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','title','term_id','slug','excerpt','content','status','is_draft','author','taxonomy','language','ordering','hits','modified_time','created_time');
+    protected static $_cols = array('id','title','term_id','slug','excerpt','content','status','is_draft','author','taxonomy','language','ordering','hits','is_pin','modified_time','created_time');
 
     public function setTableDefinition() {
     }

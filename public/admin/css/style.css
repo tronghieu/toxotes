@@ -1763,11 +1763,13 @@ html, body {
     height: 100%
 }
 
-body {
+/*body {
     background: #fff;
     font-family: "Open Sans", sans-serif;
     font-size: 12px !important
-}
+}*/
+
+body {font-size:14px;color:#666;font-family:"Segoe UI","MS Sans Serif4", Geneva, sans-serif;}
 
 a {
     color: #368ee0

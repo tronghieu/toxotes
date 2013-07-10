@@ -11,3 +11,15 @@ ul#post-files li {
 ul#post-files li .sub-tool {
     font-size: 12px;
 }
+
+a.tool-unpin, a.tool-pin, .highlight-column-title, .highlight-column {
+    text-decoration: none;
+    padding: 5px;
+    text-align: center;
+    height: 100%;
+}
+
+a.tool-pin:hover, a.tool-unpin:hover {
+    color: #fff;
+    background: #368ee0
+}
