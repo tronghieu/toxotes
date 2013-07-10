@@ -1,0 +1,27 @@
+<?php /** @var \LatestNews $widget */
+if (!empty($widget->list)) :
+?>
+<div class="lst-top-about">
+    <div class="row c3">
+        <?php foreach ($widget->list as $item) :
+                $desc = $item->getExcerpt();
+                if (!$desc) {
+                    $desc = mb_substr(strip_tags($item->getContent(), '<br><p>'), 0, 255);
+                }
+        ?>
+        <div class="col">
+            <div class="artcle-about">
+                <h2 class="rs title"><?php echo $item->getTitle(); ?></h2>
+                <p class="rs desc">
+                <?php echo $desc; ?>
+                </p>
+                <p class="rs viewmore">
+                    <a href="<?php echo $this->createUrl('post/detail', array('id' => $item->getId())); ?>"><?php td('View more'); ?></a>
+                    <i class="icon iPickReadR"></i>
+                </p>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>

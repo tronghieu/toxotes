@@ -58,6 +58,7 @@ class TermListTable extends ListTable {
 
     public function displayHeaderRow() {
         $s = '';
+
         foreach($this->columns as $name => $column) {
             if (is_int($name)) {
                 $name = $column;

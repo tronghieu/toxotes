@@ -39,7 +39,9 @@ class SimpleEvent {
 
     public function customTermColumn($columns) {
         $columns['event'] = array(
-            'label' => t('Event')
+            'label' => t('Events')
         );
+
+        return $columns;
     }
 }

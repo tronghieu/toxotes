@@ -1,3 +1,21 @@
 <div id="main-slide">
 <?php $controller->block('slide_show');?>
 </div>
+
+<div class="fixCenter1K">
+    <?php $controller->block('home.about'); ?>
+
+    <div class="row c2 l656">
+        <div class="col">
+            <?php $controller->block('home.col-left'); ?>
+        </div>
+        <div class="col">
+            <?php $controller->block('home.col-right'); ?>
+        </div>
+    </div>
+
+</div>
+
+<div id="slide-partner-org">
+    <?php $controller->block('partners_list'); ?>
+</div>

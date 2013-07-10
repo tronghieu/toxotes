@@ -1,13 +1,13 @@
+<?php /** @var SlideShow $widget */ ?>
 <div class="fixCenter1K">
     <div id="main-slider-code">
+        <?php if (!empty($widget->banners)) : ?>
         <a href="#" class="buttons prev">left</a>
         <div class="viewport">
             <ul class="overview rs">
-                <li><img src="assets/images/ex/th-1000x370.png"/></li>
-                <li><img src="assets/images/ex/th-1000x370-1.png" /></li>
-                <li><img src="assets/images/ex/th-1000x370-2.png" /></li>
-                <li><img src="assets/images/ex/th-1000x370-3.png" /></li>
-                <li><img src="assets/images/ex/th-1000x370-4.png" /></li>
+            <?php foreach($widget->banners as $banner) :?>
+                <li><img src="<?php echo $this->document()->getBaseUrl() . $banner->getFile(); ?>"></li>
+            <?php endforeach; ?>
             </ul>
         </div>
         <a href="#" class="buttons next">right</a>
@@ -15,12 +15,15 @@
         <div class="wrap-pager">
             <span class="mack"></span>
             <ul class="pager rs">
-                <li><a rel="0" class="pagenum" href="#">1</a></li>
-                <li><a rel="1" class="pagenum" href="#">2</a></li>
-                <li><a rel="2" class="pagenum" href="#">3</a></li>
-                <li><a rel="3" class="pagenum" href="#">4</a></li>
-                <li><a rel="4" class="pagenum" href="#">5</a></li>
+                <?php
+                $i = 0;
+                foreach($widget->banners as $banner) :
+                    $i++
+                ?>
+                    <li><a rel="<?php echo $i-1 ?>" class="pagenum" href="#"><?php echo $i ?></a></li>
+                <?php endforeach; ?>
             </ul>
         </div>
+        <?php endif; ?>
     </div>
 </div>

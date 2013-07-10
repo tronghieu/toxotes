@@ -24,7 +24,9 @@ class PostController extends AdminBaseController {
         $this->document()->title .= $page_title;
         $filter = $this->request()->get('filter', 'ARRAY', array());
 
-        $query = Posts::read()->where('`is_draft` = 0');
+        $query = Posts::read()
+                    ->where('`taxonomy`=:taxonomy')
+                    ->setParameter(':taxonomy', $taxonomy, \PDO::PARAM_STR);
         if (isset($filter['keyword']) && !empty($filter['keyword'])) {
             $query->andWhere('`title` LIKE "%' .$filter['keyword'] .'%"');
         }
@@ -81,7 +83,7 @@ class PostController extends AdminBaseController {
     }
 
     public function executeCreate() {
-        $taxonomy = $this->request()->get('taxonomy', 'STRING', 'post');
+        $taxonomy = $this->request()->get('taxonomy', 'STRING', 'POST');
         $post = new Posts();
         $post->setIsDraft(true);
         $post->setTaxonomy($taxonomy);
