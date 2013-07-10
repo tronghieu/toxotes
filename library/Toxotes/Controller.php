@@ -2,6 +2,7 @@
 namespace Toxotes;
 
 use Flywheel\Controller\WebController;
+use Flywheel\Factory;
 
 abstract class Controller extends WebController {
     /**
@@ -31,5 +32,28 @@ abstract class Controller extends WebController {
 
     public function block($position) {
         echo $this->renderBlock($position);
+    }
+
+    /**
+     * shortcut call \Flywheel\Router\WebRouter::createUrl() method
+     * @see \Flywheel\Router\WebRouter::createUrl()
+     * @param $route
+     * @param array $params
+     * @param string $ampersand
+     * @return mixed
+     */
+    public function createUrl($route, $params = array(), $ampersand = '&') {
+        $route = trim($route, '/');
+        if ('post/detail' == $route) {
+            if ($params['id'] && ($post = \Posts::retrieveById($params['id']))) {
+                $params['slug'] = $post->getSlug();
+            }
+
+            if ($this->currentLang && sizeof($this->languages) > 1) {
+                $params['lang'] = $this->currentLang->getLangCode();
+            }
+        }
+
+        return parent::createUrl($route, $params, $ampersand);
     }
 }

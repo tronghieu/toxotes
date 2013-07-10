@@ -46,15 +46,14 @@ $r = array(
     'logout' => array(
         'route' => 'auth/logout',
     ),
-
-	'{controller}' => array(
-		'route' => '{controller}/default'
-	),
+    '{controller}' => array(
+        'route' => '{controller}/default'
+    ),
     '{controller}/{action}/{id:\d+}' => array(
         'route' => '{controller}/{action}/'
     ),
-	'{controller}/{action}/{key:[a-zA-Z0-9-]+}' => array(
-		'route' => '{controller}/{action}'
+	'{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+		'route' => 'post/detail'
 	),
 
 	/*'{main_cat:[a-zA-Z0-9-]+}' => array(

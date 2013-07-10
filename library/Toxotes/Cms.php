@@ -25,7 +25,7 @@ class Cms {
             $nr = array();
             foreach ($r as $route => $value) {
                 $nr[$route] = $value;
-                if (strpos($route, '__') !== 0) {
+                if (strpos($route, '__') !== 0 && strpos($route, $preLang) !== 0) {
                     $nr[$preLang .'/' .ltrim($route, '/')] = $value;
                 }
             }
