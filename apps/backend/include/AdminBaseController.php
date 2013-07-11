@@ -11,6 +11,8 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
                 $this->createUrl('auth/login', array(
                     'r' => urlencode(\Flywheel\Factory::getRouter()->getUrl()))));
         }
+
+        Plugin::doAction('before_execute');
     }
 
     public function loadPlugin() {

@@ -7,8 +7,8 @@ Loader::import('app.include.Tables.*');
 class PostController extends AdminBaseController {
     public function executeDefault() {
         $pageSize = 20;
-        $taxonomy = $this->request()->get('taxonomy', 'STRING', 'POST');
-        $page_title = Plugin::getTaxonomyOption($taxonomy, 'POST', 'label', t('Post Management'));
+        $taxonomy = $this->request()->get('taxonomy', 'STRING', 'post');
+        $page_title = Plugin::getTaxonomyOption($taxonomy, 'post', 'label', t('Post Management'));
 
         if ($this->request()->isPostRequest()) {
             $ordering = $this->request()->post('ordering', 'ARRAY', array());
@@ -63,7 +63,7 @@ class PostController extends AdminBaseController {
         $list = $query->execute()
             ->fetchAll(\PDO::FETCH_CLASS, 'Posts', array(null, false));
 
-        $taxonomy_term = Plugin::getTaxonomyOption($taxonomy, 'POST', 'term_taxonomy', 'category');
+        $taxonomy_term = Plugin::getTaxonomyOption($taxonomy, 'post', 'term_taxonomy', 'category');
 
         $table = new PostListTable($taxonomy);
         $table->setItems($list);
@@ -83,7 +83,7 @@ class PostController extends AdminBaseController {
     }
 
     public function executeCreate() {
-        $taxonomy = $this->request()->get('taxonomy', 'STRING', 'POST');
+        $taxonomy = $this->request()->get('taxonomy', 'STRING', 'post');
         $this->setView('form');
         $post = new Posts();
         $post->setIsDraft(true);
@@ -114,13 +114,14 @@ class PostController extends AdminBaseController {
     public function executeEdit() {
         $post = Posts::retrieveById($this->request()->get('id'));
         $taxonomy = $this->request()->get('taxonomy');
-        if (null == $taxonomy) {
-            $taxonomy = $post->getTaxonomy();
-        }
 
         if (!$post) {
             Factory::getSession()->setFlash('post_error', t('Post not found'));
             $this->redirect($this->createUrl('post/default', array('taxonomy' => $taxonomy)));
+        }
+
+        if (null == $taxonomy) {
+            $taxonomy = $post->getTaxonomy();
         }
 
         $error = array();

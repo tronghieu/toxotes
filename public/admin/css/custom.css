@@ -109,3 +109,7 @@ label.big {
     font-size: 18px;
     margin-bottom: 10px;
 }
+
+.box-content.nopadding .control-group:first-child {
+    marding-top: 10px;
+}

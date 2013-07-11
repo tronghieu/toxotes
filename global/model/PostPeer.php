@@ -33,13 +33,19 @@ class PostPeer {
     public static function getPostProperties($postId, $assoc = false) {
         /** @var PostProperty $properties */
         $properties =  (array) PostProperty::findByPostId($postId);
+        if (empty($properties)) {
+            return $properties;
+        }
+
         if (!$assoc) {
             return $properties;
         }
 
         $p = array();
         foreach($properties as $property) {
-            $p[$property->getProperty()] = $property->getValue();
+            $p[$property->getProperty()] = $property;
         }
+
+        return $p;
     }
 }

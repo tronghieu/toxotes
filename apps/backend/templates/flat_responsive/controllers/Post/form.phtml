@@ -9,17 +9,30 @@ use Toxotes\Plugin;
 
 $this->document()->addCss('css/jquery.fileupload-ui.css');
 $this->document()->addCss('css/post.css');
+$this->document()->addCss('css/plugins/datepicker/datepicker.css');
+$this->document()->addCss('css/plugins/timepicker/bootstrap-timepicker.min.css');
+
 $this->document()->addJs('js/post.js');
 $this->document()->addJs('js/plugins/file-upload/jquery.fileupload.js', 'TOP');
+$this->document()->addJs('js/plugins/maskedinput/jquery.maskedinput.min.js', 'TOP');
+$this->document()->addJs('js/plugins/datepicker/bootstrap-datepicker.js', 'TOP');
+$this->document()->addJs('js/plugins/timepicker/bootstrap-timepicker.min.js', 'TOP');
 
 $form = new Form('post');
 $form->setHtmlOption(array(
 ));
 $taxonomy_label = Plugin::getTaxonomyOption($taxonomy, 'post', 'label', t('Post'));
 
+
+if ($post->getIsDraft() && !$post->getTitle()) {
+    $page_title = t('Create New ' .$taxonomy_label);
+} else {
+    $page_title = t('Edit ' .$post->getTitle());
+}
+
 $this->document()->title .= $page_title;
 
-$taxonomy = ($taxonomy)? $taxonomy : 'POST';
+$taxonomy = ($taxonomy)? $taxonomy : 'post';
 
 $mainImg = PostPeer::getPostMainImg($post->getId());
 $postImages = PostPeer::getPostImg($post->getId());
@@ -28,7 +41,7 @@ $files = PostPeer::getPostAttachments($post->getId());
 ?>
     <div class="page-header">
         <div class="pull-left">
-            <h1><?php echo ($post->isNew()? t('Create new ' .$taxonomy_label) : t('Edit ' .$post->getTitle())); ?></h1>
+            <h1><?php echo $page_title; ?></h1>
         </div>
         <div class="pull-right">
             <ul class="minitiles">
@@ -47,7 +60,7 @@ $files = PostPeer::getPostAttachments($post->getId());
         $taxonomy_label => array(
             'url' => array('post/default', array('taxonomy' => $taxonomy)),
         ),
-        ($post->isNew()? t('Create New ' .$taxonomy_label) : t('Edit ' .$post->getTitle()))
+        $page_title
     ),
 )) ?>
 
@@ -125,7 +138,7 @@ $files = PostPeer::getPostAttachments($post->getId());
         <!-- Post Images -->
         <?php if ('post' == $taxonomy || Plugin::getTaxonomyOption($taxonomy, 'post', 'enable_images', true)) :?>
         <div class="box">
-            <div class="box-title">
+            <div class="box-title nopadding">
                 <h3><?php td('Post Images'); ?></h3>
             </div>
             <div class="box-content nopadding">
@@ -187,6 +200,9 @@ $files = PostPeer::getPostAttachments($post->getId());
         </div>
         <?php endif;?>
         <!-- /post images -->
+
+        <?php Plugin::doAction('custom_after_' .$taxonomy .'_post_common_info_box', $post, $form, $error); ?>
+
     </div>
     <!-- /main input -->
     <div class="span4">
@@ -230,7 +246,8 @@ $files = PostPeer::getPostAttachments($post->getId());
             </div>
         <?php endif; ?>
 
-        <?php Plugin::doAction('custom_before' .$taxonomy .'_publish_box', $post, $form); ?>
+        <?php Plugin::doAction('custom_before_' .$taxonomy .'_publish_box', $post, $form, $error); ?>
+
         <div class="box box-bordered box-color">
 
             <div class="box-title"><h3><?php echo t('Publish'); ?></h3></div>
@@ -278,16 +295,20 @@ $files = PostPeer::getPostAttachments($post->getId());
                         <?php endif; ?>
                     </div>
                 </div>
-
-                <div class="text-center" style="margin-top:10px; padding: 10px 0 0; border-top: 1px dashed #999">
-                    <button name="submit" type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;
-                        <i class="icon-save"></i>&nbsp;&nbsp;&nbsp;
-                        <?php echo t('SAVE POST'); ?>&nbsp;&nbsp;&nbsp;
-                    </button>
-                </div>
             </div>
         </div>
         <?php Plugin::doAction('custom_after' .$taxonomy .'_publish_box', $post, $form); ?>
+    </div>
+</div>
+
+<?php Plugin::doAction('custom_before_' .$taxonomy .'_post_form', $post, $form, $error); ?>
+
+<div class="row-fluid">
+    <div class="span12 form-actions text-center" style="background-color: #f9f9f9">
+        <button name="submit" type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;
+            <i class="icon-save"></i>&nbsp;&nbsp;&nbsp;
+            <?php echo t('SAVE POST'); ?>&nbsp;&nbsp;&nbsp;
+        </button>
     </div>
 </div>
 <input name="post_id" value="<?php echo $post->getId()?>" type="hidden">
