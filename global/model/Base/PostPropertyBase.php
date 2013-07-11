@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * PostProperty
- *  This class has been auto-generated at 10/07/2013 16:06:44
+ *  This class has been auto-generated at 11/07/2013 15:51:38
  * @version		$Id$
  * @package		Model
 
@@ -15,6 +15,7 @@ use Flywheel\Model\ActiveRecord;
  * @property number $float_value float_value type : decimal(20,2)
  * @property integer $boolean_value boolean_value type : tinyint(1)
  * @property datetime $datetime_value datetime_value type : datetime
+ * @property string $value_type value_type type : enum('TEXT','INT','FLOAT','BOOLEAN','DATETIME') max_length : 8
  * @property integer $ordering ordering type : int(11)
 
  * @method void setId(integer $id) set id value
@@ -64,6 +65,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \PostProperty[] findByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findByDatetimeValue(string $datetime_value) find objects in database by datetime_value
  * @method static \PostProperty findOneByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findOneByDatetimeValue(string $datetime_value) find object in database by datetime_value
  * @method static \PostProperty retrieveByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) retrieveByDatetimeValue(string $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
+
+ * @method void setValueType(string $value_type) set value_type value
+ * @method string getValueType() get value_type value
+ * @method static \PostProperty[] findByValueType(string $value_type) find objects in database by value_type
+ * @method static \PostProperty findOneByValueType(string $value_type) find object in database by value_type
+ * @method static \PostProperty retrieveByValueType(string $value_type) retrieve object from poll by value_type, get it from db if not exist in poll
 
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
@@ -125,6 +132,12 @@ abstract class PostPropertyBase extends ActiveRecord {
                 'not_null' => false,
                 'type' => 'datetime',
                 'db_type' => 'datetime'),
+        'value_type' => array('name' => 'value_type',
+                'default' => 'TEXT',
+                'not_null' => true,
+                'type' => 'string',
+                'db_type' => 'enum(\'TEXT\',\'INT\',\'FLOAT\',\'BOOLEAN\',\'DATETIME\')',
+                'length' => 8),
         'ordering' => array('name' => 'ordering',
                 'default' => 0,
                 'not_null' => true,
@@ -134,9 +147,15 @@ abstract class PostPropertyBase extends ActiveRecord {
                 'length' => 4),
      );
     protected static $_validate = array(
+        'value_type' => array(
+            array('name' => 'ValidValues',
+                'value' => 'TEXT|INT|FLOAT|BOOLEAN|DATETIME',
+                'message'=> 'value type\'s values is not allowed'
+            ),
+        ),
     );
     protected static $_init = false;
-    protected static $_cols = array('id','post_id','property','text_value','int_value','float_value','boolean_value','datetime_value','ordering');
+    protected static $_cols = array('id','post_id','property','text_value','int_value','float_value','boolean_value','datetime_value','value_type','ordering');
 
     public function setTableDefinition() {
     }

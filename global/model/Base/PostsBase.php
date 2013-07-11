@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Posts
- *  This class has been auto-generated at 10/07/2013 16:06:44
+ *  This class has been auto-generated at 11/07/2013 15:51:38
  * @version		$Id$
  * @package		Model
 
@@ -180,7 +180,7 @@ abstract class PostsBase extends ActiveRecord {
                 'db_type' => 'varchar(255)',
                 'length' => 255),
         'taxonomy' => array('name' => 'taxonomy',
-                'default' => 'POST',
+                'default' => 'post',
                 'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'varchar(100)',
