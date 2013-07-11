@@ -30,6 +30,45 @@ $(function() {
         });
     });
 
+    $('a._post-img-remove').on('click', function () {
+        event.preventDefault();
+
+        event.preventDefault();
+        var e = $(this);
+
+        if (e.data('processing')) {
+            return;
+        }
+
+        //display loading
+
+        //preventing double click
+        e.data('processing', true);
+
+        var url = e.attr('href'),
+            rel = $('#'+ e.attr('rel'));
+
+        bootbox.confirm("Are you sure?", function(confirmed) {
+            if (confirmed) {
+                $.postJSON(url, {}, function (response) {
+                    if (response.type == 1) {
+                        rel.fadeOut(function () {
+                            $(this).remove();
+                        });
+                        if (response.otherMain) {
+                            $('img.main-img').attr('src', './../' +response.otherMain.path);
+                        }
+                    } else if (response.message) {
+                        bootbox.alert(response.message, function() {});
+                    }
+                });
+            }
+        });
+
+        //end preventing double click
+        e.removeData('processing');
+    });
+
     if ($('#post-img-upload').length) {
         $("#post-img-upload").fileupload({
             url: base_url + '/post_img/upload',
@@ -70,6 +109,7 @@ $(function() {
                             )
                             .append($('<a />', {
                                 class: '_post-img-remove',
+                                rel: 'post-img-' + result.postImage.id,
                                 href: base_url + '/post_img/remove?id=' + result.postImage.id
                             })
                                 .append($('<i />', {class: 'icon-trash'}))

@@ -62,5 +62,32 @@ class PostImgController extends AdminBaseController {
 
     public function executeEdit() {}
 
-    public function executeRemove() {}
+    public function executeRemove() {
+        $this->validAjaxRequest();
+        $res = new AjaxResponse();
+
+        if (!($postImg = PostImages::retrieveById($this->request()->get('id')))) {
+            $res->type = AjaxResponse::ERROR;
+            $res->message = t("Image not found");
+            $this->renderText($res->toString());
+        }
+
+        if ($postImg->delete()) {
+            if ($postImg->getIsMain() && ($otherImages = PostPeer::getPostImg($postImg->getPostId()))) {
+                $otherImages[0]->setIsMain(true);
+                $otherImages[0]->save();
+                $res->otherMain = $otherImages[0]->toArray();
+            }
+
+            $res->type = AjaxResponse::SUCCESS;
+            $res->message = t('Success!');
+            $res->postImg = $postImg->toArray();
+
+            return $this->renderText($res->toString());
+        }
+
+        $res->type = AjaxResponse::ERROR;
+        $res->message = t("Unknown error");
+        $this->renderText($res->toString());
+    }
 }

@@ -1609,6 +1609,10 @@ label, input, button, select, textarea {
     font-size: 12px
 }
 
+label {
+    font-size: 14px;
+}
+
 .form-actions {
     background: 0;
     border: 0

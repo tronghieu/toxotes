@@ -33,12 +33,16 @@ class TermListTable extends ListTable {
             ),
             'description' => array(
                 'label' => t('Description')
-            )
+            ),
         );
 
         $this->columns = Plugin::applyFilters(
             'init_' .$this->taxonomy.'_term_columns',
             $this->columns
+        );
+
+        $this->columns['tool'] = array(
+            'label' => t('Action')
         );
     }
 
@@ -133,27 +137,8 @@ class TermListTable extends ListTable {
 
     protected function _columnName($item) {
         $name = $item->getName();
-        $s = '<div class="row-title"><strong><span style="font-family: sans-serif;">' .(($item->getLevel() > 1)? str_repeat('&#8212;', $item->getLevel()-1): '').'</span> '
-            .$name .'</strong></div>';
-
-
-        $subtool = '';
-        $subtool = '<div class="sub-tool">';
-        if ('menu' != $item->taxonomy)
-        {
-            /*if (\Toxotes\Plugin::getTaxonomyOption('category', 'item', 'enable_custom_fields', true)) {
-                $s .= '<a href="' .Factory::getRouter()->createUrl('category/custom_fields', array('taxonomy' => $item->taxonomy, 'id' => $item->id)) .'" class="tool-link tool-custom-field">'
-                    .t('Custom Fields')
-                    .'</a> | ';
-            }*/
-        }
-        $subtool = Plugin::applyFilters('custom_' .$item->taxonomy.'_subtool', $subtool);
-        $s .= $subtool;
-
-        $removeLink = Factory::getRouter()->createUrl('category/delete', array('id' => $item->id));
-        $editLink = Factory::getRouter()->createUrl('category/edit', array('id' => $item->id));
-        $s .= '<a href="' .$editLink .'" class="tool-link tool-edit">' .t('Edit') .'</a> | <a href="' .$removeLink .'" class="tool-link tool-remove" rel="term-' .$item->getId() .'">' .t('Remove') .'</a>';
-        $s .= '</div>';
+        $s = '<div class="row-title"><span style="font-family: sans-serif;">' .(($item->getLevel() > 1)? str_repeat('&#8212;', $item->getLevel()-1): '').'</span> '
+            .$name .'</div>';
 
         return $s;
     }
@@ -176,6 +161,22 @@ class TermListTable extends ListTable {
         $value =  Plugin::applyFilters('manage_' .$this->taxonomy .'_custom_column', $value, $name, $item->id);
 
         return $value;
+    }
+
+    protected function _columnTool($item) {
+        $s = '';
+        $subtool = '';
+        $subtool = '<div class="sub-tool">';
+        $subtool = Plugin::applyFilters('custom_' .$item->taxonomy.'_subtool', $subtool);
+        $s .= $subtool;
+
+        $removeLink = Factory::getRouter()->createUrl('category/delete', array('id' => $item->id));
+        $editLink = Factory::getRouter()->createUrl('category/edit', array('id' => $item->id));
+        $s .= '<a href="' .$editLink .'" class="tool-link tool-edit">' .t('Edit') .'</a> | <a href="' .$removeLink .'" class="tool-link tool-remove" rel="term-' .$item->getId() .'">' .t('Remove') .'</a>';
+
+        $s =  Plugin::applyFilters('manage_' .$this->taxonomy .'_custom_tool_column', $s, $item->id);
+
+        return $s;
     }
 
     public function displayFootRow() {
