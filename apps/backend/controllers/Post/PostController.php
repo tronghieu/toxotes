@@ -84,19 +84,22 @@ class PostController extends AdminBaseController {
 
     public function executeCreate() {
         $taxonomy = $this->request()->get('taxonomy', 'STRING', 'POST');
+        $this->setView('form');
         $post = new Posts();
         $post->setIsDraft(true);
         $post->setTaxonomy($taxonomy);
         $post->save(false); //save Draft before
-        $this->setView('form');
+        $this->redirect($this->createUrl('post/edit', array('id' => $post->getId(), 'taxonomy' => $taxonomy)));
 
-        $error = array();
+        /*$error = array();
         if ($this->request()->isPostRequest()) {
             if ($this->_save($post, $error)) {
                 Factory::getSession()->setFlash('post_message', t($post->getTitle() .'  was saved!'));
                 $this->redirect($this->createUrl('post/default', array('taxonomy' => $taxonomy)));
             }
         }
+
+
 
         $this->view()->assign(array(
             'post' => $post,
@@ -105,7 +108,7 @@ class PostController extends AdminBaseController {
             'page_title' => t('New post')
         ));
 
-        return $this->renderComponent();
+        return $this->renderComponent();*/
     }
 
     public function executeEdit() {

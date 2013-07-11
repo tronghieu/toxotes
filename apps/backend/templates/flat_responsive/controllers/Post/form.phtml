@@ -106,7 +106,7 @@ $files = PostPeer::getPostAttachments($post->getId());
                         $excerpt = str_replace('<br />', '<br>', $excerpt);
                         $excerpt = str_replace('<br>', "", $excerpt);
                     ?>
-                    <textarea name="post[excerpt]" class="input-block-level" rows="5"><?php echo $excerpt;  ?></textarea>
+                    <textarea name="post[excerpt]" class="input-block-level" rows="3"><?php echo $excerpt;  ?></textarea>
                 </div>
 
                 <!-- Editor -->
@@ -172,7 +172,7 @@ $files = PostPeer::getPostAttachments($post->getId());
                                             <div class="extras-inner">
                                                 <a href="<?php echo $this->createUrl('post_img/make_star', array('id' => $postImage->getId()))?>" class="_post-im-make-star"><i class="icon-star-empty"></i></a>
                                                 <!--<a href="<?php echo $this->createUrl('post_img/edit', array('id' => $postImage->getId()))?>"><i class="icon-pencil"></i></a>-->
-                                                <a href="<?php echo $this->createUrl('post_img/remove', array('id' => $postImage->getId()))?>" class="_post-img-remove"><i class="icon-trash"></i></a>
+                                                <a href="<?php echo $this->createUrl('post_img/remove', array('id' => $postImage->getId()))?>" class="_post-img-remove" rel="post-img-<?php echo $postImage->getId(); ?>"><i class="icon-trash"></i></a>
                                             </div>
                                         </div>
                                     </li>
