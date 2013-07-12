@@ -64,6 +64,26 @@ $files = PostPeer::getPostAttachments($post->getId());
     ),
 )) ?>
 
+<?php if (!empty($error) || !empty($message)) :?>
+<div class="row-fluid">
+    <div class="box">
+        <div class="box-content nopadding" style="margin-top:20px;">
+            <?php if (isset($error) && !empty($error)) :?>
+                <div class="alert alert-error margin">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <?php echo implode('<br>', array_values($error)); ?>
+                </div>
+            <?php elseif (isset($message) && !empty($message)) : ?>
+                <div class="alert alert-success margin">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <?php echo $message; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 <div id="post-frm">
 <?php $form->beginForm(); ?>
 <div class="row-fluid">
@@ -76,17 +96,6 @@ $files = PostPeer::getPostAttachments($post->getId());
                 </h3>
             </div>
             <div class="box-content">
-                <?php if (isset($error) && !empty($error)) :?>
-                    <div class="alert alert-error margin">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <?php echo implode('<br>', array_values($error)); ?>
-                    </div>
-                <?php elseif (isset($message) && !empty($message)) : ?>
-                    <div class="alert alert-success margin">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <?php echo $message; ?>
-                    </div>
-                <?php endif; ?>
 
                 <div class="control-group<?php if(isset($error['posts.title'])) echo ' error' ?>">
                     <label class="big"><?php td('Title'); ?></label>
@@ -127,7 +136,7 @@ $files = PostPeer::getPostAttachments($post->getId());
                     <label class="big"><?php td('Content'); ?></label>
                     <?php $this->widget('app.widget.editor.TinyMCE', array(
                         'selector' => '#post-content',
-                        'heigth' => 360
+                        'heigth' => 260
                     )); ?>
                     <textarea name="post[content]" id="post-content" class="input-block-level"><?php echo $post->getContent() ?></textarea>
                 </div>
@@ -304,7 +313,7 @@ $files = PostPeer::getPostAttachments($post->getId());
 <?php Plugin::doAction('custom_before_' .$taxonomy .'_post_form', $post, $form, $error); ?>
 
 <div class="row-fluid">
-    <div class="span12 form-actions text-center" style="background-color: #f9f9f9">
+    <div class="span12 form-actions text-center" style="background-color: #efefef">
         <button name="submit" type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;
             <i class="icon-save"></i>&nbsp;&nbsp;&nbsp;
             <?php echo t('SAVE POST'); ?>&nbsp;&nbsp;&nbsp;

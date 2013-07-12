@@ -13,15 +13,14 @@ $(function(){
         event_display_map($('#event_location_address').val(), $('#event_location_name').val());
     }
 
-    function event_display_map(address, info_label) {
+    function event_display_map(address, info_label, first) {
         $('#event_map').gmap3({
             action: 'destroy'
         });
 
         var container = $('#event_map').parent();
-            $('#event_map').remove();
+        $('#event_map').remove();
         container.append('<div id="event_map"></div>');
-
 
         $('#event_map').length && $('#event_map').gmap3({
             marker:{

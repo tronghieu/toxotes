@@ -1,6 +1,7 @@
 <?php
 
 class PostPeer {
+    protected static $_caches = array();
     /**
      * @param $postId
      * @return null|PostImages
@@ -30,9 +31,13 @@ class PostPeer {
      * @param bool $assoc
      * @return PostProperty[] | null
      */
-    public static function getPostProperties($postId, $assoc = false) {
-        /** @var PostProperty $properties */
-        $properties =  (array) PostProperty::findByPostId($postId);
+    public static function getPostProperties($postId, $assoc = true) {
+        /** @var PostProperty[] $properties */
+        $properties =  (array) PostProperty::read()->where('`post_id` = :post_id')
+                                ->setParameter(':post_id' ,$postId, \PDO::PARAM_INT)
+                                ->orderBy('ordering')
+                                ->execute()
+                                ->fetchAll(\PDO::FETCH_CLASS, 'PostProperty', array(null, false));
         if (empty($properties)) {
             return $properties;
         }

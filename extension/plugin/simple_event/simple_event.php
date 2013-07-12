@@ -24,9 +24,13 @@ Plugin::listen('onAfterCreateTerm', array($simpleEvent, 'afterCreateTerm'));
 Plugin::addFilter('custom_event_manager_page_title', function() {
     return 'Event Manager Category';
 });
+
 Plugin::addFilter('init_event_manager_term_columns', array($simpleEvent, 'customTermColumn'));
 
+
 Plugin::addFilter('custom_before_event_manager_post_form', array($simpleEvent, 'form'), 1, 3);
+Plugin::addFilter('verify_event_manager_form_data', array($simpleEvent, 'verifyForm'));
+Plugin::addFilter('handling_event_manager_form_data', array($simpleEvent, 'handlingForm'));
 
 Plugin::addFilter('before_execute', function () {
     $doc = Factory::getDocument();

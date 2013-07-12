@@ -11,6 +11,12 @@ use Flywheel\Db\Type\DateTime;
 
 require_once dirname(__FILE__) .'/Base/PostPropertyBase.php';
 class PostProperty extends \PostPropertyBase {
+    const
+        BOOLEAN = 'BOOLEAN',
+        INT = 'INT',
+        FLOAT = 'FLOAT',
+        DATETIME = 'DATETIME',
+        TEXT = 'TEXT';
 
     /**
      * @return bool|float|DateTime|int|string
@@ -18,14 +24,15 @@ class PostProperty extends \PostPropertyBase {
     public function getValue() {
         $type = $this->getValueType();
         switch ($type) {
-            case 'BOOLEAN' :
+            case self::BOOLEAN :
                 return (boolean) $this->getBooleanValue();
-            case 'INT' :
+            case self::INT :
                 return (int) $this->getIntValue();
-            case 'FLOAT' :
+            case self::FLOAT :
                 return (float) $this->getFloatValue();
-            case 'DATETIME' :
+            case self::DATETIME :
                 return new DateTime($this->getDatetimeValue());
+            case self::TEXT:
             default:
                 return $this->getTextValue();
         }

@@ -26,6 +26,8 @@ class PostController extends AdminBaseController {
 
         $query = Posts::read()
                     ->where('`taxonomy`=:taxonomy')
+                    ->andWhere('`is_draft` = :is_draft')
+                    ->setParameter(':is_draft', false, \PDO::PARAM_INT)
                     ->setParameter(':taxonomy', $taxonomy, \PDO::PARAM_STR);
         if (isset($filter['keyword']) && !empty($filter['keyword'])) {
             $query->andWhere('`title` LIKE "%' .$filter['keyword'] .'%"');
@@ -237,11 +239,14 @@ class PostController extends AdminBaseController {
         $post->setExcerpt(nl2br($post->getExcerpt()));
         $post->setIsDraft(false);
 
+        $error = Plugin::applyFilters('verify_' .$post->getTaxonomy() .'_form_data', $error);
+
         if (!$post->getAuthor()) {
             $post->setAuthor($this->getSessionUser()->getName());
         }
 
-        if ($post->save()) {
+        if (empty($error) && $post->save()) {
+            $post = Plugin::applyFilters('handling_' .$post->getTaxonomy() .'_form_data', $post);
             return true;
         } else {
             foreach($post->getValidationFailures() as $validationFailure) {
