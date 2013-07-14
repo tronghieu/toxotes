@@ -329,7 +329,7 @@ class SimpleEvent {
             $error['event_end_date'] = t('End date is required');
         }
 
-        if ($sd && $ed) {
+        if (isset($sd) && isset($ed)) {
             if ($ed < $sd) {
                 $error['event_end_date'] = t('Invalid event end time');
             }
@@ -372,17 +372,16 @@ class SimpleEvent {
         $event_contact_fax = $request->post('event_contact_fax');
         $event_contact_email = $request->post('event_contact_email');
 
-        $event_data = compact('event_location_name', 'event_location_address', 'event_location_city',
+        $event_data = compact('event_all_day','event_location_name', 'event_location_address', 'event_location_city',
                 'event_contact_name', 'event_contact_address', 'event_contact_phone',
                 'event_contact_fax', 'event_contact_email');
 
         if (empty($error)) {
             /** processing event date */
             if ($event_all_day) {
+//                $event_end_date = ($event_end_date)? $event_end_date : $event_start_date;
                 $event_start_date = $event_start_date .' ' .'00:00';
-                $event_end_date = ($event_end_date)? $event_end_date : $event_start_date;
-
-                $event_end_date = $event_end_date .' ' .'24:00';
+                $event_end_date = $event_start_date .' ' .'24:00';
 
                 $event_start_date = DateTime::createFromFormat('d/m/Y H:i', $event_start_date);
                 $event_end_date = DateTime::createFromFormat('d/m/Y H:i', $event_end_date);
@@ -394,7 +393,7 @@ class SimpleEvent {
                 $event_end_date = DateTime::createFromFormat('d/m/Y H:i', $event_end_date .' ' .$event_end_time);
             }
 
-            $eventStartDate = PostProperty::retrieveByProperty('event_start_date');
+            $eventStartDate = PostProperty::retrieveByPropertyAndPostId('event_start_date', $post->getId());
             $eventStartDate = ($eventStartDate)? $eventStartDate : new PostProperty();
             $eventStartDate->setProperty('event_start_date');
             $eventStartDate->setDatetimeValue($event_start_date);
@@ -402,7 +401,7 @@ class SimpleEvent {
             $eventStartDate->setPostId($post->getId());
             $eventStartDate->save();
 
-            $eventEndDate = PostProperty::retrieveByProperty('event_end_date');
+            $eventEndDate = PostProperty::retrieveByPropertyAndPostId('event_end_date', $post->getId());
             $eventEndDate = ($eventEndDate)? $eventEndDate : new PostProperty();
             $eventEndDate->setProperty('event_end_date');
             $eventEndDate->setDatetimeValue($event_end_date);
@@ -411,7 +410,7 @@ class SimpleEvent {
             $eventEndDate->save();
 
             foreach ($event_data as $key => $value) {
-                $pp = PostProperty::retrieveByProperty($key);
+                $pp = PostProperty::retrieveByPropertyAndPostId($key, $post->getId());
                 $pp = ($pp)? $pp : new PostProperty();
                 $pp->setProperty($key);
                 $pp->setTextValue($value);
