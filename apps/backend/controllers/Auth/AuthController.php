@@ -7,6 +7,8 @@ class AuthController extends AdminBaseController {
     }
 
     public function executeLogin() {
+        $this->document()->title = t('Login');
+
         //return if signed
         if (BackendAuth::getInstance()->isAuthenticated()) {
             $back = $this->request()->get('r');
