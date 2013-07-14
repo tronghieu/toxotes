@@ -30,9 +30,7 @@ $(function() {
         });
     });
 
-    $('a._post-img-remove').on('click', function () {
-        event.preventDefault();
-
+    $('.gallery').on('click','a._post-img-remove', function () {
         event.preventDefault();
         var e = $(this);
 
@@ -90,7 +88,6 @@ $(function() {
                     })
                         .append($('<img />', {
                             src: './../' + result.postImage.path,
-                            width: 90
                         })
                         )
                     );

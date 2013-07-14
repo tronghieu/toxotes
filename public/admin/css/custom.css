@@ -28,7 +28,9 @@ hr.read-more-sep {
 }
 
 #post-frm img.main-img {
-    border: 2px solid #002266;
+    border: 2px solid #666;
+    width: 90px;
+    height: 60px;
 }
 
 #post-frm .img-property {
