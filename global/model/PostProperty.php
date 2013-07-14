@@ -37,4 +37,26 @@ class PostProperty extends \PostPropertyBase {
                 return $this->getTextValue();
         }
     }
+
+    /**
+     * @param $property
+     * @param $postId
+     * @return PostProperty
+     */
+    public static function retrieveByPropertyAndPostId($property, $postId) {
+        foreach(self::$_instances as $instance) {
+            /** @var PostProperty $instance */
+            if ($instance->getProperty() == $property
+                && $instance->getPostId() == $postId) {
+                return $instance;
+            }
+        }
+
+        $obj = self::findOneByPostIdAndProperty($postId, $property);
+        if ($obj) {
+            self::addInstanceToPool($obj, $obj->getId());
+        }
+
+        return $obj;
+    }
 }
