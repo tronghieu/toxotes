@@ -153,6 +153,11 @@ class CategoryController extends AdminBaseController {
             $term->insertAsLastChildOf($parent);
         } else {
             $currentParent = $term->getParent();
+            if ($parent->id == $term->getId()) {
+                $error['parent'] = array(t('Could not make child of itself'));
+                return false;
+            }
+
             if ($currentParent->id != $parent->id) {//change parent
                 $term->moveToLastChildOf($parent);
             } else {//save normal
