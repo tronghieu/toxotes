@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * Menu
- *  This class has been auto-generated at 11/07/2013 15:51:38
+ *  This class has been auto-generated at 15/07/2013 18:38:39
  * @version		$Id$
  * @package		Model
 
@@ -13,10 +13,10 @@ use Flywheel\Model\ActiveRecord;
  * @property string $route route type : varchar(20) max_length : 20
  * @property string $route_param route_param type : text max_length : 
  * @property string $link link type : text max_length : 
+ * @property string $target target type : varchar(10) max_length : 10
  * @property string $object object type : varchar(255) max_length : 255
  * @property string $extra_param extra_param type : text max_length : 
  * @property integer $status status type : tinyint(1)
- * @property integer $ordering ordering type : int(11)
  * @property integer $lvl lvl type : int(11)
  * @property integer $lft lft type : int(11)
  * @property integer $rgt rgt type : int(11)
@@ -57,6 +57,12 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Menu findOneByLink(string $link) find object in database by link
  * @method static \Menu retrieveByLink(string $link) retrieve object from poll by link, get it from db if not exist in poll
 
+ * @method void setTarget(string $target) set target value
+ * @method string getTarget() get target value
+ * @method static \Menu[] findByTarget(string $target) find objects in database by target
+ * @method static \Menu findOneByTarget(string $target) find object in database by target
+ * @method static \Menu retrieveByTarget(string $target) retrieve object from poll by target, get it from db if not exist in poll
+
  * @method void setObject(string $object) set object value
  * @method string getObject() get object value
  * @method static \Menu[] findByObject(string $object) find objects in database by object
@@ -74,12 +80,6 @@ use Flywheel\Model\ActiveRecord;
  * @method static \Menu[] findByStatus(integer $status) find objects in database by status
  * @method static \Menu findOneByStatus(integer $status) find object in database by status
  * @method static \Menu retrieveByStatus(integer $status) retrieve object from poll by status, get it from db if not exist in poll
-
- * @method void setOrdering(integer $ordering) set ordering value
- * @method integer getOrdering() get ordering value
- * @method static \Menu[] findByOrdering(integer $ordering) find objects in database by ordering
- * @method static \Menu findOneByOrdering(integer $ordering) find object in database by ordering
- * @method static \Menu retrieveByOrdering(integer $ordering) retrieve object from poll by ordering, get it from db if not exist in poll
 
  * @method void setLvl(integer $lvl) set lvl value
  * @method integer getLvl() get lvl value
@@ -139,6 +139,12 @@ abstract class MenuBase extends ActiveRecord {
                 'not_null' => true,
                 'type' => 'string',
                 'db_type' => 'text'),
+        'target' => array('name' => 'target',
+                'default' => '_self',
+                'not_null' => true,
+                'type' => 'string',
+                'db_type' => 'varchar(10)',
+                'length' => 10),
         'object' => array('name' => 'object',
                 'not_null' => true,
                 'type' => 'string',
@@ -155,13 +161,6 @@ abstract class MenuBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'tinyint(1)',
                 'length' => 1),
-        'ordering' => array('name' => 'ordering',
-                'default' => 0,
-                'not_null' => true,
-                'type' => 'integer',
-                'auto_increment' => false,
-                'db_type' => 'int(11)',
-                'length' => 4),
         'lvl' => array('name' => 'lvl',
                 'not_null' => true,
                 'type' => 'integer',
@@ -184,7 +183,7 @@ abstract class MenuBase extends ActiveRecord {
     protected static $_validate = array(
     );
     protected static $_init = false;
-    protected static $_cols = array('id','name','type','route','route_param','link','object','extra_param','status','ordering','lvl','lft','rgt');
+    protected static $_cols = array('id','name','type','route','route_param','link','target','object','extra_param','status','lvl','lft','rgt');
 
     public function setTableDefinition() {
     }
