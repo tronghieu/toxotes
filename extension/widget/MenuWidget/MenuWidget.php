@@ -1,5 +1,5 @@
 <?php
-class Menu extends \Toxotes\Widget {
+class MenuWidget extends \Toxotes\Widget {
     public function html() {
         $this->fetchViewPath();
         $this->fetchViewFile();
