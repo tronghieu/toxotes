@@ -1,5 +1,6 @@
 <?php
 return array(
+    'site_url' => 'http://localhost/toxotes/public/',
     'i18n' => array(
         'enable' => true,
         'default_fallback' => array('en'),

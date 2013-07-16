@@ -52,6 +52,22 @@ abstract class Controller extends WebController {
             if ($this->currentLang && sizeof($this->languages) > 1) {
                 $params['lang'] = $this->currentLang->getLangCode();
             }
+        } else if ('category/default' == $route) {
+            if ($params['id'] && ($term = \Terms::retrieveById($params['id']))) {
+                $params['slug'] = $term->getSlug();
+            }
+
+            if ($this->currentLang && sizeof($this->languages) > 1) {
+                $params['lang'] = $this->currentLang->getLangCode();
+            }
+        } else if ('event/default' == $route) {
+            if ($params['id'] && ($term = \Terms::retrieveById($params['id']))) {
+                $params['slug'] = $term->getSlug();
+            }
+
+            if ($this->currentLang && sizeof($this->languages) > 1) {
+                $params['lang'] = $this->currentLang->getLangCode();
+            }
         }
 
         return parent::createUrl($route, $params, $ampersand);

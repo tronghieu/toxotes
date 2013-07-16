@@ -6,8 +6,11 @@
             </li>
         <?php endforeach; ?>
 
-        <?php foreach ($inActivesLink as $inActiveLink) : ?>
-            <li class="active"><a><?php echo $inActiveLink ?></a></li>
-        <?php endforeach; ?>
+        <?php
+        if(isset($inActiveLink)) {
+            foreach ($inActivesLink as $inActiveLink) : ?>
+                <li class="active"><a><?php echo $inActiveLink ?></a></li>
+            <?php endforeach; ?>
+        <?php } ?>
     </ul>
 </div>

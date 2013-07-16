@@ -49,8 +49,14 @@ $r = array(
     '{controller}' => array(
         'route' => '{controller}/default'
     ),
+    'events/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+        'route' => 'events/default'
+    ),
     '{controller}/{action}/{id:\d+}' => array(
         'route' => '{controller}/{action}/'
+    ),
+    'categories/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+        'route' => 'category/default'
     ),
 	'{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
 		'route' => 'post/detail'

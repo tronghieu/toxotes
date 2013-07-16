@@ -1,0 +1,43 @@
+<div class="fixCenter1K clearfix">
+    <?php if ($items) :?>
+        <ul class="root-menu menu rs">
+            <?php for ($i = 0, $size = sizeof($items); $i < $size; ++$i) : ?>
+                <li class="sep"></li>
+                <?php
+                $hasChild = (isset($items[$i]['items']) && sizeof($items[$i]['items']) > 0);
+                ?>
+
+                <li class="<?php if ($hasChild):?>deeper parent<?php endif; ?><?php if ($items[$i]['active']):?> active<?php endif; ?>">
+
+                    <a href="<?php echo $items[$i]['url'] ?>"<?php if ($items[$i]['active']):?> id="current"<?php endif; ?><?php if($hasChild):?> data-toggle="dropdown" class="dropdown-toggle"<?php endif?>>
+                        <?php echo $items[$i]['label'] ?>
+                    </a>
+
+                    <?php if ($hasChild): ?>
+                        <ul class="dropdown">
+                            <?php for($j = 0, $sizeOfSub = sizeof($items[$i]['items']); $j < $sizeOfSub; ++$j) :
+                                $child = $items[$i]['items'][$j];?>
+                                <li>
+                                    <a href="<?php echo $items[$i]['items'][$j]['url'] ?>"<?php if ($items[$i]['items'][$j]['active']):?> class="current"<?php endif; ?>>
+                                        <?php echo $items[$i]['items'][$j]['label'] ?>
+                                    </a>
+                                    <?php if (isset($child['items'])) :?>
+                                        <ul class="grandchildren-menu">
+                                            <?php foreach($child['items'] as $grandchildren) : ?>
+                                                <li>
+                                                    <a href="<?php echo $grandchildren['url']?>">
+                                                        <?php echo $grandchildren['label'];?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+                                </li>
+                            <?php endfor; ?>
+                        </ul>
+                    <?php endif; ?>
+                </li>
+            <?php endfor; ?>
+        </ul>
+    <?php endif; ?>
+</div>

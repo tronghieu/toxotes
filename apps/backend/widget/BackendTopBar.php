@@ -62,7 +62,7 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
             ),*/
         );
 
-        $menuGs = Menus::getMenuGroup();
+        /*$menuGs = Menus::getMenuGroup();
         if (!empty($menuGs)) {
             foreach($menuGs as $menuG) {
                 $this->items[1]['items'][] = array(
@@ -74,7 +74,7 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
                     ),
                 );
             }
-        }
+        }*/
 
         $this->items = \Toxotes\Plugin::applyFilters('after_init_admin_main_nav', $this->items);
     }

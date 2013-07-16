@@ -60,6 +60,9 @@ require_once dirname(__FILE__) . '/Base/MenusBase.php';
  * @method void makeRoomForLeaf(int $level, $scope = null)
  */
 class Menus extends \MenusBase {
+    const INTERNAL = 'internal',
+        EXTERNAL = 'external',
+        SEPARATE = 'separate';
 
     public function init() {
         parent::init();

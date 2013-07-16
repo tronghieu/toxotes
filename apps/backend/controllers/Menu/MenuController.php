@@ -13,52 +13,20 @@ use Toxotes\Plugin;
 Loader::import('app.include.Tables.*');
 class MenuController extends AdminBaseController {
     public function executeDefault() {
-        $input = new stdClass();
-        $error = array();
-        $message = array();
+        $message = Factory::getSession()->getFlash('menus.message');
+        $error = Factory::getSession()->getFlash('menus.error');
 
-        if ($this->request()->isPostRequest()) {
-            $input = (object) $this->request()->post('new_menu', 'ARRAY', array());
-            $newMenu = new Menus();
-            $newMenu->hydrate($input);
-            $newMenu->setTaxonomy('menu');
-            $root = Menus::retrieveRoot('menu');
-            $newMenu->insertAsLastChildOf($root);
-            if (!$newMenu->isValid()) {
-                foreach($newMenu->getValidationFailures() as $validationFailure) {
-                    @$error['new_menu'][$validationFailure->getColumn()] = $validationFailure->getMessage();
-                }
-            } else {
-                $input = new stdClass();
-            }
+        if (($group_id = $this->request()->get('group_id', 'INT', 0))) {
+            $parent = \Menus::retrieveById($group_id);
+        } else {
+            $parent = \Menus::retrieveRoot();
         }
 
-        $groups = Menus::getMenuGroup();
-        $menusList = array();
-        $group = false;
-        $table = null;
-        if (($groupId = $this->request()->get('group_id', 'INT', 0))) {
-            if (!($group = Menus::retrieveById($groupId))) {
-                $this->redirect($this->createUrl('menu/default'));
-            }
-
-            $menusList = $group->getDescendants();
-            $table = new TermListTable('menu');
-            $table->setItems($menusList);
-        }
-
-        if (!empty($error) && !isset($error['global'])) {
-            $error['global'] = t('Something was wrong');
-        }
+        $lists = $parent->getDescendants();
 
         $this->view()->assign(array(
-            'input' => $input,
-            'list' => $menusList,
-            'menu' => $groups,
-            'select_menu' => $group,
-            'table' => $table,
-            'error' => $error,
-            'message' => $message,
+            'lists' => $lists,
+            'parent' => $parent
         ));
 
         return $this->renderComponent();
@@ -70,7 +38,7 @@ class MenuController extends AdminBaseController {
         $error = array();
         if ($this->request()->isPostRequest()) {
             if ($this->_save($menu, $error)) {
-                Factory::getSession()->setFlash('message', t($menu->getName() .' was saved!'));
+                Factory::getSession()->setFlash('menus.message', t($menu->getName() .' was saved!'));
                 $this->redirect($this->createUrl('menu/default'));
             }
         }
@@ -86,13 +54,13 @@ class MenuController extends AdminBaseController {
 
     public function executeEdit() {
         if (!($menu = \Menus::retrieveById($this->request()->get('id')))) {
-            Factory::getSession()->setFlash('error', t('Menu not fond'));
+            Factory::getSession()->setFlash('menus.error', t('Menu not fond'));
         }
 
         $error = array();
         if ($this->request()->isPostRequest()) {
             if ($this->_save($menu, $error)) {
-                Factory::getSession()->setFlash('message', t($menu->getName() .' was saved!'));
+                Factory::getSession()->setFlash('menus.message', t($menu->getName() .' was saved!'));
                 $this->redirect($this->createUrl('menu/default'));
             }
         }
@@ -106,7 +74,7 @@ class MenuController extends AdminBaseController {
         return $this->renderComponent();
     }
 
-    protected function _save(\Menus $menu, $error) {
+    protected function _save(\Menus $menu, &$error) {
         if ($menu->isNew() && ($parent_id = $this->request()->get('parent_id', 'INT', 0))) {
         } else {
             $parent_id = $this->request()->post('parent_id', 'INT', 0);
@@ -126,6 +94,20 @@ class MenuController extends AdminBaseController {
         $isNew = $menu->isNew();
 
         $menu->hydrate($this->request()->post('menus', 'ARRAY', array()));
+
+        if ($menu->type == \Menus::INTERNAL) {
+            if (!$menu->route) {
+                $error['menus.route'] = t("Menu's route is required.");
+            }
+        } else if ($menu->type == \Menus::EXTERNAL) {
+            if (!$menu->link || !filter_var($menu->link, FILTER_VALIDATE_URL)) {
+                $error['menus.link'] = t("Menu's link is invalid.");
+            }
+        }
+
+        if (!empty($error)) {
+            return false;
+        }
 
         if ($isNew) {
             $menu->insertAsLastChildOf($parent);
@@ -162,10 +144,7 @@ class MenuController extends AdminBaseController {
         if (!$menu->isValid()) {
             $failures = $menu->getValidationFailures();
             foreach ($failures as $failure) {
-                if (!isset($error[$failure->getColumn()])) {
-                    $error[$failure->getColumn()] = array();
-                }
-                $error[$failure->getColumn()][] = $failure->getMessage();
+                $error[$failure->getColumn()] = $failure->getMessage();
             }
         }
 
