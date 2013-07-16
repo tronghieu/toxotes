@@ -26,7 +26,9 @@ Plugin::addFilter('custom_event_manager_page_title', function() {
 });
 
 Plugin::addFilter('init_event_manager_term_columns', array($simpleEvent, 'customTermColumn'));
-
+Plugin::addFilter('default_event_manager_ordering', function($ordering) {
+    return array('created_time', 'DESC');
+});
 
 Plugin::addFilter('custom_before_event_manager_post_form', array($simpleEvent, 'form'), 1, 3);
 Plugin::addFilter('verify_event_manager_form_data', array($simpleEvent, 'verifyForm'));

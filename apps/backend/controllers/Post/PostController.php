@@ -56,11 +56,13 @@ class PostController extends AdminBaseController {
         $countQuery = clone $query;
         $total = $countQuery->count()->execute();
 
+        $orderBy = Plugin::applyFilters('default_' .$taxonomy .'_ordering', array('id', 'DESC'));
+
         //paging
         $page = $this->request()->get('page', 'INIT', 1);
         $query->setMaxResults($pageSize)
             ->setFirstResult(($page-1)*$pageSize)
-            ->orderBy('id', 'DESC');
+            ->orderBy($orderBy[0], $orderBy[1]);
 
         $list = $query->execute()
             ->fetchAll(\PDO::FETCH_CLASS, 'Posts', array(null, false));
@@ -234,6 +236,8 @@ class PostController extends AdminBaseController {
     }
 
     protected function _save(Posts &$post, &$error) {
+        $isDraft = $post->getIsDraft();
+
         $input = $this->request()->post('post', 'ARRAY', array());
         $post->hydrate($input);
         $post->setExcerpt(nl2br($post->getExcerpt()));
@@ -247,6 +251,12 @@ class PostController extends AdminBaseController {
 
         if (empty($error) && $post->save()) {
             $post = Plugin::applyFilters('handling_' .$post->getTaxonomy() .'_form_data', $post);
+            if ($isDraft) {
+                $this->dispatch('after_publish_' .$post->getTaxonomy() .'_post', new AdminEvent($this, array('post' => $post)));
+            } else {
+                $this->dispatch('after_save_' .$post->getTaxonomy() .'_post',new AdminEvent($this, array('post' => $post)));
+            }
+
             return true;
         } else {
             foreach($post->getValidationFailures() as $validationFailure) {

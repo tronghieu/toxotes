@@ -14,14 +14,16 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
                 'label' => t('Dashboard'),
                 'url' => array('dashboard/default'),
             ),
-            /*array(
-                'label' => t('Menu'),
+            array(
+                'label' => t('MenuWidget'),
                 'url' => array('menu/default'),
                 'items' => array(
-                    array('label' => t('Menu List'),
-                        'url' => array('menu/default'))
+                    array('label' => t('Menu Widget List'),
+                        'url' => array('menu/default')),
+                    array('label' => t('Add New Menu'),
+                        'url' => array('menu/create'))
                 ),
-            ),*/
+            ),
             array(
                 'label' => t('Posts Management'),
                 'url' => array('post/default'),
@@ -60,7 +62,7 @@ class BackendTopBar extends \Flywheel\Html\Widget\Menu {
             ),*/
         );
 
-        $menuGs = Menu::getMenuGroup();
+        $menuGs = Menus::getMenuGroup();
         if (!empty($menuGs)) {
             foreach($menuGs as $menuG) {
                 $this->items[1]['items'][] = array(
