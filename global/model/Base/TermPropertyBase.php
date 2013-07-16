@@ -3,7 +3,7 @@ use Flywheel\Db\Manager;
 use Flywheel\Model\ActiveRecord;
 /**.
  * TermProperty
- *  This class has been auto-generated at 16/07/2013 01:34:32
+ *  This class has been auto-generated at 17/07/2013 00:31:19
  * @version		$Id$
  * @package		Model
 
@@ -13,8 +13,9 @@ use Flywheel\Model\ActiveRecord;
  * @property string $text_value text_value type : text max_length : 
  * @property integer $int_value int_value type : int(11)
  * @property number $float_value float_value type : decimal(20,4)
- * @property integer $bolean_value bolean_value type : tinyint(1)
+ * @property integer $boolean_value boolean_value type : tinyint(1)
  * @property datetime $datetime_value datetime_value type : datetime
+ * @property string $value_type value_type type : enum('TEXT','INT','FLOAT','BOOLEAN','DATETIME') max_length : 8
  * @property integer $ordering ordering type : int(11)
 
  * @method void setId(integer $id) set id value
@@ -53,17 +54,23 @@ use Flywheel\Model\ActiveRecord;
  * @method static \TermProperty findOneByFloatValue(number $float_value) find object in database by float_value
  * @method static \TermProperty retrieveByFloatValue(number $float_value) retrieve object from poll by float_value, get it from db if not exist in poll
 
- * @method void setBoleanValue(integer $bolean_value) set bolean_value value
- * @method integer getBoleanValue() get bolean_value value
- * @method static \TermProperty[] findByBoleanValue(integer $bolean_value) find objects in database by bolean_value
- * @method static \TermProperty findOneByBoleanValue(integer $bolean_value) find object in database by bolean_value
- * @method static \TermProperty retrieveByBoleanValue(integer $bolean_value) retrieve object from poll by bolean_value, get it from db if not exist in poll
+ * @method void setBooleanValue(integer $boolean_value) set boolean_value value
+ * @method integer getBooleanValue() get boolean_value value
+ * @method static \TermProperty[] findByBooleanValue(integer $boolean_value) find objects in database by boolean_value
+ * @method static \TermProperty findOneByBooleanValue(integer $boolean_value) find object in database by boolean_value
+ * @method static \TermProperty retrieveByBooleanValue(integer $boolean_value) retrieve object from poll by boolean_value, get it from db if not exist in poll
 
  * @method void setDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) setDatetimeValue(string $datetime_value) set datetime_value value
  * @method \Flywheel\Db\Type\DateTime getDatetimeValue() get datetime_value value
  * @method static \TermProperty[] findByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findByDatetimeValue(string $datetime_value) find objects in database by datetime_value
  * @method static \TermProperty findOneByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) findOneByDatetimeValue(string $datetime_value) find object in database by datetime_value
  * @method static \TermProperty retrieveByDatetimeValue(\Flywheel\Db\Type\DateTime $datetime_value) retrieveByDatetimeValue(string $datetime_value) retrieve object from poll by datetime_value, get it from db if not exist in poll
+
+ * @method void setValueType(string $value_type) set value_type value
+ * @method string getValueType() get value_type value
+ * @method static \TermProperty[] findByValueType(string $value_type) find objects in database by value_type
+ * @method static \TermProperty findOneByValueType(string $value_type) find object in database by value_type
+ * @method static \TermProperty retrieveByValueType(string $value_type) retrieve object from poll by value_type, get it from db if not exist in poll
 
  * @method void setOrdering(integer $ordering) set ordering value
  * @method integer getOrdering() get ordering value
@@ -116,7 +123,7 @@ abstract class TermPropertyBase extends ActiveRecord {
                 'auto_increment' => false,
                 'db_type' => 'decimal(20,4)',
                 'length' => 20),
-        'bolean_value' => array('name' => 'bolean_value',
+        'boolean_value' => array('name' => 'boolean_value',
                 'not_null' => false,
                 'type' => 'integer',
                 'auto_increment' => false,
@@ -126,6 +133,11 @@ abstract class TermPropertyBase extends ActiveRecord {
                 'not_null' => false,
                 'type' => 'datetime',
                 'db_type' => 'datetime'),
+        'value_type' => array('name' => 'value_type',
+                'not_null' => true,
+                'type' => 'string',
+                'db_type' => 'enum(\'TEXT\',\'INT\',\'FLOAT\',\'BOOLEAN\',\'DATETIME\')',
+                'length' => 8),
         'ordering' => array('name' => 'ordering',
                 'default' => 1,
                 'not_null' => true,
@@ -135,9 +147,15 @@ abstract class TermPropertyBase extends ActiveRecord {
                 'length' => 4),
      );
     protected static $_validate = array(
+        'value_type' => array(
+            array('name' => 'ValidValues',
+                'value' => 'TEXT|INT|FLOAT|BOOLEAN|DATETIME',
+                'message'=> 'value type\'s values is not allowed'
+            ),
+        ),
     );
     protected static $_init = false;
-    protected static $_cols = array('id','term_id','property','text_value','int_value','float_value','bolean_value','datetime_value','ordering');
+    protected static $_cols = array('id','term_id','property','text_value','int_value','float_value','boolean_value','datetime_value','value_type','ordering');
 
     public function setTableDefinition() {
     }

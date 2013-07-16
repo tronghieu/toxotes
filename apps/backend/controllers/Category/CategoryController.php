@@ -151,6 +151,7 @@ class CategoryController extends AdminBaseController {
         $isNew = $term->isNew();
         if ($isNew) {
             $term->insertAsLastChildOf($parent);
+            $this->_saveProperty($term, $error);
         } else {
             $currentParent = $term->getParent();
             if ($parent->id == $term->getId()) {
@@ -160,8 +161,10 @@ class CategoryController extends AdminBaseController {
 
             if ($currentParent->id != $parent->id) {//change parent
                 $term->moveToLastChildOf($parent);
+                $this->_saveProperty($term, $error);
             } else {//save normal
                 if($term->save()) {// only save information
+                    $this->_saveProperty($term, $error);
                     return true;
                 } else {
                     if (!$term->isValid()) {
@@ -194,6 +197,36 @@ class CategoryController extends AdminBaseController {
         }
 
         return empty($error);
+    }
+
+    protected function _saveProperty(\Terms &$term, &$error) {
+        $properties = $this->request()->post('property', 'ARRAY', array());
+
+        if ($term->taxonomy == 'category') {
+            if (isset($properties['cat_view']) && $properties['cat_view']) {
+                $catViewProp = $term->getProperty('cat_view');
+                if (!$catViewProp) {
+                    $catViewProp = new TermProperty();
+                }
+                $catViewProp->setProperty('cat_view');
+                $catViewProp->setTermId($term->getId());
+                $catViewProp->setTextValue($properties['cat_view']);
+                $catViewProp->setValueType(TermProperty::TEXT);
+                $catViewProp->save();
+            }
+
+            if (isset($properties['post_view']) && $properties['post_view']) {
+                $postViewProp = $term->getProperty('post_view');
+                if (!$postViewProp) {
+                    $postViewProp = new TermProperty();
+                }
+                $postViewProp->setProperty('post_view');
+                $postViewProp->setTermId($term->getId());
+                $postViewProp->setTextValue($properties['post_view']);
+                $postViewProp->setValueType(TermProperty::TEXT);
+                $postViewProp->save();
+            }
+        }
     }
 
     public function executeDelete() {

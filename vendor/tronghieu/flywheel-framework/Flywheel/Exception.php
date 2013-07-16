@@ -37,7 +37,7 @@ class Exception extends \Exception
         return $this->getPrevious();
     }
 
-    public static function printExceptionInfo(Exception $e) {
+    public static function printExceptionInfo(\Exception $e) {
         /*if (false === ($e instanceof Ming_Exception)) {
             $e = new Ming_Exception($e);
         }*/
@@ -45,7 +45,7 @@ class Exception extends \Exception
         static::printStackTrace($e);
     }
 
-    public static function printStackTrace(Exception $e) {
+    public static function printStackTrace(\Exception $e) {
         while (ob_get_level()) {
             if (!ob_end_clean()) {
                 break;

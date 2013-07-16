@@ -34,6 +34,10 @@ class TermListTable extends ListTable {
             'description' => array(
                 'label' => t('Description')
             ),
+            'id' => array(
+                'label' => 'ID',
+                'value' => '$item->getId();'
+            )
         );
 
         $this->columns = Plugin::applyFilters(

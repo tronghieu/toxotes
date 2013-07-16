@@ -97,6 +97,28 @@ $this->document()->addJs('category.js');
                     </div>
                 </div>
 
+                <?php if ($taxonomy == 'category') :?>
+                <div class="span12">
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Category View') ?></label>
+                        <div class="controls">
+                            <?php $this->widget('app.widget.SelectCategoryView', array(
+                                'form' => $addNewFrm,
+                            )) ?>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Post View') ?></label>
+                        <div class="controls">
+                            <?php $this->widget('app.widget.SelectPostView', array(
+                                'form' => $addNewFrm
+                            )) ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <?php \Toxotes\Plugin::doAction($taxonomy .'_add_form_fields') ?>
 
                 <div class="span12 text-center" style="background-color: #efefef; margin: 0; padding: 10px;">

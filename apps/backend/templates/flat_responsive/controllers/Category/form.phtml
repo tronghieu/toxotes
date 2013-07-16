@@ -76,6 +76,28 @@ $this->widget('app.widget.Breadcrumbs', array(
                 </div>
             </div>
 
+            <?php if ($taxonomy == 'category') :?>
+                <div class="control-group">
+                    <label class="control-label"><?php echo t('Category View') ?></label>
+                    <div class="controls">
+                        <?php $this->widget('app.widget.SelectCategoryView', array(
+                            'form' => $form,
+                            'cat_id' => $term->getId()
+                        )) ?>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label"><?php echo t('Post View') ?></label>
+                    <div class="controls">
+                        <?php $this->widget('app.widget.SelectPostView', array(
+                            'form' => $form,
+                            'cat_id' => $term->getId()
+                        )) ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <?php \Toxotes\Plugin::doAction($taxonomy .'_add_form_fields') ?>
 
             <div class="form-actions align-center">

@@ -63,6 +63,9 @@ require_once dirname(__FILE__) .'/Base/TermsBase.php';
  * @method void makeRoomForLeaf(int $level, $scope = null)
  */
 class Terms extends \TermsBase {
+    /**
+     * @var TermProperty[]
+     */
     protected $_properties;
 
     public function init() {
@@ -136,8 +139,32 @@ class Terms extends \TermsBase {
                         ->execute();
     }
 
+    /**
+     * @param $property
+     * @return null|\TermProperty
+     */
+    public function getProperty($property) {
+        if ($this->_properties) {
+            foreach($this->_properties as $pro) {
+                if ($pro->getProperty() == $property) {
+                    return $pro;
+                }
+            }
+        } else {
+            return TermProperty::findOneByPropertyAndTermId($property, $this->getId());
+        }
+
+        return null;
+    }
+
     protected function _beforeSave() {
         $this->setSlug(Slugify::filter($this->getName()));
         parent::_beforeSave();
+    }
+
+    protected function _afterDelete() {
+        TermProperty::write()->delete(TermProperty::getTableName())
+                ->where('term_id = ' .$this->getId())
+                ->execute();
     }
 }
