@@ -1,0 +1,15 @@
+<?php /** @var \LatestNews $widget */
+if (!empty($widget->list)) :
+    ?>
+    <div class="block lst-partner-trained">
+        <h3 class="title rs">
+            <?php echo $widget->getOwner()->getName(); ?>
+        </h3>
+
+        <ul class="wrap-lst rs">
+            <?php foreach($widget->list as $item) : ?>
+                <li><a href="<?php echo $controller->createUrl('post/detail', array('id' => $item->getId())); ?>"><?php echo $item->getTitle(); ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>

@@ -226,6 +226,30 @@ class CategoryController extends AdminBaseController {
                 $postViewProp->setValueType(TermProperty::TEXT);
                 $postViewProp->save();
             }
+
+            if (isset($properties['post_ordering']) && $properties['post_ordering']) {
+                $postOrdering = $term->getProperty('post_ordering');
+                if (!$postOrdering) {
+                    $postOrdering = new TermProperty();
+                }
+                $postOrdering->setProperty('post_ordering');
+                $postOrdering->setTermId($term->getId());
+                $postOrdering->setTextValue($properties['post_ordering']);
+                $postOrdering->setValueType(TermProperty::TEXT);
+                $postOrdering->save();
+            }
+
+            if (isset($properties['page_size']) && $properties['page_size']) {
+                $pageSizeProp = $term->getProperty('page_size');
+                if (!$pageSizeProp) {
+                    $pageSizeProp = new TermProperty();
+                }
+                $pageSizeProp->setProperty('page_size');
+                $pageSizeProp->setTermId($term->getId());
+                $pageSizeProp->setIntValue($properties['page_size']);
+                $pageSizeProp->setValueType(TermProperty::INT);
+                $pageSizeProp->save();
+            }
         }
     }
 

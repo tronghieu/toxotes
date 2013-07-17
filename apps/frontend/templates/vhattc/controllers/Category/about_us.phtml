@@ -1,0 +1,59 @@
+<?php
+/** @var Posts[] $posts */
+/** @var Terms $cat */
+?>
+<div id="about-page" class="row l260 faux-left-gray fixCenter1K">
+    <div class="col col-type1">
+        <?php $controller->block('about_us.menu'); ?>
+    </div>
+
+    <div class="col col-type2">
+        <div class="text-content">
+            <div class="category-list">
+
+                <h2 class="rs title-page">
+                    <span class="subheading-category"><?php echo $cat->getName(); ?></span>
+                </h2>
+
+
+                <div class="cat-items">
+                    <div class="col">
+                        <div class="clearfix lst-news-about">
+                        <?php if ($posts) : ?>
+                            <?php foreach ($posts as $post):
+                                    $excerpt = $post->getExcerpt();
+                                    if (!$excerpt) {
+                                        $excerpt = mb_substr($post->getContent(), 0, 255, 'UTF-8') .'...';
+                                    }
+                                ?>
+                                <div class="news-item clearfix">
+                                    <?php if ($post->getMainImg()) :?>
+                                    <a class="thumb" href="<?php echo $controller->createUrl('post/detail', array('id' => $post->getId())); ?>">
+                                        <img src="<?php echo $post->displayMainImg(); ?>" alt="<?php echo $post->getTitle();?>" class="article-img">
+                                    </a>
+                                    <?php endif; ?>
+                                    <div class="right-info">
+                                        <h3 class="rs title">
+                                            <a href="<?php echo $controller->createUrl('post/detail', array('id' => $post->getId())); ?>"><?php echo $post->getTitle(); ?></a>
+                                        </h3>
+                                        <p class="rs lead-news">
+                                            <?php echo $excerpt; ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php endforeach;?>
+                        <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div id="slide-partner-org">
+    <?php $controller->block('partners_list'); ?>
+</div>

@@ -76,6 +76,12 @@ class LatestNews extends \Toxotes\Widget {
                 ->setParameter(':term_id', $term->getId(), \PDO::PARAM_INT);
         }
 
+        //limit
+        $limit = $this->getParams('limit');
+        if ($limit) {
+            $q->setMaxResults((int) $limit);
+        }
+
         if ($ordering) {
             foreach($ordering as $_ordering) {
                 $q->addOrderBy($_ordering['field'], $_ordering['order']);

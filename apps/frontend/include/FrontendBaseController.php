@@ -60,4 +60,6 @@ abstract class FrontendBaseController extends \Toxotes\Controller{
     public function makeLangUrl($langCode) {
         return $this->document()->getBaseUrl().$langCode;
     }
+
+    public function raise404($mess = null) {}
 }

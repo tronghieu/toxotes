@@ -33,6 +33,19 @@ class Posts extends \PostsBase {
         );
     }
 
+    public function displayMainImg() {
+        $mainImg = PostPeer::getPostMainImg($this->getId());
+        if (!$mainImg) {
+            return '';
+        }
+
+        return '.' .$mainImg->getPath();
+    }
+
+    public function getMainImg() {
+        return $mainImg = PostPeer::getPostMainImg($this->getId());
+    }
+
     protected function _beforeSave() {
         if ($this->isNew()) {
             $this->setCreatedTime(new DateTime());

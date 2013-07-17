@@ -116,6 +116,36 @@ $this->document()->addJs('category.js');
                             )) ?>
                         </div>
                     </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Ordering'); ?></label>
+                        <div class="controls">
+                            <?php
+                            $postOrderingOpt = $addNewFrm->selectOption('property[post_ordering]')
+                                ->addOption(t('Default'), 'default')
+                                ->addOption(t('Date Create'), 'created_time')
+                                ->addOption(t('Date Modified'), 'modified_time')
+                                ->addOption(t('Post Ordering'), 'ordering');
+                            $postOrderingOpt->display();
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"><?php echo t('Page Size'); ?></label>
+                        <div class="controls">
+                            <?php
+                            $postOrderingOpt = $addNewFrm->selectOption('property[page_size]')
+                                ->addOption(5, 5)
+                                ->addOption(10, 10)
+                                ->addOption(15, 15)
+                                ->addOption(25, 25)
+                                ->addOption(50, 50)
+                                ->addOption(t('Unlimited'), -1);
+                            $postOrderingOpt->display();
+                            ?>
+                        </div>
+                    </div>
                 </div>
                 <?php endif; ?>
 
