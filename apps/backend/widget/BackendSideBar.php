@@ -11,6 +11,7 @@ class BackendSideBar extends \Flywheel\Html\Widget\Menu {
 
         $this->items = array();
 
+        //Banner
         $this->items[] = array(
             'label' => t('Banners'),
             'url' => array('banner/default'),
@@ -26,6 +27,25 @@ class BackendSideBar extends \Flywheel\Html\Widget\Menu {
                     'url' => array('banner/new')
                 ),
             )
+        );
+        //Contact
+        $this->items[] = array(
+            'label' => t('Contacts'),
+            'url' => array('#'),
+            'items' => array(
+                array(
+                    'label' => t('Group'),
+                    'url' => array('category/default', 'taxonomy' => 'contacts_group')
+                ),
+                array(
+                    'label' => t('Contacts'),
+                    'url' => array('post/default', 'taxonomy' => 'contacts')
+                ),
+                array(
+                    'label' => t('Add new contact'),
+                    'url' => array('post/create', 'taxonomy' => 'contacts')
+                )
+            ),
         );
 
         $this->dispatch('onAfterInitAdminMenu', new AdminEvent($this));

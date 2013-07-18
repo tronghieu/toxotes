@@ -51,5 +51,7 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
         Plugin::registerTaxonomy('post', 'post', array(
             'label' => t('Post')
         ));
+
+        ContactsTaxonomy::init();
     }
 }

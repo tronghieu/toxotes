@@ -45,7 +45,7 @@ class PostListTable extends ListTable {
             ),
         );
 
-        if ('post' != $this->taxonomy) {
+        if ('post' != $this->taxonomy && 'contacts' != $this->taxonomy) {
             unset($this->columns['highlight']);
         }
 
