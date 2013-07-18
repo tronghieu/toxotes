@@ -2560,10 +2560,10 @@ textarea {
 .slide-top-news .top-news .buttons,
 .slide-top-news .top-news .dis-btn{
     position: absolute;
-    top: 60px;
+    top: 20px;
     left: -20px;
     z-index: 4;
-    background: #000;
+    background: #999;
     color: #FFF;
     font-size: 26px;
     height: 40px;
@@ -2577,6 +2577,7 @@ textarea {
 }
 .slide-top-news .top-news .buttons:hover{
     text-decoration: none;
+    background-color: #666;
 }
 .slide-top-news .top-news .dis-btn{
     z-index: 1;

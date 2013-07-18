@@ -43,15 +43,21 @@ class CategoryController extends FrontendBaseController {
             $q->addOrderBy('modified_time', 'DESC');
         }
 
+        $qCount = clone $q;
+
+        $total = $qCount->count()->execute();
+
         //Paging
         $pageSizeProp = $cat->getProperty('page_size');
         if ($pageSizeProp) {
+            $page_size = $cat->getProperty('page_size')->getValue();
             if (-1 != $pageSizeProp->getValue()) {
                 $q->setMaxResults($pageSizeProp->getValue());
                 $page = $this->request()->get('page', 'INT', 1);
                 $q->setFirstResult($page-1);
             }
         } else {
+            $page_size = 25;
             $q->setMaxResults(25);
             $page = $this->request()->get('page', 'INT', 1);
             $q->setFirstResult($page-1);
@@ -61,6 +67,8 @@ class CategoryController extends FrontendBaseController {
                     ->fetchAll(\PDO::FETCH_CLASS, Posts::getPhpName(), array(null, false));
 
         $this->view()->assign(array(
+            'page_size' => $page_size,
+            'total' => $total,
             'cat' => $cat,
             'child' => $child,
             'posts' => $posts

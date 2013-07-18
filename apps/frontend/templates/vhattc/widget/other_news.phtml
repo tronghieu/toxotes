@@ -1,0 +1,28 @@
+<?php
+/** @var Posts[] $lists */
+?>
+<div class="slide-top-news" id="sys_slide_top_news">
+<?php if ($lists): ?>
+<div class="top-news">
+    <a class="buttons prev" href="#">«</a>
+    <span class="dis-btn p"></span>
+    <a class="buttons next" href="#">»</a>
+    <span class="dis-btn n"></span>
+
+    <div class="viewport">
+        <ul class="rs clearfix overview lst-top-news">
+            <?php foreach($lists as $item) :?>
+            <li><!--218-->
+                <div class="wrap-content">
+                    <h3 class="rs news-title">
+                        <a href="<?php echo $controller->createUrl('post/detail', array('id' => $item->getId())); ?>"><?php echo $item->getTitle() ?></a>
+                    </h3>
+                    <p class="rs date" style="font-size: 11px; padding-top: 0"><?php echo $item->getCreatedTime()->format(t('d/m/Y')) ?></p>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+<?php endif; ?>
+</div>
