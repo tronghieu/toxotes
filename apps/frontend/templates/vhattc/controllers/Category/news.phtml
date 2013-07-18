@@ -74,7 +74,12 @@ $this->document()->title = $page_title;
 
         <!-- Right -->
         <div class="col">
-            <?php $controller->block('news_cat.right'); ?>
+            <div id="news-cat-right-col">
+            <?php $this->widget('app.widget.CalendarWidget', array(
+                'term_id' => $cat->getId(),
+                'fetch_child' => true
+            )); ?>
+            </div>
         </div>
         <!--/right -->
     </div>

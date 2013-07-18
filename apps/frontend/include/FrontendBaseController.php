@@ -48,7 +48,7 @@ abstract class FrontendBaseController extends \Toxotes\Controller{
 
         Factory::getCookie()->write('lang', $currentLangCode);
 
-        if (!$this->request()->get('lang')) {
+        if (Factory::getRouter()->getUrl() =='/' && !$this->request()->get('lang')) {
             $this->redirect($currentLangCode);
         }
 

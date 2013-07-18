@@ -1,6 +1,7 @@
 <?php
 /** @var \Flywheel\Document\Html $document */
 $document = $this->document();
+$document->addJsVar('base_url', $document->getBaseUrl());
 ?>
 <!DOCTYPE html>
 <html>

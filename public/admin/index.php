@@ -6,6 +6,8 @@ use \Flywheel\Base;
 try {
     $app = \Flywheel\Base::createWebApp($config, \Flywheel\Base::ENV_DEV, true);
     $app->run();
+} catch (\Flywheel\Exception\NotFound404 $ne) {
+    echo "<h1>Permission Denied!</h1>You don not have permission to access this area";
 } catch (\Exception $e) {
     \Flywheel\Exception::printExceptionInfo($e);
 }
