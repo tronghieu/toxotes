@@ -2003,18 +2003,22 @@ textarea {
     width: 100%;
     border: none;
     outline: none;
-    padding: 5px 0 7px;
+    padding: 7px 0 7px;
 }
-.search-box-common input[type="submit"] {
+.search-box-common a.buttons {
     float: left;
     text-align: center;
-    background: #f2c038;
+    background: #00467f;
     color: #FFF;
     text-transform: uppercase;
     font-weight: bold;
-    padding: 7px 0 6px;
+    padding: 5px 0 6px;
     border: none;
     width: 59px;
+}
+
+.search-box-common a.buttons:hover {
+    text-decoration: none;
 }
 /* ------------- lst-partner-trained ------------- */
 .lst-partner-trained .block-content {
@@ -2555,16 +2559,16 @@ textarea {
 }
 .slide-top-news .top-news{
     position: relative;
-    margin: 0 30px 0 20px;
+    padding: 0 20px;
 }
 .slide-top-news .top-news .buttons,
 .slide-top-news .top-news .dis-btn{
     position: absolute;
     top: 20px;
-    left: -20px;
+    left: 0;
     z-index: 4;
     background: #999;
-    color: #FFF;
+    color: #fff;
     font-size: 26px;
     height: 40px;
     width: 24px;
@@ -2573,7 +2577,7 @@ textarea {
 }
 .slide-top-news .top-news .buttons.next{
     left: auto;
-    right: -30px;
+    right: 0;
 }
 .slide-top-news .top-news .buttons:hover{
     text-decoration: none;
@@ -2586,11 +2590,33 @@ textarea {
 }
 .slide-top-news .top-news .dis-btn.n{
     left: auto;
-    right: -30px;
+    right: 0;
 }
 .slide-top-news .top-news .buttons.disable+.dis-btn{
     z-index: 99;
 }
+
+/* -------------------------- */
+
+.slide-top-news .viewport{
+    position: relative;
+    overflow: hidden;
+    margin-left: 0;
+    height: 90px;
+}
+.slide-top-news .lst-top-news{
+    margin: 0;
+    position: absolute;
+    padding:0;
+    top:0;
+    left: 0;
+}
+.lst-top-news li{
+    float: left;
+    width: 206px;
+    border-right: 1px dotted #999;
+}
+
 /* -------------  DatePicker ------------- */
 #datepicker_custom {
     background: #ededed;

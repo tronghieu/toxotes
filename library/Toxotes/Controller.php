@@ -45,7 +45,7 @@ abstract class Controller extends WebController {
     public function createUrl($route, $params = array(), $ampersand = '&') {
         $route = trim($route, '/');
         if ('post/detail' == $route) {
-            if ($params['id'] && ($post = \Posts::retrieveById($params['id']))) {
+            if (isset($params['id']) && ($post = \Posts::retrieveById($params['id']))) {
                 $params['slug'] = $post->getSlug();
             }
 
@@ -53,7 +53,7 @@ abstract class Controller extends WebController {
                 $params['lang'] = $this->currentLang->getLangCode();
             }
         } else if ('category/default' == $route) {
-            if ($params['id'] && ($term = \Terms::retrieveById($params['id']))) {
+            if (isset($params['id']) && ($term = \Terms::retrieveById($params['id']))) {
                 $params['slug'] = $term->getSlug();
             }
 
@@ -61,7 +61,7 @@ abstract class Controller extends WebController {
                 $params['lang'] = $this->currentLang->getLangCode();
             }
         } else if ('event/default' == $route) {
-            if ($params['id'] && ($term = \Terms::retrieveById($params['id']))) {
+            if (isset($params['id']) && ($term = \Terms::retrieveById($params['id']))) {
                 $params['slug'] = $term->getSlug();
             }
 

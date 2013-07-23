@@ -23,6 +23,30 @@ class CategoryController extends FrontendBaseController {
         }
         $q->andWhere('`term_id` IN (' .implode(',', $catId) .')');
 
+        //Filter by time
+        $day = $this->request()->get('day');
+        $month = $this->request()->get('month');
+        $year = $this->request()->get('year');
+        if ($day || $month || $year) {
+            if ($day) {
+                $q->andWhere('DAY(`created_time`) = :day')
+                    ->setParameter(':day', $day, \PDO::PARAM_STR);
+            }
+            if ($month) {
+                $q->andWhere('MONTH(`created_time`) = :month')
+                    ->setParameter(':month', $month, \PDO::PARAM_STR);
+            }
+            if ($year) {
+                $q->andWhere('YEAR(`created_time`) = :year')
+                    ->setParameter(':year', $year, \PDO::PARAM_STR);
+            }
+        }
+
+        //Keyword
+        if (($keyword = $this->request()->get('keyword'))) {
+            $q->andWhere('`title` LIKE %"' .$keyword. '"%');
+        }
+
         //Ordering
         $orderingProp = $cat->getProperty('post_ordering');
         if ($orderingProp) {

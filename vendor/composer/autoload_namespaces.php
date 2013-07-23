@@ -11,6 +11,11 @@ return array(
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
     'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
+    'Munee' => array($vendorDir . '/meenie/munee/src'),
+    'JShrink' => array($vendorDir . '/tedivm/jshrink/src'),
+    'Imagine' => array($vendorDir . '/imagine/imagine/lib'),
     'Flywheel' => array($vendorDir . '/tronghieu/flywheel-framework'),
     'FlyApi' => array($vendorDir . '/tronghieu/flyapi'),
+    'CoffeeScript' => array($vendorDir . '/coffeescript/coffeescript/src'),
+    'CalendR' => array($vendorDir . '/yohang/calendr/src'),
 );
