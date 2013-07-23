@@ -80,14 +80,14 @@ $this->document()->title = $page_title;
         <!-- Right -->
         <div class="col">
             <div id="news-cat-right-col">
-            <?php $this->widget('app.widget.AjaxCalendar', array(
-                'term_id' => $cat->getId(),
-                'fetch_child' => true,
-                'route_params' => array('id' => $cat->getId()),
-                'day' => $this->request()->get('day'),
-                'month' => $this->request()->get('month'),
-                'year' => $this->request()->get('year'),
-            )); ?>
+                <?php $this->widget('app.widget.AjaxCalendar', array(
+                    'term_id' => $cat->getId(),
+                    'fetch_child' => true,
+                    'route_params' => array('id' => $cat->getId()),
+                    'day' => $this->request()->get('day'),
+                    'month' => $this->request()->get('month'),
+                    'year' => $this->request()->get('year'),
+                )); ?>
 
                 <?php
                 $keyword = $this->request()->get('keyword');
@@ -102,6 +102,12 @@ $this->document()->title = $page_title;
                     </label>
                     <a class="buttons" href="<?php echo $controller->createUrl('category/default', $route); ?>"><?php td('Find') ;?></a>
                 </form>
+
+                <?php $this->widget('app.widget.ArchivesWidget', array(
+                    'cat_id' => $cat->getId(),
+                    'year' => $this->request()->get('year')
+                ))
+                ?>
             </div>
         </div>
         <!--/right -->
