@@ -2957,6 +2957,11 @@ textarea {
 #training-event .quick-filter {
     padding-bottom: 20px;
 }
+
+#training-event .quick-filter a.active {
+    font-weight: bold;
+}
+
 #training-event .lst-event .event-item {
     padding-bottom: 30px;
 }

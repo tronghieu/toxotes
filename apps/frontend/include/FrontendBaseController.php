@@ -29,34 +29,6 @@ abstract class FrontendBaseController extends \Toxotes\Controller{
        $this->_initLanguages();
     }
 
-    private function _initLanguages() {
-        $this->languages = \Languages::findByPublished(true);
-        if (sizeof($this->languages) < 2) {
-            $this->currentLang = $this->languages[0];
-            return;
-        }
-
-        $currentLangCode = $this->request()->get('lang');
-        if (!$currentLangCode) {
-            $currentLangCode = Factory::getCookie()->read('lang');
-        }
-
-        if (!$currentLangCode) {
-            $this->currentLang = \Languages::findOneByDefault(true);
-            $currentLangCode = $this->currentLang->getLangCode();
-        }
-
-        Factory::getCookie()->write('lang', $currentLangCode);
-
-        if (Factory::getRouter()->getUrl() =='/' && !$this->request()->get('lang')) {
-            $this->redirect($currentLangCode);
-        }
-
-        if (!$this->currentLang) {
-            $this->currentLang = \Languages::findOneByLangCode($currentLangCode);
-        }
-    }
-
     public function makeLangUrl($langCode) {
         return $this->document()->getBaseUrl().$langCode;
     }

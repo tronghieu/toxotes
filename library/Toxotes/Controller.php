@@ -49,27 +49,49 @@ abstract class Controller extends WebController {
                 $params['slug'] = $post->getSlug();
             }
 
-            if ($this->currentLang && sizeof($this->languages) > 1) {
-                $params['lang'] = $this->currentLang->getLangCode();
-            }
         } else if ('category/default' == $route) {
             if (isset($params['id']) && ($term = \Terms::retrieveById($params['id']))) {
                 $params['slug'] = $term->getSlug();
             }
-
-            if ($this->currentLang && sizeof($this->languages) > 1) {
-                $params['lang'] = $this->currentLang->getLangCode();
-            }
-        } else if ('event/default' == $route) {
+        } else if ('events/default' == $route) {
             if (isset($params['id']) && ($term = \Terms::retrieveById($params['id']))) {
                 $params['slug'] = $term->getSlug();
             }
+        }
 
-            if ($this->currentLang && sizeof($this->languages) > 1) {
-                $params['lang'] = $this->currentLang->getLangCode();
-            }
+        if ($this->currentLang && sizeof($this->languages) > 1) {
+            $params['lang'] = $this->currentLang->getLangCode();
         }
 
         return parent::createUrl($route, $params, $ampersand);
+    }
+
+    protected function _initLanguages()
+    {
+        $this->languages = \Languages::findByPublished(true);
+        if (sizeof($this->languages) < 2) {
+            $this->currentLang = $this->languages[0];
+            return;
+        }
+
+        $currentLangCode = $this->request()->get('lang');
+        if (!$currentLangCode) {
+            $currentLangCode = Factory::getCookie()->read('lang');
+        }
+
+        if (!$currentLangCode) {
+            $this->currentLang = \Languages::findOneByDefault(true);
+            $currentLangCode = $this->currentLang->getLangCode();
+        }
+
+        Factory::getCookie()->write('lang', $currentLangCode);
+
+        if (Factory::getRouter()->getUrl() == '/' && !$this->request()->get('lang')) {
+            $this->redirect($currentLangCode);
+        }
+
+        if (!$this->currentLang) {
+            $this->currentLang = \Languages::findOneByLangCode($currentLangCode);
+        }
     }
 }

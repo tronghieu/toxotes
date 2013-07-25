@@ -1,48 +1,5 @@
 [
     {
-        "name": "zendframework/zend-permissions-acl",
-        "version": "2.2.1",
-        "version_normalized": "2.2.1.0",
-        "target-dir": "Zend/Permissions/Acl",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/zendframework/Component_ZendPermissionsAcl.git",
-            "reference": "release-2.2.1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/zendframework/Component_ZendPermissionsAcl/zipball/release-2.2.1",
-            "reference": "release-2.2.1",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2013-06-12 19:45:49",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.2-dev",
-                "dev-develop": "2.3-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Zend\\Permissions\\Acl\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "description": "provides a lightweight and flexible access control list (ACL) implementation for privileges management",
-        "keywords": [
-            "acl",
-            "zf2"
-        ]
-    },
-    {
         "name": "tronghieu/flyapi",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -92,12 +49,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/tronghieu/flywheel-framework.git",
-            "reference": "567285da58f7c8c8b522beede051f321ce49f7ba"
+            "reference": "ef820865234aadbfb71d9b3cf79eed8e03f34190"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/567285da58f7c8c8b522beede051f321ce49f7ba",
-            "reference": "567285da58f7c8c8b522beede051f321ce49f7ba",
+            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/ef820865234aadbfb71d9b3cf79eed8e03f34190",
+            "reference": "ef820865234aadbfb71d9b3cf79eed8e03f34190",
             "shasum": ""
         },
         "require": {
@@ -108,7 +65,7 @@
             "symfony/translation": "2.*",
             "zendframework/zend-permissions-acl": "2.*"
         },
-        "time": "2013-07-18 11:34:15",
+        "time": "2013-07-25 04:04:24",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -740,6 +697,49 @@
             "php",
             "scss",
             "scssphp"
+        ]
+    },
+    {
+        "name": "zendframework/zend-permissions-acl",
+        "version": "2.2.2",
+        "version_normalized": "2.2.2.0",
+        "target-dir": "Zend/Permissions/Acl",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zendframework/Component_ZendPermissionsAcl.git",
+            "reference": "release-2.2.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/zendframework/Component_ZendPermissionsAcl/zipball/release-2.2.2",
+            "reference": "release-2.2.2",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2013-06-12 19:45:49",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.2-dev",
+                "dev-develop": "2.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Zend\\Permissions\\Acl\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "description": "provides a lightweight and flexible access control list (ACL) implementation for privileges management",
+        "keywords": [
+            "acl",
+            "zf2"
         ]
     }
 ]
