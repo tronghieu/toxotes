@@ -44,7 +44,7 @@ class CategoryController extends FrontendBaseController {
 
         //Keyword
         if (($keyword = $this->request()->get('keyword'))) {
-            $q->andWhere('`title` LIKE %"' .$keyword. '"%');
+            $q->andWhere('`title` LIKE "%' .$keyword. '%"');
         }
 
         //Ordering
@@ -78,13 +78,13 @@ class CategoryController extends FrontendBaseController {
             if (-1 != $pageSizeProp->getValue()) {
                 $q->setMaxResults($pageSizeProp->getValue());
                 $page = $this->request()->get('page', 'INT', 1);
-                $q->setFirstResult($page-1);
+                $q->setFirstResult(($page-1)*$pageSizeProp->getValue());
             }
         } else {
             $page_size = 25;
             $q->setMaxResults(25);
             $page = $this->request()->get('page', 'INT', 1);
-            $q->setFirstResult($page-1);
+            $q->setFirstResult(($page-1)*$page_size);
         }
 
         $posts = $q->execute()

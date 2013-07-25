@@ -96,11 +96,17 @@ $this->document()->title = $page_title;
                 unset($route['page']);
                 ?>
 
-                <form class="search-box-common clearfix">
+                <?php
+                $keyword = $this->request()->get('keyword');
+                $route = $_GET;
+                unset($route['page']);
+                ?>
+
+                <form class="search-box-common clearfix" method="get" action="<?php echo $controller->createUrl('category/default', $route); ?>">
                     <label for="keyword">
-                        <input id="keyword" value="<?php echo $keyword; ?>" type="text" placeholder="<?php td('Search here...'); ?>">
+                        <input id="keyword" name="keyword" value="<?php echo $keyword; ?>" type="text" placeholder="<?php td('Search here...'); ?>">
                     </label>
-                    <a class="buttons" href="<?php echo $controller->createUrl('category/default', $route); ?>"><?php td('Find') ;?></a>
+                    <input type="submit" class="buttons" value="<?php td('Find') ;?>">
                 </form>
 
                 <?php $this->widget('app.widget.ArchivesWidget', array(

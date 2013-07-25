@@ -58,6 +58,9 @@ $r = array(
     'events/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
         'route' => 'events/default'
     ),
+    'event/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+        'route' => 'event/detail'
+    )
 
 	/*'{main_cat:[a-zA-Z0-9-]+}' => array(
 		'route' => 'category/default'

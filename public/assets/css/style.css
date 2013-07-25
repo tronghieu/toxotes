@@ -2005,21 +2005,18 @@ textarea {
     outline: none;
     padding: 7px 0 7px;
 }
-.search-box-common a.buttons {
+.search-box-common input.buttons {
     float: left;
     text-align: center;
     background: #00467f;
     color: #FFF;
     text-transform: uppercase;
     font-weight: bold;
-    padding: 5px 0 6px;
+    padding: 9px 0 6px;
     border: none;
     width: 59px;
 }
 
-.search-box-common a.buttons:hover {
-    text-decoration: none;
-}
 /* ------------- lst-partner-trained ------------- */
 .lst-partner-trained .block-content {
     padding-top: 5px;

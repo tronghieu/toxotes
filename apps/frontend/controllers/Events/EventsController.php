@@ -13,7 +13,7 @@ class EventsController extends FrontendBaseController {
         $child = ($cat->getDescendants());
 
         $q = Posts::read()
-            ->where('`status` = :status')
+            ->where('`status` = :status AND `taxonomy` = "event_manager"')
             ->setParameter(':status', 'PUBLISH', \PDO::PARAM_STR);
 
         //Filter
@@ -44,7 +44,7 @@ class EventsController extends FrontendBaseController {
 
         //Keyword
         if (($keyword = $this->request()->get('keyword'))) {
-            $q->andWhere('`title` LIKE %"' .$keyword. '"%');
+            $q->andWhere('`title` LIKE "%' .$keyword. '%"');
         }
 
         //Ordering
@@ -55,20 +55,10 @@ class EventsController extends FrontendBaseController {
         $total = $qCount->count()->execute();
 
         //Paging
-        $pageSizeProp = $cat->getProperty('page_size');
-        if ($pageSizeProp) {
-            $page_size = $cat->getProperty('page_size')->getValue();
-            if (-1 != $pageSizeProp->getValue()) {
-                $q->setMaxResults($pageSizeProp->getValue());
-                $page = $this->request()->get('page', 'INT', 1);
-                $q->setFirstResult($page-1);
-            }
-        } else {
-            $page_size = 25;
-            $q->setMaxResults(25);
-            $page = $this->request()->get('page', 'INT', 1);
-            $q->setFirstResult($page-1);
-        }
+        $page_size = 10;
+        $q->setMaxResults($page_size);
+        $page = $this->request()->get('page', 'INT', 1);
+        $q->setFirstResult(($page-1)*$page_size);
 
         $posts = $q->execute()
             ->fetchAll(\PDO::FETCH_CLASS, Posts::getPhpName(), array(null, false));
@@ -81,6 +71,34 @@ class EventsController extends FrontendBaseController {
             'posts' => $posts
         ));
 
+        return $this->renderComponent();
+    }
+
+    public function executeDetail() {
+        $event = Posts::retrieveById($this->request()->get('id'));
+        $this->setView('detail');
+
+        $cat = Terms::retrieveById($event->getTermId());
+
+        //get Others
+        $siblings = $cat->getSiblings();
+        $siblings[] = $cat;
+        foreach ($siblings as $s) {
+            $ids[] = $s->getId();
+            $others = Posts::read()->where('`id` != ' .$event->getId())
+                    ->andWhere('`status` = "PUBLISH"')
+                    ->andWhere('`term_id` IN (' .implode(',', $ids).')')
+                    ->orderBy('created_time', 'DESC')
+                    ->setMaxResults(5)
+                    ->execute()
+                    ->fetchAll(\PDO::FETCH_CLASS, Posts::getPhpName(), array(null, false));
+        }
+
+        $this->view()->assign(array(
+            'event' => $event,
+            'cat' => $cat,
+            'others' => $others
+        ));
         return $this->renderComponent();
     }
 }
