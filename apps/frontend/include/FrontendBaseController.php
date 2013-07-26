@@ -21,7 +21,7 @@ abstract class FrontendBaseController extends \Toxotes\Controller{
             $setting[$s->getSettingKey()] = $s->getSettingValue();
         }
 
-        $this->document()->title = $setting['site_name'];
+        $this->document()->title = $setting['site_name'] .' ';
 
         Factory::getView()->assign('setting', $setting);
 

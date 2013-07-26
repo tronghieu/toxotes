@@ -33,7 +33,7 @@ class Posts extends \PostsBase {
         );
     }
 
-    public function displayMainImg() {
+    public function displayMainImg($dimension = null) {
         $mainImg = PostPeer::getPostMainImg($this->getId());
         if (!$mainImg) {
             return '';

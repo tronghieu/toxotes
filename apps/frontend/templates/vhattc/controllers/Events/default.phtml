@@ -149,7 +149,7 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
                     <input type="submit" class="buttons" value="<?php td('Find') ;?>">
                 </form>
 
-                <?php $this->widget('app.widget.ArchivesWidget', array(
+                <?php $this->widget('app.widget.EventArchivesWidget', array(
                     'cat_id' => $cat->getId(),
                     'year' => $this->request()->get('year')
                 ))

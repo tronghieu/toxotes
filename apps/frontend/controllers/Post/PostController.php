@@ -9,6 +9,9 @@ class PostController extends FrontendBaseController {
             $this->raise404();
         }
 
+        $post->setHits($post->getHits() + 1);
+        $post->save(false);
+
         $term = Terms::retrieveById($post->getTermId());
         if (($viewProp = $term->getProperty('post_view'))) {
             $this->setView($viewProp->getValue());
