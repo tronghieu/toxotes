@@ -57,6 +57,10 @@ abstract class Controller extends WebController {
             if (isset($params['id']) && ($term = \Terms::retrieveById($params['id']))) {
                 $params['slug'] = $term->getSlug();
             }
+        } else if ('events/detail' == $route) {
+            if (isset($params['id']) && ($post = \Posts::retrieveById($params['id']))) {
+                $params['slug'] = $post->getSlug();
+            }
         }
 
         if ($this->currentLang && sizeof($this->languages) > 1) {
