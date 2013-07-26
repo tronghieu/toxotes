@@ -59,7 +59,10 @@ $r = array(
         'route' => 'events/default'
     ),
     'event/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
-        'route' => 'event/detail'
+        'route' => 'events/detail'
+    ),
+    'post/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+        'route' => 'post/detail'
     )
 
 	/*'{main_cat:[a-zA-Z0-9-]+}' => array(
