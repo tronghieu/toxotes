@@ -101,4 +101,73 @@ class EventsController extends FrontendBaseController {
         ));
         return $this->renderComponent();
     }
+
+    public function executeCalendar() {
+        $this->setView('calendar');
+        $calendar = new CalendR\Calendar();
+
+        $month = $this->request()->get('month');
+        $year = $this->request()->get('year');
+        $day = $this->request()->get('day');
+
+        if (!$month) {$month = date('m');}
+        if (!$year) {$year = date('Y');}
+        if (!$day) {$day = date('d');}
+
+        $term = \Terms::retrieveById($this->request()->get('eventsId', 'INT', 0));
+        $fetchChild = $this->request()->get('fetchChild', 'BOOLEAN', false);
+
+        $res = new AjaxResponse();
+        if (!$term) {
+            $res->type = 0;
+            $res->message = t('Term not found with id:' .$this->request()->get('eventsId', 'INT', 0));
+            return $this->renderText($res->toString());
+        }
+
+        $terms = ($fetchChild)? $term->getBranch() : array($term);
+        foreach ($terms as $t) {
+            $ids[] = $t->getId();
+        }
+
+        $q = Posts::read();
+
+        $events = $q->select('COUNT(`id`) AS result, DAY(`created_time`) AS day, MONTH(`created_time`) AS month')
+            ->where('`status` = :status')
+            ->andWhere('`term_id` IN (' .implode(',', $ids) .')')
+            ->setParameter(':status', 'PUBLISH', \PDO::PARAM_STR)
+            ->andWhere('MONTH(`created_time`) = :month')
+            ->setParameter(':month', $month, \PDO::PARAM_STR)
+            ->andWhere('YEAR(`created_time`) = :year')
+            ->setParameter(':year', $year, \PDO::PARAM_STR)
+            ->groupBy('DAY(`created_time`)')
+            ->execute()
+            ->fetchAll(\PDO::FETCH_ASSOC);
+
+        $list = array();
+        for($i = 0, $size = sizeof($events); $i < $size; ++$i) {
+            if ($events[$i]['day'] < 10) {
+                $events[$i]['day'] = '0'.$events[$i]['day'];
+            }
+
+            if ($events[$i]['month'] < 10) {
+                $events[$i]['month'] = '0'.$events[$i]['month'];
+            }
+
+            $list[$events[$i]['month'] .'_' .$events[$i]['day']] = $events[$i]['result'];
+        }
+
+        $html = $this->renderPartial(array(
+            'current_day' => $day,
+            'current_month' => $month,
+            'current_year' => $year,
+            'calendar' => $calendar,
+            'route' => 'events/default',
+            'list' => $list,
+            'route_params' => $this->request()->get('params', 'ARRAY', array())
+        ));
+
+        $res->type = AjaxResponse::SUCCESS;
+        $res->html = $html;
+        return $this->renderText($res->toString());
+    }
 }

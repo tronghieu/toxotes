@@ -7,6 +7,7 @@ use Flywheel\View\Render;
 
 $page_title = $cat->getName();
 $this->document()->title = $page_title;
+$this->document()->addJs('assets/js/events.js');
 
 $breadcrumbs = array(
     'links' => array(
@@ -57,6 +58,10 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
                     <?php  foreach($posts as $post) :
                         $excerpt = $post->getExcerpt();
                         if (!$excerpt) {
+                            $excerpt = strip_tags($post->getContent(), '<br><span>');
+
+                        }
+                        if (mb_strlen($excerpt) > 255) {
                             $excerpt = mb_substr(strip_tags($post->getContent(), '<br><span>'), 0, 255, 'UTF-8') .'...';
                         }
                         $properties = PostPeer::getPostProperties($post->getId());
@@ -65,8 +70,8 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
                             <div class="duration-time">
                                 <div class="box-time">
                                 <?php
-                                    $start_date = $properties['event_start_date']->getValue()->format('d-m-Y');
-                                    $end_date = $properties['event_end_date']->getValue()->format('d-m-Y');
+                                    $start_date = $properties['event_start_date']->getValue()->format('d/m/Y');
+                                    $end_date = $properties['event_end_date']->getValue()->format('d/m/Y');
                                 ?>
                                 <?php if ($start_date != $end_date) : ?>
                                 <?php echo $start_date ;?> - <?php echo $end_date; ?>
@@ -127,14 +132,14 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
         <!-- Right -->
         <div class="col">
             <div id="news-cat-right-col">
-                <?php $this->widget('app.widget.AjaxCalendar', array(
-                    'term_id' => $cat->getId(),
-                    'fetch_child' => true,
-                    'route_params' => array('id' => $cat->getId()),
-                    'day' => $this->request()->get('day'),
-                    'month' => $this->request()->get('month'),
-                    'year' => $this->request()->get('year'),
-                )); ?>
+                <div id="datepicker_custom" class="hasDatepicker"
+                     data-day="<?php echo $this->request()->get('day'); ?>"
+                     data-month="<?php echo $this->request()->get('month'); ?>"
+                     data-year="<?php echo $this->request()->get('year'); ?>"
+                     data-events-id="<?php echo $cat->getId(); ?>"
+                     data-fetch-child="true"
+                     data-params='{"id" : <?php echo $cat->getId(); ?>}'>
+                </div>
 
                 <?php
                 $keyword = $this->request()->get('keyword');
