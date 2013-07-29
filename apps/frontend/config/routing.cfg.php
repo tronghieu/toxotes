@@ -52,16 +52,16 @@ $r = array(
     '{controller}/{action}/{id:\d+}' => array(
         'route' => '{controller}/{action}/'
     ),
-    'categories/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+    'categories/{slug:[a-zA-Z0-9-]+}.{id:\d+}' => array(
         'route' => 'category/default'
     ),
-    'events/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+    'events/{slug:[a-zA-Z0-9-]+}.{id:\d+}' => array(
         'route' => 'events/default'
     ),
-    'event/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+    'event/{slug:[a-zA-Z0-9-]+}.{id:\d+}' => array(
         'route' => 'events/detail'
     ),
-    'post/{slug:[a-zA-Z0-9-]+}-{id:\d+}' => array(
+    'post/{slug:[a-zA-Z0-9-]+}.{id:\d+}' => array(
         'route' => 'post/detail'
     )
 

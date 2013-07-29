@@ -40,7 +40,7 @@ class MenuWidget extends \Toxotes\Widget {
                     $c = new \Menus();
                     $c->setType(\Menus::INTERNAL);
                     $c->setName($cc->getName());
-                    $c->setRoute('category\default');
+                    $c->setRoute('category/default');
                     $c->setRouteParam('{"id":' .$cc->getId() .'}');
                     if (!is_array($child)) {
                         $child = array();

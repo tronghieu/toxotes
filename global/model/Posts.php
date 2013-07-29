@@ -46,6 +46,15 @@ class Posts extends \PostsBase {
         return $mainImg = PostPeer::getPostMainImg($this->getId());
     }
 
+    /**
+     * @param $property
+     * @return PostProperty
+     */
+    public function getProperty($property)
+    {
+        return PostProperty::retrieveByPropertyAndPostId($property, $this->getId());
+    }
+
     protected function _beforeSave() {
         if ($this->isNew()) {
             $this->setCreatedTime(new DateTime());

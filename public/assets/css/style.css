@@ -3065,7 +3065,9 @@ textarea {
     overflow: hidden;
 }
 .lst-rating-project h3.title{
-    font-size: 1em;
+    font-size: 2em;
+    line-height: 1.2;
+    font-weight: normal;
     padding-bottom: 5px;
 }
 .lst-rating-project h3.title a{

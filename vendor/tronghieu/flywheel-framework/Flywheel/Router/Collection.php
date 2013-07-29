@@ -62,9 +62,8 @@ class Collection
             $this->options = array_merge($this->options, $config['options']);
         // && preg_match_all('/{(\w+)}/', $pattern, $matches)
 
-        if (strpos($this->route,'{')!==false && preg_match_all('/{(\w+)}/', $this->route, $matches)) {
-            //print_r($matches);exit;
-            foreach($matches[1] as $name)
+        if (strpos($this->route,'{')!==false && preg_match_all('/{(\w+)}/', $this->route, $matches2)) {
+            foreach($matches2[1] as $name)
                 $this->references[$name] = '{' .$name .'}';
         }
 
@@ -80,7 +79,7 @@ class Collection
                 if (isset($this->references[$name]))
                     $tr2['{' .$name .'}'] = $tr['{' .$name .'}'];
                 else
-                    $this->initParameters[$name] = $value;
+                    $this->params[$name] = $value;
             }
         }
         $p = rtrim($pattern, '*');
@@ -207,8 +206,9 @@ class Collection
 
         if(preg_match($this->pattern,$pathInfo,$matches)){
             foreach($this->initParameters as $name=>$value){
-                if(!isset($_GET[$name]))
-                    $this->params[$name] = $_GET[$name] = $value;
+                if(!isset($_GET[$name])) {
+                    $_REQUEST[$name] = $_GET[$name] = $value;
+                }
             }
 
             $tr = array();

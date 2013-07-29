@@ -8,6 +8,8 @@ try {
     $app->run();
 } catch (\Flywheel\Exception\NotFound404 $ne) {
     echo "<h1>Permission Denied!</h1>You don not have permission to access this area";
+    error_log($ne->getMessage());
+    error_log($ne->getTraceAsString());
 } catch (\Exception $e) {
     \Flywheel\Exception::printExceptionInfo($e);
 }

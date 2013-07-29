@@ -1,0 +1,107 @@
+<?php
+use Flywheel\View\Render;
+
+/** @var Render $this */
+/** @var Posts[] $posts */
+/** @var Terms $cat */
+
+$page_title = $cat->getName();
+$this->document()->title = $page_title;
+?>
+
+<?php $this->widget('app.widget.Breadcrumbs', array(
+    'links' => array(
+        t('Home') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t($page_title)
+    ),
+)) ?>
+
+<div id="news-list" class="row l656 fixCenter1K itemListView">
+    <div class="col">
+        <div class="lst-rating-project">
+        <?php  foreach($posts as $post) : ?>
+            <?php $excerpt = $post->getExcerpt();
+            if (!$excerpt) {
+                $excerpt = mb_substr(strip_tags($post->getContent(), '<br><span>'), 0, 255, 'UTF-8') .'...';
+            }
+            ?>
+            <div class="news-item clearfix">
+                <!--demo truong hoop anh-->
+                <div class="news-item">
+                    <div class="wrap-content">
+                        <h3 class="rs title">
+                            <a href="<?php echo $controller->createUrl('post/detail', array('id' => $post->getId())); ?>">
+                                <?php echo $post->getTitle(); ?>
+                            </a>
+                        </h3>
+                        <span class="date"><?php echo $post->getCreatedTime()->format('d/m/Y'); ?></span>
+                        <p class="rs lead-news"><?php echo $excerpt; ?></p>
+                        <p class="rs ta-r fs11">
+                            <a class="view-detail" href="<?php echo $controller->createUrl('post/detail', array('id' => $post->getId())); ?>"><?php td('Read more'); ?> <i class="icon iPickReadR"></i></a>
+                        </p>
+                    </div>
+                </div><!--end: demo -->
+            </div>
+
+        <?php endforeach; ?>
+        </div>
+
+        <!-- Pagination -->
+        <div class="news-paging">
+            <?php
+            $route[0] = 'category/default';
+            foreach ($_GET as $k=>$v) {
+                $route[$k] = $v;
+            }
+
+            $this->widget('app.widget.FrontendPagination', array(
+                'pageSize' => $page_size,
+                'total' => $total,
+                'currentPage' => $this->request()->get('page', 'INT', 1),
+                'route' => $route,
+            ));
+            ?>
+        </div>
+
+    </div>
+    <div class="col">
+        <div id="research-page">
+            <?php $this->widget('app.widget.AjaxCalendar', array(
+                'term_id' => $cat->getId(),
+                'fetch_child' => true,
+                'route_params' => array('id' => $cat->getId()),
+                'day' => $this->request()->get('day'),
+                'month' => $this->request()->get('month'),
+                'year' => $this->request()->get('year'),
+            )); ?>
+
+            <?php
+            $keyword = $this->request()->get('keyword');
+            $route = $_GET;
+            $route['keyword'] = $keyword;
+            unset($route['page']);
+            ?>
+
+            <?php
+            $keyword = $this->request()->get('keyword');
+            $route = $_GET;
+            unset($route['page']);
+            ?>
+
+            <form class="search-box-common clearfix" method="get" action="<?php echo $controller->createUrl('category/default', $route); ?>">
+                <label for="keyword">
+                    <input id="keyword" name="keyword" value="<?php echo $keyword; ?>" type="text" placeholder="<?php td('Search here...'); ?>">
+                </label>
+                <input type="submit" class="buttons" value="<?php td('Find') ;?>">
+            </form>
+
+            <?php $this->widget('app.widget.ArchivesWidget', array(
+                'cat_id' => $cat->getId(),
+                'year' => $this->request()->get('year')
+            ))
+            ?>
+        </div>
+    </div>
+</div>

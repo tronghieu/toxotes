@@ -13,7 +13,8 @@ class PostController extends FrontendBaseController {
         $post->save(false);
 
         $term = Terms::retrieveById($post->getTermId());
-        if (($viewProp = $term->getProperty('post_view'))) {
+        if (($viewProp = $term->getProperty('post_view'))
+            && $this->view()->checkViewFileExist($this->_path .$viewProp->getValue())) {
             $this->setView($viewProp->getValue());
         }
 

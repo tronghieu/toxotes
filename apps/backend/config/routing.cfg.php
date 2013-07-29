@@ -40,12 +40,6 @@ return array(
 	'/' => array(
 		'route' => 'dashboard/default'
 	),
-    'login' => array(
-        'route' => 'auth/login'
-    ),
-    'logout' => array(
-        'route' => 'auth/logout',
-    ),
 
 	'{controller}' => array(
 		'route' => '{controller}/default'
@@ -53,9 +47,15 @@ return array(
     '{controller}/{action}/{id:\d+}' => array(
         'route' => '{controller}/{action}/'
     ),
-	'{controller}/{action}/{key:[a-zA-Z0-9-]+}' => array(
+	'{controller}/{action}/{key:[a-zA-Z]+}' => array(
 		'route' => '{controller}/{action}'
 	),
+    'login' => array(
+        'route' => 'auth/login'
+    ),
+    'logout' => array(
+        'route' => 'auth/logout',
+    ),
 
 	/*'{main_cat:[a-zA-Z0-9-]+}' => array(
 		'route' => 'category/default'

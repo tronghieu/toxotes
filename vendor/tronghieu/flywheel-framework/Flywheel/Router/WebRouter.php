@@ -137,7 +137,7 @@ class WebRouter extends BaseRouter
             return $this->createUrlDefault('', $params, $ampersand);
         }
 
-        for ($i = sizeof($this->_collectors)-1; $i >= 0; --$i) {
+        for ($i = sizeof($this->_collectors)-1; $i >= 0; $i--) {
             if (($url = $this->_collectors[$i]->createUrl($this, $route, $params, $ampersand)) !== false) {
                 if ($this->_collectors[$i]->hasHostInfo) {
                     return ('' == $url)? '/' .$anchor : $url.$anchor;
@@ -195,13 +195,11 @@ class WebRouter extends BaseRouter
             }
             $route = $this->_parseDefaultController();
         } else {
-
-            for ($i = 0, $size = sizeof($this->_collectors); $i < $size; ++$i) {
-
-                $route = $this->_collectors[$i]->parseUrl($this, trim($url, '/'), $rawUrl);
-
-                if(false !== ($route = $this->_collectors[$i]->parseUrl($this, trim($url, '/'), $rawUrl)))
+            for ($i = sizeof($this->_collectors)-1; $i >= 0; --$i) {
+                if(false !== ($route = $this->_collectors[$i]->parseUrl($this, trim($url, '/'), $rawUrl))) {
                     break;
+                }
+
             }
             if (false == $route) {
                 $route = trim($url, '/');
