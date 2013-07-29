@@ -20,6 +20,8 @@ use Imagine\Image\Color;
 class Colorize extends Filter
 {
     /**
+     * List of allowed params for this particular filter
+     *
      * @var array
      */
     protected $allowedParams = array(
@@ -30,7 +32,7 @@ class Colorize extends Filter
     );
 
     /**
-     * Turn an image Grayscale
+     * Colorize an image
      *
      * @param string $file
      * @param array $arguments

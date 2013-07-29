@@ -77,7 +77,7 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
                                     $end_date = $properties['event_end_date']->getValue()->format('d/m/Y');
                                 ?>
                                 <?php if ($start_date != $end_date) : ?>
-                                <?php echo $start_date ;?> - <?php echo $end_date; ?>
+                                <?php echo $start_date ;?><br><em>~ <?php echo $end_date; ?></em>
                                 <?php else : ?>
                                     <?php echo $start_date ;?>
                                 <?php endif; ?>
@@ -95,9 +95,9 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
                             </div>
 
                             <div class="media-body">
-                                <h4 class="name-event rs">
+                                <h3 class="name-event rs">
                                     <a href="<?php echo $controller->createUrl('events/detail', array('id' => $post->getId()))?>"><?php echo $post->getTitle() ?></a>
-                                </h4>
+                                </h3>
                                 <p class="event-term" style="margin-top: 0"><em><?php echo Terms::retrieveById($post->getTermId())->getName() ;?></em></p>
                                 <p class="desc-event rs"><?php echo $excerpt ;?></p>
                                 <!--<p class="rs link-action">

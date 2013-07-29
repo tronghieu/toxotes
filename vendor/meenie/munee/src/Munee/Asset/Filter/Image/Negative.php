@@ -19,6 +19,8 @@ use Imagine\Gd\Imagine;
 class Negative extends Filter
 {
     /**
+     * List of allowed params for this particular filter
+     *
      * @var array
      */
     protected $allowedParams = array(
@@ -29,7 +31,7 @@ class Negative extends Filter
     );
 
     /**
-     * Turn an image Grayscale
+     * Turn an image Negative
      *
      * @param string $file
      * @param array $arguments

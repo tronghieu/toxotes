@@ -16,7 +16,7 @@ class WebRouter extends BaseRouter
     protected $_controller;
     protected $_action;
     protected $_route;
-    
+
     public $params = array();
 
     public function __construct() {
@@ -65,7 +65,7 @@ class WebRouter extends BaseRouter
     public function getCamelControllerName() {
         return $this->_camelControllerName;
     }
-    
+
     /**
      * get path of request controllers
      *
