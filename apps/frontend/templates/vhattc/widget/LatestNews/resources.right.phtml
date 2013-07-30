@@ -1,0 +1,29 @@
+<?php /** @var \LatestNews $widget */
+if (!empty($widget->list)) :
+?>
+<div class="block lastest-news-resc">
+    <h3 class="title"><?php echo $widget->getParams('title'); ?></h3>
+    <div class="block-content">
+        <div class="lst-lastest-news">
+        <?php foreach ($widget->list as $l) :?>
+            <?php
+            $link = $controller->createUrl('post/detail', array('id' => $l->getId()));
+            $title = $l->getTitle();
+            if (mb_strlen($title) > 80) {
+                $title = mb_substr($title, 0, 80) .'...';
+            }
+            $excerpt = ($l->getExcerpt())? $l->getExcerpt() : strip_tags($l->getContent());
+            if (mb_strlen($excerpt) > 140) {
+                $excerpt = mb_substr($excerpt, 0, 140) .'...';
+            }
+            ?>
+            <div class="news-item">
+                <p class="rs date"><?php echo $l->getCreatedTime()->format('d F Y') ?></p>
+                <h3 class="rs title"><a href="<?php echo $link ?>"><?php echo $title ;?></a></h3>
+                <p class="rs desc"><?php echo $excerpt; ?></p>
+            </div>
+        <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

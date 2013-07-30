@@ -1,8 +1,103 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: nobita
- * Date: 7/17/13
- * Time: 1:27 AM
- * To change this template use File | Settings | File Templates.
- */
+use Flywheel\View\Render;
+
+/** @var Render $this */
+/** @var Posts[] $posts */
+/** @var Terms $cat */
+
+$page_title = $cat->getName();
+$this->document()->title = $page_title;
+?>
+
+<?php $this->widget('app.widget.Breadcrumbs', array(
+    'links' => array(
+        t('Home') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t($page_title)
+    ),
+)) ?>
+
+<div class="row l656 fixCenter1K">
+    <div class="col">
+        <div class="block block-resc">
+            <h3 class="title"><?php echo $cat->getName(); ?></h3>
+
+            <div class="block-content">
+                <div class="lst-resource-page">
+                    <div class="wrap-inside">
+                        <div class="wrap-lst clearfix">
+                            <?php if ($posts) :?>
+                                <?php foreach($posts as $post) : ?>
+                                    <?php $link = $controller->createUrl('post/detail', array('id' => $post->getId())); ?>
+                                    <div class="resc-item">
+                                        <div class="resc-info">
+                                            <?php if ($post->getMainImg()) :?>
+                                            <a href="<?php echo $link; ?>" class="thumb">
+                                                <img src="<?php echo $post->displayMainImg('91x91') ?>" alt="<?php echo $post->getTitle(); ?>">
+                                            </a>
+                                            <?php endif; ?>
+                                            <div class="right-info">
+                                                <h3 class="rs resc-title">
+                                                    <a href="<?php echo $post->getTitle() ;?>"><?php echo $post->getTitle(); ?></a>
+                                                </h3>
+                                                <!--
+                                                <div class="clearfix wrap-btn-down">
+                                                    <a href="#" class="btn-download">
+                                                        Download
+                                                        <i class="icon iArrowDown"></i>
+                                                    </a>
+                                                    <span class="file-size"><span class="fw-b">5</span>MBs</span>
+                                                </div>
+                                                -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="news-paging">
+            <?php
+            $route[0] = 'category/default';
+            foreach ($_GET as $k=>$v) {
+                $route[$k] = $v;
+            }
+
+            $this->widget('app.widget.FrontendPagination', array(
+                'pageSize' => $page_size,
+                'total' => $total,
+                'currentPage' => $this->request()->get('page', 'INT', 1),
+                'route' => $route,
+            ));
+            ?>
+        </div>
+    </div>
+
+    <div class="col">
+        <div id="right-resource">
+            <div id="news-cat-right-col">
+
+                <?php
+                $keyword = $this->request()->get('keyword');
+                $route = $_GET;
+                unset($route['page']);
+                ?>
+
+                <form class="search-box-common clearfix" method="get" action="<?php echo $controller->createUrl('category/default', $route); ?>">
+                    <label for="keyword">
+                        <input id="keyword" name="keyword" value="<?php echo $keyword; ?>" type="text" placeholder="<?php td('Search here...'); ?>">
+                    </label>
+                    <input type="submit" class="buttons" value="<?php td('Find') ;?>">
+                </form>
+
+                <?php $controller->block('resources.col-right'); ?>
+            </div>
+        </div>
+    </div>
+</div>

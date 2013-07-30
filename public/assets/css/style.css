@@ -2397,6 +2397,9 @@ textarea {
     overflow: hidden;
 }
 .lst-news-about h3.title{
+    font-size: 1.8em;
+    line-height: 1.2em;
+    font-weight: normal;
     padding-bottom: 5px;
 }
 
