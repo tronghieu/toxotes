@@ -16,6 +16,7 @@
         "tronghieu/flyapi": "dev-master",
         "tronghieu/flywheel-framework": "1.0.*@dev",
         "yohang/calendr": "1.*",
-        "meenie/Munee": "*"
+        "meenie/Munee": "*",
+        "phpmailer/phpmailer": "v5.2.6"
     }
 }
