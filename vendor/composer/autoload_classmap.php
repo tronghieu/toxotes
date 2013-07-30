@@ -6,15 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
-    'POP3' => $vendorDir . '/phpmailer/phpmailer/class.pop3.php',
-    'SMTP' => $vendorDir . '/phpmailer/phpmailer/class.smtp.php',
     'lessc' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_classic' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_compressed' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_lessjs' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_parser' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
-    'phpmailerException' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
     'scss_formatter' => $vendorDir . '/leafo/scssphp/scss.inc.php',
     'scss_formatter_compressed' => $vendorDir . '/leafo/scssphp/scss.inc.php',
     'scss_formatter_nested' => $vendorDir . '/leafo/scssphp/scss.inc.php',

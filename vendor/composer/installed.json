@@ -743,58 +743,44 @@
         ]
     },
     {
-        "name": "phpmailer/phpmailer",
-        "version": "v5.2.6",
-        "version_normalized": "5.2.6.0",
+        "name": "swiftmailer/swiftmailer",
+        "version": "4.1.7",
+        "version_normalized": "4.1.7.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "v5.2.6"
+            "url": "git://github.com/swiftmailer/swiftmailer.git",
+            "reference": "v4.1.7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/v5.2.6",
-            "reference": "v5.2.6",
+            "url": "https://github.com/swiftmailer/swiftmailer/zipball/v4.1.7",
+            "reference": "v4.1.7",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.0.0"
+            "php": ">=5.2.4"
         },
-        "require-dev": {
-            "phpdocumentor/phpdocumentor": "*",
-            "phpunit/phpunit": "*"
-        },
-        "time": "2013-04-11 05:18:40",
+        "time": "2012-04-26 09:57:24",
         "type": "library",
         "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "class.phpmailer.php",
-                "class.pop3.php",
-                "class.smtp.php"
-            ]
-        },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "LGPL-2.1"
+            "LGPL"
         ],
         "authors": [
             {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
             },
             {
-                "name": "Marcus Bointon",
-                "email": "phpmailer@synchromedia.co.uk"
-            },
-            {
-                "name": "Andy Prevost",
-                "email": "codeworxtech@users.sourceforge.net"
-            },
-            {
-                "name": "Brent R. Matzelle"
+                "name": "Chris Corbyn"
             }
         ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+        "description": "Swiftmailer, free feature-rich PHP mailer",
+        "homepage": "http://swiftmailer.org",
+        "keywords": [
+            "mail",
+            "mailer"
+        ]
     }
 ]
