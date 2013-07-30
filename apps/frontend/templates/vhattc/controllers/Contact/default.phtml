@@ -1,0 +1,106 @@
+<?php
+use Flywheel\View\Render;
+
+/** @var Render $this */
+/** @var \Posts $contact */
+/** @var \ContactController $controller */
+
+$this->document()->addJs('assets/js/contacts.js');
+?>
+
+<div id="contact-us" class="fixCenter1K">
+    <?php if ($controller->currentLang == 'vi-VN') : ?>
+        <div class="row address-info">
+            <div class="col-type1">
+                <div class="main-address">
+                    <p>Trung tâm Chuyển giao Công nghệ Điều trị Nghiện chất và HIV Việt Nam</p>
+                    <p><br /> Trung tâm Nghiên cứu và Đào tạo HIV/AIDS</p>
+                    <div class="detail">
+                        <p><span class="lbl">Địa chỉ:</span> <span class="val">Phòng 522, Nhà A1, Trường Đại học Y Hà Nội, Số 1A Tôn Thất Tùng, Quận Đống Đa, Hà Nội, Việt Nam </span></p>
+                        <p><span class="lbl">ĐT:</span> <span class="val">(+844)35741596</span></p>
+                        <p><span class="lbl">Fax:</span> <span class="val">(+844)35741596</span></p>
+                        <p><span class="lbl">Email:</span> <span class="val">creata@hmu.edu.vn</span></p>
+                    </div>
+                    <p>Để biết thêm thông tin, xin vui lòng liên hệ:</p>
+                    <p><strong>TS. Lê Minh Giang</strong> <a href="mailto:leminhgiang@hmu.edu.vn">leminhgiang@hmu.edu.vn</a></p>
+                    <p><strong>Nguyễn Thuỳ Anh</strong>, <a href="mailto:thuyanh@hmu.edu.vn">thuyanh@hmu.edu.vn</a></p>
+                    <p> </p>
+                </div>
+            </div>
+            <div class="col-maps"><iframe width="569" height="358" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Y+H%C3%A0+N%E1%BB%99i&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=37.273371,78.925781&amp;ie=UTF8&amp;hq=Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Y+H%C3%A0+N%E1%BB%99i&amp;t=m&amp;ll=21.002765,105.831231&amp;spn=0.010316,0.01929&amp;z=14&amp;iwloc=A&amp;cid=10596161081848099986&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Y+H%C3%A0+N%E1%BB%99i&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=37.273371,78.925781&amp;ie=UTF8&amp;hq=Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Y+H%C3%A0+N%E1%BB%99i&amp;t=m&amp;ll=21.002765,105.831231&amp;spn=0.010316,0.01929&amp;z=14&amp;iwloc=A&amp;cid=10596161081848099986" style="color:#0000FF;text-align:left">Xem bản đồ lớn</a></small></div>
+        </div>
+    <?php else :?>
+        <div class="row address-info">
+            <div class="col-type1">
+                <div class="main-address">
+                    <p>Vietnam HIV- Addiction Technology Transfer Center</p>
+                    <p>Center for Research and Training on HIV/AIDS</p>
+                    <div class="detail">
+                        <p><span class="lbl">Address:</span> Room<span class="val"> 522, Building A1, Hanoi Medical University, No. 1A Ton That Tung Street, Dong Da Dist., Hanoi, Viet Nam </span></p>
+                        <p><span class="lbl">Tel:</span> <span class="val">(+844)35741596</span></p>
+                        <p><span class="lbl">Fax:</span> <span class="val">(+844)35741596</span></p>
+                        <p><span class="lbl">Email:</span> <span class="val">creata@hmu.edu.vn</span></p>
+                    </div>
+                    <p>For further information:</p>
+                    <p><strong>Dr. Le Minh Giang</strong> <a href="mailto:leminhgiang@hmu.edu.vn">leminhgiang@hmu.edu.vn</a></p>
+                    <p><strong>Nguyen Thuy Anh</strong>, <a href="mailto:thuyanh@hmu.edu.vn">thuyanh@hmu.edu.vn</a></p>
+                    <p> </p>
+                </div>
+            </div>
+            <div class="col-maps"><iframe src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Y+H%C3%A0+N%E1%BB%99i&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=37.273371,78.925781&amp;ie=UTF8&amp;hq=Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Y+H%C3%A0+N%E1%BB%99i&amp;t=m&amp;ll=21.002131,105.830033&amp;spn=0.007172,0.012188&amp;z=16&amp;iwloc=A&amp;output=embed" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="569" height="358"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Y+H%C3%A0+N%E1%BB%99i&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=37.273371,78.925781&amp;ie=UTF8&amp;hq=Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Y+H%C3%A0+N%E1%BB%99i&amp;t=m&amp;ll=21.002131,105.830033&amp;spn=0.007172,0.012188&amp;z=16&amp;iwloc=A" style="color: #0000ff;">Xem bản đồ lớn</a></small></div>
+        </div>
+    <?php endif; ?>
+    <div class="row contact-form">
+        <div class="col-type1">
+            <?php echo $contact->getContent(); ?>
+        </div>
+        <div class="col-type2">
+            <form action="" name="contact_form" id="contact_form">
+                <h3 class="rs title">
+                    <?php td('Contact form') ?>
+                </h3>
+
+                <p class="rs note">
+                    <?php td('Send an email. All fields with an (<span class="fc-r">*</span>) are required.'); ?>
+                </p>
+
+                <div class="error" id="error"></div>
+                <div class="success" id="success"></div>
+
+                <div class="form-input">
+                    <p class="wrap clearfix">
+                        <label for="name" class="lbl">
+                            <?php td('Name') ?>: <span class="fc-r">*</span>
+                        </label>
+                        <input type="text" id="name" name="message[name]">
+                    </p>
+                    <p class="wrap clearfix">
+                        <label for="email" class="lbl">
+                            <?php td('Email'); ?>: <span class="fc-r">*</span>
+                        </label>
+                        <input type="text" id="email" name="message[email]">
+                    </p>
+                    <p class="wrap clearfix">
+                        <label for="subject" class="lbl">
+                            <?php td('Subject') ?>: <span class="fc-r">*</span>
+                        </label>
+                        <input type="text" id="subject" name="message[subject]">
+                    </p>
+                    <p class="wrap clearfix">
+                        <label for="content" class="lbl">
+                            <?php td('Content') ?>: <span class="fc-r">*</span>
+                        </label>
+                        <textarea name="message[content]" id="content" cols="30" rows="10"></textarea>
+                    </p>
+                    <p class="wrap-submit clearfix">
+                        <label for="chk_send_me">
+                            <input id="chk_send_me" name="send_you" type="checkbox"> <?php td('Send copy to yourself'); ?>
+                        </label>
+                        <button id="send_mess"><?php td('Send Email'); ?></button>
+                    </p>
+                </div>
+                <input name="contact_id" value="<?php echo $contact->getId(); ?>" type="hidden">
+            </form>
+        </div>
+    </div>
+</div>

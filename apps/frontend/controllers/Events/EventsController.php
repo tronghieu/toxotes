@@ -13,7 +13,7 @@ class EventsController extends FrontendBaseController {
         $child = ($cat->getDescendants());
 
         $q = Posts::read()
-            ->where('`status` = :status AND `taxonomy` = "event_manager"')
+            ->where('`status` = :status AND `taxonomy` = "event_manager" AND `is_draft` = 0')
             ->setParameter(':status', 'PUBLISH', \PDO::PARAM_STR);
 
         //Filter

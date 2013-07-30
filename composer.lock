@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "65484d2d44a2ed0d297489102225cfb7",
+    "hash": "a8f83cfddbf153575d082d4b0349490f",
     "packages": [
         {
             "name": "coffeescript/coffeescript",
@@ -291,57 +291,43 @@
             "time": "2013-07-25 12:10:44"
         },
         {
-            "name": "phpmailer/phpmailer",
-            "version": "v5.2.6",
+            "name": "swiftmailer/swiftmailer",
+            "version": "4.1.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "v5.2.6"
+                "url": "git://github.com/swiftmailer/swiftmailer.git",
+                "reference": "v4.1.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/v5.2.6",
-                "reference": "v5.2.6",
+                "url": "https://github.com/swiftmailer/swiftmailer/zipball/v4.1.7",
+                "reference": "v4.1.7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.0.0"
-            },
-            "require-dev": {
-                "phpdocumentor/phpdocumentor": "*",
-                "phpunit/phpunit": "*"
+                "php": ">=5.2.4"
             },
             "type": "library",
-            "autoload": {
-                "classmap": [
-                    "class.phpmailer.php",
-                    "class.pop3.php",
-                    "class.smtp.php"
-                ]
-            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1"
+                "LGPL"
             ],
             "authors": [
                 {
-                    "name": "Jim Jagielski",
-                    "email": "jimjag@gmail.com"
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Marcus Bointon",
-                    "email": "phpmailer@synchromedia.co.uk"
-                },
-                {
-                    "name": "Andy Prevost",
-                    "email": "codeworxtech@users.sourceforge.net"
-                },
-                {
-                    "name": "Brent R. Matzelle"
+                    "name": "Chris Corbyn"
                 }
             ],
-            "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2013-04-11 05:18:40"
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "mail",
+                "mailer"
+            ],
+            "time": "2012-04-26 09:57:24"
         },
         {
             "name": "symfony/config",

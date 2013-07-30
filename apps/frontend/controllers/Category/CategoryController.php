@@ -13,7 +13,7 @@ class CategoryController extends FrontendBaseController {
         $child = ($cat->getDescendants());
 
         $q = Posts::read()
-                ->where('`status` = :status')
+                ->where('`status` = :status AND `is_draft` = 0')
                 ->setParameter(':status', 'PUBLISH', \PDO::PARAM_STR);
 
         //Filter
