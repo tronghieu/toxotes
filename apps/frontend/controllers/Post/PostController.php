@@ -25,4 +25,38 @@ class PostController extends FrontendBaseController {
 
         return $this->renderComponent();
     }
+
+    public function executeDownload() {
+        if (!($attach = PostAttachments::retrieveById($this->request()->get('id')))) {
+            $this->raise404(t('File not found'));
+        }
+
+        $path = PUBLIC_DIR .DIRECTORY_SEPARATOR .rtrim($attach->getFile(), '/');
+        if (!file_exists($path)) {
+            $this->raise404(t('File not found'));
+        }
+
+        $attach->setHits($attach->getHits() + 1);
+        $attach->save(false);
+
+        $len = filesize($path);
+        $filename = basename($path);
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+        $mime = finfo_file($finfo, $path) ;
+        finfo_close($finfo);
+
+        ob_end_clean();
+        $response = \Flywheel\Factory::getResponse();
+        $response->setHeader('Pragma', 'public', true);
+        $response->setHeader('Expires', '0', true);
+        $response->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true);
+        $response->setHeader('Content-Type', $mime, true);
+        $response->setHeader('Content-Disposition', 'attachment; filename='.$filename.';', true);
+        $response->setHeader('Content-Transfer-Encoding', 'binary', true);
+        $response->setHeader('Content-Length', $len, true);
+        $response->sendContent(readfile($path));
+        $response->send();
+
+        \Flywheel\Base::end();
+    }
 }

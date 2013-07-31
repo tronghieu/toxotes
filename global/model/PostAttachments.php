@@ -8,6 +8,7 @@
  */
 
 use Flywheel\Db\Type\DateTime;
+use Flywheel\Event\Event;
 
 require_once dirname(__FILE__) . '/Base/PostAttachmentsBase.php';
 class PostAttachments extends \PostAttachmentsBase {
