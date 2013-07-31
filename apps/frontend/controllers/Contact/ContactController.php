@@ -21,6 +21,7 @@ class ContactController extends FrontendBaseController {
     public function executeMess() {
         $this->validAjaxRequest();
         $mess = $this->request()->post('message', 'ARRAY', array());
+
         $error = array();
         if (!isset($mess['name']) || !isset($mess['email'])
             || !isset($mess['subject']) || !isset($mess['content'])) {
@@ -36,15 +37,15 @@ class ContactController extends FrontendBaseController {
                 $error['email'] = t('Invalid email format');
             }
 
-            if (mb_strlen($mess['content'] < 10)) {
+            if (mb_strlen($mess['content']) < 10) {
                 $error['content'] = t('Content too short');
             }
 
-            if (mb_strlen($mess['subject'] < 3)) {
+            if (mb_strlen($mess['subject']) < 3) {
                 $error['subject'] = t('Email subject too short');
             }
 
-            if (mb_strlen($mess['name'] < 10)) {
+            if (mb_strlen($mess['name']) <10) {
                 $error['name'] = t('Name too short');
             }
         }
@@ -67,10 +68,23 @@ class ContactController extends FrontendBaseController {
 
         $linked_user = $contact->getProperty('linked_user');
         if ($linked_user && ($user = Users::retrieveById($linked_user->getValue()))) {
-            MailSender::send($user->getEmail(), $mess['subject'], $mess['content'], $mess['email'], $mess['name']);
-            if ($this->request()->post('send_you', 'BOOLEAN', false)) {
-                MailSender::send($mess['email'], 'Copy of ' .$mess['subject'], $mess['content'], $mess['email'], $mess['name']);
+            if (MailSender::send($user->getEmail(), $mess['subject'], $mess['content'], $mess['email'], $mess['name'])) {
+                if ($this->request()->post('send_you', 'BOOLEAN', false)) {
+                    MailSender::send($mess['email'], 'Copy of ' .$mess['subject'], $mess['content'], $mess['email'], $mess['name']);
+                }
+
+                $res->type = AjaxResponse::SUCCESS;
+                $res->message = t('Email sent');
+                return $this->renderText($res->toString());
             }
+        } else {
+            $res->type = AjaxResponse::ERROR;
+            $res->message = array('All' => 'We are so sorry, something was wrong');
+            return $this->renderText($res->toString());
         }
+
+        $res->type = AjaxResponse::ERROR;
+        $res->message = array('All' => 'Unknown error');
+        return $this->renderText($res->toString());
     }
 }

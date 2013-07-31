@@ -87,6 +87,7 @@ class EventsController extends FrontendBaseController {
             $ids[] = $s->getId();
             $others = Posts::read()->where('`id` != ' .$event->getId())
                     ->andWhere('`status` = "PUBLISH"')
+                    ->andWhere('`is_draft` = 0')
                     ->andWhere('`term_id` IN (' .implode(',', $ids).')')
                     ->orderBy('created_time', 'DESC')
                     ->setMaxResults(5)
@@ -133,6 +134,7 @@ class EventsController extends FrontendBaseController {
 
         $events = $q->select('COUNT(`id`) AS result, DAY(`created_time`) AS day, MONTH(`created_time`) AS month')
             ->where('`status` = :status')
+            ->andWhere('`is_draft` = 0')
             ->andWhere('`term_id` IN (' .implode(',', $ids) .')')
             ->setParameter(':status', 'PUBLISH', \PDO::PARAM_STR)
             ->andWhere('MONTH(`created_time`) = :month')

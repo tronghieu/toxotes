@@ -24,7 +24,7 @@ class OtherNews extends FrontendBaseWidget {
             }
         }
 
-        $this->lists = Posts::read()->where('`status` = :status')
+        $this->lists = Posts::read()->where('`status` = :status AND `is_draft` = 0')
                         ->andWhere('`term_id` IN (' .implode(',', $c) .')')
                         ->setParameter(':status', 'PUBLISH', \PDO::PARAM_STR)
                         ->orderBy('modified_time', 'DESC')

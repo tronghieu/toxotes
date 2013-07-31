@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a8f83cfddbf153575d082d4b0349490f",
+    "hash": "9749884b95139bf91c41409e9ce233bf",
     "packages": [
         {
             "name": "coffeescript/coffeescript",
@@ -292,25 +292,35 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "4.1.7",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
-                "url": "git://github.com/swiftmailer/swiftmailer.git",
-                "reference": "v4.1.7"
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "v5.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/swiftmailer/swiftmailer/zipball/v4.1.7",
-                "reference": "v4.1.7",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/v5.0.1",
+                "reference": "v5.0.1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.1-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "MIT"
             ],
             "authors": [
                 {
@@ -327,7 +337,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2012-04-26 09:57:24"
+            "time": "2013-06-17 13:32:32"
         },
         {
             "name": "symfony/config",

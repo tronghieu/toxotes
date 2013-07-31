@@ -1,43 +1,46 @@
 <?php
 
 class MailSender {
-    protected static $_mailer;
+
+    protected static $_transporter;
 
     public static function send($receivers, $subject, $body, $replyTo = null, $replyName = null) {
         $receivers = (array) $receivers;
 
-        $mailer = self::getMailer();
-        foreach ($receivers as $name => $address) {
+        $transport = self::getTransport();
+
+        $mailer = Swift_Mailer::newInstance($transport);
+
+        $message = Swift_Message::newInstance($subject, $body);
+
+        $numSent = 0;
+        foreach ($receivers as $name => $email) {
             if (is_int($name)) {
-                $mailer->AddAddress($address);
+                $message->setTo($email);
             } else {
-                $mailer->AddAddress($address, $name);
+                $message->setTo($email, $name);
             }
+
+            if ($replyTo) {
+                $message->setFrom($replyTo, $replyName);
+            }
+
+            $numSent += $mailer->send($message);
         }
 
-        if ($replyTo) {
-            $mailer->AddReplyTo($replyTo, $replyName);
-        }
-
-        $mailer->Subject = $subject;
-        $mailer->MsgHTML($body);
-        if ($mailer->Send()) {
-            return true;
-        }
-
-        $mailer->ClearReplyTos();
-        $mailer->ClearAddresses();
-        return false;
+        return $numSent;
     }
 
     /**
-     * @return PHPMailer
+     * @return Swift_SmtpTransport
      */
-    public static function getMailer() {
-        if(self::$_mailer == null) {
-            self::$_mailer = new PHPMailer(true);
+    public static function getTransport() {
+        if (self::$_transporter == null) {
+            self::$_transporter = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
+                ->setUsername('tronghieu.luu@gmail.com')
+                ->setPassword('thanhle85');
         }
 
-        return self::$_mailer;
+        return self::$_transporter;
     }
 }

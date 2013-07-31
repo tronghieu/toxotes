@@ -17,6 +17,6 @@
         "tronghieu/flywheel-framework": "1.0.*@dev",
         "yohang/calendr": "1.*",
         "meenie/Munee": "*",
-        "swiftmailer/swiftmailer": "4.1.7"
+        "swiftmailer/swiftmailer": "*"
     }
 }

@@ -56,7 +56,7 @@ class LatestNews extends \Toxotes\Widget {
         $fetchChild = $this->getParams('fetch_child', false);
 
         $q = Posts::read()
-            ->where('`status`=:status')
+            ->where('`status`=:status AND `is_draft` = 0')
             ->setParameter(':status', 'PUBLISH', \PDO::PARAM_STR);
 
         $term = Terms::retrieveById($termId);

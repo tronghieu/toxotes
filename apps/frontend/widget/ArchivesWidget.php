@@ -23,7 +23,7 @@ class ArchivesWidget extends FrontendBaseWidget {
 
             $result = $query = Posts::read()
                 ->select('COUNT(`id`) AS result, MONTH(`created_time`) AS month')
-                ->where('`status` = :status')
+                ->where('`status` = :status AND `is_draft` = 0')
                 ->andWhere('`term_id` IN (' .implode(',', $cat_ids) .')')
                 ->setParameter(':status', 'PUBLISH', \PDO::PARAM_STR)
                 ->andWhere('YEAR(`created_time`) = :year')

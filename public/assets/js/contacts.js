@@ -5,8 +5,6 @@
         if (e.data('disable')) {
             return;
         }
-
-        e.attr('disable', 'disable');
         e.data('disable', true);
         $.post(base_url + '/contact/mess', $("#contact_form").serialize(), function(res) {
             e.removeData('disable');
@@ -20,6 +18,7 @@
                 $('#success').html('').hide();
                 $("#error").html(error).show();
             } else {
+                $("#contact_form")[0].reset();
                 $('#error').html('').hide();
                 $('#success').html(res.message).show();
             }
