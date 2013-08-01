@@ -2416,7 +2416,7 @@ textarea {
     overflow: hidden;
 }
 .lst-news-about h3.title{
-    font-size: 1.8em;
+    font-size: 1.6em;
     line-height: 1.2em;
     font-weight: normal;
     padding-bottom: 5px;
@@ -2488,6 +2488,7 @@ textarea {
 .news-paging {
     position: relative;
     text-align: center;
+    margin-bottom: 40px;
 }
 .news-paging .line-through {
     width: 100%;
@@ -2854,9 +2855,9 @@ textarea {
     border-right: 1px solid #fff;
     margin: 3px 9px 0;
 }
-#article-detail .art-ultility .art-tool > span.like-fb,
-.resource-detail .art-ultility .art-tool > span.like-fb,
-#event-detail .art-ultility .art-tool > span.like-fb {
+#article-detail .art-ultility .art-tool > .like-fb,
+.resource-detail .art-ultility .art-tool > .like-fb,
+#event-detail .art-ultility .art-tool > .like-fb {
     position: relative;
     width: 71px;
     height: 22px;
@@ -3036,7 +3037,7 @@ textarea {
 }
 
 #training-event .name-event {
-    font-size: 1.8em;
+    font-size: 1.6em;
     font-weight: normal;
     line-height: 1.2em;
 }
@@ -3103,7 +3104,7 @@ textarea {
     overflow: hidden;
 }
 .lst-rating-project h3.title{
-    font-size: 1.8em;
+    font-size: 1.6em;
     line-height: 1.2;
     font-weight: normal;
     padding-bottom: 5px;
@@ -3141,7 +3142,7 @@ textarea {
 }
 .lst-resource-page .resc-item{
     float: left;
-    width: 50%;
+    /*width: 50%;*/
 }
 .lst-resource-page .resc-info{
     margin-left: 32px;
@@ -3169,10 +3170,11 @@ textarea {
     overflow: hidden;
 }
 .lst-resource-page .resc-title{
-    font-size: 1em;
+    font-size: 1.6em;
+    line-height: 1.2;
     padding-bottom: 10px;
-    height: 70px;
     overflow: hidden;
+    font-weight: normal;
 }
 .lst-resource-page .resc-title a{
     color: #333;

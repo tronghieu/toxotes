@@ -55,6 +55,10 @@ class Posts extends \PostsBase {
         return PostProperty::retrieveByPropertyAndPostId($property, $this->getId());
     }
 
+    public function getAttachments() {
+        return PostAttachments::findByPostId($this->getId());
+    }
+
     protected function _beforeSave() {
         if ($this->isNew()) {
             $this->setCreatedTime(new DateTime());

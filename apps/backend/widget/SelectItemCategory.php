@@ -9,7 +9,10 @@ class SelectItemCategory extends SelectParentTerm {
             return;
         }
         $this->item_taxonomy = $this->taxonomy;
-        $this->taxonomy = Plugin::applyFilters('get_category_'.$this->item_taxonomy, $this->item_taxonomy);
+        if ($this->taxonomy == 'post') {
+            $this->taxonomy = 'category';
+        }
+        $this->taxonomy = Plugin::applyFilters('get_category_'.$this->item_taxonomy, $this->taxonomy);
         parent::begin();
     }
     public function end() {

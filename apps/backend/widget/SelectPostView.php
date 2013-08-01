@@ -12,9 +12,9 @@ class SelectPostView extends AdminBaseWidget {
         $this->selected = null;
         if ($this->cat_id) {
             $term = Terms::retrieveById($this->cat_id);
-            $catViewProperty = $term->getProperty('cat_view');
-            if ($catViewProperty) {
-                $this->selected = $catViewProperty->getValue();
+            $viewProperty = $term->getProperty('post_view');
+            if ($viewProperty) {
+                $this->selected = $viewProperty->getValue();
             }
         }
 

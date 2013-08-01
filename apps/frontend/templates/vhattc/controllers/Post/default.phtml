@@ -12,7 +12,7 @@ $link = $controller->createUrl('post/detail', array('id' => $post->getId()));
             'url' => $this->document()->getBaseUrl()
         ),
         $term->getName() => array(
-            'url' => $controller->createUrl('events/default', array('id' => $term->getId()))
+            'url' => $controller->createUrl('category/default', array('id' => $term->getId()))
         ),
         ($page_title)
     ),
@@ -132,7 +132,6 @@ $link = $controller->createUrl('post/detail', array('id' => $post->getId()));
         </div>
     </div>
     <div class="col">
-
         <?php $this->widget('app.widget.AjaxCalendar', array(
             'term_id' => $term->getId(),
             'fetch_child' => true,
