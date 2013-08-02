@@ -28,13 +28,32 @@ $attachments = $post->getAttachments();
                 <?php endif; ?>
 
                 <?php if ($attachments) : ?>
-                <a href="#" class="btn-download">
-                    Download
+                    <?php
+                        $id = array();
+                        $size = 0;
+                        $count = 0;
+                        foreach ($attachments as $attachment) {
+                            $id[] = $attachment->getId();
+                            $size += $attachment->getFileSize();
+                            $count += $attachment->getHits();
+                        }
+
+                        if (sizeof($attachments) == 1) {
+                            $link = $controller->createUrl('post/download', array('id' => $attachments[0]->getId()));
+                        } else {
+                            $ids = 'id[]=' .implode('&id[]=', $id);
+                            $url = $controller->createUrl('post/bath_download');
+
+                            $separator = (parse_url($url, PHP_URL_QUERY) == NULL) ? '?' : '&';
+                            $link = $url .$separator . $ids;
+                        }
+                    ?>
+                <a href="<?php echo $link ;?>" class="btn-download"><?php td('Download') ?>
                     <i class="icon iArrowBlack"></i>
                 </a>
                 <div class="file-info">
-                    <p class="rs"><span class="fw-b">File size:</span> 4MBs</p>
-                    <p class="rs"><span class="fw-b">Download count:</span> 1252</p>
+                    <p class="rs"><span class="fw-b"><?php td('File size') ?>:</span> <?php echo round($size/1048576, 2) ?>MBs</p>
+                    <p class="rs"><span class="fw-b"><?php td('Download count')?>:</span> <?php echo $count; ?></p>
                 </div>
                 <?php endif; ?>
             </div>

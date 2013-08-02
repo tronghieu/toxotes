@@ -1,4 +1,6 @@
 <?php
+use Alchemy\Zippy\Zippy;
+
 class PostController extends FrontendBaseController {
     public function executeDefault() {
         return $this->executeDetail();
@@ -47,6 +49,7 @@ class PostController extends FrontendBaseController {
 
         ob_end_clean();
         $response = \Flywheel\Factory::getResponse();
+        $response->clearHeaders();
         $response->setHeader('Pragma', 'public', true);
         $response->setHeader('Expires', '0', true);
         $response->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true);
@@ -54,8 +57,55 @@ class PostController extends FrontendBaseController {
         $response->setHeader('Content-Disposition', 'attachment; filename='.$filename.';', true);
         $response->setHeader('Content-Transfer-Encoding', 'binary', true);
         $response->setHeader('Content-Length', $len, true);
-        $response->sendContent(readfile($path));
-        $response->send();
+        $response->sendHttpHeaders();
+        echo readfile($path);
+
+        \Flywheel\Base::end();
+    }
+
+    public function executeBathDownload() {
+        $ids = $this->request()->get('id', 'ARRAY', array());
+        if (empty($ids)) {
+            $this->raise404(t('File not found'));
+        }
+
+        $zippy = Zippy::load();
+        $files = array();
+        foreach($ids as $id) {
+            if (($attach = PostAttachments::retrieveById($id))) {
+                if (!isset($post)) {
+                    $post = Posts::retrieveById($attach->getPostId());
+                }
+                if (file_exists($file = PUBLIC_DIR .'/' .$attach->getFile())) {
+                    $fileName = basename($file);
+                    copy($file, ROOT_PATH .'/_temp/' .$fileName);
+                    $files[] = ROOT_PATH .'/_temp/' .$fileName;
+                    $attach->hit();
+                }
+            }
+        }
+
+        $zipFile = ROOT_PATH .'/_temp/' .$post->getSlug() .'.' .time() .'.zip';
+        $archiveZip = $zippy->create($zipFile, $files, false);
+
+        $len = filesize($zipFile);
+        $filename = basename($zipFile);
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+        $mime = finfo_file($finfo, $zipFile) ;
+        finfo_close($finfo);
+
+        ob_end_clean();
+        $response = \Flywheel\Factory::getResponse();
+        $response->clearHeaders();
+        $response->setHeader('Pragma', 'public', true);
+        $response->setHeader('Expires', '0', true);
+        $response->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true);
+        $response->setHeader('Content-Type', $mime, true);
+        $response->setHeader('Content-Disposition', 'attachment; filename='.$filename.';', true);
+        $response->setHeader('Content-Transfer-Encoding', 'binary', true);
+        $response->setHeader('Content-Length', $len, true);
+        $response->sendHttpHeaders();
+        echo readfile($zipFile);
 
         \Flywheel\Base::end();
     }
