@@ -55,6 +55,9 @@ class Posts extends \PostsBase {
         return PostProperty::retrieveByPropertyAndPostId($property, $this->getId());
     }
 
+    /**
+     * @return PostAttachments[]
+     */
     public function getAttachments() {
         return PostAttachments::findByPostId($this->getId());
     }

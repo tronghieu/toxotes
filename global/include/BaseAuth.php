@@ -11,11 +11,11 @@ class BaseAuth extends Flywheel\Session\Authenticate {
      * @return BaseAuth
      */
     public static function getInstance() {
-        if (null == self::$_instance) {
-            self::$_instance = new self();
+        if (null == static::$_instance) {
+            self::$_instance = new static();
         }
 
-        return self::$_instance;
+        return static::$_instance;
     }
 
     public function init() {

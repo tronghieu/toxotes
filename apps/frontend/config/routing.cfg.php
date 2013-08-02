@@ -61,7 +61,7 @@ $r = array(
     'event/{slug:[a-zA-Z0-9-]+}.{id:\d+}' => array(
         'route' => 'events/detail'
     ),
-    'post/{slug:[a-zA-Z0-9-]+}.{id:\d+}' => array(
+    'post-{slug:[a-zA-Z0-9-]+}.{id:\d+}' => array(
         'route' => 'post/detail'
     )
 
