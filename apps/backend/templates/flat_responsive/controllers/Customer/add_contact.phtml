@@ -1,0 +1,30 @@
+<?php
+/** @var \Contacts $contact */
+$page_tile = ($contact->isNew())? t('Add new contact information') : t('Edit ') .$contact->getName();
+
+?>
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $page_title ?></h1>
+    </div>
+    <div class="pull-right">
+
+    </div>
+</div>
+
+<?php
+$this->widget('app.widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Contact Info') => array(
+            'url' => array('customer/default')
+        ),
+        t($page_title)
+    ),
+)); ?>
+
+<div class="row-fluid">
+
+</div>

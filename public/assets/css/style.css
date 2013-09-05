@@ -34,6 +34,13 @@
     speak: none
 }
 
+.icon-hotnews {
+    background: url('./../images/flag-hot-red.png') no-repeat;
+    width: 24px;
+    height: 24px;
+    padding: 12px;
+}
+
 a [class^="icon-"], a [class*=" icon-"] {
     display: inline-block
 }

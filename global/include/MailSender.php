@@ -35,10 +35,14 @@ class MailSender {
      * @return Swift_SmtpTransport
      */
     public static function getTransport() {
+        $email_username = Setting::retrieveBySettingKey('email_username')->getSettingValue();
+        $email_password = Setting::retrieveBySettingKey('email_password')->getSettingValue();
+        $email_transport = Setting::retrieveBySettingKey('email_transport')->getSettingValue();
+
         if (self::$_transporter == null) {
             self::$_transporter = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
-                ->setUsername('tronghieu.luu@gmail.com')
-                ->setPassword('thanhle85');
+                ->setUsername($email_username)
+                ->setPassword($email_password);
         }
 
         return self::$_transporter;

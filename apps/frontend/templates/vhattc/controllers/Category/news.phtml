@@ -65,13 +65,13 @@ $this->document()->title = $page_title;
                 foreach ($_GET as $k=>$v) {
                     $route[$k] = $v;
                 }
-
                 $this->widget('app.widget.FrontendPagination', array(
                     'pageSize' => $page_size,
                     'total' => $total,
                     'currentPage' => $this->request()->get('page', 'INT', 1),
                     'route' => $route,
                 ));
+
                 ?>
             </div>
         </div>
