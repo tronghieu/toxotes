@@ -3149,7 +3149,7 @@ textarea {
 }
 .lst-resource-page .resc-item{
     float: left;
-    /*width: 50%;*/
+    width: 50%;
 }
 .lst-resource-page .resc-info{
     margin-left: 32px;
@@ -3177,11 +3177,11 @@ textarea {
     overflow: hidden;
 }
 .lst-resource-page .resc-title{
-    font-size: 1.6em;
+    font-size: 1.2em;
     line-height: 1.2;
     padding-bottom: 10px;
     overflow: hidden;
-    font-weight: normal;
+    /*font-weight: normal;*/
 }
 .lst-resource-page .resc-title a{
     color: #333;
