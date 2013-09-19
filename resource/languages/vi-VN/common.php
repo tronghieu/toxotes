@@ -82,4 +82,6 @@ return array(
 
         'All' => 'Tất cả',
         'days left' => 'ngày còn lại',
+
+        'Quick link' => 'Liên kết ngoài'
     ));

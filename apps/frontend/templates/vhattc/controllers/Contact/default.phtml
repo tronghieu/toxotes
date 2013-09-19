@@ -10,7 +10,7 @@ $this->document()->addJs('assets/js/contacts.js');
 ?>
 
 <div id="contact-us" class="fixCenter1K">
-    <?php if ($controller->currentLang == 'vi-VN') : ?>
+    <?php if ($controller->currentLang->getLangCode() == 'vi-VN') : ?>
         <div class="row address-info">
             <div class="col-type1">
                 <div class="main-address">
