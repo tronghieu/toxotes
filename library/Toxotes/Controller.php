@@ -1,6 +1,7 @@
 <?php
 namespace Toxotes;
 
+use Flywheel\Config\ConfigHandler;
 use Flywheel\Controller\WebController;
 use Flywheel\Factory;
 
@@ -97,5 +98,8 @@ abstract class Controller extends WebController {
         if (!$this->currentLang) {
             $this->currentLang = \Languages::findOneByLangCode($currentLangCode);
         }
+
+        ConfigHandler::set('default_locale', $this->currentLang->getLangCode());
+        ConfigHandler::set('default_fallback', $this->currentLang->getSef());
     }
 }
