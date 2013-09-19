@@ -1,11 +1,13 @@
 <div class="pagination pagination-small">
-    <?php if($pagination->totalPage > 1) :?>
+    <?php use Toxotes\Cms;
+
+    if($pagination->totalPage > 1) :?>
         <?php if ($pagination->showTotalPage) :?>
-            <span><?php echo $pagination->total?> <?php echo $pagination->items ?> / <?php echo $pagination->totalPage ?> <?php td('pages'); ?></span>
+            <span><?php echo $pagination->total?> <?php echo $pagination->items ?> / <?php echo $pagination->totalPage ?> <?php Cms::td('pages'); ?></span>
         <?php endif; ?>
         <ul class="paging">
             <?php if ($pagination->currentPage != 1) :?>
-                <li><a href="<?php echo $pagination->createLink(1); ?>">&laquo; <?php td('First'); ?></a></li>
+                <li><a href="<?php echo $pagination->createLink(1); ?>">&laquo; <?php Cms::td('First'); ?></a></li>
             <?php endif; ?>
             <?php if ($pagination->currentPage > 1) : ?>
                 <li><a href="<?php echo $pagination->createLink($pagination->currentPage - 1); ?>">&lt;</a></li>
@@ -27,7 +29,7 @@
                 <li><a href="<?php echo $pagination->createLink($pagination->currentPage + 1); ?>">&gt;</a></li>
             <?php endif; ?>
             <?php if ($pagination->currentPage != $pagination->totalPage) : ?>
-                <li><a href="<?php echo $pagination->createLink($pagination->totalPage); ?>"><?php td('Last');?> &raquo;</a></li>
+                <li><a href="<?php echo $pagination->createLink($pagination->totalPage); ?>"><?php Cms::td('Last');?> &raquo;</a></li>
             <?php endif; ?>
         </ul>
     <?php endif; ?>

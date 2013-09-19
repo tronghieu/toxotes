@@ -1,5 +1,7 @@
 <?php
 /** @var \Terms $term */
+use Toxotes\Cms;
+
 /** @var \Posts $post */
 $page_title = $post->getTitle();
 $this->document()->title .= $page_title;
@@ -9,7 +11,7 @@ $attachments = $post->getAttachments();
 ?>
 <?php $this->widget('app.widget.Breadcrumbs', array(
     'links' => array(
-        t('Home') => array(
+        Cms::t('Home') => array(
             'url' => $this->document()->getBaseUrl()
         ),
         $term->getName() => array(
@@ -48,12 +50,12 @@ $attachments = $post->getAttachments();
                             $link = $url .$separator . $ids;
                         }
                     ?>
-                <a href="<?php echo $link ;?>" class="btn-download"><?php td('Download') ?>
+                <a href="<?php echo $link ;?>" class="btn-download"><?php Cms::td('Download') ?>
                     <i class="icon iArrowBlack"></i>
                 </a>
                 <div class="file-info">
-                    <p class="rs"><span class="fw-b"><?php td('File size') ?>:</span> <?php echo round($size/1048576, 2) ?>MBs</p>
-                    <p class="rs"><span class="fw-b"><?php td('Download count')?>:</span> <?php echo $count; ?></p>
+                    <p class="rs"><span class="fw-b"><?php Cms::td('File size') ?>:</span> <?php echo round($size/1048576, 2) ?>MBs</p>
+                    <p class="rs"><span class="fw-b"><?php Cms::td('Download count')?>:</span> <?php echo $count; ?></p>
                 </div>
                 <?php endif; ?>
             </div>
@@ -62,7 +64,7 @@ $attachments = $post->getAttachments();
                 <h3 class="title-file"><?php echo $post->getTitle(); ?></h3>
                 <div class="art-ultility clearfix">
                     <div class="date-created">
-                        <?php td('Last update') ?>: <?php echo $post->getModifiedTime()->format('d F Y'); ?>
+                        <?php td('Last update') ?>: <?php echo $post->getModifiedTime()->format('d/m/Y'); ?>
                     </div>
                     <div class="art-tool">
                         <span class="like-fb">
@@ -87,9 +89,9 @@ $attachments = $post->getAttachments();
     <div class="col">
         <form class="search-box-common clearfix" method="get" action="<?php echo $controller->createUrl('category/default', array('id' => $term->getId())); ?>">
             <label for="keyword">
-                <input id="keyword" name="keyword" value="" type="text" placeholder="<?php td('Search here...'); ?>">
+                <input id="keyword" name="keyword" value="" type="text" placeholder="<?php Cms::td('Search here...'); ?>">
             </label>
-            <input type="submit" class="buttons" value="<?php td('Find') ;?>">
+            <input type="submit" class="buttons" value="<?php Cms::td('Find') ;?>">
         </form>
 
         <?php $controller->block('resources.col-right'); ?>

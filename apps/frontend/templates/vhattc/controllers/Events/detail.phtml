@@ -1,5 +1,6 @@
 <?php
 use Flywheel\View\Render;
+use Toxotes\Cms;
 
 /** @var Render $this */
 /** @var Posts $event */
@@ -27,7 +28,7 @@ $this->document()->addJsCode("jQuery('.place-maps').gmap3({
 
 <?php $this->widget('app.widget.Breadcrumbs', array(
     'links' => array(
-        t('Home') => array(
+        Cms::t('Home') => array(
             'url' => $this->document()->getBaseUrl()
         ),
         $cat->getName() => array(
@@ -96,7 +97,7 @@ $this->document()->addJsCode("jQuery('.place-maps').gmap3({
         <?php if ($others) :?>
 
         <div class="block">
-            <h3 class="title"><?php td('Other Events'); ?></h3>
+            <h3 class="title"><?php Cms::td('Other Events'); ?></h3>
             <div class="block-content">
                 <ul class="rs lst-other-event">
                     <?php foreach ($others as $o) :?>
@@ -115,7 +116,7 @@ $this->document()->addJsCode("jQuery('.place-maps').gmap3({
     <div class="col">
         <div class="place-maps"></div>
 
-        <p class="fw-b"><?php td('Contact Infomation'); ?></p>
+        <p class="fw-b"><?php Cms::td('Contact Infomation'); ?></p>
         <p class="rs"><?php echo $properties['event_contact_name']->getValue() ?></p>
         <p class="rs"><?php echo $properties['event_contact_address']->getValue() ?></p>
         <p class="rs">Phone: <span class="fw-b"><?php echo $properties['event_contact_phone']->getValue() ?></span></p>

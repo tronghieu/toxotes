@@ -99,7 +99,6 @@ abstract class Controller extends WebController {
             $this->currentLang = \Languages::findOneByLangCode($currentLangCode);
         }
 
-        ConfigHandler::set('default_locale', $this->currentLang->getLangCode());
-        ConfigHandler::set('default_fallback', $this->currentLang->getSef());
+        Cms::$currentLang = $this->currentLang;
     }
 }

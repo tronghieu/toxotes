@@ -1,4 +1,6 @@
 <?php
+use Toxotes\Cms;
+
 class CalendarWidgetController extends FrontendBaseController {
     public function executeDefault() {
         $calendar = new CalendR\Calendar();
@@ -13,7 +15,7 @@ class CalendarWidgetController extends FrontendBaseController {
         $res = new AjaxResponse();
         if (!$term) {
             $res->type = 0;
-            $res->message = t('Term not found with id:' .$this->request()->get('term_id', 'INT', 0));
+            $res->message = Cms::t('Term not found with id:' .$this->request()->get('term_id', 'INT', 0));
             return $this->renderText($res->toString());
         }
 

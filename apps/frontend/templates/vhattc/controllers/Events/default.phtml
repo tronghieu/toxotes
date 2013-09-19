@@ -1,5 +1,6 @@
 <?php
 use Flywheel\View\Render;
+use Toxotes\Cms;
 
 /** @var Render $this */
 /** @var Posts[] $posts */
@@ -11,7 +12,7 @@ $this->document()->addJs('assets/js/events.js');
 
 $breadcrumbs = array(
     'links' => array(
-        t('Home') => array(
+        Cms::t('Home') => array(
             'url' => $this->document()->getBaseUrl()
         ),
     )
@@ -43,7 +44,7 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
                 <?php if ($children) : ?>
                 <div class="quick-filter">
                     <span class="fw-b">
-                        <a href="<?php echo $all_link ?>"><?php td('All'); ?></a> :
+                        <a href="<?php echo $all_link ?>"><?php Cms::td('All'); ?></a> :
                     </span>
                     <?php
                         for($i = 0, $size = sizeof($children); $i < $size; ++$i) :?>
@@ -89,7 +90,7 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
                                 <?php if (($now > $start_date) && ($interval->s > (3600*24))) : ?>
                                 <div class="time-left">
                                     <span class="line-through"></span>
-                                    <span class="val"><span class="fw-b"><?php td($interval->days . '</span>days left'); ?>
+                                    <span class="val"><span class="fw-b"><?php echo $interval->days ?></span> <?php td('days left'); ?>
                                 </div>
                                 <?php endif; ?>
                             </div>
@@ -155,9 +156,9 @@ $all_link = $controller->createUrl('events/default', array('id' => $all_id));
 
                 <form class="search-box-common clearfix" method="get" action="<?php echo $controller->createUrl('events/default', $route); ?>">
                     <label for="keyword">
-                        <input id="keyword" name="keyword" value="<?php echo $keyword; ?>" type="text" placeholder="<?php td('Search here...'); ?>">
+                        <input id="keyword" name="keyword" value="<?php echo $keyword; ?>" type="text" placeholder="<?php Cms::td('Search here...'); ?>">
                     </label>
-                    <input type="submit" class="buttons" value="<?php td('Find') ;?>">
+                    <input type="submit" class="buttons" value="<?php Cms::td('Find') ;?>">
                 </form>
 
                 <?php $this->widget('app.widget.EventArchivesWidget', array(

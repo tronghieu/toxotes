@@ -1,11 +1,13 @@
 <?php
 /** @var \CalendR\Calendar $calendar */
+use Toxotes\Cms;
+
 /** @var \CalendR\Period\Year $year */
 ?>
 
 <?php if ($list) :?>
     <div class="block articles-archive">
-        <h3 class="title"><?php td('Archive'); ?></h3>
+        <h3 class="title"><?php Cms::td('Archive'); ?></h3>
         <div class="block-content">
             <div class="wrap-lst clearfix">
                 <?php foreach ($year as $month) :?>
@@ -19,7 +21,8 @@
                     ?>
                     <div class="rs item">
                         <div>
-                            <a href="<?php echo $link; ?>"><span class="fw-b"><?php td($month->format('F Y')); ?></span> (<?php echo $count ?>)</a>
+                            <a href="<?php echo $link; ?>"><span class="fw-b"><?php Cms::td($month->format('F') .' %year%',
+                                        array('%year%' => $month->format('Y'))); ?></span> (<?php echo $count ?>)</a>
                         </div>
                     </div>
                 <?php endforeach; ?>

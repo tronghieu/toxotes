@@ -1,6 +1,8 @@
 <?php
 /** @var \CalendR\Calendar $calendar */
 
+use Toxotes\Cms;
+
 $month = $calendar->getMonth($current_year, $current_month);
 $month->setFirstWeekday(\CalendR\Period\Day::SUNDAY);
 ?>
@@ -8,10 +10,10 @@ $month->setFirstWeekday(\CalendR\Period\Day::SUNDAY);
     <!-- Header -->
     <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
         <a class="ui-datepicker-prev ui-corner-all" data-month="<?php echo $month->getPrevious()->format('m') ?>" data-year="<?php echo $month->getPrevious()->format('Y') ?>" title="Prev">
-            <span class="ui-icon ui-icon-circle-triangle-w" data-month="<?php echo $month->getPrevious()->format('m') ?>" data-year="<?php echo $month->getPrevious()->format('Y') ?>"><?php td('Prev'); ?></span></a>
+            <span class="ui-icon ui-icon-circle-triangle-w" data-month="<?php echo $month->getPrevious()->format('m') ?>" data-year="<?php echo $month->getPrevious()->format('Y') ?>"><?php Cms::td('Prev'); ?></span></a>
 
         <a class="ui-datepicker-next ui-corner-all" data-month="<?php echo $month->getNext()->format('m') ?>" data-year="<?php echo $month->getNext()->format('Y') ?>" title="Next">
-            <span class="ui-icon ui-icon-circle-triangle-e" data-month="<?php echo $month->getNext()->format('m') ?>" data-year="<?php echo $month->getNext()->format('Y') ?>" ><?php td('Next'); ?></span></a>
+            <span class="ui-icon ui-icon-circle-triangle-e" data-month="<?php echo $month->getNext()->format('m') ?>" data-year="<?php echo $month->getNext()->format('Y') ?>" ><?php Cms::td('Next'); ?></span></a>
 
         <div class="ui-datepicker-title">
             <span class="ui-datepicker-month"><?php echo $current_month ?></span> /
@@ -25,13 +27,13 @@ $month->setFirstWeekday(\CalendR\Period\Day::SUNDAY);
         <!-- Weeks -->
         <thead>
         <tr>
-            <th class="ui-datepicker-week-end"><span title="Sunday"><?php td('Sun'); ?></span></th>
-            <th><span title="Monday"><?php td('Mon'); ?></span></th>
-            <th><span title="Tuesday"><?php td('Tue'); ?></span></th>
-            <th><span title="Wednesday"><?php td('Wed'); ?></span></th>
-            <th><span title="Thursday"><?php td('Thur'); ?></span></th>
-            <th><span title="Friday"><?php td('Fr'); ?></span></th>
-            <th class="ui-datepicker-week-end"><span title="Saturday"><?php td('Sat'); ?></span></th>
+            <th class="ui-datepicker-week-end"><span title="Sunday"><?php Cms::td('Sun'); ?></span></th>
+            <th><span title="Monday"><?php Cms::td('Mon'); ?></span></th>
+            <th><span title="Tuesday"><?php Cms::td('Tue'); ?></span></th>
+            <th><span title="Wednesday"><?php Cms::td('Wed'); ?></span></th>
+            <th><span title="Thursday"><?php Cms::td('Thur'); ?></span></th>
+            <th><span title="Friday"><?php Cms::td('Fr'); ?></span></th>
+            <th class="ui-datepicker-week-end"><span title="Saturday"><?php Cms::td('Sat'); ?></span></th>
         </tr>
         </thead>
         <!--/weeks -->

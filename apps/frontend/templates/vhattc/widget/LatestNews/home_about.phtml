@@ -1,4 +1,6 @@
 <?php /** @var \LatestNews $widget */
+use Toxotes\Cms;
+
 if (!empty($widget->list)) :
 ?>
 <div class="lst-top-about">
@@ -16,7 +18,7 @@ if (!empty($widget->list)) :
                 <?php echo $desc; ?>
                 </p>
                 <p class="rs viewmore">
-                    <a href="<?php echo $controller->createUrl('post/detail', array('id' => $item->getId())); ?>"><?php td('View more'); ?></a>
+                    <a href="<?php echo $controller->createUrl('post/detail', array('id' => $item->getId())); ?>"><?php Cms::td('View more'); ?></a>
                     <i class="icon iPickReadR"></i>
                 </p>
             </div>

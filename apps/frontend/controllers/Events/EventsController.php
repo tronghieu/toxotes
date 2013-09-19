@@ -121,7 +121,7 @@ class EventsController extends FrontendBaseController {
         $res = new AjaxResponse();
         if (!$term) {
             $res->type = 0;
-            $res->message = t('Term not found with id:' .$this->request()->get('eventsId', 'INT', 0));
+            $res->message = Cms::t('Term not found with id:' .$this->request()->get('eventsId', 'INT', 0));
             return $this->renderText($res->toString());
         }
 

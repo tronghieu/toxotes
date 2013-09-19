@@ -1,11 +1,13 @@
 <?php /** @var \LatestNews $widget */
+use Toxotes\Cms;
+
 if (!empty($widget->list)) :
 ?>
 <div class="block lst-training">
     <h3 class="title rs">
         <?php echo $widget->getOwner()->getName(); ?>
         <a href="<?php echo $controller->createUrl('category/default', array('id' => $widget->getParams('term_id'))) ?>" class="more">
-            <?php td('View more'); ?><i class="icon iPickReadR"></i>
+            <?php Cms::td('View more'); ?><i class="icon iPickReadR"></i>
         </a>
     </h3>
     <div class="block-content">
@@ -32,7 +34,7 @@ if (!empty($widget->list)) :
                         <i class="icon-hotnews"></i>
                     <?php endif; ?>
                 </h4>
-                <p class="rs date"><?php echo $item->getCreatedTime()->format(t('d/m/Y')) ?></p>
+                <p class="rs date"><?php echo $item->getCreatedTime()->format(Cms::t('d/m/Y')) ?></p>
                 <p class="rs lead-news"><?php echo $excerpt ;?></p>
             </div>
         </div>

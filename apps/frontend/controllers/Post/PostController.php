@@ -1,5 +1,6 @@
 <?php
 use Alchemy\Zippy\Zippy;
+use Toxotes\Cms;
 
 class PostController extends FrontendBaseController {
     public function executeDefault() {
@@ -30,12 +31,12 @@ class PostController extends FrontendBaseController {
 
     public function executeDownload() {
         if (!($attach = PostAttachments::retrieveById($this->request()->get('id')))) {
-            $this->raise404(t('File not found'));
+            $this->raise404(Cms::t('File not found'));
         }
 
         $path = PUBLIC_DIR .DIRECTORY_SEPARATOR .rtrim($attach->getFile(), '/');
         if (!file_exists($path)) {
-            $this->raise404(t('File not found'));
+            $this->raise404(Cms::t('File not found'));
         }
 
         $attach->setHits($attach->getHits() + 1);
@@ -66,7 +67,7 @@ class PostController extends FrontendBaseController {
     public function executeBathDownload() {
         $ids = $this->request()->get('id', 'ARRAY', array());
         if (empty($ids)) {
-            $this->raise404(t('File not found'));
+            $this->raise404(Cms::t('File not found'));
         }
 
         $zippy = Zippy::load();

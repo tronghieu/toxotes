@@ -1,5 +1,6 @@
 <?php
 use Flywheel\View\Render;
+use Toxotes\Cms;
 
 /** @var Render $this */
 /** @var \Posts $contact */
@@ -57,11 +58,11 @@ $this->document()->addJs('assets/js/contacts.js');
         <div class="col-type2">
             <form action="" name="contact_form" id="contact_form">
                 <h3 class="rs title">
-                    <?php td('Contact form') ?>
+                    <?php Cms::td('Contact form') ?>
                 </h3>
 
                 <p class="rs note">
-                    <?php td('Send an email. All fields with an (<span class="fc-r">*</span>) are required.'); ?>
+                    <?php Cms::td('Send an email. All fields with an (<span class="fc-r">*</span>) are required.'); ?>
                 </p>
 
                 <div class="error" id="error"></div>
@@ -70,33 +71,33 @@ $this->document()->addJs('assets/js/contacts.js');
                 <div class="form-input">
                     <p class="wrap clearfix">
                         <label for="name" class="lbl">
-                            <?php td('Name') ?>: <span class="fc-r">*</span>
+                            <?php Cms::td('Name') ?>: <span class="fc-r">*</span>
                         </label>
                         <input type="text" id="name" name="message[name]">
                     </p>
                     <p class="wrap clearfix">
                         <label for="email" class="lbl">
-                            <?php td('Email'); ?>: <span class="fc-r">*</span>
+                            <?php Cms::td('Email'); ?>: <span class="fc-r">*</span>
                         </label>
                         <input type="text" id="email" name="message[email]">
                     </p>
                     <p class="wrap clearfix">
                         <label for="subject" class="lbl">
-                            <?php td('Subject') ?>: <span class="fc-r">*</span>
+                            <?php Cms::td('Subject') ?>: <span class="fc-r">*</span>
                         </label>
                         <input type="text" id="subject" name="message[subject]">
                     </p>
                     <p class="wrap clearfix">
                         <label for="content" class="lbl">
-                            <?php td('Content') ?>: <span class="fc-r">*</span>
+                            <?php Cms::td('Content') ?>: <span class="fc-r">*</span>
                         </label>
                         <textarea name="message[content]" id="content" cols="30" rows="10"></textarea>
                     </p>
                     <p class="wrap-submit clearfix">
                         <label for="chk_send_me">
-                            <input id="chk_send_me" name="send_you" type="checkbox"> <?php td('Send copy to yourself'); ?>
+                            <input id="chk_send_me" name="send_you" type="checkbox"> <?php Cms::td('Send copy to yourself'); ?>
                         </label>
-                        <button id="send_mess"><?php td('Send Email'); ?></button>
+                        <button id="send_mess"><?php Cms::td('Send Email'); ?></button>
                     </p>
                 </div>
                 <input name="contact_id" value="<?php echo $contact->getId(); ?>" type="hidden">

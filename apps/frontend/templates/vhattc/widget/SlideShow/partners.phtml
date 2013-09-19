@@ -1,8 +1,11 @@
-<?php /** @var \SlideShow $widget */ ?>
+<?php
+use Toxotes\Cms;
+/** @var \SlideShow $widget */
+?>
 <div class="fixCenter1K">
     <?php if (!empty($widget->banners)) :?>
     <div class="block">
-        <h3 class="title"><?php td('Partner organizations'); ?></h3>
+        <h3 class="title"><?php Cms::td('Partner organizations'); ?></h3>
         <div class="block-content">
             <div id="slider_partner">
                 <a class="buttons prev disable" href="#">

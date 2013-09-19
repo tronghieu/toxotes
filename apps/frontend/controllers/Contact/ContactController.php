@@ -1,5 +1,6 @@
 <?php
 use Flywheel\Validator\EmailValidator;
+use Toxotes\Cms;
 
 class ContactController extends FrontendBaseController {
     public function executeDefault() {
@@ -25,28 +26,28 @@ class ContactController extends FrontendBaseController {
         $error = array();
         if (!isset($mess['name']) || !isset($mess['email'])
             || !isset($mess['subject']) || !isset($mess['content'])) {
-            $error['name'] = t('Name is required');
-            $error['email'] = t('Email is required');
-            $error['subject'] = t('Subject is required');
-            $error['content'] = t('Content is required');
+            $error['name'] = Cms::t('Name is required');
+            $error['email'] = Cms::t('Email is required');
+            $error['subject'] = Cms::t('Subject is required');
+            $error['content'] = Cms::t('Content is required');
         }
 
         if (empty($error)) {
             $emailValidator = new EmailValidator();
             if (!$emailValidator->isValid(null, $mess['email'])) {
-                $error['email'] = t('Invalid email format');
+                $error['email'] = Cms::t('Invalid email format');
             }
 
             if (mb_strlen($mess['content']) < 10) {
-                $error['content'] = t('Content too short');
+                $error['content'] = Cms::t('Content too short');
             }
 
             if (mb_strlen($mess['subject']) < 3) {
-                $error['subject'] = t('Email subject too short');
+                $error['subject'] = Cms::t('Email subject too short');
             }
 
             if (mb_strlen($mess['name']) <10) {
-                $error['name'] = t('Name too short');
+                $error['name'] = Cms::t('Name too short');
             }
         }
 
@@ -62,7 +63,7 @@ class ContactController extends FrontendBaseController {
         $contact = Posts::retrieveById($this->request()->post('contact_id', 'INT', 0));
         if (!$contact) {
             $res->type = AjaxResponse::ERROR;
-            $res->message = array('All' => t('Contact not found'));
+            $res->message = array('All' => Cms::t('Contact not found'));
             return $this->renderText($res->toString());
         }
 
@@ -74,7 +75,7 @@ class ContactController extends FrontendBaseController {
                 }
 
                 $res->type = AjaxResponse::SUCCESS;
-                $res->message = t('Email sent');
+                $res->message = Cms::t('Email sent');
                 return $this->renderText($res->toString());
             }
         } else {
