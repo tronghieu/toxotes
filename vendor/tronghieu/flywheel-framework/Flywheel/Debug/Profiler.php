@@ -10,39 +10,101 @@
  *
  */
 namespace Flywheel\Debug;
-class Debug_Profiler {
+use Flywheel\Config\ConfigHandler;
+use Flywheel\Event\Event;
+use Flywheel\Object;
+
+class Profiler extends Object {
 	private $_start;
 	
 	private $_buffer = array();
+
+    private $_pevTime = 0.0;
+
+    private $_pevMem = 0.0;
+
+    private $_sqlLog = array();
 	
 	private function __construct() {
-		$this->_start = $_SERVER['REQUEST_TIME'];
+        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+            $this->_start = $_SERVER['REQUEST_TIME_FLOAT'];
+        } else {
+            $this->_start = $_SERVER['REQUEST_TIME'];
+        }
 	}
+
+    public static function init() {
+        self::getInstance();
+        self::getEventDispatcher()->addListener('onBeginRequest', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onBeginWebRouterParsingUrl', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onAfterWebRouterParsingUrl', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onAfterInitSessionConfig', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onBeginControllerExecute', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onBeforeControllerRender', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onAfterControllerRender', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onAfterControllerExecute', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('afterCreateMasterConnection', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('afterCreateSlaveConnection', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onAfterSendHttpHeader', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onAfterSendContent', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+        self::getEventDispatcher()->addListener('onEndRequest', array('\Flywheel\Debug\Profiler', 'handleSystemEvent'));
+    }
+
+    public static function handleSystemEvent(Event $event) {
+        $package = (isset($event->sender) && is_object($event->sender))?  get_class($event->sender): null;
+        $label = $event->getName();
+        if ($event->getName() == 'onBeginControllerExecute' || $event->getName() == 'onAfterControllerExecute') {
+            $package .= '.' .$event->params['action'];
+        } else if ($event->getName() == 'onAfterInitSessionConfig') {
+            $label .= '. Handler:' .$event->params['handler'];
+        } else if ($event->getName() == 'afterCreateSlaveConnection' || $event->getName() == 'afterCreateMasterConnection') {
+            $label .= '. Connection name: ' .$event->params['connection_name'];
+        }
+        return self::mark($label, $package);
+    }
 	
 	/**
 	 * Get Instance
 	 * 
 	 * @static 
-	 * @return Ming_Debug_Profiler
+	 * @return Profiler
 	 */
 	public static function getInstance() {
 		static $instance;
 		if ($instance == null) {
-			$instance = new Ming_Debug_Profiler();
+			$instance = new self();
 		}
 		
 		return $instance;
 	}
 	
-	public static function mark($label, $package) {
-		$profiler = self::getInstance();
-		$mark = 'Package: <strong>' . $package . '</strong>. ';
-		$mark .= $label .'. <strong>&raquo;</strong> ';
-		$mark .= sprintf('Time %.5f', $profiler->_getMicrotime() - $profiler->_start) . ' seconds';
-		$mark .= ', '.sprintf('%0.3f', memory_get_usage() / 1048576 ).' MB.';           
-		$profiler->_buffer[] = $mark;
-		return $mark;		
+	public static function mark($label, $package = null) {
+        if (ConfigHandler::get('debug')) {
+            return self::getInstance()->_mark($label, $package);
+        }
+        return null;
 	}
+
+    private function _mark($label, $package) {
+        $current = microtime(true) - $this->_start;
+        $currentMem = memory_get_usage() / 1048576;
+        $mark = array(
+            'label' => "{$label}: {$package}",
+            'microtime' => microtime(true),
+            'time' => microtime(true) - $this->_start,
+            'next_time' => $current- $this->_pevTime,
+            'memory' => $currentMem,
+            'next_memory' => $currentMem - $this->_pevMem,
+            'memory_get_usage'      => memory_get_usage(),
+            'memory_get_peak_usage' => memory_get_peak_usage(),
+        );
+        $this->_pevTime = $current;
+        $this->_pevMem = $currentMem;
+
+        $this->_buffer[] = $mark;
+
+        return $mark;
+    }
 	
 	/**
 	 * Get Memory Usage
@@ -53,197 +115,132 @@ class Debug_Profiler {
 		$mem = sprintf('%0.3f', memory_get_usage() / 1048576 );
 		return $mem;
 	}
-	
-	/**
-	 * Get Buffer
-	 *
-	 * @return array
-	 */
-	public function getBuffer() {
-		return $this->_buffer;
-	}
-	
-	public static function pageSpeedTracking() {		
-		try {
-			$profiler = self::getInstance();
-			$time = $profiler->_getMicrotime() - $profiler->_start;
-			$request = $_SERVER['REQUEST_URI'];
-			$tracker = Ming_Redis_Client::getInstance('system');			
-			$key = 'pst_' .md5($request);
-			$trackItem = $tracker->get($key);
-			
-			#track total time process
-			if (null == $trackItem) {
-				$trackItem = array(
-					'request' => $request,
-					'from_time' => date('d/m/Y H:i:s', time()),
-					'count'	=> 0,
-					'total_time' => 0
-				);
-			}
-			++$trackItem['count'];
-			$trackItem['total_time'] += $time;
-			$trackItem['avg'] = $trackItem['total_time']/$trackItem['count'];
-			$trackItem['last_time'] = date('d/m/Y H:i:s', time());
-			
-			#track each server
-			if (!isset($trackItem[$_SERVER['SERVER_ADDR']])) {
-				$trackItem[$_SERVER['SERVER_ADDR']] = array(
-					'count'	=> 0,
-					'total_time' => 0
-				);
-			}
-			
-			++$trackItem[$_SERVER['SERVER_ADDR']]['count'];
-			$trackItem[$_SERVER['SERVER_ADDR']]['total_time'] += $time;
-			$trackItem[$_SERVER['SERVER_ADDR']]['avg'] = $trackItem[$_SERVER['SERVER_ADDR']]['total_time']/$trackItem[$_SERVER['SERVER_ADDR']]['count'];
-			
-			//store tracking result
-			$tracker->set($key, $trackItem);
-			$tracker->expire($key, 2592000); //30 days
-		} catch (Exception $e) {}
-	}
-	
-	/**
-	 * Debug
-	 * draw ra khối debug.
-	 *
-	 * @return HTML content
-	 */
-	public static function debug() 	{				
-		if (!Ming_Config::get('debug') || is_cli()) {
-			return;
-		}
-			
-		$profiler = self::getInstance();
-		ob_start();		
-		echo '<style type="text/css">
-	#system-debug{width: 100% !important; color:#555555; line-height: 1.5em;} 
-	#system-debug div#sql-report strong{ color:#993333}; .blue {color:#00CC00;};
-</style><div id="system-debug" class="clearfix"><h3>IN DEBUG ENVIROMENT</h3>';
-		
-		#List Mark
-		echo '<h4>Activities Information</h4>';
-		echo '<ol>';
-		$marks = $profiler->getBuffer();		
-		for ($i = 0, $msize = sizeof($marks); $i < $msize; ++$i)
-		{
-			echo '<li>' . $marks[$i] .'</li>';
-		}
-		echo '</ol>';		
-		echo '<div>';
-		echo '<h4>Memory Usage</h4>';
-		$memoryLimit = (int) ini_get('memory_limit');
-		$perMem = sprintf('%0.3f', ($profiler->getMemUsage() / $memoryLimit) * 100);
-		if ($perMem >= 75) {
-			$perMem = '<strong>' .$perMem .' %</strong>';			
-		}
-		else {
-			$perMem = '<span class="blue">' . $perMem .'%</span>';
-		}
-		echo $profiler->getMemUsage() .' / ' . (int) ini_get('memory_limit') .' MB (' .$perMem  .')';
-		echo '</div>';
-		
-		echo '<div><h4>Server Id</h4>' . $_SERVER['SERVER_ADDR'] .'</div>';
-		
-		#Show log SQL queries
-		$newlineSQLKeywords = '/<strong>'
-				.'(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND|OR)'
-				.'<\\/strong>/i';
-		$sqlKeyword = array (
-			'ASC', 'AS',  'ALTER', 'AND', 'AGAINST',
-			'BETWEEN', 'BOOLEAN', 'BY', 
-			'COUNT', 
-			'DESC',  'DISTINCT', 'DELETE',
-			'EXPLAIN',
-			'FOR', 'FROM',
-			'GROUP',
-			'HAVING',
-			'INSERT', 'INNER', 'INTO', 'IN',
-			'JOIN',
-			'LIKE', 'LIMIT', 'LEFT',
-			'MATCH', 'MODE', 
-			'NOT',
-			'ORDER', 'OR', 'OUTER', 'ON',
-			'REPLACE', 'RIGHT',
-			'STRAIGHT_JOIN', 'SELECT', 'SET',
-			'TO', 'TRUNCATE',
-			'UPDATE',
-			'VALUES',
-			'WHERE',);
-		
-		$sqlReplaceKeyword = array (
-			'<strong>ASC</strong>', '<strong>AS</strong>',  '<strong>ALTER</strong>', '<strong>AND</strong>', '<strong>AGAINST</strong>',
-			'<strong>BETWEEN</strong>', '<strong>BOOLEAN</strong>', '<strong>BY</strong>',
-			'<strong>COUNT</strong>',
-			'<strong>DESC</strong>',  '<strong>DISTINCT</strong>', '<strong>DELETE</strong><br />',
-			'<strong>EXPLAIN</strong>',
-			'<strong>FOR</strong>', '<strong>FROM</strong>',
-			'<strong>GROUP</strong>',
-			'<strong>HAVING</strong>',
-			'<strong>INSERT</strong>', '<strong>INNER</strong>', '<strong>INTO</strong>', '<strong>IN</strong>',
-			'<strong>JOIN</strong>',
-			'<strong>LIKE</strong>', '<strong>LIMIT</strong>', '<strong>LEFT</strong>',
-			'<strong>MATCH</strong>', '<strong>MODE</strong>',
-			'<strong>NOT</strong>',
-			'<strong>ORDER</strong>', '<strong>OR</strong>', '<strong>OUTER</strong>', '<strong>ON</strong>',
-			'<strong>REPLACE</strong><br />', '<strong>RIGHT</strong>',
-			'<strong>STRAIGHT_JOIN</strong>', '<strong>SELECT</strong><br />', '<strong>SET</strong>',
-			'<strong>TO</strong>', '<strong>TRUNCATE</strong><br />',
-			'<strong>UPDATE</strong><br />',
-			'<strong>VALUES</strong>',
-			'<strong>WHERE</strong>');
-		
-		$daObjs = Ming_Db::getInstances();
-		$queriesLogNo = 0;
-		$executeTime = 0;
-		echo '<div id="sql-report"><h4>Queries Logged</h4><ol>';
-		foreach ($daObjs as $daObj)
-		{
-			$queries = $daObj->getLog();
-			for ($i = 0, $qsize = sizeof($queries); $i < $qsize; ++$i)
-			{								
-				$sql = str_replace($sqlKeyword, $sqlReplaceKeyword, $queries[$i]['sql']);
-				$sql = preg_replace('/\"([^\"])+\"/','<font color="#ff000;">\\0</font>', $sql);
-				$sql = preg_replace('/\'([^\'])+\'/','<font color="#ff000;">\\0</font>', $sql);
-				$sql = preg_replace($newlineSQLKeywords, '<br />&nbsp;&nbsp;\\0', $sql);
-				$track = '<ol style="font-family: Courier, \'Courier New\', monospace">';
-				foreach ($queries[$i]['track'] as $_t) {
-					$track .= '<li>' .$_t['call']  .' in <em>' .$_t['file'].':' .$_t['line'] .'</em></li>';					
-				}
-				$track .= '</ol>';
-				
-				echo '<li>' . $sql . '<br />&nbsp; at ' .$track .'&nbsp; <em>execute time: ' 
-							. $queries[$i]['time'] . ' seconds</em></li>';
-				$executeTime += $queries[$i]['time'];								
-			}
-			$queriesLogNo += $qsize;
-		}
-		echo '</ol><br />Total <strong>' . $queriesLogNo . '</strong> SQL queries logged take <em>' 
-						. $executeTime .'</em> seconds exec</h4>';
-			
-		echo '<div><h4>Included files</h4><ol>';
-		$files = get_included_files();
-		for ($i = 0, $size = sizeof($files); $i < $size; ++$i)
-		{
-			echo '<li>' . $files[$i] . '</li>';
-		}
-		echo '</ol><br />Total <strong>' . $size . '</strong> included files.</div>';
-		echo '</div>';
-		
-		$debug = ob_get_clean();
-//		file_put_contents(_LOG_PATH_.'log'. time().'.txt', $debug);		
-		return $debug;
-	}
-	
-	/**
-	 * Get the current time.
-         *
-         * @access public
-         * @return float The current time
-         */
-	private function _getMicrotime() {
-		list( $usec, $sec ) = explode( ' ', microtime() );
-		return ((float)$usec + (float)$sec);
-	}	
+
+    /**
+     * Get Buffer
+     *
+     * @return array
+     */
+    public function getBuffer() {
+        return $this->_buffer;
+    }
+
+    public static function logSqlQueries($query, $begin, $end, $params = array()) {
+        if (!ConfigHandler::get('debug')) {
+            return ;
+        }
+
+        self::getInstance()->logQueries($query, $begin, $end, $params);
+    }
+
+    public function logQueries($query, $begin, $end, $params = array()) {
+        $this->_sqlLog[] = array(
+            'query' => $query,
+            'begin' => $begin,
+            'end' => $end,
+            'params' => $params
+        );
+    }
+
+    public function writePlainText($path = null) {
+        if (!ConfigHandler::get('debug')) {
+            return ;
+        }
+
+        if (null == $path) {
+            $path = RUNTIME_PATH .'/log';
+        }
+        @mkdir($path, 777);
+        if(!($id = session_id())) {
+            $id = md5(uniqid() .mt_rand());
+        }
+        $filename = date('Y-m-d').'.' .$id .'.profile';
+
+        $log = "\n\nPROFILE INFO:" .date('Y-m-d H:i');
+        $log .= "\nServer Address: {$_SERVER['SERVER_ADDR']}" ;
+        $maxMemAllow = (float) ini_get('memory_limit');
+
+        $log .= "Max memory allow: " . (float) ini_get('memory_limit') ." MB";
+		$log .= "\nTotal Memory Usage: " .(memory_get_usage(true) / 1048576) ."MB (" . (memory_get_usage(true) / ($maxMemAllow*1048576) * 100) ."%)";
+        $log .= sprintf("\nTotal execute time: %.3f seconds" ,self::getInstance()->_pevTime);
+
+        $log .= "\nSERVER ENVIRONMENT:\n";
+        foreach($_SERVER as $server => $value) {
+            $log .= sprintf("%s: %s\n", $server, $value);
+        }
+
+        if (isset($argv)) {
+            $log .= "argv:" .var_export($argv, true);
+        }
+
+        if (isset($argc)) {
+            $log .= "argc:" .var_export($argc, true);
+        }
+
+        if (isset($_COOKIE)) {
+            $log .= "\nCOOKIES: " .var_export($_COOKIE, true);
+        }
+
+        if (isset($_SESSION)) {
+            $log .= "\nSESSION: " .var_export($_SESSION, true);
+        }
+
+        if (isset($_REQUEST)) {
+            $log .= "\nREQUEST: " .var_export($_REQUEST, true);
+        }
+
+        //Activities
+        $log .= "\nACTIVITIES:\n";
+        $buffers = $this->getBuffer();
+        //serialize to string
+        foreach ($buffers as $buffer) {
+            $mark = sprintf(
+                "%s\n%.3f seconds (+%.3f); %0.2f MB (%s%0.3f). Peak:%.3f MB\n",
+                $buffer['label'],
+                $buffer['time'],
+                $buffer['next_time'],
+                $buffer['memory'],
+                (($buffer['next_memory'] > 0) ? '+' : '-' . $buffer['next_memory']),
+                $buffer['next_memory'],
+                $buffer['memory_get_peak_usage'] / 1048576
+            );
+            $log .= $mark;
+        }
+
+        $log .= "\nSQL QUERIES:\n";
+        $totalQueries = 0;
+        $totalExecuteTime = 0;
+        $totalMemories = 0;
+        foreach($this->_sqlLog as $sql) {
+            if ($sql['begin'] && $sql['end']) {
+                $time = $sql['end']['microtime'] - $sql['begin']['microtime'];
+                $memory = ($sql['end']['memory_get_usage'] - $sql['begin']['memory_get_usage'] / 1048576);
+                $totalExecuteTime+= $time;
+                $totalMemories +=  $memory;
+            } else {
+                $time = 0;
+                $memory = 0;
+            }
+
+            if (isset($sql['query'])) {
+                $totalQueries++;
+            }
+            $log .= $totalQueries .'. ' .$sql['query'];
+            if (!empty($sql['params'])) {
+                $log .= "\n\tParameters:" .json_encode($sql['params']);
+            }
+
+            $log .= "\n\tExec time: " .(($time < 0.001)? '~0.001' : round($time, 3)) .' seconds.'
+                . " Memory: " .(($memory < 0)? '-' : '+') .$memory ."MB.\n";
+        }
+
+        $log .= $totalQueries .' queries, take ' .round($totalExecuteTime, 3) .' seconds and ' .$totalMemories ."MB.\n";
+
+        //file include
+        $files = get_included_files();
+        $log .= "\nIncluded files:\n";
+        $log .= implode("\n", $files);
+
+        @file_put_contents($path.'/'.$filename, $log, FILE_APPEND);
+    }
 }

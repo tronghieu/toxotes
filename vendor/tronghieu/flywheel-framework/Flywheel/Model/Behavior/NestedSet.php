@@ -8,8 +8,8 @@
  * @method void setRightValue()
  * @method mixed getScopeValue(boolean $withQuote)
  * @method void setScopeValue(int $scope)
- * @method int getLevel()
- * @method void setLevel()
+ * @method int getLevelValue()
+ * @method void setLevelValue()
  * @method {owner} makeRoot()
  * @method boolean isInTree()
  * @method boolean isRoot()
@@ -114,8 +114,8 @@ class NestedSet extends ModelBehavior {
         if ($owner->isNew() && $owner->isRoot()) {
             // check if no other root exist in, the tree
             $query = $owner->read()
-                        ->count()
-                        ->where($owner->quote($this->left_attr) .'=1');
+                ->count()
+                ->where($owner->quote($this->left_attr) .'=1');
             if ($this->scope_attr) {
                 $query->andWhere($owner->quote($this->scope_attr) .' = ' .$this->getScopeValue(true));
             }
@@ -219,11 +219,11 @@ class NestedSet extends ModelBehavior {
         return $owner->{$this->scope_attr};
     }
 
-    public function getLevel() {
+    public function getLevelValue() {
         return $this->getOwner()->{$this->level_attr};
     }
 
-    public function setLevel($level) {
+    public function setLevelValue($level) {
         $level = (int) $level;
 
         $owner = $this->getOwner();
@@ -243,7 +243,7 @@ class NestedSet extends ModelBehavior {
 
         $this->setLeftValue(1);
         $this->setRightValue(2);
-        $this->setLevel(0);
+        $this->setLevelValue(0);
 
         return $this->getOwner();
     }
@@ -274,7 +274,7 @@ class NestedSet extends ModelBehavior {
     }
 
     public function hasParent() {
-        return $this->getLevel() > 0;
+        return $this->getLevelValue() > 0;
     }
 
     public function hasPrevSibling($query = null) {
@@ -339,9 +339,9 @@ class NestedSet extends ModelBehavior {
         }
 
         $query->select('COUNT(*) AS result')
-                ->andWhere($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
+            ->andWhere($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
                     AND ' .$owner->quote($this->right_attr) .' < ' .$owner->{$this->right_attr})
-                ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLeftValue() + 1));
+            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLeftValue() + 1));
 
         if ($this->scope_attr) {
             $query->andWhere($owner->quote($this->scope_attr) .'=' .$this->getScopeValue(true));
@@ -382,10 +382,10 @@ class NestedSet extends ModelBehavior {
             $owner = $this->getOwner();
 
             $query = $owner->read()
-                    ->andWhere($owner->quote($this->left_attr) .' < ' .$owner->{$this->left_attr} .'
+                ->andWhere($owner->quote($this->left_attr) .' < ' .$owner->{$this->left_attr} .'
                         AND ' .$owner->quote($this->right_attr) .' > ' .$owner->{$this->right_attr})
-                    ->orderBy($this->right_attr)
-                    ->setFirstResult(1);
+                ->orderBy($owner->quote($this->right_attr))
+                ->setFirstResult(1);
 
             if ($this->scope_attr) {
                 $query->andWhere($owner->quote($this->scope_attr) .'=' .$this->getScopeValue(true));
@@ -447,7 +447,7 @@ class NestedSet extends ModelBehavior {
 
         $query->andWhere($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
                     AND ' .$owner->quote($this->right_attr) .' < ' .$owner->{$this->right_attr})
-            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLevel() + 1))
+            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLevelValue() + 1))
             ->orderBy($owner->quote($this->left_attr));
 
         if ($this->scope_attr) {
@@ -474,7 +474,7 @@ class NestedSet extends ModelBehavior {
 
         $query->andWhere($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
                     AND ' .$owner->quote($this->right_attr) .' < ' .$owner->{$this->right_attr})
-            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLevel() + 1))
+            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLevelValue() + 1))
             ->setFirstResult(1)
             ->orderBy($owner->quote($this->left_attr));
 
@@ -502,7 +502,7 @@ class NestedSet extends ModelBehavior {
 
         $query->andWhere($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
                     AND ' .$owner->quote($this->right_attr) .' < ' .$owner->{$this->right_attr})
-            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLevel() + 1))
+            ->andWhere($owner->quote($this->level_attr) .' = ' .($this->getLevelValue() + 1))
             ->setFirstResult(1)
             ->orderBy($owner->quote($this->left_attr), 'DESC');
 
@@ -528,8 +528,8 @@ class NestedSet extends ModelBehavior {
 
         $query->andWhere($owner->quote($this->left_attr) .' > ' .$parent->{$this->left_attr} .'
                     AND ' .$owner->quote($this->right_attr) .' < ' .$parent->{$this->right_attr})
-                ->andWhere($owner->quote($this->level_attr) .' = ' .($parent->getLevel() + 1))
-                ->addOrderBy($this->level_attr);
+            ->andWhere($owner->quote($this->level_attr) .' = ' .($parent->getLevelValue() + 1))
+            ->addOrderBy($this->level_attr);
 
         if (!$includeCurrent) {
             $query->andWhere($owner->quote($owner->getPrimaryKeyField()) .'!=' .$owner->getPkValue());
@@ -633,7 +633,7 @@ class NestedSet extends ModelBehavior {
         // Update node properties
         $this->setLeftValue($left);
         $this->setRightValue($left + 1);
-        $this->setLevel($node->getLevel() + 1);
+        $this->setLevelValue($node->getLevelValue() + 1);
         $scope = $node->getScopeValue();
         $this->setScopeValue($scope);
 
@@ -666,7 +666,7 @@ class NestedSet extends ModelBehavior {
         // Update node properties
         $this->setLeftValue($left);
         $this->setRightValue($left + 1);
-        $this->setLevel($node->getLevel() + 1);
+        $this->setLevelValue($node->getLevelValue() + 1);
         $scope = $node->getScopeValue();
         $this->setScopeValue($scope);
 
@@ -697,7 +697,7 @@ class NestedSet extends ModelBehavior {
         // Update node properties
         $this->setLeftValue($left);
         $this->setRightValue($left + 1);
-        $this->setLevel($node->getLevel());
+        $this->setLevelValue($node->getLevelValue());
         $scope = $node->getScopeValue();
         $this->setScopeValue($scope);
 
@@ -705,6 +705,9 @@ class NestedSet extends ModelBehavior {
             'callable'  => array($this, 'makeRoomForLeaf'),
             'arguments' => array($left, $scope)
         );
+
+        $this->getOwner()->save();
+        $node->reload();
 
         return $this->getOwner();
     }
@@ -719,7 +722,7 @@ class NestedSet extends ModelBehavior {
         // Update node properties
         $this->setLeftValue($left);
         $this->setRightValue($left + 1);
-        $this->setLevel($node->getLevel());
+        $this->setLevelValue($node->getLevelValue());
         $scope = $node->getScopeValue();
         $this->setScopeValue($scope);
 
@@ -727,6 +730,9 @@ class NestedSet extends ModelBehavior {
             'callable'  => array($this, 'makeRoomForLeaf'),
             'arguments' => array($left, $scope)
         );
+
+        $this->getOwner()->save();
+        $node->reload();
 
         return $this->getOwner();
     }
@@ -741,7 +747,9 @@ class NestedSet extends ModelBehavior {
             throw new Exception('Cannot move a node as child of one of its subtree nodes.');
         }
 
-        $this->_moveSubtreeTo($node->getLeftValue() + 1, $node->getLevel() - $this->getLevel() + 1, $node->getScopeValue());
+        $this->getOwner()->beforeSave();
+        $this->_moveSubtreeTo($node->getLeftValue() + 1, $node->getLevelValue() - $this->getLevelValue() + 1, $node->getScopeValue());
+        $this->getOwner()->afterSave();
         $this->getOwner()->reload();
         $node->reload();
 
@@ -756,7 +764,9 @@ class NestedSet extends ModelBehavior {
             throw new Exception('Cannot move a node as child of one of its subtree nodes.');
         }
 
-        $this->_moveSubtreeTo($node->getRightValue(), $node->getLevel() - $this->getLevel() + 1, $node->getScopeValue());
+        $this->getOwner()->beforeSave();
+        $this->_moveSubtreeTo($node->getRightValue(), $node->getLevelValue() - $this->getLevelValue() + 1, $node->getScopeValue());
+        $this->getOwner()->afterSave();
         $this->getOwner()->reload();
         $node->reload();
 
@@ -774,7 +784,9 @@ class NestedSet extends ModelBehavior {
             throw new Exception('Cannot move a node as sibling of one of its subtree nodes.');
         }
 
-        $this->_moveSubtreeTo($node->getLeftValue(), $node->getLevel() - $this->getLevel(), $node->getScopeValue());
+        $this->beforeSave();
+        $this->_moveSubtreeTo($node->getLeftValue(), $node->getLevelValue() - $this->getLevelValue(), $node->getScopeValue());
+        $this->getOwner()->afterSave();
         $this->getOwner()->reload();
         $node->reload();
 
@@ -792,7 +804,7 @@ class NestedSet extends ModelBehavior {
             throw new Exception('Cannot move a node as sibling of one of its subtree nodes.');
         }
 
-        $this->_moveSubtreeTo($node->getRightValue() + 1, $node->getLevel() - $this->getLevel(), $node->getScopeValue());
+        $this->_moveSubtreeTo($node->getRightValue() + 1, $node->getLevelValue() - $this->getLevelValue(), $node->getScopeValue());
         $this->getOwner()->reload();
         $node->reload();
 
@@ -814,10 +826,11 @@ class NestedSet extends ModelBehavior {
 
         $owner->beginTransaction();
         try {
+            $owner->beforeSave();
             // delete descendant nodes (will empty the instance pool)
             $query = $owner->write()
-                    ->delete($owner->getTableName())
-                    ->where($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
+                ->delete($owner->getTableName())
+                ->where($owner->quote($this->left_attr) .' > ' .$owner->{$this->left_attr} .'
                         AND ' .$owner->quote($this->right_attr) .' < ' .$owner->{$this->right_attr});
 
             if ($this->scope_attr) {
@@ -832,6 +845,7 @@ class NestedSet extends ModelBehavior {
             // fix the right value for the current node, which is now a leaf
             $this->setRightValue($left + 1);
 
+            $owner->afterSave();
             $owner->commit();
             $owner->reload();
         } catch (Exception $e) {
@@ -919,10 +933,10 @@ class NestedSet extends ModelBehavior {
 
         // Shift left column values
         $updateQuery = $owner->write()
-                        ->update($owner->getTableName())
-                        ->set($owner->quote($this->left_attr), $owner->quote($this->left_attr) .' + ?')
-                        ->setParameter(1, $delta, \PDO::PARAM_INT)
-                        ->where($owner->quote($this->left_attr) .'>=' .$first);
+            ->update($owner->getTableName())
+            ->set($owner->quote($this->left_attr), $owner->quote($this->left_attr) .' + ?')
+            ->setParameter(1, $delta, \PDO::PARAM_INT)
+            ->where($owner->quote($this->left_attr) .'>=' .$first);
         if (null !== $last) {
             $updateQuery->andWhere($owner->quote($this->left_attr) .'<=' .$last);
         }
@@ -950,11 +964,11 @@ class NestedSet extends ModelBehavior {
         /** @var \Flywheel\Model\ActiveRecord $owner */
         $owner = $this->getOwner();
         $updateQuery = $owner->write()
-                        ->update($owner->getTableName())
-                        ->set($owner->quote($this->level_attr), $owner->quote($this->level_attr) .' + ?')
-                        ->setParameter(1, $delta, \PDO::PARAM_INT)
-                        ->where($owner->quote($this->left_attr) .'>=' .$first)
-                        ->andWhere($owner->quote($this->right_attr) .'<=' .$last);
+            ->update($owner->getTableName())
+            ->set($owner->quote($this->level_attr), $owner->quote($this->level_attr) .' + ?')
+            ->setParameter(1, $delta, \PDO::PARAM_INT)
+            ->where($owner->quote($this->left_attr) .'>=' .$first)
+            ->andWhere($owner->quote($this->right_attr) .'<=' .$last);
 
         if ($this->scope_attr) {
             $updateQuery->andWhere($owner->quote($this->scope_attr) .' = ' .$this->getScopeValue(true));
@@ -967,11 +981,11 @@ class NestedSet extends ModelBehavior {
         $owner = $this->getOwner();
 
         $updateQuery = $owner->write()
-                        ->update($owner->getTableName())
-                        ->set($owner->quote($this->scope_attr), '?')
-                        ->setParameter(1, $scope)
-                        ->where($owner->quote($this->left_attr) .'<=0')
-                        ->execute();
+            ->update($owner->getTableName())
+            ->set($owner->quote($this->scope_attr), '?')
+            ->setParameter(1, $scope)
+            ->where($owner->quote($this->left_attr) .'<=0')
+            ->execute();
     }
 
     public function findRoot($scope = null) {
@@ -991,9 +1005,9 @@ class NestedSet extends ModelBehavior {
         $owner = $this->getOwner();
 
         return $owner->read()
-                    ->where($owner->quote($this->left_attr) .'=1')
-                    ->execute()
-                    ->fetchAll(\PDO::FETCH_CLASS, get_class($owner), array());
+            ->where($owner->quote($this->left_attr) .'=1')
+            ->execute()
+            ->fetchAll(\PDO::FETCH_CLASS, get_class($owner), array());
     }
 
     public function isNodeValid() {

@@ -16,6 +16,7 @@ use Guzzle\Service\Command\LocationVisitor\VisitorFlyweight;
 
 /**
  * @covers Guzzle\Service\Command\OperationResponseParser
+ * @covers Guzzle\Service\Command\CreateResponseClassEvent
  */
 class OperationResponseParserTest extends \Guzzle\Tests\GuzzleTestCase
 {
@@ -98,6 +99,20 @@ class OperationResponseParserTest extends \Guzzle\Tests\GuzzleTestCase
         ), $result->toArray());
     }
 
+    public function testCanInjectModelSchemaIntoModels()
+    {
+        $parser = new OperationResponseParser(VisitorFlyweight::getInstance(), true);
+        $desc = $this->getDescription();
+        $operation = $desc->getOperation('test');
+        $op = new OperationCommand(array(), $operation);
+        $op->setResponseParser($parser)->setClient(new Client());
+        $op->prepare()->setResponse(new Response(200, array(
+            'Content-Type' => 'application/json'
+        ), '{"baz":"bar","enigma":"123"}'), true);
+        $result = $op->execute();
+        $this->assertSame($result->getStructure(), $desc->getModel('Foo'));
+    }
+
     public function testDoesNotParseXmlWhenNotUsingXmlVisitor()
     {
         $parser = OperationResponseParser::getInstance();
@@ -160,6 +175,56 @@ class OperationResponseParserTest extends \Guzzle\Tests\GuzzleTestCase
         ), $result);
     }
 
+    /**
+     * @group issue-399
+     * @link https://github.com/guzzle/guzzle/issues/399
+     */
+    public function testAdditionalPropertiesDisabledDiscardsData()
+    {
+        $parser = OperationResponseParser::getInstance();
+        $description = ServiceDescription::factory(array(
+            'operations' => array('test' => array('responseClass' => 'Foo')),
+            'models'     => array(
+                'Foo' => array(
+                    'type'       => 'object',
+                    'additionalProperties' => false,
+                    'properties' => array(
+                        'name'   => array(
+                            'location' => 'json',
+                            'type'     => 'string',
+                        ),
+                        'nested' => array(
+                            'location'             => 'json',
+                            'type'                 => 'object',
+                            'additionalProperties' => false,
+                            'properties'           => array(
+                                'width' => array(
+                                    'type' => 'integer'
+                                )
+                            ),
+                        ),
+                        'code'   => array('location' => 'statusCode')
+                    ),
+
+                )
+            )
+        ));
+
+        $operation = $description->getOperation('test');
+        $op = new OperationCommand(array(), $operation);
+        $op->setResponseParser($parser)->setClient(new Client());
+        $json = '{"name":"test", "volume":2.0, "nested":{"width":10,"bogus":1}}';
+        $op->prepare()->setResponse(new Response(200, array('Content-Type' => 'application/json'), $json), true);
+        $result = $op->execute()->toArray();
+        $this->assertEquals(array(
+            'name' => 'test',
+            'nested' => array(
+                'width' => 10,
+            ),
+            'code' => 200
+        ), $result);
+    }
+
     public function testCreatesCustomResponseClassInterface()
     {
         $parser = OperationResponseParser::getInstance();
@@ -177,7 +242,7 @@ class OperationResponseParserTest extends \Guzzle\Tests\GuzzleTestCase
 
     /**
      * @expectedException \Guzzle\Service\Exception\ResponseClassException
-     * @expectedExceptionMessage does not exist
+     * @expectedExceptionMessage must exist
      */
     public function testEnsuresResponseClassExists()
     {
@@ -194,7 +259,7 @@ class OperationResponseParserTest extends \Guzzle\Tests\GuzzleTestCase
 
     /**
      * @expectedException \Guzzle\Service\Exception\ResponseClassException
-     * @expectedExceptionMessage must implement
+     * @expectedExceptionMessage and implement
      */
     public function testEnsuresResponseClassImplementsResponseClassInterface()
     {
@@ -224,5 +289,21 @@ class OperationResponseParserTest extends \Guzzle\Tests\GuzzleTestCase
                 )
             )
         ));
+    }
+
+    public function testCanAddListenerToParseDomainObjects()
+    {
+        $client = new Client();
+        $client->setDescription(ServiceDescription::factory(array(
+            'operations' => array('test' => array('responseClass' => 'FooBazBar'))
+        )));
+        $foo = new \stdClass();
+        $client->getEventDispatcher()->addListener('command.parse_response', function ($e) use ($foo) {
+             $e['result'] = $foo;
+        });
+        $command = $client->getCommand('test');
+        $command->prepare()->setResponse(new Response(200), true);
+        $result = $command->execute();
+        $this->assertSame($result, $foo);
     }
 }

@@ -136,7 +136,7 @@ abstract class WebController extends BaseController
      * @return string component process result
      */
     final public function execute($action) {
-        $this->getEventDispatcher()->dispatch('onBeginControllerExecute', new Event($this));
+        $this->getEventDispatcher()->dispatch('onBeginControllerExecute', new Event($this, array('action' => $action)));
         /* @var \Flywheel\Router\WebRouter $router */
         $router = Factory::getRouter();
         $this->_action = $action;
@@ -152,11 +152,14 @@ abstract class WebController extends BaseController
         $this->beforeExecute();
         $this->filter();
         $this->_beforeRender();
+        $this->view()->assign('controller', $this);
         $this->_buffer = $this->$action();
 
         $this->_afterRender();
         $this->afterExecute();
-        $this->getEventDispatcher()->dispatch('onAfterControllerExecute', new Event($this));
+        // assign current controller
+        $this->view()->assign('controller', $this);
+        $this->getEventDispatcher()->dispatch('onAfterControllerExecute', new Event($this, array('action' => $action)));
     }
 
     public function afterExecute() {}
@@ -243,15 +246,12 @@ abstract class WebController extends BaseController
      */
     protected function renderPartial($vars = null) {
         $this->_renderMode = 'PARTIAL';
-        $view = Factory::getView();
+        $view = $this->view();
         $viewFile = $this->getTemplatePath() .'/controllers/' .$this->_view;
         if (!$this->_isCustomView && !$view->checkViewFileExist($viewFile)) {
             $this->setView('default');
             $viewFile = $this->getTemplatePath() .'/controllers/' .$this->_view;
         }
-
-        // assign current controller
-        Factory::getView()->assign('controller', $this);
         return $view->render($viewFile, $vars);
     }
 
@@ -369,7 +369,7 @@ abstract class WebController extends BaseController
         $document = $this->document();
 
         //@TODO same as view
-        $view = Factory::getView();
+        $view = $this->view();
         $view->assign('buffer', $buffer);
 
         if ($this->_layout == null) {

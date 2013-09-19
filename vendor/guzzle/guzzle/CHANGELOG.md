@@ -1,6 +1,39 @@
 CHANGELOG
 =========
 
+3.7.3 (2013-09-08)
+------------------
+
+* Added the ability to get the exception associated with a request/command when using `MultiTransferException` and
+  `CommandTransferException`.
+* Setting `additionalParameters` of a response to false is now honored when parsing responses with a service description
+* Schemas are only injected into response models when explicitly configured.
+* No longer guessing Content-Type based on the path of a request. Content-Type is now only guessed based on the path of
+  an EntityBody.
+* Bug fix: ChunkedIterator can now properly chunk a \Traversable as well as an \Iterator.
+* Bug fix: FilterIterator now relies on `\Iterator` instead of `\Traversable`.
+* Bug fix: Gracefully handling malformed responses in RequestMediator::writeResponseBody()
+* Bug fix: Replaced call to canCache with canCacheRequest in the CallbackCanCacheStrategy of the CachePlugin
+* Bug fix: Visiting XML attributes first before visting XML children when serializing requests
+* Bug fix: Properly parsing headers that contain commas contained in quotes
+* Bug fix: mimetype guessing based on a filename is now case-insensitive
+
+3.7.2 (2013-08-02)
+------------------
+
+* Bug fix: Properly URL encoding paths when using the PHP-only version of the UriTemplate expander
+  See https://github.com/guzzle/guzzle/issues/371
+* Bug fix: Cookie domains are now matched correctly according to RFC 6265
+  See https://github.com/guzzle/guzzle/issues/377
+* Bug fix: GET parameters are now used when calculating an OAuth signature
+* Bug fix: Fixed an issue with cache revalidation where the If-None-Match header was being double quoted
+* `Guzzle\Common\AbstractHasDispatcher::dispatch()` now returns the event that was dispatched
+* `Guzzle\Http\QueryString::factory()` now guesses the most appropriate query aggregator to used based on the input.
+  See https://github.com/guzzle/guzzle/issues/379
+* Added a way to add custom domain objects to service description parsing using the `operation.parse_class` event. See
+  https://github.com/guzzle/guzzle/pull/380
+* cURL multi cleanup and optimizations
+
 3.7.1 (2013-07-05)
 ------------------
 

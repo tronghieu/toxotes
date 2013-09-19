@@ -313,20 +313,36 @@ abstract class ActiveRecord extends Object {
         return $r;
     }
 
+    public function beforeSave() {
+        return $this->_beforeSave();
+    }
+
     protected function _beforeSave() {
-        $this->getPrivateEventDispatcher()->dispatch('onBeforeSave', new Event($this));
+        return $this->getPrivateEventDispatcher()->dispatch('onBeforeSave', new Event($this));
+    }
+
+    public function afterSave() {
+        return $this->_afterSave();
     }
 
     protected function _afterSave() {
-        $this->getPrivateEventDispatcher()->dispatch('onAfterSave', new Event($this));
+        return $this->getPrivateEventDispatcher()->dispatch('onAfterSave', new Event($this));
+    }
+
+    public function beforeDelete() {
+        return $this->_beforeDelete();
     }
 
     protected function _beforeDelete() {
-        $this->getPrivateEventDispatcher()->dispatch('onBeforeDelete', new Event($this));
+        return $this->getPrivateEventDispatcher()->dispatch('onBeforeDelete', new Event($this));
+    }
+
+    public function afterDelete() {
+        return $this->_afterDelete();
     }
 
     protected function _afterDelete() {
-        $this->getPrivateEventDispatcher()->dispatch('onAfterDelete', new Event($this));
+        return $this->getPrivateEventDispatcher()->dispatch('onAfterDelete', new Event($this));
     }
 
     protected function _beforeValidate() {
@@ -869,7 +885,7 @@ abstract class ActiveRecord extends Object {
 
         $obj = self::findBy($by, $param, true);
         if ($obj) {
-            self::addInstanceToPool($obj, static::getPrimaryKeyField());
+            static::addInstanceToPool($obj);
             return $obj;
         }
 
@@ -931,6 +947,21 @@ abstract class ActiveRecord extends Object {
                 }*/
 
                 return static::findBy($by, $params, $one);
+            }
+        }
+
+        if(substr($lcMethod, 0, 10) == 'retrieveby') {
+            $by = substr($method, 10, strlen($method));
+            $method = 'retrieveBy';
+
+            if (isset($by)) {
+                if (!isset($params[0])) {
+                    return false;
+                    //@FIXED not need throw exception
+                    //throw new Exception('You must specify the value to ' . $method);
+                }
+
+                return static::retrieveBy($by, $params);
             }
         }
 
