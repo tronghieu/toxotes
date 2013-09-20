@@ -43,7 +43,11 @@ $this->document()->title = $page_title;
                     <div class="wrap-content">
                         <?php if ($post->getMainImg()) :?>
                         <a href="<?php echo $controller->createUrl('post/detail', array('id' => $post->getId())); ?>" class="thumb">
-                            <img src="<?php echo $post->displayMainImg(); ?>" alt="<?php echo $post->getTitle(); ?>">
+                            <img src="<?php echo $post->displayThumbImage(array(
+                                'width' => 202,
+                                'height' => 118,
+                                'exact' => 'true',
+                            )); ?>" alt="<?php echo $post->getTitle(); ?>">
                         </a>
                         <?php endif; ?>
                         <h3 class="rs title" style="margin-top: 10px;">
