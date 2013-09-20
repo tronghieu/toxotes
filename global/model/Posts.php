@@ -42,6 +42,22 @@ class Posts extends \PostsBase {
         return '.' .$mainImg->getPath();
     }
 
+    public function displayThumbImage($param = array()) {
+        $mainImg = PostPeer::getPostMainImg($this->getId());
+        if (!$mainImg) {
+            return '';
+        }
+
+        $file = $mainImg->getPath();
+        $temp = '';
+
+        foreach($param as $p=>$v) {
+            $temp .= $p .'[' .$v .']';
+        }
+
+        return './thumb/' .$mainImg->getPath() .'?resize=' .$temp;
+    }
+
     public function getMainImg() {
         return $mainImg = PostPeer::getPostMainImg($this->getId());
     }
