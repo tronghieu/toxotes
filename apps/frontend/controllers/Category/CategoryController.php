@@ -60,11 +60,11 @@ class CategoryController extends FrontendBaseController {
                 case 'modified_time':
                 case 'default' :
                 default :
-                    $q->addOrderBy('modified_time', 'DESC');
+                    $q->addOrderBy('created_time', 'DESC');
                     break;
             }
         } else {
-            $q->addOrderBy('modified_time', 'DESC');
+            $q->addOrderBy('created_time', 'DESC');
         }
 
         $qCount = clone $q;
