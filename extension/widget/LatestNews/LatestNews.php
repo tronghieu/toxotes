@@ -16,7 +16,7 @@ class LatestNews extends \Toxotes\Widget {
                     ->addOption(t('Chose Categories'), '');
 
         foreach($categories as $category) {
-            $select->addOption(str_repeat('&#8212;', $category->getLevel()) .$category->getName(), $category->getId());
+            $select->addOption(str_repeat('&#8212;', $category->getLevelValue()) .$category->getName(), $category->getId());
         }
 
         ob_start();
