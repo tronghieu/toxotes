@@ -85,7 +85,7 @@ $this->document()->addCss('css/menu.css');
                             <td><?php echo $menu->getId(); ?></td>
                             <td>
                                 <div class="pull-left">
-                                    <span style="font-family: sans-serif;"><?php echo (($menu->getLevel() > $parent->getLevel()-1)? str_repeat('&#8212;', $menu->getLevel()-$parent->getLevel()-1): '') ?></span>
+                                    <span style="font-family: sans-serif;"><?php echo (($menu->getLevelValue() > $parent->getLevelValue()-1)? str_repeat('&#8212;', $menu->getLevel()-$parent->getLevel()-1): '') ?></span>
                                 </div>
                                 <div class="pull-left">
                                     <strong><?php echo $menu->getName(); ?></strong>&nbsp;&nbsp;
