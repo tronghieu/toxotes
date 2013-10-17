@@ -8,6 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     $vendorDir . '/tronghieu/flywheel-framework/Flywheel/Common.php',
     $vendorDir . '/meenie/javascript-packer/class.JavaScriptPacker.php',
-    $vendorDir . '/meenie/munee/config/bootstrap.php',
     $vendorDir . '/swiftmailer/swiftmailer/lib/swift_required.php',
+    $vendorDir . '/meenie/munee/config/bootstrap.php',
 );
