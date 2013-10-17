@@ -35,17 +35,21 @@ class MenuWidget extends \Toxotes\Widget {
             && @$param->fetch_child) {
             if (@$param->id) {
                 $cat = Terms::retrieveById(@$param->id);
-                $childCat = $cat->getChildren();
-                foreach($childCat as $cc) {
-                    $c = new \Menus();
-                    $c->setType(\Menus::INTERNAL);
-                    $c->setName($cc->getName());
-                    $c->setRoute('category/default');
-                    $c->setRouteParam('{"id":' .$cc->getId() .'}');
-                    if (!is_array($child)) {
-                        $child = array();
+                if ($cat) {
+                    $childCat = $cat->getChildren();
+                    foreach($childCat as $cc) {
+                        $c = new \Menus();
+                        $c->setType(\Menus::INTERNAL);
+                        $c->setName($cc->getName());
+                        $c->setRoute('category/default');
+                        $c->setRouteParam('{"id":' .$cc->getId() .'}');
+                        if (!is_array($child)) {
+                            $child = array();
+                        }
+                        $child[] = $c;
                     }
-                    $child[] = $c;
+                } else {
+                    return;
                 }
             }
 
