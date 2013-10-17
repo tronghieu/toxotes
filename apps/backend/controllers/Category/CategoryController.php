@@ -100,7 +100,7 @@ class CategoryController extends AdminBaseController {
 
         $parent = $this->request()->post('term_parent', 'INT', 0);
         if (0 == $parent) {
-            if ($term->getLevel() > 1) {
+            if ($term->getLevelValue() > 1) {
                 $parent = $term->getParent()->getId();
             }
         }

@@ -13,7 +13,7 @@ class SelectMenus extends AdminBaseWidget {
             ->addOption($this->label, '0');
 
         foreach ($this->lists as $item) {
-            $selectName = ($item->getLevel() > 1)? str_repeat('&#8212;', $item->getLevel()-1) .$item->getName(): $item->getName();
+            $selectName = ($item->getLevelValue() > 1)? str_repeat('&#8212;', $item->getLevelValue()-1) .$item->getName(): $item->getName();
             $select->addOption($selectName, $item->getId());
         }
 

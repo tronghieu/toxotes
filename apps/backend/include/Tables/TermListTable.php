@@ -141,7 +141,7 @@ class TermListTable extends ListTable {
 
     protected function _columnName($item) {
         $name = $item->getName();
-        $s = '<div class="row-title"><span style="font-family: sans-serif;">' .(($item->getLevelValue() > 1)? str_repeat('&#8212;', $item->getLevel()-1): '').'</span> '
+        $s = '<div class="row-title"><span style="font-family: sans-serif;">' .(($item->getLevelValue() > 1)? str_repeat('&#8212;', $item->getLevelValue()-1): '').'</span> '
             .$name .'</div>';
 
         return $s;

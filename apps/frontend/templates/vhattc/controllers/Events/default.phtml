@@ -20,7 +20,7 @@ $breadcrumbs = array(
 
 $breadcrumbs['links'][] = $page_title;
 
-if ($cat->getLevel() == 3) {
+if ($cat->getLevelValue() == 3) {
     $all_id = $cat->getId();
     $children = $cat->getChildren();
 } else {
