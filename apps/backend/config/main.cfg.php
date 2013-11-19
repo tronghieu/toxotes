@@ -12,5 +12,5 @@ return array(
 	),
 	'factory' => array(),
 	'timezone' => 'Asia/Ho_Chi_Minh',
-	'template' => 'flat_responsive'
+	'template' => 'fides_admin'
 );
