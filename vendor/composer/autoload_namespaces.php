@@ -19,7 +19,7 @@ return array(
     'Imagine' => array($vendorDir . '/imagine/imagine/lib'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
-    'Flywheel' => array($vendorDir . '/tronghieu/flywheel-framework'),
+    'Flywheel' => array($vendorDir . '/tronghieu/flywheel-framework/src'),
     'FlyApi' => array($vendorDir . '/tronghieu/flyapi'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
     'CoffeeScript' => array($vendorDir . '/coffeescript/coffeescript/src'),

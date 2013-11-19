@@ -57,6 +57,72 @@ abstract class BaseApp extends Object
         $this->configuration($config);
         $this->_init();
         $this->afterInit();
+
+        set_error_handler(array($this,'handleError'),error_reporting());
+    }
+
+    public function getClientIp() {
+        if (getenv('HTTP_CLIENT_IP')) {
+            $ipAddress = getenv('HTTP_CLIENT_IP');
+        }
+        else if(getenv('HTTP_X_FORWARDED_FOR')) {
+            $ipAddress = getenv('HTTP_X_FORWARDED_FOR');
+        }
+        else if(getenv('HTTP_X_FORWARDED')) {
+            $ipAddress = getenv('HTTP_X_FORWARDED');
+        }
+        else if(getenv('HTTP_FORWARDED_FOR')) {
+            $ipAddress = getenv('HTTP_FORWARDED_FOR');
+        }
+        else if(getenv('HTTP_FORWARDED')) {
+            $ipAddress = getenv('HTTP_FORWARDED');
+        }
+        else if(getenv('REMOTE_ADDR')) {
+            $ipAddress = getenv('REMOTE_ADDR');
+        }
+        else {
+            $ipAddress = 'UNKNOWN';
+        }
+
+        return $ipAddress;
+    }
+
+    public function handleError($code, $message, $file, $line) {
+        if($code & error_reporting()) {
+            // disable error capturing to avoid recursive errors
+            restore_error_handler();
+
+            $log = "{$message} in {$file}[{$line}]\r\n\tStack trace:\r\n";
+
+            $trace = array_slice(debug_backtrace(),1 , 6);
+
+            $count = count($trace);
+
+            for ($i = 0; $i < $count; ++$i) {
+
+                if(!isset($trace[$i]['file'])) {
+                    $trace[$i]['file']='unknown';
+                }
+                if(!isset($trace[$i]['line'])) {
+                    $trace[$i]['line']=0;
+                }
+                if(!isset($trace[$i]['function'])) {
+                    $trace[$i]['function']='unknown';
+                }
+
+                $log.="\t#$i {$trace[$i]['file']}({$trace[$i]['line']}): ";
+                if(isset($t['object']) && is_object($t['object']))
+                    $log.=get_class($t['object']).'->';
+                $log.="{$trace[$i]['function']}()\r\n";
+            }
+
+            if(isset($_SERVER['REQUEST_URI']))
+                $log.='REQUEST_URI='.$_SERVER['REQUEST_URI'];
+
+            $log .= "\r\n";
+
+            error_log($log);
+        }
     }
 
     private function _import($aliases) {

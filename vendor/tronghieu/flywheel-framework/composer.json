@@ -21,8 +21,8 @@
         "zendframework/zend-permissions-acl" : "2.*"
     },
     "autoload": {
-        "psr-0": {"Flywheel": "/"},
-        "files": ["Flywheel/Common.php"]
+        "psr-0": {"Flywheel": "src/"},
+        "files": ["src/Flywheel/Common.php"]
     },
     "extra": {
         "branch-alias": {
