@@ -1,6 +1,7 @@
 <?php
 return array(
     'site_url' => 'http://localhost/toxotes/public/',
+    'recaptcha_public_key' => '6LcKneoSAAAAACQaoYXcJS5VByjfTHjrlCbhE9fL',
     'i18n' => array(
         'enable' => true,
         'default_fallback' => array('en'),
