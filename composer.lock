@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2c658617b4bbb7a5487f1681a2c5d298",
+    "hash": "37f326466d0a2dd2da50166aa5477a22",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -986,16 +986,16 @@
         },
         {
             "name": "tronghieu/flywheel-framework",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tronghieu/flywheel-framework.git",
-                "reference": "4fe980b5731b48283f7b6dd8627b39ffb955015b"
+                "reference": "6339ef2324bf8c682f85f7479f5b2f25d0de333b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/4fe980b5731b48283f7b6dd8627b39ffb955015b",
-                "reference": "4fe980b5731b48283f7b6dd8627b39ffb955015b",
+                "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/6339ef2324bf8c682f85f7479f5b2f25d0de333b",
+                "reference": "6339ef2324bf8c682f85f7479f5b2f25d0de333b",
                 "shasum": ""
             },
             "require": {
@@ -1033,9 +1033,11 @@
             "description": "The Flywheel PHP framework",
             "homepage": "http://luutronghieu.com",
             "keywords": [
-                "framework"
+                "framework",
+                "mvc",
+                "php"
             ],
-            "time": "2013-11-19 08:29:17"
+            "time": "2013-11-22 04:27:35"
         },
         {
             "name": "yohang/calendr",
@@ -1143,8 +1145,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tronghieu/flyapi": 20,
-        "tronghieu/flywheel-framework": 20
+        "tronghieu/flyapi": 20
     },
     "platform": [
 

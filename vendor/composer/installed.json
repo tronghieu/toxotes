@@ -1,60 +1,5 @@
 [
     {
-        "name": "tronghieu/flywheel-framework",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/tronghieu/flywheel-framework.git",
-            "reference": "4fe980b5731b48283f7b6dd8627b39ffb955015b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/4fe980b5731b48283f7b6dd8627b39ffb955015b",
-            "reference": "4fe980b5731b48283f7b6dd8627b39ffb955015b",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3",
-            "symfony/config": "2.*",
-            "symfony/filesystem": "2.*",
-            "symfony/finder": "2.*",
-            "symfony/translation": "2.*",
-            "zendframework/zend-permissions-acl": "2.*"
-        },
-        "time": "2013-11-19 08:29:17",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Flywheel": "src/"
-            },
-            "files": [
-                "src/Flywheel/Common.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Luu Trong Hieu",
-                "email": "tronghieu.luu@gmail.com"
-            }
-        ],
-        "description": "The Flywheel PHP framework",
-        "homepage": "http://luutronghieu.com",
-        "keywords": [
-            "framework"
-        ]
-    },
-    {
         "name": "meenie/javascript-packer",
         "version": "1.1",
         "version_normalized": "1.1.0.0",
@@ -1171,5 +1116,62 @@
         ],
         "description": "Symfony EventDispatcher Component",
         "homepage": "http://symfony.com"
+    },
+    {
+        "name": "tronghieu/flywheel-framework",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tronghieu/flywheel-framework.git",
+            "reference": "6339ef2324bf8c682f85f7479f5b2f25d0de333b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tronghieu/flywheel-framework/zipball/6339ef2324bf8c682f85f7479f5b2f25d0de333b",
+            "reference": "6339ef2324bf8c682f85f7479f5b2f25d0de333b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/config": "2.*",
+            "symfony/filesystem": "2.*",
+            "symfony/finder": "2.*",
+            "symfony/translation": "2.*",
+            "zendframework/zend-permissions-acl": "2.*"
+        },
+        "time": "2013-11-22 04:27:35",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Flywheel": "src/"
+            },
+            "files": [
+                "src/Flywheel/Common.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Luu Trong Hieu",
+                "email": "tronghieu.luu@gmail.com"
+            }
+        ],
+        "description": "The Flywheel PHP framework",
+        "homepage": "http://luutronghieu.com",
+        "keywords": [
+            "framework",
+            "mvc",
+            "php"
+        ]
     }
 ]
