@@ -7,9 +7,14 @@ abstract class AdminBaseController extends \Flywheel\Controller\WebController {
         $this->_registerDefaultTaxonomies();
         $this->loadPlugin();
         if($this->getName() != 'Auth' && !BackendAuth::getInstance()->isAuthenticated()) {
+            $back_url = rtrim(\Flywheel\Factory::getRouter()->getUrl(), '/');
+            if ($back_url) {
+                $back_url = urldecode($back_url);
+            }
+
             $this->redirect(
                 $this->createUrl('auth/login', array(
-                    'r' => urlencode(\Flywheel\Factory::getRouter()->getUrl()))));
+                    'r' => $back_url)));
         }
 
         Plugin::doAction('before_execute');

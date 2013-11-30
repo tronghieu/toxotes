@@ -1,0 +1,55 @@
+<?php //$form = new \Flywheel\Html\Form('login-frm'); ?>
+<div id="login-page">
+    <?php $form->beginForm();?>
+        <div class="ui-dialog col-md-4 center-margin form-vertical modal-dialog" id="login-form">
+            <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+                <span class="ui-dialog-title">Login page</span>
+            </div>
+            <div class="pad20A pad0B ui-dialog-content ui-widget-content">
+                <?php if (isset($error) && !empty($error)) :?>
+                    <div class="infobox clearfix infobox-close-wrapper error-bg mrg20B">
+                        <a href="#" title="Close Message" class="glyph-icon infobox-close icon-remove"></a>
+                        <p><?php echo implode('<br>',$error) ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <div class="form-row">
+                    <div class="form-label col-md-2">
+                        <label for="">
+                            <?php td('Username or Email address'); ?>
+                        </label>
+                    </div>
+                    <div class="form-input col-md-10">
+                        <div class="form-input-icon">
+                            <i class="glyph-icon icon-envelope-o ui-state-default"></i>
+                            <input placeholder="<?php td('Username or Email address'); ?>" type="text" name="credential" id="input-credential" value="<?php echo $credential; ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label col-md-2">
+                        <label for="">
+                            <?php td('Password'); ?>
+                        </label>
+                    </div>
+                    <div class="form-input col-md-10">
+                        <div class="form-input-icon">
+                            <i class="glyph-icon icon-unlock-alt ui-state-default"></i>
+                            <input placeholder="<?php td('Password'); ?>" type="password" name="password" id="input-password">
+                        </div>
+                    </div>
+                </div>
+                <?php $this->widget('global.widget.reCAPTCHA'); ?>
+            </div>
+            <div class="ui-dialog-buttonpane text-center">
+                <button type="submit" class="btn large primary-bg text-transform-upr font-bold font-size-11 radius-all-4" id="demo-form-valid" title="Validate!">
+                    <span class="button-content">
+                        Login
+                    </span>
+                </button>
+            </div>
+        </div>
+    <?php $form->endForm(); ?>
+
+</div>

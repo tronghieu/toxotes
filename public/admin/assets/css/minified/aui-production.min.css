@@ -134,7 +134,7 @@
 }
 
 #login-form {
-    margin-top: 100px;
+    margin-top: 0 auto;
     border-width: 1px;
     border-style: solid
 }
