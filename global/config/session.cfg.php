@@ -1,6 +1,6 @@
 <?php
 return array(
-    'handler' => '',
+    'storage' => '',
     'name'  => '54gdq!#',
     'lifetime' => 86400,
     //'cookie_domain' => '',
