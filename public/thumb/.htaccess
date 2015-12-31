@@ -1,7 +1,0 @@
-Options +FollowSymLinks +ExecCGI
-
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-
-    RewriteRule ^(.*\.(?:jpg|png|gif|jpeg))$ index.php?files=/$1 [L,QSA,NC]
-</IfModule>
