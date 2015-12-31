@@ -1,0 +1,73 @@
+#Common
+Phone: Điện thoại
+Mobile: Di động
+Province: Tỉnh/Thành
+District: Quận/Huyện
+Address: Địa chỉ
+Code: Mã
+Created: Đã tạo
+Edit: Sửa
+Remove: Xóa
+Delete: Xóa
+Cancel: Hủy
+Yes: Có
+No: Không
+Save successful!: Lưu thành công
+Detail: Chi tiết
+
+#Login & User menu
+Login: Đăng nhập
+Sign in: Đăng nhập
+Sign me in: Đăng nhập
+Username: Tên đăng nhập
+Password: Mật khẩu
+Chose languages: Chọn ngôn ngữ
+Email address: Địa chỉ email
+Forgot password: Quên mật khẩu
+Edit profiles: Cá nhân
+Sign out: Đăng xuất
+
+#Menu
+Dashboard: Bảng Chung
+Menu Widget: Khối Menu
+Menu List: Danh Sách Menu
+Add Menu: Thêm Menu
+Posts: Các Bài Viết
+Post: Bài viết
+All Posts: Tất Cả Bài
+Compose New: Thêm bài viết
+Categories: Danh mục
+Site Content: Nội dung
+Products: Sản phẩm
+System: Hệ thống
+Users: Người dùng
+Users List: Danh Sách
+Create New: Thêm Mới
+Roles: Phân Quyền
+Settings: Cấu Hình
+
+#Users
+Confirm Password: Xác nhận mật khẩu
+Full name: Họ & tên
+Gender: Giới tính
+Male: Nam
+Female: Nữ
+Section: Đối tượng
+Status: Trạng thái
+Ban?: Cấm?
+Staff: Nhân viên
+Member: Thành viên
+Guess: Khách viếng thăm
+Active: Hoạt động
+Inactive: Dừng hoạt động
+Delete: Xóa
+Create: Tạo
+Reset: Làm lại
+Register: Đăng ký
+Last visit: Đăng nhập cuối
+Edit %something%: Sửa %something%
+Add new user: Thêm người dùng
+Users Management: Quản Lý Người Dùng
+Register from: Đăng ký từ
+Name: Tên
+STAFF: NHÂN VIÊN

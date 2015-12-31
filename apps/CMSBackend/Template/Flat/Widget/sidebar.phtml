@@ -1,0 +1,49 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+$document = $this->document();
+if (empty($items)) {
+    $document->addJsCode('$("#content").addClass("nav-hidden");$("#main").css("margin-left", 0);');
+}
+
+?>
+<!--<form action="http://www.eakroko.de/flat/search-results.html" method="GET" class='search-form'>
+    <div class="search-pane">
+        <input type="text" name="search" placeholder="Search here...">
+        <button type="submit"><i class="icon-search"></i></button>
+    </div>
+</form>-->
+<?php if (!empty($items)) : ?>
+<div id="left" class="full ui-sortable ui-resizable">
+<?php for ($i = 0, $size = sizeof($items); $i < $size; ++$i) : ?>
+<div class="subnav">
+    <div class="subnav-title ui-sortable-handle <?php if ($items[$i]['active']):?> active<?php endif; ?>">
+        <a href="<?php echo $items[$i]['url'] ?>"<?php if ($items[$i]['active']):?> id="current"<?php endif; ?> class="toggle-subnav">
+            <?php if (isset($items[$i]['items']) && sizeof($items[$i]['items']) > 0) :?>
+            <i class="fa fa-angle-down"></i>
+            <?php endif; ?>
+            <span class="text-capitalize"><?php echo $items[$i]['label'] ?></span>
+        </a>
+    </div>
+
+    <?php if (isset($items[$i]['items'])): ?>
+        <ul class="subnav-menu">
+            <?php for($j = 0, $sizeOfSub = sizeof($items[$i]['items']); $j < $sizeOfSub; ++$j) :?>
+                <li>
+                    <a href="<?php echo $items[$i]['items'][$j]['url'] ?>"<?php if ($items[$i]['items'][$j]['active']):?> class="current"<?php endif; ?>>
+                        <?php echo $items[$i]['items'][$j]['label'] ?>
+                    </a>
+                </li>
+            <?php endfor; ?>
+        </ul>
+    <?php endif; ?>
+</div>
+<?php endfor; ?>
+
+<!-- Copyright -->
+<div id="copyright">
+    <div class="copyrights">&copy; by Lưu Trọng Hiếu 2013.</div>
+    <a href="mailto:tronghieu.luu@gmail.com?Subject=Contact%20from%20toxotes%20admin" title=""><i class="icon-cogs"></i><?php echo t('Contact admin'); ?></a>
+</div>
+<!-- /copyright -->
+</div>
+<?php endif; ?>

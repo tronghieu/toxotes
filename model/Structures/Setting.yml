@@ -1,0 +1,8 @@
+comment:
+    - '#Setting'
+    - '#Schema for Setting OMs'
+colums:
+    setting_key: { name: setting_key, type: string, db_type: string, alltypes: [string], ntype: varchar(255), length: 255, fixed: false, unsigned: false, values: {  }, primary: true, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    setting_value: { name: setting_value, type: string, db_type: string, alltypes: [string, clob], ntype: text, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+infos:
+    _dbConnectName: setting

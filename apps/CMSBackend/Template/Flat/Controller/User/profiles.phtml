@@ -1,0 +1,182 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+
+/** @var \Users $user $form */
+
+$form = $this->createFrom('user_frm');
+$form->setHtmlOption(array(
+    'class' => 'form-horizontal',
+));
+
+$title = t('Your profiles');
+$doc = $this->document();
+$doc->title = $title;
+$doc->addJs('js/process/user.js');
+?>
+
+<div class="page-header">
+    <h1><?php echo $title ?></h1>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        t('Users Management') => [
+            'url' => $this->createUrl('user/default')
+        ],
+        $title
+    ],
+]) ?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-title">
+                <h3><i class="fa fa-user"></i> <?php td('Edit your\'s profiles!'); ?></h3>
+            </div>
+            <div class="box-content">
+                <?php $form->beginForm(); ?>
+                <div class="row">
+                    <div class="col-md-2 hidden-768">
+                        <img src="<?php echo \Toxotes\Util::gravatar($user->getEmail(), '128') ?>" class="thumbnail col-md-12">
+                    </div>
+
+                    <div class="col-md-6">
+                        <?php if (!empty($message)) :?>
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <?php echo $message; ?>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($error)) :?>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong><?php td('Warning!'); ?></strong><br>
+                            <?php echo implode('<br>', array_values($error)); ?>
+                        </div>
+                        <?php endif; ?>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 right"><?php td('Full name'); ?></label>
+                            <div class="col-md-9">
+                                <input name="user[name]" value="<?php echo $user->getName(); ?>" type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 right"><?php td('Email'); ?></label>
+                            <div class="col-md-9">
+                                <input name="user[email]" value="<?php echo $user->getEmail(); ?>" type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 right"><?php td('Phone'); ?></label>
+                            <div class="col-md-9">
+                                <input name="user[phone_number]" value="<?php echo $user->getPhoneNumber(); ?>" type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 right"><?php td('Birthday'); ?></label>
+                            <div class="col-md-9">
+                                <input name="user[birthday]" value="<?php echo $user->getBirthday()->format('d/m/Y'); ?>" type="text" class="form-control">
+                                <span class="help-block"><?php td('d/m/Y'); ?></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 right"><?php td('Gender'); ?></label>
+                            <div class="col-md-9">
+                                <?php $form->selectOption('user[gender]', $user->getGender(), [
+                                    'class' => 'form-control'
+                                ])
+                                    ->addOption(t('Male'), 'MALE')
+                                    ->addOption(t('Female'), 'FEMALE')
+                                    ->addOption(t('Other'), 'OTHER')
+                                    ->display(); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-actions col-md-12 col-md-offset-3">
+                            <button class="btn btn-primary" type="submit"><?php td('Save Changes'); ?></button>
+                            <button class="btn" type="reset"><?php td('Reset'); ?></button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right"><?php td('Username'); ?></div>
+                            <div class="col-md-9">
+                                <strong><?php echo $user->getUsername(); ?></strong>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3 text-right"><?php td('Login IP'); ?></div>
+                            <div class="col-md-9">
+                                <?php echo $user->getlastLoginIp(); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3 text-right"><?php td('Last visit'); ?></div>
+                            <div class="col-md-9">
+                                <?php echo $user->getLastVisitTime()->format('H:i d/m/Y'); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3 text-right"><?php td('Join time'); ?></div>
+                            <div class="col-md-9">
+                                <?php echo $user->getRegisterTime()->format('H:i d/m/Y'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php $form->endForm();?>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-title">
+                <h3><i class="fa fa-key"></i> <?php td('Change your\'s password'); ?></h3>
+            </div>
+            <div class="box-content">
+                <form method="get" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-2">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 right"><?php td('Current Password'); ?></label>
+                                <div class="col-md-9">
+                                    <input type="password" name="current_pass" class="form-control" placeholder="<?php td('enter your\'s current password'); ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 right"><?php td('New Password'); ?></label>
+                                <div class="col-md-9">
+                                    <input type="password" name="new_pass" class="form-control" placeholder="<?php td('should have uppercase, lowercase and number') ;?>">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 right"><?php td('Confirm'); ?></label>
+                                <div class="col-md-9">
+                                    <input type="password" name="confirm_pass" class="form-control" placeholder="<?php td('type new password again') ;?>">
+                                </div>
+                            </div>
+
+                            <div class="col-md-9 col-md-offset-3">
+                                <div class="alert alert-danger alert-dismissable hidden" id="_change-pass-error-ctn">
+                                </div>
+                                <a id="_change-pass-btn" class="btn" href="javascript:void(0)"><?php td('Change Password'); ?></a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

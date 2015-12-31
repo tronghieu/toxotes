@@ -1,0 +1,150 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+/** @var \Flywheel\Controller\WebController $controller */
+
+$filter = array_merge(array(
+    'keyword' => '',
+    'status' => '',
+    'language' => '*',
+    'cat_id' => 0
+), $filter);
+
+$this->document()->addCss('css/post.css');
+$this->document()->addJs('js/post.js');
+
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $page_title ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('post/create', array('taxonomy' => $taxonomy)) ?>"><i class="fa fa-plus"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        $page_title
+    ),
+)) ?>
+
+<div class="row hidden-1024">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-content nopadding">
+                <div class="col-md-12"><h4><?php td('Search'); ?></h4></div>
+                <?php
+                $form = $this->createFrom('search-banner', $this->createUrl('post/default', array('taxonomy' => $taxonomy)), 'GET');
+                $form->setHtmlOption(array(
+                    'class' => 'form-horizontal',
+                ));
+
+                $root = Terms::retrieveRoot($taxonomy_term);
+                $terms = $root->getDescendants();
+
+                $languages = Languages::findByPublished(1);
+
+                $selectLang = $form->selectOption('filter[language]', $filter['language'],
+                    array('class' => 'form-control'))
+                    ->addOption(t('Select Language'), '*');
+
+                foreach($languages as $lang) {
+                    $selectLang->addOption($lang->getTitle(), $lang->getLangCode());
+                }
+
+                $selectTerm = $form->selectOption('filter[cat_id]', $filter['cat_id'],
+                    array('class' => 'form-control'))
+                    ->addOption(t('Select Category'), '0');
+
+                foreach ($terms as $term) {
+                    $selectName = ($term->getLevelValue() > 1)? str_repeat('&#8212;', $term->getLevelValue()-1) .$term->getName(): $term->getName();
+                    $selectTerm->addOption($selectName, $term->getId());
+                }
+
+                $form->beginForm(false);
+                ?>
+                <div class="col-md-4">
+                    <input name="filter[keyword" value="<?php echo $filter['keyword']?>" class="form-control" placeholder="<?php echo t('Search by title'); ?>">
+                </div>
+                <div class="col-md-3">
+                    <?php $selectTerm->display(); ?>
+                </div>
+                <div class="col-md-2">
+                    <?php $selectLang->display(); ?>
+                </div>
+                <div class="col-md-2">
+                    <?php $form->selectOption('filter[status]', $filter['status'], array(
+                        'class' => 'form-control'))
+                        ->addOption(t('Status'), 'All')
+                        ->addOption(t('Active'), 'ACTIVE')
+                        ->addOption(t('Inactive'), 'INACTIVE')
+                        ->display(); ?>
+                </div>
+                <div class="col-md-1 actions">
+                    <button class="btn">
+                        <i class="fa fa-search"></i>&nbsp;
+                        <?php echo t('Find') ?>
+                    </button>
+                </div>
+                <?php $form->endForm(false) ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php $postForm = new \Flywheel\Html\Form('post-frm');
+$postForm->beginForm();
+?>
+
+<!-- Begin Posts List -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-title" style="border-bottom: none"></div>
+            <div class="box-content nopadding">
+                <div class="highlight-toolbar">
+                    <?php td('Found ' .$total .' results');?>
+                </div>
+                <?php $table->display(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end posts list -->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-content nopadding">
+                <div class="pull-left" style="padding: 20px 0;">
+                    <button class="btn btn-success" id="_save-ordering"><i class="icon-list-ol"></i> <?php td('Save ordering'); ?></button>
+                </div>
+                <div class="pull-right">
+                    <?php
+                    $route = array();
+                    $route[0] = 'post/default';
+                    $route['taxonomy'] = $taxonomy;
+                    $route['filter'] = $filter;
+
+                    $this->widget('app.Widget.CMSBackendPagination', array(
+                        'pageSize' => $page_size,
+                        'total' => $total,
+                        'currentPage' => $this->request()->get('page', 'INT', 1),
+                        'route' => $route,
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php $postForm->endForm(); ?>

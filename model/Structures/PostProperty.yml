@@ -1,0 +1,16 @@
+comment:
+    - '#PostProperty'
+    - '#Schema for PostProperty OMs'
+colums:
+    id: { name: id, type: integer, db_type: integer, alltypes: [integer], ntype: 'int(11) unsigned', length: 4, fixed: false, unsigned: true, values: {  }, primary: true, unique: false, default: null, notnull: true, auto_increment: true, extra: auto_increment }
+    post_id: { name: post_id, type: integer, db_type: integer, alltypes: [integer], ntype: int(11), length: 4, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    property: { name: property, type: string, db_type: string, alltypes: [string], ntype: varchar(255), length: 255, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    text_value: { name: text_value, type: string, db_type: string, alltypes: [string, clob], ntype: text, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+    int_value: { name: int_value, type: integer, db_type: integer, alltypes: [integer], ntype: int(11), length: 4, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+    float_value: { name: float_value, type: number, db_type: decimal, alltypes: [decimal], ntype: 'decimal(20,2)', length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+    boolean_value: { name: boolean_value, type: integer, db_type: integer, alltypes: [integer, boolean], ntype: tinyint(1), length: 1, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+    datetime_value: { name: datetime_value, type: datetime, db_type: timestamp, alltypes: [timestamp], ntype: datetime, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+    value_type: { name: value_type, type: string, db_type: enum, alltypes: [enum, integer], ntype: 'enum(''TEXT'',''INT'',''FLOAT'',''BOOLEAN'',''DATETIME'')', length: 8, fixed: false, unsigned: false, values: [TEXT, INT, FLOAT, BOOLEAN, DATETIME], primary: false, unique: false, default: TEXT, notnull: true, auto_increment: false, extra: '' }
+    ordering: { name: ordering, type: integer, db_type: integer, alltypes: [integer], ntype: int(11), length: 4, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0', notnull: true, auto_increment: false, extra: '' }
+infos:
+    _dbConnectName: post_property

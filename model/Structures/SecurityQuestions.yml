@@ -1,0 +1,10 @@
+comment:
+    - '#SecurityQuestions'
+    - '#Schema for SecurityQuestions OMs'
+colums:
+    id: { name: id, type: integer, db_type: integer, alltypes: [integer], ntype: 'int(11) unsigned', length: 4, fixed: false, unsigned: true, values: {  }, primary: true, unique: false, default: null, notnull: true, auto_increment: true, extra: auto_increment }
+    question: { name: question, type: string, db_type: string, alltypes: [string], ntype: varchar(255), length: 255, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    ordering: { name: ordering, type: integer, db_type: integer, alltypes: [integer], ntype: mediumint(9), length: 3, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0', notnull: true, auto_increment: false, extra: '' }
+    status: { name: status, type: string, db_type: enum, alltypes: [enum, integer], ntype: 'enum(''ACTIVE'',''INACTIVE'')', length: 8, fixed: false, unsigned: false, values: [ACTIVE, INACTIVE], primary: false, unique: false, default: ACTIVE, notnull: true, auto_increment: false, extra: '' }
+infos:
+    _dbConnectName: security_questions

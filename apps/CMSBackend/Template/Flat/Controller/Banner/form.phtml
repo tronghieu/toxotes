@@ -1,0 +1,253 @@
+<?php
+use Flywheel\Html\Form;
+
+/** @var \Flywheel\View\Render $this */
+
+/** @var \Flywheel\Controller\WebController $controller */
+
+/** @var \Banner $banner */
+
+$form = new Form('banner-frm');
+$form->setHtmlOption(array(
+    'enctype' => 'multipart/form-data',
+    'class' => 'form-horizontal form-bordered'));
+
+$page_title = ($banner->isNew())? t('Add new banner') : t('Edit banner ');
+$this->document()->title .= $page_title;
+$menu = !empty($menu)? $menu:array();
+
+$this->document()->addCss('css/menu.css');
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $page_title ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('banner/default') ?>"><i class="fa fa-list"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Banner Manager') => array(
+            'url' => $this->createUrl('banner/default')
+        ),
+        $page_title
+    ),
+)) ?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-color">
+            <div class="box-title">
+                <h3><i class="icon-edit"></i> <?php echo $page_title ?></h3>
+            </div>
+
+            <div class="box-content nopadding">
+                <?php if (isset($error) && !empty($error)) :?>
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo implode('<br>', array_values($error)); ?>
+                    </div>
+                <?php elseif (isset($message) && !empty($message)) : ?>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo $message; ?>
+                    </div>
+                <?php endif; ?>
+                <!-- User From -->
+                <?php $form->beginForm(); ?>
+                <fieldset>
+                    <!-- General form elements -->
+                    <div class="widget row-fluid">
+
+                        <div class="form-group<?php if(isset($error['banner.title'])) echo ' has-error' ?>">
+                            <label class="control-label col-md-2"><?php echo t('Title'); ?> *</label>
+                            <div class="col-md-10">
+                                <input value="<?php echo $banner->getTitle() ?>" type="text" name="input[title]" class="form-control">
+                                <?php if (isset($error['banner.title'])) : ?>
+                                    <span class="help-block"><?php echo $error['banner.title'] ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group<?php if(isset($error['banner.term_id'])) echo ' has-error' ?>">
+                            <label class="control-label col-md-2"><?php echo t('Group'); ?> *</label>
+                            <div class="col-md-10">
+                                <?php $this->widget('app.Widget.SelectParentTerm', array(
+                                    'label' => t('Select Group'),
+                                    'taxonomy' => 'banner',
+                                    'selected' => $banner->getTermId(),
+                                    'elementName' => 'input[term_id]',
+                                    'error' => @$error['banner.term_id'],
+                                    'htmlOptions' => ['class' => 'form-control'],
+                                    'form' => $form,
+                                ));
+                                ?>
+                                <?php if (isset($error['banner.term_id'])) : ?>
+                                    <span class="help-block"><?php echo $error['banner.term_id'] ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group<?php if(isset($error['banner.status'])) echo ' has-error' ?>">
+                            <label class="control-label col-md-2"><?php echo t('Status'); ?> *</label>
+                            <div class="col-md-10">
+                                <div class="col-md-6">
+                                    <?php $form->radioButton('input[status]', $banner->getStatus())
+                                        ->add('ACTIVE', t('Active'), array('class' => 'inline'))
+                                        ->add('INACTIVE', t('Inactive'), array('class' => 'inline'))
+                                        ->display(); ?>
+
+                                    <?php if (isset($error['banner.status'])) : ?>
+                                        <span class="help-block"><?php echo $error['banner.status'] ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group<?php if(isset($error['banner.ordering'])) echo ' has-error' ?>">
+                            <label class="control-label col-md-2"><?php echo t('Ordering'); ?> *</label>
+                            <div class="col-md-10">
+                                <div class="col-md-2">
+                                    <input value="<?php echo $banner->getOrdering() ?>" type="text" name="input[ordering]" class="form-control">
+                                    <?php if (isset($error['banner.ordering'])) : ?>
+                                        <span class="help-block"><?php echo $error['banner.ordering'] ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group<?php if(isset($error['banner.file'])) {echo ' has-error';} ?>">
+                            <label class="control-label col-md-2"><?php echo t('File'); ?> *</label>
+                            <div class="col-md-10">
+                                <div class="fileupload">
+                                    <?php if (!$banner->isNew()) :?>
+                                        <div class="thumbnail">
+                                            <img src="./../<?php echo $banner->getFile() ;?>" width="200px">
+                                        </div>
+                                    <?php endif; ?>
+                                    <div>
+                                        <input value="" type="file" name="file_upload">
+                                        <span class="help-inline"><?php td('Max: ' .$upload_max_filesize .' Mb'); ?></span>
+                                        <?php if (isset($error['banner.file'])) : ?>
+                                            <span class="help-block"><?php echo $error['banner.file'] ?></span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2"><?php echo t('Link'); ?> </label>
+                            <div class="col-md-10">
+                                <input value="<?php echo $banner->getLink() ?>" type="text" name="input[link]" class="form-control" placeholder="http://">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2"><?php echo t('Link Target'); ?> </label>
+                            <div class="col-md-10">
+                                <div class="col-md-2">
+                                    <?php $form->selectOption('input[link_target]', $banner->getLinkTarget(), ['class' => 'form-control'])
+                                        ->addOption('_self','_self')
+                                        ->addOption('_blank', '_blank')
+                                        ->addOption('_parent', '_parent')
+                                        ->addOption('_top', '_top')
+                                        ->display(); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2"><?php echo t('Banner size'); ?> </label>
+                            <div class="col-md-10">
+                                <div class="col-md-12">
+                                    <?php td('Auto')?>: <input name="input[auto_size]" value="1" type="checkbox" <?php if ($banner->getAutoSize()) {echo 'checked="checked"';} ?>>
+                                    <?php td('Check this to set the original sizes of the banner'); ?><br />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="sub-control col-md-3">
+                                        <strong><?php td('Width'); ?></strong> (px)
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input value="<?php echo $banner->getWidth() ?>" type="text" name="input[width]" class="form-control">
+                                    </div>
+
+                                    <div class="col-md-2"></div>
+
+                                    <label class="sub-control col-md-3 text-right">
+                                        <strong><?php td('Height'); ?></strong> (px)
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input value="<?php echo $banner->getHeight() ?>" type="text" name="input[height]" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2"><?php td('Language'); ?></label>
+                            <div class="col-md-10">
+                                <?php $this->widget('app.Widget.SelectLanguage', array(
+                                    'selected' => $banner->getLanguage(),
+                                    'elementName' => 'input[language]',
+                                    'form' => $form,
+                                    'htmlOptions' => ['class' => 'form-control']
+                                ));
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2"><?php td('Description'); ?></label>
+                            <div class="col-md-10">
+                                <?php $this->widget(\Flywheel\Config\ConfigHandler::get('editor'), array(
+                                    'selector' => '#banner-desc',
+                                    'height' => 200
+                                )); ?>
+                                <textarea name="input[description]" id="banner-desc" class="input-block-level"><?php echo $banner->getDescription(); ?>
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <?php if (!$banner->isNew()) : ?>
+                            <div class="control-group">
+                                <label class="control-label"><?php echo t('Created time'); ?> </label>
+                                <div class="controls">
+                                    <?php echo $banner->getCreatedTime()->format('H:i d/m/Y') ?>
+                                </div>
+                            </div>
+
+
+                            <div class="control-group">
+                                <label class="control-label"><?php echo t('Last modified time'); ?> </label>
+                                <div class="controls">
+                                    <?php echo $banner->getModifiedTime()->format('H:i d/m/Y') ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="form-actions col-sm-10 pull-right">
+                            <button type="submit" class="btn btn-primary"><?php td('Save Changes') ?></button>
+                            <a class="btn" href="<?php $this->createUrl('banner/default')?>"><?php td('Cancel') ;?></a>
+                        </div>
+                    </div>
+                    <!-- /general form elements -->
+
+                </fieldset>
+                <?php $form->endForm(true); ?>
+            </div>
+        <!-- /user form -->
+        </div>
+    </div>
+</div>

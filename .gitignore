@@ -1,0 +1,68 @@
+# Project ignore files #
+########################
+.composer
+/vendor
+composer.lock
+composer.phar
+/cache
+/test
+/runtime
+
+#FRONT CONTROLLER
+www_html/index.php
+www_html/@admin/index.php
+
+# Config files
+config.cfg.php
+redis.cfg.php
+queue.cfg.php
+
+# IDE ignore files #
+/.idea
+
+# Server deploy key #
+####################
+.bash_history
+.bash_logout
+.bash_profile
+.bashrc
+.ssh/
+.viminfo
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

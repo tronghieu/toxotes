@@ -1,0 +1,13 @@
+comment:
+    - '#PostCustomFields'
+    - '#Schema for PostCustomFields OMs'
+colums:
+    id: { name: id, type: integer, db_type: integer, alltypes: [integer], ntype: 'int(11) unsigned', length: 4, fixed: false, unsigned: true, values: {  }, primary: true, unique: false, default: null, notnull: true, auto_increment: true, extra: auto_increment }
+    post_id: { name: post_id, type: integer, db_type: integer, alltypes: [integer], ntype: int(11), length: 4, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    cf_id: { name: cf_id, type: integer, db_type: integer, alltypes: [integer], ntype: int(11), length: 4, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    text_value: { name: text_value, type: string, db_type: string, alltypes: [string, clob], ntype: text, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    number_value: { name: number_value, type: number, db_type: float, alltypes: [float], ntype: 'double(20,2)', length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0.00', notnull: true, auto_increment: false, extra: '' }
+    bool_value: { name: bool_value, type: integer, db_type: integer, alltypes: [integer, boolean], ntype: tinyint(4), length: 1, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0', notnull: true, auto_increment: false, extra: '' }
+    datetime_value: { name: datetime_value, type: datetime, db_type: timestamp, alltypes: [timestamp], ntype: datetime, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0000-00-00 00:00:00', notnull: true, auto_increment: false, extra: '' }
+infos:
+    _dbConnectName: post_custom_fields

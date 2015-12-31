@@ -1,0 +1,21 @@
+comment:
+    - '#DonateHistory'
+    - '#Schema for DonateHistory OMs'
+colums:
+    id: { name: id, type: integer, db_type: integer, alltypes: [integer], ntype: 'int(11) unsigned', length: 4, fixed: false, unsigned: true, values: {  }, primary: true, unique: false, default: null, notnull: true, auto_increment: true, extra: auto_increment }
+    acc_name: { name: acc_name, type: string, db_type: string, alltypes: [string], ntype: varchar(32), length: 32, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    charguid: { name: charguid, type: integer, db_type: integer, alltypes: [integer], ntype: int(11), length: 4, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    server_key: { name: server_key, type: string, db_type: string, alltypes: [string], ntype: varchar(20), length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    state: { name: state, type: string, db_type: enum, alltypes: [enum, integer], ntype: 'enum(''SUCCESS'',''FAIL'')', length: 7, fixed: false, unsigned: false, values: [SUCCESS, FAIL], primary: false, unique: false, default: FAIL, notnull: true, auto_increment: false, extra: '' }
+    serial: { name: serial, type: string, db_type: string, alltypes: [string], ntype: varchar(20), length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    pin_card: { name: pin_card, type: string, db_type: string, alltypes: [string], ntype: varchar(20), length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    card_value: { name: card_value, type: number, db_type: float, alltypes: [float], ntype: 'double(20,2)', length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0.00', notnull: true, auto_increment: false, extra: '' }
+    card_amount: { name: card_amount, type: number, db_type: float, alltypes: [float], ntype: 'double(20,2)', length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0.00', notnull: true, auto_increment: false, extra: '' }
+    provider: { name: provider, type: string, db_type: string, alltypes: [string], ntype: varchar(20), length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    log: { name: log, type: string, db_type: string, alltypes: [string, clob], ntype: text, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    ending_balance: { name: ending_balance, type: number, db_type: float, alltypes: [float], ntype: 'double(20,2)', length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0.00', notnull: true, auto_increment: false, extra: '' }
+    before_balance: { name: before_balance, type: number, db_type: float, alltypes: [float], ntype: 'double(20,2)', length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0.00', notnull: true, auto_increment: false, extra: '' }
+    donate_ip: { name: donate_ip, type: string, db_type: string, alltypes: [string], ntype: varchar(20), length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    donate_time: { name: donate_time, type: datetime, db_type: timestamp, alltypes: [timestamp], ntype: datetime, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0000-00-00 00:00:00', notnull: true, auto_increment: false, extra: '' }
+infos:
+    _dbConnectName: donate_history

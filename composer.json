@@ -1,0 +1,23 @@
+{
+    "name": "tronghieu1012/toxotes",
+    "type": "library",
+    "description": "The Toxotes CMS",
+    "keywords": ["framework", "CMS"],
+    "homepage": "http://luutronghieu.com",
+    "version" : "1.0-alpha",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luu Trong Hieu",
+            "email": "tronghieu.luu@gmail.com"
+        }
+    ],
+    "require": {
+        "tronghieu/flyapi": "dev-master",
+        "tronghieu/flywheel-framework": "1.1.*@dev",
+        "yohang/calendr": "1.*",
+        "alchemy/zippy": " ~0.1",
+        "swiftmailer/swiftmailer": "*",
+        "slim/slim": "2.*"
+    }
+}

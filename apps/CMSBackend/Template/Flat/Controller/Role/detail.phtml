@@ -1,0 +1,267 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+/** @var \Roles $role */
+
+$form = $this->createFrom('role_frm');
+$form->setHtmlOption(array(
+    'class' => 'form-horizontal',
+));
+
+$title = ($role->isNew()) ? t('Add new role') : t('Edit %something%', [
+    '%something%' => $role->getName()
+]);
+$this->document()->title = $title;
+
+$this->document()->addJs('js/process/role.js');
+$this->document()->addJsVar('permissions', $permissions);
+$this->document()->addJsVar('role', $role->toArray());
+$this->document()->addJsVar('add_member_url', $this->createUrl('role/add_member'));
+$this->document()->addJsVar('remove_member_url', $this->createUrl('role/remove_member'));
+$this->document()->addJsVar('set_permission_url', $this->createUrl('role/set_permission'));
+
+$allow_edit_role = $controller->isAllowed(PERMISSION_ROLE_EDIT);
+$allow_edit_permission = $controller->isAllowed(PERMISSION_ROLE_PERMISSION_MANAGE);
+
+$disable_edit_class = ($allow_edit_role)? '' : 'disabled';
+
+$t = array();
+
+if ($members) {
+    foreach($members as $member) {
+        $_ = $member->toArray();
+        $_['detail_link'] = $this->createUrl('user/edit', array('id' => $member->getId()));
+        $_['avatar'] = $member->getAvatar(32);
+        $t[$member->getId()] = $_;
+    }
+}
+$this->document()->addJsVar('members', $t);
+
+$t = array();
+if ($otherGuys) {
+    foreach($otherGuys as $guy) {
+        $_ = $guy->toArray();
+        $_['detail_link'] = $this->createUrl('user/edit', array('id' => $guy->getId()));
+        $_['avatar'] = $guy->getAvatar(32);
+        $t[$guy->getId()] = $_;
+    }
+}
+$this->document()->addJsVar('otherGuys', $t);
+
+$this->document()->addJsCode('
+    //var role_template = Handlebars.compile($("#_role-detail").html());
+    var members_template = Handlebars.compile($("#_role_members").html());
+    var other_guys_template = Handlebars.compile($("#_other_cranes").html());
+    var permissions_template = Handlebars.compile($("#_permissions").html());
+', 'BOTTOM', 'standard');
+
+$this->document()->addJsCode('
+    $("#_role-member-placeholder").html(members_template({"members": members}));
+    $("#_other-cranes-placeholder").html(other_guys_template({"otherGuys": otherGuys}));
+    $("#_permissions-placeholder").html(permissions_template({"permissions": permissions}));
+    '
+    , 'BOTTOM');
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $title ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="teal">
+                <a href="<?php echo $this->createUrl('user/default') ?>"><i class="fa fa-list"></i></a>
+            </li>
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('role/default') ?>"><i class="fa fa-group"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        t('Users Management') => [
+            'url' => $this->createUrl('user/default')
+        ],
+        t('Roles Management') => [
+            'url' => $this->createUrl('role/default')
+        ],
+        t('Permissions') => [
+            'url' => $this->createUrl('role/permissions')
+        ],
+        $title
+    ],
+]) ?>
+
+<div class="row">
+    <!-- Left -->
+    <div class="col-lg-4">
+        <div id="_role-member-placeholder"></div>
+        <div id="_other-cranes-placeholder"></div>
+    </div>
+    <!--/ left -->
+
+    <!-- Right -->
+    <div class="col-lg-8">
+        <div id="_permissions-placeholder"></div>
+    </div>
+    <!--/ right -->
+</div>
+
+<script id="_role_members" type="text/x-handlebars-template">
+    <!-- Member -->
+    <div class="box box-color box-per-member-list">
+        <div class="box-title">
+            <h3><?php td('Thành viên'); ?>
+                <small><?php td('Click trừ ("-") để bỏ'); ?></small>
+            </h3>
+        </div>
+        <div class="box-content nopadding">
+            {{#if members}}
+            <table class="table user-table-list _user-table-list">
+                <tbody>
+                {{#each members}}
+                <tr>
+                    <td class="text-center">
+                        {{id}}
+                    </td>
+
+                    <td>
+                        <div class="thumbnail">
+                            <a href="{{detail_link}}"><img src="{{avatar}}" class="user-avatar" width="32" height="32"></a>
+                        </div>
+                        <div class="name-bock">
+                            <strong>{{last_name}} {{first_name}}</strong>
+                            <a href="{{detail_link}}"><span class="username font-gray">@{{username}}</span></a><br>
+                            <a href="mailto::{{email}}" class="font-gray-dark">{{email}}</a>
+                        </div>
+                    </td>
+
+                    <td class="text-right">
+                        <?php if ($allow_edit_role) : ?>
+                            <a href="javascript:;" class="btn btn-red _remove-member" data-role-id="<?php echo $role->getId(); ?>" data-user-id="{{id}}">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+            {{else}}
+            <div class="content-box-wrapper">
+                <?php td('Chưa có nhân viên'); ?>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+    <!--/member -->
+</script>
+
+<script id="_other_cranes" type="text/x-handlebars-template">
+    <!-- Other Guys -->
+    <div class="box box-color box-per-member-list">
+        <div class="box-title">
+            <h3><?php td('Nhân viên khác'); ?>
+                <small><?php td('Click cộng ("+") để thêm nhóm'); ?></small>
+            </h3>
+        </div>
+        <div class="box-content nopadding">
+            {{#if otherGuys}}
+            <table class="table user-table-list _user-table-list">
+                <tbody>
+                {{#each otherGuys}}
+                <tr>
+                    <td class="text-center">
+                        {{id}}
+                    </td>
+
+                    <td>
+                        <div class="thumbnail">
+                            <a href="{{detail_link}}"><img src="{{avatar}}" class="user-avatar" width="32" height="32"></a>
+                        </div>
+                        <div class="name-bock">
+                            <strong>{{last_name}} {{first_name}}</strong>
+                            <a href="{{detail_link}}"><span class="username font-gray">@{{username}}</span></a><br>
+                            <a href="mailto::{{email}}" class="font-gray-dark">{{email}}</a>
+                        </div>
+                    </td>
+
+                    <td class="text-right">
+                        <?php if ($allow_edit_role) : ?>
+                            <a href="javascript:;" class="btn btn-primary _add-member" data-role-id="<?php echo $role->getId(); ?>" data-user-id="{{id}}">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+            {{else}}
+            <div class="content-box-wrapper">
+                <?php td('Chưa có nhân viên'); ?>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+    <!--/other guys -->
+</script>
+
+<script id="_permissions" type="text/x-handlebars-template">
+    <!-- Permissions -->
+    <div class="row">
+        <div class="col-lg-8">
+            <h3><?php td('Danh sách quyền'); ?></h3>
+            <p class="font-gray-dark"><?php td('Tích vào checkbox để bật tắt quyền cho nhóm'); ?></p>
+        </div>
+    </div>
+    <div class="divider"></div>
+    {{#if permissions}}
+    <div class="panel-group" id="ac4">
+        {{#each permissions}}
+        <div class="panel panel-default blue">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#{{@key}}" data-toggle="collapse" data-parent="#ac4" class="">
+                        {{label}}
+                    </a>
+                </h4>
+                <!-- /.panel-title -->
+            </div>
+            <!-- /.panel-heading -->
+            <div id="{{@key}}" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    {{#if permissions}}
+                    <table class="table table-striped">
+                        {{#each permissions}}
+                        <tr>
+                            <td>
+                                <strong>{{label}}</strong><br>
+                                <span class="font-gray-dark">{{@key}}</span>
+                            </td>
+                            <td>
+                                {{description}}
+                            </td>
+                            <td class="form-checkbox-radio" width="10px" align="right">
+                                <input type="checkbox" class="float-right _check_permission" data-role-id="<?php echo $role->getId();?>"
+                                       data-permission="{{@key}}" name="permissions[{{@key}}]" value="1" {{#if assigned}}checked=checked{{/if}}>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                    {{/if}}
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /#c1.panel-collapse collapse in -->
+        </div>
+    {{/each}}
+    </div>
+    <input name="role_id" value="<?php echo $role->getId() ?>" type="hidden">
+    {{/if}}
+    <!--/ permissions -->
+</script>

@@ -1,0 +1,358 @@
+<?php
+use Flywheel\View\Render;
+/** @var Render $this */
+/** @var \ShippingOrder $order */
+/** @var \ShippingCustomer $customer */
+
+$doc = $this->document();
+$doc->addJs('js/handlebars-v2.0.0.js', 'TOP');
+$doc->addJs('js/process/transporter/transporter.js');
+$doc->addJs('js/process/transporter/location.js');
+$doc->addJs('js/process/transporter/order.js');
+$doc->addJsCode('Transporter.OrderDetail.init();');
+$doc->title = t('Shipping Order %uid%', ['%uid%' => $order->getUid()]);
+
+$doc->addCss('css/transporter/transporter.css');
+
+$state_color = 'font-grey';
+$next_state = '';
+switch($order->getState()) {
+    case \ShippingOrder::STATE_INIT:
+        $next_state = \ShippingOrder::STATE_CONFIRM;
+        $next_state_title = 'Change '.\ShippingOrder::$state_name[\ShippingOrder::STATE_CONFIRM];
+        break;
+    case \ShippingOrder::STATE_CONFIRM:
+        $state_color = 'font-red';
+        $next_state = \ShippingOrder::STATE_SHIPPING;
+        $next_state_title = 'Change '.\ShippingOrder::$state_name[\ShippingOrder::STATE_SHIPPING];
+        break;
+    case \ShippingOrder::STATE_SHIPPING:
+        $state_color = 'font-blue';
+        $next_state = \ShippingOrder::STATE_CLOSE;
+        $next_state_title = 'Change '.\ShippingOrder::$state_name[\ShippingOrder::STATE_CLOSE];
+        break;
+    case \ShippingOrder::STATE_CLOSE:
+        $state_color = 'font-darkblue';
+        break;
+    default:
+        $state_color = 'font-grey';
+}
+
+?>
+<div class="page-header hidden-480">
+    <div class="pull-left">
+        <h1><?php echo $doc->title ?></h1>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        t('Orders Management') => [
+            'url' => $this->createUrl('transporter/orders')
+        ],
+        $doc->title
+    ],
+]) ?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box order-detail-box">
+            <div class="box-title">
+                <h3>
+                    <?php echo $order->getUid(); ?>
+                    <small class="<?php echo $state_color ?>"><?php td(\ShippingOrder::$state_name[$order->getState()]) ?></small>
+                </h3>
+                <div class="actions">
+                    <?php if (!$order->isClosed()) :?>
+                    <a href="<?php echo $controller->createUrl('transporter/orders/form', ['id' => $order->getId()]); ?>">
+                        <i class="fa fa-pencil"></i>
+                        <?php td("Edit") ?>
+                    </a>
+                    <?php endif; ?>
+
+                    <?php if ($next_state) :?>
+                        <a href="javascript:void(0)" class="_order-actions" data-action="changeState" data-state="<?php echo $next_state ?>"  data-id="<?php echo $order->getId() ?>">
+                            <i class="fa fa-check"></i>
+                            <?php td($next_state_title) ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if ($order->getState() != \ShippingOrder::STATE_CLOSE
+                                && $order->getState() != \ShippingOrder::STATE_CANCEL
+                                && $order->getState() != \ShippingOrder::STATE_DELETE) :?>
+                        <?php
+                            $cancel_state = ($order->getState() == \ShippingOrder::STATE_INIT)? \ShippingOrder::STATE_DELETE : \ShippingOrder::STATE_CANCEL;
+                        ?>
+                        <a href="javascript:void(0)" class="_order-actions" data-action="changeState" data-state="<?php echo $cancel_state ?>" data-id="<?php echo $order->getId() ?>">
+                            <i class="fa fa-close"></i>
+                            <?php echo (($cancel_state == \ShippingOrder::STATE_DELETE)? t('Delete'): t('Cancel'))?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="box-content" id="_order-detail-ctn">
+                <div class="order-times-ctn col-md-4 nopadding clearfix">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4 label-column">
+                            <?php td("Create") ?>
+                            <i class="fa fa-clock-o"></i>
+                        </div>
+                        <div class="col-md-8 col-xs-8">
+                            <?php echo $order->getCreatedTime()->format('H:i d/m/Y') ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4 label-column">
+                            <?php td("Received") ?>
+                        </div>
+                        <div class="col-md-8 col-xs-8">
+                            <?php echo (!$order->getConfrimedTime()->isEmpty()? $order->getConfrimedTime()->format('H:i d/m/Y') : '--'); ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4 label-column">
+                            <?php td("Shipping") ?>
+                        </div>
+                        <div class="col-md-8 col-xs-8">
+                            <?php echo (!$order->getShippingTime()->isEmpty()? $order->getShippingTime()->format('H:i d/m/Y') : '--') ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4 label-column">
+                            <?php td("Close") ?>
+                        </div>
+                        <div class="col-md-8 col-xs-8">
+                            <?php echo (!$order->getClosedTime()->isEmpty()? $order->getClosedTime()->format('H:i d/m/Y') : '--') ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4 label-column">
+                            <?php td("Cancel") ?>
+                        </div>
+                        <div class="col-md-8 col-xs-8">
+                            <?php echo (!$order->getCancelledTime()->isEmpty()? $order->getCancelledTime()->format('H:i d/m/Y') : '--') ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CUSTOMER AND PICKUP ADDRESS -->
+                <div class="col-md-4 nopadding">
+                    <div class="row">
+                        <div class="col-md-3 col-xs-4 label-column">
+                            <?php td("Customer") ?>
+                        </div>
+                        <div class="col-md-9 col-xs-8">
+                            <a href="<?php echo $controller->createUrl('transporter/customer/detail', ['id' => $customer->getId()]) ?>" target="_blank">
+                                <?php echo $customer->getName() ?>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 label-column">
+                            <?php td('Pickup Address') ?>
+                        </div>
+                        <div class="col-md-9">
+                            <address>
+                                <?php echo $order->getPickupAddress() ?><br>
+                                <strong>
+                                    <?php
+                                    if ($pickupDistrict = $order->getPickupDistrict()) {
+                                        echo $pickupDistrict->getName();
+                                    }
+
+                                    if ($pickupProvince = $order->getPickupProvince()) {
+                                        echo ', ' .$pickupProvince->getName();
+                                    }
+                                    ?>
+                                </strong>
+                                <br>
+                                <?php echo $order->getPickupMobile() ?>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+                <!--/customer and pickup address -->
+
+                <!-- STAFF -->
+                <div class="col-md-4 nopadding">
+                    <div class="row">
+                        <div class="col-md-5 col-xs-4 label-column">
+                            <?php td("Moderator") ?>
+                        </div>
+                        <div class="col-md-7 col-xs-8">
+                            <?php if ($mod = $order->getMod()): ?>
+                                <a href="<?php echo $controller->createUrl('user/detail', ['id' => $mod->getId()]) ?>"><?php echo $mod->getName() ?></a>
+                            <?php endif; ?>&nbsp;
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-xs-4 label-column">
+                            <?php td("Picker") ?>
+                        </div>
+                        <div class="col-md-7 col-xs-8">
+                            <?php if ($picker = $order->getPicker()): ?>
+                                <a href="<?php echo $controller->createUrl('user/detail', ['id' => $picker->getId()]) ?>"><?php echo $picker->getName() ?></a>
+                            <?php endif; ?>&nbsp;
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr class=" separator">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-xs-4 label-column">
+                            <?php td("Bill no") ?>
+                        </div>
+                        <div class="col-md-7 col-xs-8">
+                            <?php echo $order->getBillNo(); ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-xs-4 label-column">
+                            <?php td("Fee") ?>
+                        </div>
+                        <div class="col-md-7 col-xs-8">
+                            <?php echo number_format($order->getTotalFee()/1000, 1, ',', '.')?><sup>K</sup>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-xs-4 label-column">
+                            <?php td("Payment") ?>
+                        </div>
+                        <div class="col-md-7 col-xs-8">
+                            <?php echo number_format($order->getTotalPayment()/1000, 1, ',', '.')?><sup>K</sup>
+                        </div>
+                    </div>
+                </div>
+                <!--/staff -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="_order-shipping-ctn"></div>
+
+<script type="text/x-handlebars-template" id="_order-shipping-tmp">
+    {{#if shipping}}
+        {{#each shipping}}
+            {{> shipping_part}}
+        {{/each}}
+    {{/if}}
+</script>
+
+<script type="text/x-handlebars-template" id="_order-shipping-partial">
+    <div class="row">
+        <form id="shipping-form-{{id}}" action="" class="form-horizontal" name="shipping_form_{{id}}">
+            <div class="col-md-12">
+                <div class="box box-condensed shipping-detail">
+                    <div class="box-title nobor">
+                        <h3>{{#if uid}}{{uid}}{{else}}<?php td("New Shipping") ?>{{/if}}</h3>
+                        <div class="actions">
+
+                        </div>
+                    </div>
+
+                    <div class="box-content">
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                                <label class="col-md-4 control-label"><?php td("Receiver") ?></label>
+                                <div class="col-md-8">
+                                    <input type="text" name="shipping[receiver]" value="{{receiver}}" placeholder="<?php td("Recipient") ?>" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 control-label text-right"><?php td("Phone") ?> *</label>
+                                <div class="col-md-8">
+                                    <input type="tel" name="shipping[recipient_phone]" value="{{recipient_phone}}" class="form-control" placeholder="09...">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 control-label"><?php td("Address") ?> *</label>
+                                <div class="col-md-8">
+                                    <select name="shipping[district_id]" data-vale="{{district_id}}" class="form-control shipping-district">
+                                        <option value=""><?php td("District") ?> *</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <textarea name="shipping[consignee_address]" class="form-control" placeholder="<?php td("Address no") ?>...">{{consignee_address}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Our information -->
+                        <div class="col-md-8">
+                            <!-- Transporter -->
+                            <div class="form-group row">
+                                <div class="col-md-6 nopadding">
+                                    <label class="col-md-4 control-label"><?php td("Transporter") ?> *</label>
+                                    <div class="col-md-8">
+                                        <select class="_chose-shipper form-control" name="shipping[transporter_id]" data-selected="{{transporter_id}}">
+                                            <option value="0"><?php td("Chose Staff") ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12 nopadding">
+                                    <label class="col-md-2 control-label"><?php td("Note") ?></label>
+                                    <div class="col-md-10">
+                                        <input name="shipping[note]" type="text" value="{{note}}" class="form-control" placeholder="VD: giao lúc 12h">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--/transporter -->
+
+                            <hr class="separator">
+
+                            <!-- Transporter -->
+                            <div class="form-group row">
+                                <div class="col-md-5 nopadding">
+                                    <label class="col-md-5 control-label">
+                                        <abbr title="<?php td("Cash on delivery") ?>"><?php td("COD") ?></abbr>
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="shipping[COD]" value="{{#if COD}}{{COD}}{{/if}}" placeholder="<?php td("VND") ?>" class="form-control autoNumeric">
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <a href=""><i class="fa fa-plus"></i> <?php td("Create New Deposit") ?></a>
+                                </div>
+                            </div>
+                            <!--/transporter -->
+
+                            <div class="form-actions clearfix">
+                                <div class="col-md-2 col-sm-6 col-sm-offset-3 col-xs-12 pull-right text-right">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-block">{{#if id}}<?php td("Save Change") ?>{{else}}<?php td("Add New") ?>{{/if}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/our information -->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>

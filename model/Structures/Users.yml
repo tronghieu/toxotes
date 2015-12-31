@@ -1,0 +1,23 @@
+comment:
+    - '#Users'
+    - '#Schema for Users OMs'
+colums:
+    id: { name: id, type: integer, db_type: integer, alltypes: [integer], ntype: 'int(11) unsigned', length: 4, fixed: false, unsigned: true, values: {  }, primary: true, unique: false, default: null, notnull: true, auto_increment: true, extra: auto_increment }
+    username: { name: username, type: string, db_type: string, alltypes: [string], ntype: varchar(50), length: 50, fixed: false, unsigned: false, values: {  }, primary: false, unique: true, default: '', notnull: true, auto_increment: false, extra: '' }
+    email: { name: email, type: string, db_type: string, alltypes: [string], ntype: varchar(100), length: 100, fixed: false, unsigned: false, values: {  }, primary: false, unique: true, default: '', notnull: true, auto_increment: false, extra: '' }
+    section: { name: section, type: string, db_type: enum, alltypes: [enum, integer], ntype: 'enum(''STAFF'',''MEMBER'',''GUESS'')', length: 6, fixed: false, unsigned: false, values: [STAFF, MEMBER, GUESS], primary: false, unique: false, default: MEMBER, notnull: true, auto_increment: false, extra: '' }
+    status: { name: status, type: string, db_type: enum, alltypes: [enum, integer], ntype: 'enum(''ACTIVE'',''INACTIVE'',''DELETED'')', length: 8, fixed: false, unsigned: false, values: [ACTIVE, INACTIVE, DELETED], primary: false, unique: false, default: INACTIVE, notnull: true, auto_increment: false, extra: '' }
+    banned: { name: banned, type: integer, db_type: integer, alltypes: [integer, boolean], ntype: tinyint(1), length: 1, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0', notnull: true, auto_increment: false, extra: '' }
+    active_email: { name: active_email, type: integer, db_type: integer, alltypes: [integer, boolean], ntype: tinyint(1), length: 1, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0', notnull: true, auto_increment: false, extra: '' }
+    name: { name: name, type: string, db_type: string, alltypes: [string], ntype: varchar(255), length: 255, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+    gender: { name: gender, type: string, db_type: enum, alltypes: [enum, integer], ntype: 'enum(''MALE'',''FEMALE'',''OTHER'')', length: 6, fixed: false, unsigned: false, values: [MALE, FEMALE, OTHER], primary: false, unique: false, default: MALE, notnull: true, auto_increment: false, extra: '' }
+    phone_number: { name: phone_number, type: string, db_type: string, alltypes: [string], ntype: varchar(100), length: 100, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+    birthday: { name: birthday, type: date, db_type: date, alltypes: [date], ntype: date, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0000-00-00', notnull: true, auto_increment: false, extra: '' }
+    secret: { name: secret, type: string, db_type: string, alltypes: [string], ntype: char(32), length: 32, fixed: true, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    password: { name: password, type: string, db_type: string, alltypes: [string], ntype: char(72), length: 72, fixed: true, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    last_login_ip: { name: last_login_ip, type: string, db_type: string, alltypes: [string], ntype: varchar(20), length: 20, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    last_visit_time: { name: last_visit_time, type: datetime, db_type: timestamp, alltypes: [timestamp], ntype: datetime, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0000-00-00 00:00:00', notnull: true, auto_increment: false, extra: '' }
+    register_time: { name: register_time, type: datetime, db_type: timestamp, alltypes: [timestamp], ntype: datetime, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0000-00-00 00:00:00', notnull: true, auto_increment: false, extra: '' }
+    modified_time: { name: modified_time, type: datetime, db_type: timestamp, alltypes: [timestamp], ntype: datetime, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '0000-00-00 00:00:00', notnull: true, auto_increment: false, extra: '' }
+infos:
+    _dbConnectName: users

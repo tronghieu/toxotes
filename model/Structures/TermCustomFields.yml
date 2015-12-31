@@ -1,0 +1,13 @@
+comment:
+    - '#TermCustomFields'
+    - '#Schema for TermCustomFields OMs'
+colums:
+    id: { name: id, type: integer, db_type: integer, alltypes: [integer], ntype: 'int(11) unsigned', length: 4, fixed: false, unsigned: true, values: {  }, primary: true, unique: false, default: null, notnull: true, auto_increment: true, extra: auto_increment }
+    term_id: { name: term_id, type: integer, db_type: integer, alltypes: [integer], ntype: int(11), length: 4, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: true, auto_increment: false, extra: '' }
+    field_key: { name: field_key, type: string, db_type: string, alltypes: [string], ntype: varchar(255), length: 255, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    name: { name: name, type: string, db_type: string, alltypes: [string], ntype: varchar(255), length: 255, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: '', notnull: true, auto_increment: false, extra: '' }
+    type: { name: type, type: string, db_type: enum, alltypes: [enum, integer], ntype: 'enum(''INPUT'',''TEXTAREA'',''RADIO'',''SELECT'')', length: 8, fixed: false, unsigned: false, values: [INPUT, TEXTAREA, RADIO, SELECT], primary: false, unique: false, default: INPUT, notnull: true, auto_increment: false, extra: '' }
+    accept_value: { name: accept_value, type: string, db_type: string, alltypes: [string, clob], ntype: text, length: null, fixed: false, unsigned: false, values: {  }, primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+    format: { name: format, type: string, db_type: enum, alltypes: [enum, integer], ntype: 'enum(''TEXT'',''NUMBER'',''BOOL'',''DATETIME'')', length: 8, fixed: false, unsigned: false, values: [TEXT, NUMBER, BOOL, DATETIME], primary: false, unique: false, default: null, notnull: false, auto_increment: false, extra: '' }
+infos:
+    _dbConnectName: term_custom_fields

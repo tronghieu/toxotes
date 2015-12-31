@@ -1,0 +1,156 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+/** @var \ShippingCustomer $customer */
+
+$submit_btn_name = ($customer->isNew())? 'Create' : 'Save';
+
+$form = $this->createFrom('customer_frm');
+$form->setHtmlOption(array(
+    'class' => 'form-horizontal',
+));
+
+$title = ($customer->isNew()) ? t('Add new customer') : t('Edit %something%', [
+    '%something%' => $customer->getName()
+]);
+
+$this->document()->title = $title;
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $title ?></h1>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        t('Customer Management') => [
+            'url' => $this->createUrl('transporter/customer/default')
+        ],
+        $title
+    ],
+]) ?>
+
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="box">
+            <div class="box-content">
+                <?php if (isset($error) && !empty($error)) :?>
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo implode('<br>', array_values($error)); ?>
+                    </div>
+                <?php elseif (isset($message) && !empty($message)) : ?>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo $message; ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php $form->beginForm(); ?>
+
+                <div class="form-group">
+                    <label for="cus_name" class="control-label col-sm-3">
+                        <?php td('Name'); ?> *
+                    </label>
+                    <div class="col-sm-9">
+                        <?php $form->input('customer[name]', $customer->getName())
+                                ->addClass('form-control')
+                                ->setId('cus_name')
+                                ->display(); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cus_mobile" class="control-label col-sm-3">
+                        <?php td('Mobile'); ?> *
+                    </label>
+                    <div class="col-sm-9">
+                        <?php $form->input('customer[mobile]', $customer->getMobile())
+                            ->addClass('form-control')
+                            ->setId('cus_mobile')
+                            ->setType('tel')
+                            ->display(); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cus_omobile" class="control-label col-sm-3">
+                        <?php td('Other Mobile'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <?php $form->input('customer[other_mobile]', $customer->getOtherMobile())
+                            ->addClass('form-control')
+                            ->setId('cus_omobile')
+                            ->setType('tel')
+                            ->display(); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cus_address" class="control-label col-sm-3">
+                        <?php td('Address'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <?php $form->textArea('customer[address]', $customer->getAddress())
+                            ->addClass('form-control')
+                            ->setId('cus_address')
+                            ->setType('tel')
+                            ->display(); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cus_address" class="control-label col-md-3">
+                    </label>
+                    <div class="col-md-9">
+                        <div class="col-md-6 nopadding-left">
+                            <?php $this->widget('app.Widget.SelectProvince', [
+                                'form' => $form,
+                                'selected' => $customer->getProvinceId(),
+                                'name' => 'customer[province_id]',
+                                'rel' => '_cus-district-id',
+                                'label' => t('Province'),
+                                'id' => '_cus-province-id',
+                                'htmlOptions' => [
+                                    'class' => 'form-control'
+                                ]
+                            ]); ?>
+                        </div>
+                        <div class="col-md-6 nopadding-right">
+                            <?php $this->widget('app.Widget.SelectDistrict', [
+                                'form' => $form,
+                                'selected' => $customer->getDistrictId(),
+                                'name' => 'customer[district_id]',
+                                'rel' => '_customer_province_id',
+                                'label' => t('District'),
+                                'id' => '_cus-district-id',
+                                'htmlOptions' => [
+                                    'class' => 'form-control'
+                                ]
+                            ]); ?>
+                        </div>
+                    </div>
+                </div>
+
+                <?php if(!$customer->isNew()) : ?>
+                    <div class="form-group">
+                        <div class="col-sm-9 col-sm-offset-3">
+                            <strong><?php td('Create at'); ?>:</strong> <?php echo $customer->getCreatedTime()->format('H:i d/m/Y'); ?><br>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <div class="form-actions col-sm-9 col-sm-offset-3">
+                    <button type="submit" class="btn btn-primary"><?php echo t($submit_btn_name) ?></button>
+                    <button type="reset" class="btn"><?php echo t('Reset') ?></button>
+                </div>
+
+                <?php $form->endForm(); ?>
+            </div>
+        </div>
+    </div>
+</div>

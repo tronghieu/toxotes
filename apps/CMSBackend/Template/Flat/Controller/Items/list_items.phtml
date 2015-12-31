@@ -1,0 +1,110 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+$title = t('Products');
+$this->document()->title = $title;
+$this->document()->addJs('js/handlebars-v2.0.0.js', 'TOP');
+$this->document()->addJs('js/process/paginator.js', 'TOP');
+$this->document()->addJs('js/process/flye/items.js');
+$this->document()->addJsCode('Items.init();');
+$searchFrm = $this->createFrom('item_search', '', 'GET')->addClass('form-vertical')->setId('_items-search-frm');
+?>
+<!-- BEGIN HEADER -->
+<div class="page-header">
+    <div class="pull-left">
+        <h3><?php echo $title; ?></h3>
+    </div>
+</div>
+<!-- END HEADER -->
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        $title
+    ),
+)) ?>
+
+<?php $searchFrm->beginForm(); ?>
+<div class="row">
+    <div class="highlight-toolbar hidden-768">
+        <div class="col-md-4">
+            <div class="form-group">
+                <?php $searchFrm->input('keyword', $keyword)
+                    ->setPlaceHolder(t('Product name or SKU'))
+                    ->addClass('form-control')
+                    ->display();
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <?php $searchFrm->input('page', $page)
+        ->setType('hidden')
+        ->display(); ?>
+</div>
+<?php $searchFrm->endForm(); ?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-content nopadding">
+                <div class="col-md-12 nopadding" id="_items-list-ctn"></div>
+                <div class="col-md-12 text-center" id="paging"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-handlebars-template" id="_item-list-tmp">
+    <table class="table table-striped table-fix">
+        <thead>
+        <tr>
+            <th class="col-md-5">
+                <div class="col-md-1 hidden-1024">ID</div>
+                <div class="col-md-8 col-md-offset-3 col-xs-offset-0"><?php td("Name") ?></div>
+            </th>
+            <th class="hidden-480"><?php td("Category") ?></th>
+            <th><?php td("Price") ?></th>
+            <th class="hidden-768 col-md-1"><?php td("Status") ?></th>
+            <th class="hidden-768 col-md-1"></th>
+            <th class="hidden-768 col-md-2"><?php td("Time") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each items}}
+        <tr id="_item-{{id}}">
+            <td class="col-md-5">
+                <div class="col-md-1 hidden-1024">
+                    {{id}}
+                </div>
+                <div class="col-md-3 hidden-1024">
+                    {{#if thumb_url}}<img src="{{thumb_url}}" width="100%">{{/if}}
+                </div>
+                <div class="col-md-8 col-sm-12 nopadding-right">
+                    <h5 style="margin: 0"><strong>{{name}}</strong> {{#if is_draft}}<em class="font-red"><?php td("draft") ?></em>{{/if}}</h5>
+                    <p>{{#if sku}}<span class="font-grey-4">({{sku}})</span> &middot; {{/if}} <a href="{{edit_link}}"><?php td("Edit") ?></a> &middot; <a href="{{remove_link}}" class="tool-remove" rel="_item-{{id}}"><?php td("Remove") ?></a></p>
+                    <p class="long-text-hidden hidden-480">{{excerpt}}</p>
+                </div>
+            </td>
+            <td class="hidden-480">{{#if cat}}{{cat.name}}{{/if}}</td>
+            <td>
+                {{#if sale_price}}
+                    <span class="font-red"><strong>{{currency sale_price}}</strong></span>
+                    {{#if regular_price}}<small><del>{{currency regular_price}}</del></small>{{/if}}
+                {{else}}
+                <span class="font-red"><strong>{{currency regular_price}}</strong></span>
+                {{/if}}
+            </td>
+            <td class="hidden-768">{{status}}</td>
+            <td class="hidden-768">
+                {{#if pin}}<i class="fa fa-star"></i>{{/if}}
+                {{#if promotion}}<i class="fa fa-gift"></i>{{/if}}
+            </td>
+            <td class="hidden-768">
+                {{full_date public_time}}
+            </td>
+        {{/each}}
+        </tbody>
+    </table>
+</script>

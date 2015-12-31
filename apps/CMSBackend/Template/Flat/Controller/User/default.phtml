@@ -1,0 +1,156 @@
+<?php
+use Flywheel\Document\Html;
+use Flywheel\Html\Form;
+
+/** @var Html $doc */
+$doc = $this->document();
+$title = t('Users Management');
+
+$doc->title = $title;
+
+$doc->addJs('js/handlebars-v2.0.0.js', 'TOP');
+$doc->addJs('js/plugins/icheck/jquery.icheck.min.js', 'TOP');
+$doc->addJs('js/plugins/select2/select2.min.js', 'TOP');
+$doc->addJs('js/process/user.js');
+
+$doc->addCss('css/plugins/select2/select2.css');
+$doc->addCss('css/plugins/icheck/all.css');
+
+$form = new Form('search-user', $this->createUrl('user'), 'GET');
+$form->setHtmlOption([
+    'id' => '_user-search-frm'
+]);
+?>
+
+<!-- BEGIN HEADER -->
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $title; ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="blue">
+                <a href="<?php echo $this->createUrl('user/create'); ?>">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </li>
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('role/default'); ?>">
+                    <i class="fa fa-group"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- END HEADER -->
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Users Management')
+    ),
+)) ?>
+
+<!-- BEGIN SEARCH FORM -->
+<?php $form->beginForm(); ?>
+<div class="row">
+    <div class="highlight-toolbar">
+        <div class="col-sm-5">
+            <div class="form-group">
+                <input name="keyword" type="text" value="<?php echo $keyword; ?>" placeholder="<?php td('Enter keyword for search ...'); ?>" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-sm-2 hidden-xs hidden-sm">
+            <div class="form-group">
+                <?php $form->selectOption('status', ('' != $status? $status : null), array(
+                    'class' => 'form-control'))
+                    ->addOption(t('Status'), '')
+                    ->addOption(t('Active'), 'ACTIVE')
+                    ->addOption(t('Inactive'), 'INACTIVE')
+                    ->addOption(t('Deleted'), 'DELETED')
+                    ->display(); ?>
+            </div>
+        </div>
+
+        <div class="col-sm-2 hidden-xs hidden-sm">
+            <div class="form-group">
+                <?php $form->selectOption('section', ('' != $section? $section : null), array(
+                    'class' => 'form-control'))
+                    ->addOption(t('Section'), '')
+                    ->addOption(t('Staff'), 'STAFF')
+                    ->addOption(t('Member'), 'MEMBER')
+                    ->addOption(t('Guess'), 'GUESS')
+                    ->display(); ?>
+            </div>
+        </div>
+
+        <div class="col-sm-3 hidden-xs hidden-sm">
+            <div class="form-group pull-right">
+                <?php $form->selectOption('ordering', ('' != $ordering? $ordering : null), array(
+                    'class' => 'form-control'))
+                    ->addOption(t('Ordering'), '')
+                    ->addOption(t('Username'), 'username')
+                    ->addOption(t('Register time'), 'register_time')
+                    ->addOption(t('Last visit'), 'last_visit_time')
+                    ->display(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<input name="page" type="hidden" value="<?php echo $page; ?>">
+<?php $form->endForm(false); ?>
+<!-- END SEARCH FROM -->
+
+<div class="row" id="_user-container">
+</div>
+
+<script id="_user-template" type="text/x-handlebars-template">
+    <div class="col-sm-12">
+        <table class="table table-hover table-nomargin">
+            <thead>
+                <tr>
+                    <th class="hidden-480">#</th>
+                    <th class="hidden-1024">&nbsp;</th>
+                    <th><?php td('Name'); ?></th>
+                    <th class="hidden-480"><?php td('Email'); ?></th>
+                    <th class="hidden-480"><?php td('Status'); ?></th>
+                    <th class="hidden-1024"><?php td('Last visit'); ?></th>
+                    <th class="hidden-768"><?php td('Register from'); ?></th>
+                    <th><?php td('ID'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each users}}
+                <tr id="_user-{{id}}" {{#if deleted}}class="item-disabled item-deleted"{{/if}}>
+                    <td class="hidden-480">
+                        <input type="checkbox" name="uselect[{{id}}]" class="icheck-me" data-skin="square" data-color="blue">
+                    </td>
+                    <td class="hidden-1024">
+                        <a href="{{edit_link}}">
+                            <img src="{{avatar}}" />
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{edit_link}}"><strong>{{name}}</strong></a>
+                        <a href="{{edit_link}}" class="font-darkblue">@{{username}}</a>
+                        <br>
+                        <small class="font-grey">{{section}}</small>
+                    </td>
+                    <td class="hidden-480">
+                        <a href="mailto:{{email}}">
+                            {{email}}
+                        </a>
+                    </td>
+                    <td class="hidden-480">{{status}}</td>
+                    <td class="hidden-1024">{{date last_visit_time}}</td>
+                    <td class="hidden-768">{{date register_time}}</td>
+                    <td>{{id}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>

@@ -1,0 +1,21 @@
+<div class="breadcrumbs">
+    <ul>
+        <?php foreach ($activesLink as $activeLink) : ?>
+            <li><a href="<?php echo $activeLink['url'] ?>"><?php echo $activeLink['label'] ?></a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+        <?php endforeach; ?>
+
+        <?php
+        if(isset($inActivesLink)) {
+            foreach ($inActivesLink as $inActiveLink) : ?>
+                <li class="active"><a href="#"><strong><?php echo $inActiveLink ?></strong></a></li>
+            <?php endforeach; ?>
+        <?php } ?>
+    </ul>
+    <div class="close-bread">
+        <a href="#">
+            <i class="fa fa-times"></i>
+        </a>
+    </div>
+</div>

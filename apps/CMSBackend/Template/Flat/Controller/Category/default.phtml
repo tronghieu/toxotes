@@ -1,0 +1,42 @@
+<?php
+$doc = $this->document();
+
+$doc->title = $page_title;
+?>
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $page_title ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="blue">
+                <a href="<?php echo $this->createUrl('category/create', array('taxonomy' => $taxonomy)) ?>"><i class="fa fa-plus"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t($page_title)
+    ),
+)) ?>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box">
+            <div class="box-title">
+                <h3>
+                    <i class="fa fa-table"></i>
+                    <?php td('Categories'); ?>
+                </h3>
+            </div>
+            <div class="box-content nopadding">
+                <?php $table->display(); ?>
+            </div>
+        </div>
+    </div>
+</div>

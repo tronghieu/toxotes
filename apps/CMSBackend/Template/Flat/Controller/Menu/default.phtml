@@ -1,0 +1,158 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+use Flywheel\Config\ConfigHandler;
+
+/** @var \Flywheel\Controller\WebController $controller */
+
+/** @var \Menus $parent */
+
+/** @var \Menus[] $lists */
+
+$this->document()->title .= t('Menu Management');
+$menu = !empty($menu)? $menu:array();
+
+$this->document()->addCss('css/menu.css');
+
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php td('Menu Management') ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('menu/create'); ?>">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Menu Management') => array(
+            'url' => array('menu/default')
+        )
+    ),
+)) ?>
+
+<?php if (!empty($error) || !empty($message)) :?>
+    <div class="row-fluid">
+        <div class="box">
+            <div class="box-content nopadding" style="margin-top:20px;">
+                <?php if (isset($error) && !empty($error)) :?>
+                    <div class="alert alert-error margin">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo implode('<br>', array_values($error)); ?>
+                    </div>
+                <?php elseif (isset($message) && !empty($message)) : ?>
+                    <div class="alert alert-success margin">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo $message; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-color">
+            <div class="box-title">
+                <h3><?php
+                    if ($parent->isRoot()) {td('Menus List');}
+                    else {echo $parent->getName();}
+                    ?>
+                </h3>
+            </div>
+            <div class="box-content nopadding">
+                <table class="table table-nomargin table-fix">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1">ID</th>
+                            <th class="col-md-4"><?php td('Name'); ?></th>
+                            <th class="col-md-1"><?php td('Status'); ?></th>
+                            <th class="col-md-3 hidden-768"><?php td('Description'); ?></th>
+                            <th class="col-md-1 hidden-480"><?php td('Language'); ?></th>
+                            <th class="col-md-2 hidden-768"><i class="fa fa-wrench"></i> <?php td('Tools'); ?> </th>
+                        </tr>
+                    </thead>
+
+                    <?php foreach ($lists as $menu) :
+                            $edit_link = $this->createUrl('menu/edit', array('id' => $menu->getId()));
+                            $remove_link = $this->createUrl('menu/remove', array('id' => $menu->getId()));
+                        ?>
+                        <tr id="menu-<?php echo $menu->getId() ?>" class="menu-row">
+                            <td class="col-md-1"><?php echo $menu->getId(); ?></td>
+                            <td class="col-md-4">
+                                <div class="pull-left">
+                                    <span style="font-family: sans-serif;">
+                                        <?php
+                                            $level = $menu->getLevelValue() - $parent->getLevelValue() - 1;
+                                            echo (($level > 0)? str_repeat('&#8212;', $level): '')
+                                        ?>
+                                        <sup><?php echo $menu->getLevelValue(); ?></sup>&nbsp;
+                                    </span>
+                                </div>
+                                <div class="pull-left">
+                                    <strong><?php echo $menu->getName(); ?></strong>&nbsp;&nbsp;
+                                    <div class="sub-tool hidden-480">
+                                        <?php
+                                        if ($menu->getType() == \Menus::EXTERNAL) {
+                                            echo $menu->getLink();
+                                        } elseif ($menu->getType() == \Menus::INTERNAL) {
+                                            $param = ($menu->getRouteParam())? json_decode($menu->getRouteParam(), true) : array();
+                                            $url = str_replace($this->document()->getBaseUrl(), ConfigHandler::get('site_url'), $this->createUrl($menu->getRoute(), $param));
+                                            echo '<a href="' .$url .'" target="_blank">' .$url.'</a>';
+                                        } else {
+                                            echo t($menu->getType());
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-md-1">
+                                <?php echo ($menu->getStatus())? t('Active') :t('Inactive'); ?>
+                            </td>
+                            <td class="hidden-768 col-md-3 long-text-hidden">
+                                <?php echo $menu->getDescription() ?>
+                            </td>
+                            <td class="hidden-480 col-md-1">
+                                <?php echo $menu->getLanguage(); ?>
+                            </td>
+                            <td class="hidden-768 col-md-2">
+                                <div class="sub-tool">
+                                    <a href="<?php echo $this->createUrl('menu/default', array('group_id' => $menu->getId()))?>" style="font-size: 12px">
+                                        <?php td('View childs'); ?>
+                                    </a>
+                                    |
+                                    <a href="<?php echo $edit_link; ?>" class="tool-link tool-edit"><?php td('Edit');?></a>
+                                    |
+                                    <a href="<?php echo $remove_link ?>" class="tool-link tool-remove" rel="menu-<?php echo $menu->getId() ?>"><?php td('Remove'); ?></a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    <tfoot>
+                        <tr>
+                            <th class="col-md-1">ID</th>
+                            <th class="col-md-4"><?php td('Name'); ?></th>
+                            <th class="col-md-1"><?php td('Status'); ?></th>
+                            <th class="hidden-768 col-md-3"><?php td('Description'); ?></th>
+                            <th class="hidden-480 col-md-1"><?php td('Language'); ?></th>
+                            <th class="hidden-768 col-md-2"><i class="icon-wrench"></i> </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

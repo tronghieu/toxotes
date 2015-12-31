@@ -1,0 +1,180 @@
+<?php
+
+/** @var \Flywheel\View\Render $this */
+
+/** @var \Banner[] $banners */
+
+/** @var \Flywheel\Controller\WebController $controller */
+$page_title = t('Banners Management');
+$this->document()->title .= $page_title;
+
+$filter = array_merge(array(
+    'keyword' => '',
+    'status' => 'All',
+    'term_id' => 0
+), $filter);
+?>
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $page_title ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('banner/new') ?>"><i class="fa fa-plus"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        $page_title
+    ),
+)) ?>
+
+<?php if ('' != $message) :?>
+
+    <div class="alert<?php if(!empty($error)):?> alert-error<?php endif; ?>">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <?php echo $message ?>
+    </div>
+<?php endif; ?>
+
+<?php if ('' != $error) :?>
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <?php echo $error ?>
+    </div>
+<?php endif; ?>
+
+<!-- Search Form -->
+<div class="row-fluid">
+    <?php
+    $form = $this->createFrom('search-banner', $this->createUrl('banner/default'), 'GET');
+    $form->setHtmlOption(array(
+        'class' => 'form-horizontal',
+    ));
+
+    $root = \Terms::retrieveRoot('banner');
+    $terms = $root->getDescendants();
+
+    $selectTerm = $form->selectOption('filter[term_id]', $filter['term_id'], [
+        'class' => 'form-control'
+    ])
+        ->addOption(t('Select Group'), '0');
+
+    foreach ($terms as $term) {
+        $selectName = ($term->getLevelValue() > 1)? str_repeat('&#8212;', $term->getLevelValue()-1) .$term->getName(): $term->getName();
+        $selectTerm->addOption($selectName, $term->getId());
+    }
+
+    $form->beginForm();
+
+    ?>
+    <div class="box">
+        <div class="box-content nopadding">
+            <div class="col-md-12"><h4><?php td('Search'); ?></h4></div>
+            <div class="col-md-5">
+                <input name="filter[keyword]" class="form-control" type="text" value="<?php echo $filter['keyword'] ?>" placeholder="<?php td('Enter keyword ...'); ?>">
+            </div>
+            <div class="col-md-3">
+                <?php $form->selectOption('filter[status]', $filter['status'], array(
+                    'class' => 'form-control')
+                )
+                    ->addOption(t('Status'), 'All')
+                    ->addOption(t('Active'), 'ACTIVE')
+                    ->addOption(t('Inactive'), 'INACTIVE')
+                    ->display(); ?>
+            </div>
+            <div class="col-md-3">
+                <?php $selectTerm->display(); ?>
+
+            </div>
+            <div class="col-md-1">
+                <button class="btn pull-right">
+                    <i class="icon-search"></i>&nbsp;
+                    <?php echo t('Find') ?>
+                </button>
+            </div>
+        </div>
+    </div>
+    <?php $form->endForm(false); ?>
+</div>
+<!--/search form -->
+
+<!-- Begin banners list -->
+<div class="rowd">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-title"><h3><i class="icon-th-list"></i> <?php td('Banners'); ?></h3></div>
+        </div>
+        <div class="box-content nopadding">
+            <table class="table table-hover table-nomargin">
+                <thead>
+                    <tr>
+                        <th><label>
+                                <input type="checkbox" id="check-all"> &darr;
+                            </label>
+                        </th>
+                        <th><?php td('Title'); ?></th>
+                        <th><?php td('File') ;?></th>
+                        <th><?php td('Group'); ?></th>
+                        <th><?php td('Order'); ?></th>
+                        <th><?php td('Status'); ?></th>
+                        <th><?php td('Language'); ?></th>
+                        <th><?php td('Clicks'); ?></th>
+                        <th><?php td('Id'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach($banners as $banner) :?>
+                    <tr id="banner-<?php echo $banner->getId(); ?>">
+                        <td><label>
+                                <input type="checkbox" class="check-list" value="<?php echo $banner->getId() ?>">
+                            </label>
+                        </td>
+                        <td>
+                            <div class="row-title">
+                                <strong><?php echo $banner->getTitle(); ?></strong>
+                            </div>
+                            <div class="sub-tool">
+                                <a href="<?php echo $this->createUrl('banner/edit', array('id' => $banner->getId()))?>" class="tool-link tool-edit"><?php td('Edit') ;?></a>
+                                |
+                                <a href="<?php echo $this->createUrl('banner/remove', array('id' => $banner->getId()))?>" class="tool-link tool-remove" rel="banner-<?php echo $banner->getId() ;?>"><?php td('Remove') ?></a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="thumbnail" style="width: 200px">
+                                <img src="./../<?php echo $banner->getFile();?>" width="200">
+                            </div>
+                        </td>
+                        <td>
+                            <?php echo \Terms::retrieveById($banner->getTermId())->getName() ?>
+                        </td>
+                        <td>
+                            <?php echo $banner->getOrdering(); ?>
+                        </td>
+                        <td>
+                            <?php echo $banner->getStatus(); ?>
+                        </td>
+                        <td>
+                            <?php echo $banner->getLanguage(); ?>
+                        </td>
+                        <td>
+                            <?php echo $banner->getClicked(); ?>
+                        </td>
+                        <td>
+                            <?php echo $banner->getId(); ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--/begin banners list -->

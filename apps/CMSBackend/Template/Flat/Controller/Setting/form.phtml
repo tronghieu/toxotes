@@ -1,0 +1,64 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+
+$title = t('Settings');
+$this->document()->title = $title;
+
+$form = $this->createFrom('setting_frm', $frm_action);
+$form->setHtmlOption(array(
+    'class' => 'form-horizontal',
+));
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $title ?></h1>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        t('Settings'),
+    ],
+]) ?>
+
+<?php if($message) : ?>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <?php echo $message; ?>
+    </div>
+<?php endif; ?>
+
+<?php $form->beginForm(); ?>
+<?php foreach($form_cfg as $gk => $group) : ?>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="box">
+            <div class="box-title nobor"><h3><?php echo $group['label'] ?></h3></div>
+            <div class="box-content">
+                <?php foreach ($group['settings'] as $k => $setting) :?>
+                    <div class="form-group">
+                        <label class="control-label col-md-3"><?php echo $setting['label'] ?></label>
+                        <div class="col-md-9">
+                            <?php
+                            $setting['controlObject']->addClass('form-control');
+                            $setting['controlObject']->display();
+                            ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+                <!-- each group have save button -->
+                <div class="form-action col-md-9 col-md-offset-3">
+                    <button type="submit" class="btn btn-primary"><?php echo t('Save Changes'); ?></button>
+                    <button type="reset" class="btn"><?php echo t('Reset'); ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+<?php $form->endForm();?>

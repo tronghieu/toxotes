@@ -1,0 +1,14 @@
+#transporter-order #orders-list ul.transporter_staff {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+#transporter-order #orders-list tr.payment-problem {
+    background-color: #ffdada !important;
+}
+
+#transporter-order #orders-list tr.payment-problem .total-fee {
+    color: darkred;
+    font-weight: bold;
+}

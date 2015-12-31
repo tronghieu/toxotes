@@ -1,0 +1,36 @@
+<!-- MOBILE NAVIGATOR -->
+<ul class="mobile-nav">
+    <?php for ($i = 0, $size = sizeof($items); $i < $size; ++$i) : ?>
+        <li>
+            <?php
+            $hasChild = (isset($items[$i]['items']) && sizeof($items[$i]['items']) > 0);
+            ?>
+            <a href="<?php echo $items[$i]['url'] ?>">
+                <?php echo $items[$i]['label'] ?>
+            </a>
+
+            <?php if ($hasChild): ?>
+                <ul>
+                    <?php for($j = 0, $sizeOfSub = sizeof($items[$i]['items']); $j < $sizeOfSub; ++$j) :
+                        $child = $items[$i]['items'][$j];?>
+                        <li>
+                            <a href="<?php echo $items[$i]['items'][$j]['url'] ?>">
+                                <?php echo $items[$i]['items'][$j]['label'] ?>
+                            </a>
+                        </li>
+                        <?php if (isset($child['items'])) :?>
+                        <?php foreach($child['items'] as $grandchildren) : ?>
+                            <li>
+                                <a href="<?php echo $grandchildren['url']?>">
+                                    <?php echo $grandchildren['label'];?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    <?php endfor; ?>
+                </ul>
+            <?php endif; ?>
+        </li>
+    <?php endfor; ?>
+</ul>
+<!-- END MOBILE NAVIGATOR -->

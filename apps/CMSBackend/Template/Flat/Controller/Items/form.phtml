@@ -1,0 +1,286 @@
+<?php
+use Flywheel\Document\Html;
+use Flywheel\Html\Form;
+
+/** @var \Items $item */
+
+/** @var Html $doc */
+$doc = $this->document();
+$title = ($item->isNew() || ($item->isDraft() && !$item->getName()))? t('Add New Item') : t('Edit %name%', ['%name%' => $item->getName()]);
+
+$doc->title = $title;
+
+$doc->addJs('js/handlebars-v2.0.0.js', 'TOP');
+$doc->addJs('js/plugins/icheck/jquery.icheck.min.js', 'TOP');
+$doc->addJs('js/plugins/autoNumeric/autoNumeric.js');
+$doc->addJs('js/plugins/fileupload/jquery.fileupload.js', 'TOP');
+$doc->addJs('js/process/flye/items.js');
+
+$doc->addJsCode('Items.Form.init();');
+
+$doc->addCss('css/plugins/icheck/all.css');
+$doc->addCss('css/plugins/fileupload/jquery.fileupload-ui.css');
+
+$form = new Form('item-frm');
+$form->setHtmlOption([
+    'class' => 'form-vertical'
+]);
+?>
+<!-- BEGIN HEADER -->
+<div class="page-header">
+    <div class="pull-left">
+        <h3><?php echo $title; ?></h3>
+    </div>
+</div>
+<!-- END HEADER -->
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Products') => array(
+            'url' => $this->createUrl('items/default')
+        ),
+        $title
+    ),
+)) ?>
+
+<div>&nbsp;</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <?php if (isset($error) && !empty($error)) :?>
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <?php echo implode('<br>', array_values($error)); ?>
+            </div>
+        <?php elseif (isset($message) && !empty($message)) : ?>
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <?php echo $message; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<?php $form->beginForm(); ?>
+<div class="row">
+    <!-- MAIN BLOCK -->
+    <div class="col-md-8" id="item-form-left">
+        <div class="box">
+            <div class="box-content nopadding">
+                <div class="form-group<?php if(isset($error['name'])) echo ' has-error' ?>">
+                    <?php $form->input('item[name]', $item->getName())
+                        ->setHtmlOption(['autofocus' => 1])
+                        ->addClass('form-control big')
+                        ->setPlaceHolder('Product name')
+                        ->display(); ?>
+
+                    <?php if (isset($error['name'])) : ?>
+                        <span class="help-block"><?php echo $error['name'] ?></span>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group clearfix<?php if(isset($error['posts.term_id'])) echo ' has-error' ?>">
+                    <label class="control-label"><?php td('Category'); ?> (*)</label>
+                    <div class="col-md-12 nopadding">
+                        <div class="col-md-6 nopadding-left">
+                            <?php $this->widget('app.Widget.SelectPostCategory', array(
+                                'label' => t('Select Category'),
+                                'taxonomy' => 'product',
+                                'selected' => $item->getCatId(),
+                                'elementName' => 'item[cat_id]',
+                                'error' => isset($error['cat_id'])? $error['cat_id']: null,
+                                'form' => $form,
+                                'htmlOptions' => ['class' => 'form-control']
+                            ));
+                            ?>
+                            <?php if (isset($error['cat_id'])) : ?>
+                                <span class="help-block"><?php echo $error['cat_id'] ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php td("Short Description") ?></label>
+                    <?php $form->textArea('item[excerpt]', $item->getExcerpt())
+                        ->addClass('form-control')
+                        ->display(); ?>
+                </div>
+
+                <div class="form-group">
+                    <?php $this->widget(\Flywheel\Config\ConfigHandler::get('editor'), array(
+                        'selector' => '#item_desc',
+                        'height' => 360
+                    )); ?>
+                    <?php $form->textArea('item[description]', $item->getDescription())
+                        ->setId('item_desc')
+                        ->addClass('form-control')
+                        ->display(); ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM ACTION -->
+        <div class="form-actions text-center">
+            <button class="btn btn-primary"><?php td("Save Changes") ?></button>
+            <button class="btn"><?php td("Reset") ?></button>
+        </div>
+        <!--/form action -->
+    </div>
+    <!--/main block -->
+
+    <!-- LEFT block -->
+    <div class="col-md-4" id="item-form-right">
+        <div class="box box-condensed">
+            <div class="box-title"><h3><?php td("Product Info") ?></h3></div>
+            <div class="box-content nopadding-right">
+                <div class="form-group">
+                    <label class="control-label"><?php td("SKU") ?></label>
+                    <?php $form->input('item[sku]', $item->getSku())
+                        ->addClass('form-control')
+                        ->setPlaceHolder('Unique value')
+                        ->display(); ?>
+                </div>
+
+                <div class="form-group clearfix">
+                    <label class="col-md-6 control-label nopadding"><?php td("Regular Price") ?></label>
+                    <label class="col-md-6 control-label nopadding"><?php td("Sale Price") ?></label>
+
+                    <div class="col-md-6 nopadding-left">
+                        <?php $form->input('item[regular_price]', ($item->getRegularPrice())? $item->getRegularPrice() : '')
+                            ->addClass('form-control autoNumeric')
+                            ->display(); ?>
+                    </div>
+
+
+                    <div class="col-md-6 nopadding">
+                        <?php $form->input('item[sale_price]', ($item->getSalePrice())? $item->getSalePrice() : '')
+                            ->addClass('form-control autoNumeric')
+                            ->display(); ?>
+                    </div>
+                </div>
+
+                <div class="form-group clearfix">
+                    <label for="item_pin" class="control-label col-md-3 nopadding-left"><?php td('Highlight'); ?></label>
+                    <div class="col-md-9 nopadding">
+                        <?php
+                        $form->checkbox('item[pin]', $item->getPin(), 1)
+                            ->addClass('form-control checkbox-horizontal')
+                            ->display();
+                        ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php td("Status") ?></label>
+                    <?php
+                    $form->selectOption('item[status]', [$item->getStatus()])
+                        ->addClass('form-control')
+                        ->addOption(t('Active'), \Items::STATUS_ACTIVE)
+                        ->addOption(t('Inactive'), \Items::STATUS_INACTIVE)
+                        ->display();
+                    ;?>
+                </div>
+
+                <?php if (!$item->isNew()) :?>
+                <div>
+                    <?php td("Created:") ?> <?php echo $item->getCreatedTime()->format('H:i d/m/Y'); ?><br>
+                    <?php td("Public:") ?> <?php echo $item->getPublicTime()->format('H:i d/m/Y'); ?><br>
+                    <?php td("Modified:") ?> <?php echo $item->getModifiedTime()->format('H:i d/m/Y'); ?><br>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="box box-condensed">
+            <div class="box-title"><h3><?php td("Promotion") ?></h3></div>
+            <div class="box-content">
+                <!-- Promotion -->
+                <div class="form-group clearfix">
+                    <label for="item_status" class="control-label col-md-3 nopadding-left"><?php td('Enable?'); ?></label>
+                    <div class="col-md-9 nopadding">
+                        <?php
+                        $form->checkbox('item[promotion]', $item->getPromotion(), 1)
+                            ->addClass('form-control checkbox-horizontal')
+                            ->display();
+                        ?>
+                    </div>
+                </div>
+
+                <div class="form-group clearfix">
+                    <label class="control-label nopadding-left"><?php td('Promotion Description'); ?></label>
+                    <?php $form->textArea('item[promotion_desc]', $item->getPromotionDesc())
+                        ->addClass('form-control')
+                        ->display(); ?>
+                </div>
+                <!--/promotion -->
+            </div>
+        </div>
+
+
+
+        <!-- IMAGES -->
+        <div class="box box-condensed">
+            <div class="box-title">
+                <h3><?php td("Images") ?></h3>
+                <div class="actions">
+                    <div class="btn btn-danger fileinput-button">
+                        <i class="fa fa-cloud-upload"></i> <?php td("Add image") ?>
+                        <input id="_item-img-upload" type="file" name="upload_images" multiple="" data-item-id="<?php echo $item->getId(); ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="box-content" id="_item-images-ctn">
+            </div>
+        </div>
+        <!--/images -->
+    </div>
+    <!--/left block -->
+</div>
+<?php $form->endForm(); ?>
+
+<script type="text/x-handlebars-template" id="_item-images-tmp">
+    {{#if imgs}}
+    <table class="table table-condensed" id="item-imgs-tbl">
+        <tbody>
+        {{#each imgs}}
+            <tr>
+                <td class="col-md-2">
+                    <a href="{{url}}" target="_blank"><img src="{{thumb_url}}" width="100%"></a>
+                </td>
+                <td class="col-md-5">
+                    {{file_name}}<br>
+                    <input type="hidden" name="item_images[{{file_name}}][file_name]" value="{{file_name}}">
+                    <input type="hidden" name="item_images[{{file_name}}][path]" value="{{path}}">
+                    <input type="hidden" name="item_images[{{file_name}}][public]" value="{{public}}">
+                    <input type="hidden" name="item_images[{{file_name}}][main]" value="{{main}}">
+                    <input type="hidden" name="item_images[{{file_name}}][ordering]" value="{{ordering}}">
+                </td>
+                <td class="col-md-5 text-right item-tool">
+                    <div class="item-img-tool-ctn{{#unless main}} normal{{/unless}}">
+                        {{#if main}}
+                        <span class="item-img-tool"><i class="fa fa-star"></i></span>
+                        {{else}}
+                        <a class="item-img-tool make-star _set-main-img" rel="{{file_name}}" href="javascript:void(0);" title="<?php td("Main image") ?>">
+                            <i class="fa fa-star"></i>
+                        </a>
+                        {{/if}}
+
+                        <a class="item-img-tool" href="{{url}}" title="<?php td("View full size") ?>" target="_blank">
+                            <i class="fa fa-search"></i>
+                        </a>
+
+                        <a class="item-img-tool _remove-img" rel="{{file_name}}" href="javascript:void(0);" title="<?php td("Remove") ?>">
+                            <i class="fa fa-close"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+</script>

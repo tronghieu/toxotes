@@ -1,0 +1,67 @@
+<?php
+return [
+    'i18n' => [
+        'enable' => true,
+        'default_fallback' => ['vi'],
+        'default_locale' => 'vi-VN',
+        'resource' => [
+            'vi-VN' => []
+        ]
+    ],
+
+    /****** MEDIA ******/
+    'media' => [
+        'sfs_enable' => true,
+        'sfs_path' => '/thumbs/'
+    ],
+
+    /****** Session ******/
+    'session' => array(
+        'storage' => '', // \Flywheel\Session\Storage\File
+        'name'  => 'TaNiLeE@)!%',
+        'lifetime' => 86400,
+        //'cookie_domain' => '',
+        'cookie_exception' => true,
+        'cookie_basename' => 'TaNiLeE',
+        'cookie_secret' => 'mZu&4#N_=*Xt7qnGP7Taw^!+',
+    ),
+
+    /**** LOGGER ****/
+    'logger'=>array(
+        'debug'=>100,
+        'path' => ROOT_PATH.'/runtime/log/',
+    ),
+
+    /***** DATABASE *****/
+    'database' => array(
+        'default' => array(
+            'adapter' => 'mysqli', //sqlite, mysql, mssql, oracle or pgsql
+            'dsn' => 'mysql:host=localhost;dbname=tanileestudio.com',
+            'db_user' => 'root',
+            'db_pass' => 'abc@123',
+            'cache_prepare' => true,
+            'slaves' => array(
+            ),
+        ),
+
+        '__default__' => 'default'
+    ),
+
+    'site_setting' => [
+        'facebook_page' => [
+            'label' => t('Facebook'),
+            'control' => 'input',
+            'type' => 'text'
+        ],
+        'google_page' => [
+            'label' => t('Google'),
+            'control' => 'input',
+            'type' => 'text'
+        ],
+        '500px_page' => [
+            'label' => t('500px'),
+            'control' => 'input',
+            'type' => 'text'
+        ],
+    ]
+];

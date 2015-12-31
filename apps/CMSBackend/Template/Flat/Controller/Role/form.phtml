@@ -1,0 +1,132 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+/** @var \Roles $role */
+
+$form = $this->createFrom('role_frm');
+$form->setHtmlOption(array(
+    'class' => 'form-horizontal',
+));
+
+$title = ($role->isNew()) ? t('Add new role') : t('Edit %something%', [
+    '%something%' => $role->getName()
+]);
+$this->document()->title = $title;
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $title ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="teal">
+                <a href="<?php echo $this->createUrl('user/default') ?>"><i class="fa fa-list"></i></a>
+            </li>
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('role/default') ?>"><i class="fa fa-group"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        t('Users Management') => [
+            'url' => $this->createUrl('user/default')
+        ],
+        t('Roles Management') => [
+            'url' => $this->createUrl('role/default')
+        ],
+        $title
+    ],
+]) ?>
+
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="box">
+        <div class="box-content">
+            <?php if (isset($error) && !empty($error)) :?>
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <?php echo implode('<br>', array_values($error)); ?>
+                </div>
+            <?php elseif (isset($message) && !empty($message)) : ?>
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <?php echo $message; ?>
+                </div>
+            <?php endif; ?>
+            <?php $form->beginForm(); ?>
+            <div class="form-group">
+                <label class="col-md-3 control-label"><?php td('Name') ?> *</label>
+                <div class="col-md-9">
+                    <?php $form->input('role[name]', $role->getName())
+                        ->setId('role_name')
+                        ->addClass('form-control')
+                        ->display(); ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label"><?php td('Parent') ?> *</label>
+                <div class="col-md-9">
+                    <?php $this->widget('app.Widget.SelectRoleParent', array(
+                        'selected' => @$role->getParentId(),
+                        'elementName' => 'role_parent',
+                        'error' => isset($error['role.parent'])? $error['role.parent']: null,
+                        'form' => $form,
+                        'htmlOptions' => [
+                            'class' => 'form-control'
+                        ]
+                    ));
+                    ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label"><?php td('Status') ?> *</label>
+                <div class="col-md-9">
+                    <?php
+                    $form->selectOption('role[status]', $role->getStatus())
+                        ->addClass('form-control')
+                        ->addOption('Active', \Roles::STATUS_ACTIVE)
+                        ->addOption('Inactive', \Roles::STATUS_INACTIVE)
+                        ->display();
+                    ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label"><?php td('Admin Access?') ?> *</label>
+                <div class="col-md-9">
+                    <?php
+                    $form->checkbox('role[admin_access]', 1, $role->getAdminAccess())
+                        ->addClass('form-control')
+                        ->display();
+                    ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label"><?php td('Description') ?></label>
+                <div class="col-md-9">
+                    <?php
+                    $form->textArea('role[description]', $role->getDescription())
+                        ->addClass('form-control')
+                        ->display();
+                    ?>
+                </div>
+            </div>
+
+            <div class="form-actions col-md-9 col-md-offset-3">
+                <button type="submit" class="btn btn-primary"><?php td("Save Changes") ?></button>
+                <button type="reset" class="btn"><?php td("Reset") ?></button>
+            </div>
+            <?php $form->endForm(); ?>
+        </div>
+    </div>
+    </div>
+</div>

@@ -1,0 +1,234 @@
+<?php
+use Flywheel\View\Render;
+
+/** @var Render $this */
+/** @var \ShippingOrder $order */
+/** @var \ShippingCustomer $customer */
+/** @var \Users[] $moderators */
+/** @var \Users[] $transporters */
+$title = ($order->isNew())? t('Create New Shipping Order') : t('Edit Shipping Order %code%', ['%code%' => $order->getUid()]);
+$this->document()->title = $title;
+
+$this->document()->addJs('js/handlebars-v2.0.0.js', 'TOP');
+$this->document()->addJs('js/plugins/typeahead/typeahead.bundle.js', 'TOP');
+$this->document()->addJs('js/process/transporter/transporter.js');
+$this->document()->addJs('js/process/transporter/order_form.js');
+
+$form = $this->createFrom('order-frm')
+    ->addClass('form-vertical')
+    ->setId('_order-frm');
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $title ?></h1>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        t('Orders Management') => [
+            'url' => $this->createUrl('transporter/orders')
+        ],
+        $title
+    ],
+]) ?>
+
+<?php if (isset($error) && !empty($error)) :?>
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <?php echo implode('<br>', array_values($error)); ?>
+    </div>
+<?php elseif (isset($message) && !empty($message)) : ?>
+<div class="alert alert-success alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <?php echo $message; ?>
+</div>
+<?php endif; ?>
+
+<div class="row">
+    <?php $form->beginForm(); ?>
+    <div class="col-md-3">
+        <!-- CUSTOMER INFORMATION -->
+        <div class="box box-condensed">
+            <div class="box-title nobor">
+                <h3><?php td("Customer Information") ?></h3>
+            </div>
+            <div class="box-content nopadding">
+                <div class="form-group clearfix">
+                    <label class="control-label"><?php td("Customer's code") ?>*</label>
+                    <div class="col-md-12 nopadding customer-code-suggestion">
+                        <?php $form->input('cus_code', $customer->getUid())
+                            ->setId('_customer_code-fc')
+                            ->addClass('form-control typeahead')
+                            ->display(); ?>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label"><?php td("Phone") ?>/<?php td("Mobile") ?>*</label>
+                    <div class="col-md-12 nopadding customer-mobile-suggestion">
+                        <?php $form->input('order[pickup_mobile]', $order->getPickupMobile())
+                            ->setId('_customer_mobile-fc')
+                            ->setPlaceHolder(t("Enter phone number chose bellow or create new"))
+                            ->addClass('form-control typeahead')
+                            ->display(); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"><?php td("Customer Name") ?></label>
+                    <?php $form->input('customer[name]', $customer->getName())
+                        ->setId('_customer_name-fc')
+                        ->addClass('form-control')
+                        ->display(); ?>
+                </div>
+
+                <div class="form-group">
+                    <a href="<?php $controller->createUrl('transporter/customer/form'); ?>" target="_blank">
+                        <i class="fa fa-plus"></i>
+                        <?php td("Add customer") ?>
+                    </a>
+                </div>
+
+                <?php $form->input('order[customer_id]', $customer->getId())
+                            ->setId('_order-customer-id-txt')
+                            ->setType('hidden')
+                            ->display(); ?>
+            </div>
+        </div>
+        <!--/customer information -->
+    </div>
+
+    <!-- PICKUP INFORMATION -->
+    <div class="col-md-6">
+        <div class="box box-condensed">
+            <div class="box-title nobor">
+                <h3><?php td("Pickup Address") ?></h3>
+            </div>
+            <div class="box-content nopadding">
+                <div class="form-group col-md-6 nopadding-left">
+                    <label class="control-label"><?php td("Province") ?>*</label>
+                    <?php $this->widget('app.Widget.SelectProvince', [
+                        'form' => $form,
+                        'selected' => $order->getPickupProvinceId(),
+                        'name' => 'order[pickup_province_id]',
+                        'rel' => '_cus-district-id',
+                        'label' => t('Province'),
+                        'id' => '_cus-province-id',
+                        'htmlOptions' => [
+                            'class' => 'form-control'
+                        ]
+                    ]); ?>
+                </div>
+
+                <div class="form-group col-md-6 nopadding-right">
+                    <label class="control-label"><?php td("District") ?>*</label>
+                    <?php $this->widget('app.Widget.SelectDistrict', [
+                        'form' => $form,
+                        'selected' => $order->getPickupDistrictId(),
+                        'name' => 'order[pickup_district_id]',
+                        'rel' => '_cus-province-id',
+                        'label' => t('District'),
+                        'id' => '_cus-district-id',
+                        'htmlOptions' => [
+                            'class' => 'form-control'
+                        ]
+                    ]); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php td("Address") ?></label>
+                    <?php $form->input('order[pickup_address]', $order->getPickupAddress())
+                        ->setId('_order-pickup-address-fc')
+                        ->addClass('form-control')
+                        ->display(); ?>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"><?php td("Pickup note") ?></label>
+                    <?php $form->textArea('order[pickup_note]', $order->getPickupNote())
+                        ->setId('_order-pickup-note-fc')
+                        ->addClass('form-control')
+                        ->setPlaceHolder('Lưu ý cho nhân viên lấy hàng, VD: đến trước 12h30, ưu tiên ...')
+                        ->display(); ?>
+                </div>
+
+                <?php if (!$order->isNew()) :?>
+                    <div class="form-group">
+                        <?php td("Created by") ?>:
+                        <a href="<?php echo $this->createUrl('user/detail', ['id' => $order->getCreator()->getId()]) ?>" target="_blank">
+                            <?php echo $order->getCreator()->getName(); ?>
+                        </a>
+                        <?php td("at %created_time%", [
+                            '%created_time%' => $order->getCreatedTime()->format('H:i d/m/Y')
+                        ]); ?>
+                        &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+                        <a href="<?php echo $this->createUrl('transporter/orders/detail', ['id' => $order->getId()]) ?>">
+                            <?php td("Detail") ?>
+                        </a>
+                    </div>
+                <?php endif;?>
+            </div>
+        </div>
+    </div>
+    <!--/pickup information -->
+
+    <!-- ORDER INFORMATION -->
+    <div class="col-md-3">
+        <div class="box box-condensed">
+            <div class="box-title nobor">
+                <h3><?php td("Staff") ?></h3>
+            </div>
+            <div class="box-content nopadding">
+                <div class="form-group">
+                    <label class="control-label"><?php td("Moderator") ?>*</label>
+                    <?php $mod_select = $form->selectOption('order[moderator]', [$order->getModerator()])
+                        ->setId('_order-moderator-fc')
+                        ->addClass('form-control select2')
+                        ->addOption(t('Chose Staff'), 0);
+                    foreach($moderators as $mod) {
+                        $mod_select->addOption($mod->getName(), $mod->getId());
+                    }
+                    $mod_select->display();
+                    ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php td("Pickup staff") ?>*</label>
+                    <?php $trans_select =  $form->selectOption('order[pickup_staff]', [$order->getPickupStaff()])
+                        ->setId('_order-pickup-staff-fc')
+                        ->addClass('form-control select2')
+                        ->addOption(t('Chose Staff'), 0);
+                    foreach($transporters as $trans) {
+                        $trans_select->addOption($trans->getName(), $trans->getId());
+                    }
+                    $trans_select->display(); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php td("Total Fee") ?> (VND) *</label>
+                    <?php $form->input('order[total_fee]', $order->getTotalFee()? $order->getTotalFee() : '')
+                        ->setId('_order-total-fee-fc')
+                        ->addClass('form-control autoNumeric')
+                        ->setPlaceHolder('VND')
+                        ->display(); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php td("Bill number") ?></label>
+                    <?php $form->input('order[bill_no]', $order->getBillNo())
+                        ->addClass('form-control')
+                        ->setPlaceHolder('Enter bill number')
+                        ->display(); ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions nopadding">
+            <button class="btn btn-primary pull-right" id="_order-save-btn"><?php td("Save Order Information") ?></button>
+        </div>
+    </div>
+    <!--/ order information -->
+    <?php $form->endForm(); ?>
+</div>

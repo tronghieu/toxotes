@@ -1,0 +1,181 @@
+/*
+ * Dee Base | v0.1 | Thenv202@gmail.com
+ * A Base Stylesheet Without Reset
+ * TODO: feel free to modify to fit your needs
+*/
+
+/* PAGE */
+html {
+	font-size: 100.01%; /* Avoids IE 5-7 bug with EM fonts */
+}
+body {
+	background-color: #fff; /* Not all browsers set background color as white */
+	color: #444;
+	font: 80%/1.4em Arial, Helvetica, sans-serif; /* Override default font */
+	margin: 0;
+	padding: 0;
+}
+
+/* HEADING */
+h1, h2, h3, h4, h5, h6 {
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1.2em; /* Big heading look nicer with smaller line-height */
+	margin: .7em 0 .5em;
+}
+h1 {
+	font-size: 2em;
+}
+h2 {
+	font-size: 1.75em;
+}
+h3 {
+	font-size: 1.5em;
+}
+h4 {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+h5 {
+	font-size: 1em;
+	font-weight: bold;
+}
+h6 {
+	font-size: 1em;
+	font-style: italic;
+}
+
+/* LIST */
+ul, ol {
+	line-height: 1.2em;
+	margin: .75em 0 .75em 32px;
+	padding: 0;
+}
+ol li {
+	list-style-type: decimal;
+}
+ul li {
+	list-style-type: disc;
+}
+ul ul li {
+	list-style-type: circle;
+}
+ul ul ul li {
+	list-style-type: square;
+}
+ol ol li {
+	list-style-type: lower-alpha;
+}
+ol ol ol li {
+	list-style-type: lower-roman;
+}
+dl {
+	margin: 1em 0;
+}
+dt {
+	margin: 1em 0 0 0;
+}
+dd {
+  margin: .5em 0;
+}
+
+/* PARAGRAPH */
+p {
+	margin: 1em 0; /* Most browser defaults are "1em 0". */
+}
+address {
+	margin: 1em 0;
+}
+
+/* QUOTE */
+blockquote {
+	margin: .75em 0 .75em 20px;
+	padding: 0;
+}
+blockquote p:before, blockquote p:after, q:before, q:after {
+	content: ''; /* Remove automatic quotation marks for inline quotations ("quotes:none" not working in Webkit browser) */
+}
+blockquote p, li p {
+	margin: .75em 0; /* Bring paragraphs inside lists or quotations closer */
+}
+
+/* LINK */
+a:active {
+	outline: none; /* No dotted outline around links when clicking them */
+}
+a img {
+	border: none; /* No border around images in links */
+}
+
+/* MONOSPACE */
+pre, tt, code, kbd, samp, var {
+	font-family: "Courier New", Courier, monospace;
+}
+
+/* INLINE */
+sub, sup {
+	font-size: smaller;
+	line-height: 1em;
+}
+sub {
+	vertical-align: sub;
+}
+sup {
+	vertical-align: super;
+}
+img {
+	vertical-align: bottom;
+}
+abbr, acronym, dfn {
+	border-bottom: 1px dotted #333;
+	cursor: help;
+	font-variant: normal;
+} 
+
+/* FORM */
+form, fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+input[type="checkbox"], input[type="radio"] {
+	vertical-align: text-bottom;
+}
+button, input[type="submit"], input[type="reset"], input[type="button"], input.button {
+	overflow: visible;
+    padding: 0 .25em;
+}
+button, input[type="submit"], input[type="reset"], input[type="button"], input.button[class] { /*ie ignores [class]*/
+    width: auto;
+}
+
+/* TABLE */
+table {
+	border: 0;
+	border-collapse: collapse; /* Default is "seperate" */
+	border-spacing: 0; /*! No IE 6-7 support */
+	margin: 0;
+}
+td, th {
+	border: 0;
+	padding: 0;
+	text-align: left; /* Default is "center" in <th> */
+	vertical-align: top; /* Default is "middle" */
+}
+
+/* UTILITY */
+.clearfix:after {
+	clear: both; 
+	content: ".";
+	display: block;
+	height: 1px;
+	overflow: hidden;
+	visibility: hidden;
+}
+.clearfix {
+	zoom: 1;
+	clear:both;
+}
+.clearfix[class] {
+	zoom: normal;
+}

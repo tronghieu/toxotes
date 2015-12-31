@@ -1,0 +1,44 @@
+ul#post-files {
+    margin-left: 0;
+    padding: 0 10px;
+}
+ul#post-files li {
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+}
+
+ul#post-files li .sub-tool {
+    font-size: 12px;
+}
+
+a.tool-unpin, a.tool-pin, .highlight-column-title, .highlight-column {
+    text-decoration: none;
+    padding: 5px;
+    text-align: center;
+    height: 100%;
+}
+
+a.tool-pin:hover, a.tool-unpin:hover {
+    color: #fff;
+    background: #368ee0
+}
+
+#post-imgs-block img {
+    width: 74px;
+    height: 50px;
+}
+
+#post-imgs-block .highlight-toolbar {
+    margin: 0;
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+#post-imgs-block .box-content {
+    padding: 0 0 10px 0 !important;
+}
+
+.gallery > li .extras .extras-inner a {
+    padding: 4px 5px !important;
+}

@@ -1,0 +1,143 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+$title = t('Orders Management');
+$this->document()->title = $title;
+$this->document()->addJs('js/handlebars-v2.0.0.js', 'TOP');
+$this->document()->addJs('js/process/paginator.js', 'TOP');
+$this->document()->addJs('js/process/transporter/transporter.js');
+$this->document()->addJs('js/process/transporter/order.js');
+$this->document()->addJsCode('Transporter.Order.init();');
+
+$this->document()->addCss('css/transporter/transporter.css');
+
+$searchFrm = $this->createFrom('order_search', '', 'GET')->addClass('form-vertical')->setId('_order-search-frm');
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $title ?></h1>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        $title
+    ],
+]) ?>
+
+<?php $searchFrm->beginForm(); ?>
+<div class="row hidden-480">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-title nobor col-md-2">
+                <h3><?php td("Search Orders") ?></h3>
+            </div>
+            <div class="box-content col-md-10">
+                <div class="highlight-toolbar">
+                    <div class="btn-group">
+                        <?php $searchFrm->input('customer', $customer)
+                            ->setPlaceHolder(t('Enter name or mobile'))
+                            ->addClass('form-control')
+                            ->display(); ?>
+                    </div>
+
+                    <div class="btn-group">
+                        <?php $searchFrm->input('phone', $phone)
+                            ->setPlaceHolder(t('Phone'))
+                            ->addClass('form-control')
+                            ->display(); ?>
+                    </div>
+
+                    <div class="btn-group">
+                        <?php $selectState = $searchFrm->selectOption('state', $state)
+                            ->addOption(t('Filter by state'), '')
+                            ->addClass('form-control');
+
+                            foreach(\ShippingOrder::$state_name as $state => $state_name) {
+                                $selectState->addOption(t($state_name), $state);
+                            }
+                            $selectState->display(); ?>
+                    </div>
+
+                    <div class="btn-group">
+                        <?php $selectState = $searchFrm->selectOption('staff', $staff)
+                            ->addOption(t('Filter by staff'), '')
+                            ->addClass('form-control');
+
+                        foreach($staff_list as $staffUser) {
+                            $selectState->addOption($staffUser->getName(), $staffUser->getId());
+                        }
+                        $selectState->display(); ?>
+                    </div>
+
+                    <?php $searchFrm->input('page', $page)
+                        ->setType('hidden')
+                        ->display(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $searchFrm->endForm(); ?>
+
+<div class="row" id="transporter-order">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-content nopadding">
+                <div class="col-md-12 nopadding" id="_orders-list-ctn"></div>
+                <div class="col-md-12 text-center" id="paging"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-handlebars-template" id="_orders-list-tmp">
+    <table class="table table-striped" id="orders-list">
+        <thead>
+        <tr>
+            <th><?php td("Code") ?></th>
+            <th><?php td("Customer") ?></th>
+            <th class="hidden-480"><?php td("Address") ?></th>
+            <th class="hidden-480 text-center"><?php td("Fee"); ?>/<?php td("Payment") ?></th>
+            <th class="hidden-768"><?php td("Staff"); ?></th>
+            <th class="hidden-480"><?php td("Id") ?></th>
+            <th class="hidden-480"><i class="fa fa-wrench"></i></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each orders}}
+        <tr{{#ifCond total_fee '>' total_payment}} class="payment-problem"{{/ifCond}}>
+            <td>
+                <h5 style="margin:0"><a href="{{detail_link}}">{{uid}}</a></h5>
+                {{state}}
+            </td>
+            <td>
+                <a href="{{customer.detail_link}}">
+                    {{customer.name}}
+                </a><br>
+                {{pickup_mobile}}
+            </td>
+            <td class="hidden-480">
+                {{pickup.address}}{{#if pickup.province}}, {{pickup.province}}{{/if}}{{#if pickup.district}}, <strong>{{pickup.district}}</strong>{{/if}}
+                <p class="font-lightred">{{pickup_note}}</p>
+            </td>
+            <td class="hidden-480 text-center"><span class="total-fee">{{currency total_fee 'đ'}}</span>/<span class="total-payment">{{currency total_payment 'đ'}}</span></td>
+            <td class="hidden-768">
+                <ul class="transporter_staff">
+                    <li><?php td("Mod") ?>: {{#if moderator}}{{moderator.name}}{{/if}}</li>
+                    <li><?php td("Pickup") ?>: {{#if pickup_staff}}{{pickup_staff.name}}{{/if}}</li>
+                </ul>
+            </td>
+            <td class="hidden-480">{{id}}</td>
+            <td class="hidden-480">
+                <a href="{{edit_link}}"><?php td("Edit") ?></a><br>
+                <a href="{{detail_link}}"><?php td("Detail") ?></a>
+            </td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</script>

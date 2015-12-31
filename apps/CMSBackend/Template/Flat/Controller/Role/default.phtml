@@ -1,0 +1,92 @@
+<?php
+/** @var Html $doc */
+use Flywheel\Document\Html;
+
+$doc = $this->document();
+$title = t('Roles Management');
+
+$doc->addJs('js/handlebars-v2.0.0.js', 'TOP');
+$doc->addJs('js/plugins/icheck/jquery.icheck.min.js', 'TOP');
+$doc->addJs('js/plugins/select2/select2.min.js', 'TOP');
+$doc->addJs('js/process/roles.js');
+$doc->addJsVar('roles', $roles);
+
+$doc->addCss('css/plugins/select2/select2.css');
+$doc->addCss('css/plugins/icheck/all.css');
+$doc->title = $title;
+?>
+
+    <!-- BEGIN HEADER -->
+    <div class="page-header">
+        <div class="pull-left">
+            <h1><?php echo $title; ?></h1>
+        </div>
+        <div class="pull-right">
+            <ul class="minitiles">
+                <li class="blue">
+                    <a href="<?php echo $this->createUrl('role/form'); ?>">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </li>
+                <li class="lime">
+                    <a href="<?php echo $this->createUrl('role/default'); ?>">
+                        <i class="fa fa-group"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- END HEADER -->
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Users') => array(
+            'url' => $this->createUrl('user/default'),
+        ),
+        t('Roles Management')
+    ),
+)) ?>
+
+<div class="row" id="_role-container">
+</div>
+
+<script id="_role-template" type="text/x-handlebars-template">
+    <div class="col-sm-12">
+        <div class="box">
+            <div class="box-content nopadding">
+                <table class="table table-hover table-nomargin">
+                    <thead>
+                    <tr>
+                        <th><?php td('Name'); ?></th>
+                        <th class="hidden-768"><?php td('Members'); ?></th>
+                        <th class="hidden-480"><?php td('Status'); ?></th>
+                        <th class="hidden-480"><?php td('Admin?'); ?></th>
+                        <th class="hidden-480"><?php td('ID'); ?></th>
+                        <th class="hidden-760"><i class="fa fa-wrench"></i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each roles}}
+                    <tr id="_role-{{id}}">
+                        <td>
+                            {{#for 0 level 1}}&#8212;{{/for}}<sup>{{level}}</sup><a href="{{detail_link}}"><strong>{{name}}</strong></a>
+                            <p class="font-grey" style="padding-left:{{math level '*' 10}}px">{{description}}</p>
+                        </td>
+                        <td class="hidden-768">{{member_no}}</td>
+                        <td class="hidden-480">{{status}}</td>
+                        <td class="hidden-480">{{#if admin_access}}<i class="fa fa-check"></i>{{/if}}</td>
+                        <td class="hidden-480">{{id}}</td>
+                        <td class="hidden-760">
+                            <a href="{{permission_link}}"><?php td("Permission") ?></a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</script>

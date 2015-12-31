@@ -1,0 +1,219 @@
+<?php
+use Flywheel\View\Render;
+
+/** @var Render $this */
+
+/** @var \Menus $menu */
+
+$this->document()->addJs('js/process/menus.js');
+
+$page_title = ($menu->isNew())? t('Add new menu item') : t('Edit menu ' .$menu->getName());
+$this->document()->title .= $page_title;
+
+$form = new \Flywheel\Html\Form();
+$form->setHtmlOption([
+    'class' => 'form-horizontal'
+]);
+?>
+
+
+    <div class="page-header">
+        <div class="pull-left">
+            <h1><?php echo $page_title ?></h1>
+        </div>
+        <div class="pull-right">
+
+        </div>
+    </div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        t('Menu Management') => array(
+            'url' => $this->createUrl('menu/default')
+        ),
+        $page_title
+    ),
+)) ?>
+
+<?php
+$form->beginForm();
+?>
+    <div class="row">
+        <?php if (!empty($error) || !empty($message)) :?>
+            <div class="col-md-8 col-md-offset-2">
+                <?php if (isset($error) && !empty($error)) :?>
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo implode('<br>', array_values($error)); ?>
+                    </div>
+                <?php elseif (isset($message) && !empty($message)) : ?>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo $message; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-content">
+                    <div class="form-group<?php if(isset($error['menus.name'])) echo ' has-error' ?>">
+                        <label class="control-label col-md-3"><?php td('Name'); ?> (*)</label>
+                        <div class="col-md-9">
+                            <input name="menus[name]" value="<?php echo $menu->getName() ?>" class="form-control big" id="menu-name" placeholder="<?php echo t('Enter Menu Name Here') ?>">
+                            <?php if (isset($error['menus.name'])) : ?>
+                                <span class="help-block"><?php echo $error['menus.name'] ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group<?php if(isset($error['menus.alias'])) echo ' has-error' ?>">
+                        <label class="control-label col-md-3"><?php td('Alias'); ?> (*)</label>
+                        <div class="col-md-9">
+                            <input name="menus[alias]" value="<?php echo $menu->getAlias() ?>" class="form-control" id="menu-name" placeholder="<?php echo t('Menu alias') ?>">
+                            <?php if (isset($error['menus.alias'])) : ?>
+                                <span class="help-block"><?php echo $error['menus.alias'] ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group<?php if(isset($error['parent'])) echo ' has-error' ?>">
+                        <label class="control-label col-md-3"><?php td('Parent'); ?></label>
+                        <div class="col-md-9">
+                            <?php $this->widget('app.Widget.SelectMenus', array(
+                                'label' => t('Select Parent'),
+                                'selected' =>  ($menu->isNew())? 0 :$menu->getParent()->getId(),
+                                'elementName' => 'parent_id',
+                                'form' => $form,
+                                'htmlOptions' => ['class' => 'form-control']
+                            )) ;?>
+                            <?php if (isset($error['parent'])) : ?>
+                                <span class="help-block"><?php echo $error['parent'] ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3"><?php echo t('Language'); ?> </label>
+                        <div class="col-md-9">
+                            <?php $this->widget('app.Widget.SelectLanguage', array(
+                                'selected' => $menu->getLanguage(),
+                                'elementName' => 'menus[language]',
+                                'form' => $form,
+                                'htmlOptions' => ['class' => 'form-control']
+                            )) ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3"><?php echo t('Status'); ?> </label>
+                        <div class="col-md-9">
+                            <?php $form->radioButton('menus[status]', $menu->getStatus())
+                                ->add(1, 'Active', array('class' => 'inline'))
+                                ->add(0, 'Inactive', array('class' => 'inline'))
+                                ->display(); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3"><?php echo t('Description'); ?> </label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" name="menus[description]"><?php echo $menu->getDescription(); ?></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-content">
+                    <div class="col-md-12" style="background-color: #f3f3f3;">
+                        <div class="col-md-12 nopadding">
+                            <h5><?php td('Menu data'); ?></h5>
+                        </div>
+                        <div class="form-group<?php if(isset($error['menus.type'])) echo ' has-error' ?>">
+                            <label class="control-label col-md-3"><?php td('Type'); ?></label>
+                            <div class="col-md-9">
+                                <?php
+                                $form->radioButton('menus[type]', $menu->getType())
+                                    ->add('internal', t('internal'), array('class' => 'inline _menus-type'))
+                                    ->add('external', t('external'), array('class' => 'inline _menus-type'))
+                                    ->add('separate', t('separate'), array('class' => 'inline _menus-type'))
+                                    ->display();
+                                ?>
+                                <?php if (isset($error['menus.type'])) : ?>
+                                    <span class="help-block"><?php echo $error['menus.type'] ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <!-- External Link -->
+                        <div id="external-form" class="_extra-form<?php if($menu->getType() != 'external') :?> hide<?php endif; ?>">
+                            <div class="form-group<?php if(isset($error['menus.link'])) echo ' has-error' ?>">
+                                <label class="control-label col-md-3"><?php td('Link'); ?></label>
+                                <div class="col-md-9">
+                                    <input name="menus[link]" class="form-control" type="text" id="menus-link" placeholder="http://" value="<?php echo $menu->getLink(); ?>">
+                                    <?php if (isset($error['menus.link'])) : ?>
+                                        <span class="help-block"><?php echo $error['menus.link'] ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group<?php if(isset($error['menus.target'])) echo ' has-error' ?>">
+                                <label class="control-label col-md-3"><?php td('Target'); ?></label>
+                                <div class="col-md-9">
+                                    <div class="col-md-3 nopadding">
+                                        <?php
+                                        $form->selectOption('menus[target]', $menu->getTarget(), ['class' => 'form-control'])
+                                            ->addOption(t('self'), '_self')
+                                            ->addOption(t('blank'), '_blank')
+                                            ->addOption(t('parent'), '_parent')
+                                            ->display();
+                                        ?>
+                                    </div>
+                                    <?php if (isset($error['menus.target'])) : ?>
+                                        <span class="help-block"><?php echo $error['menus.target'] ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ external link -->
+
+                        <!-- Internal link -->
+                        <div id="internal-form" class="_extra-form<?php if($menu->getType() != 'internal') :?> hide<?php endif; ?>">
+                            <div class="form-group<?php if(isset($error['menus.route'])) echo ' error' ?>">
+                                <label class="control-label col-md-3"><?php td('Route'); ?></label>
+                                <div class="col-md-9">
+                                    <input name="menus[route]" class="form-control" type="text" id="menus-route" value="<?php echo $menu->getRoute(); ?>">
+                                    <?php if (isset($error['menus.route'])) : ?>
+                                        <span class="help-block"><?php echo $error['menus.route'] ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Parameter (json)</label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control" rows="5" name="menus[route_param]"><?php echo $menu->getRouteParam() ?></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /internal link -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 form-actions text-center">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> <?php td('Save Changes'); ?></button>
+            <a class="btn" href="<?php echo $this->createUrl('menu/default'); ?>"> <?php td('Cancel'); ?></a>
+        </div>
+    </div>
+<?php
+$form->endForm();
+?>

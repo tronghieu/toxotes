@@ -1,0 +1,126 @@
+<?php
+/** @var Terms $term */
+
+$this->document()->title .= $page_title;
+$form = new \Flywheel\Html\Form('edit-term-frm');
+$form->setHtmlOption(array('class'=>'form-horizontal'));
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $page_title ?></h1>
+    </div>
+    <div class="pull-right">
+        <ul class="minitiles">
+            <li class="lime">
+                <a href="<?php echo $this->createUrl('category/default', array('taxonomy' => $taxonomy)) ?>"><i class="fa fa-list"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php
+$this->widget('app.Widget.Breadcrumbs', array(
+    'links' => array(
+        t('Dashboard') => array(
+            'url' => $this->document()->getBaseUrl()
+        ),
+        \Toxotes\Plugin::getTaxonomyOption($taxonomy, 'post', 'label') => array(
+            'url' => ['category/default', 'taxonomy' => $taxonomy]
+        ),
+        t($page_title)
+    ),
+)); ?>
+
+<?php $form->beginForm(); ?>
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="box">
+            <div class="box-content">
+                <div class="form-group<?php if(isset($error['terms.name'])) echo ' has-error' ?>">
+                    <label for="term_name" class="control-label col-md-3"><?php td('Name'); ?> *</label>
+                    <div class="col-md-9">
+                        <input type="text" id="term_name" name="term[name]" class="form-control" value="<?php echo @$inputTerm->name ?>" placeholder="" autofocus="1"/>
+                        <?php if (isset($error['terms.name'])) : ?>
+                            <span class="help-block"><?php echo implode('. ', $error['terms.name']) ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="term_desc"><?php echo t('Parent') ?></label>
+                    <div class="col-md-9">
+                        <?php
+                            $this->widget('app.Widget.SelectParentTerm', array(
+                                'taxonomy' => $taxonomy,
+                                'selected' => $parent,
+                                'elementName' => 'term_parent',
+                                'error' => isset($error['terms.parent'])? $error['terms.parent']: null,
+                                'form' => $form,
+                                'htmlOptions' => [
+                                    'class' => 'form-control'
+                                ]
+                            ));
+                        ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="term_desc"><?php echo t('Languages') ?></label>
+                    <div class="col-md-9">
+                        <?php $this->widget('app.Widget.SelectLanguage', array(
+                            'selected' => @$inputTerm->language,
+                            'elementName' => 'term[language]',
+                            'form' => $form,
+                            'htmlOptions' => [
+                                'class' => 'form-control'
+                            ]
+                        ));
+                        ?>
+                    </div>
+                </div>
+                <div class="form-group<?php if(isset($error['terms.description'])) echo ' error' ?>">
+                    <label class="control-label col-md-3" for="term_desc"><?php echo t('Description') ?></label>
+                    <div class="col-md-9">
+                        <textarea rows="5" cols="5" name="term[description]" class="form-control"><?php echo @$inputTerm->description ?></textarea>
+                        <?php if (isset($error['terms.description'])) : ?>
+                            <span class="help-block"><?php echo implode('. ', $error['terms.description']) ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <?php \Toxotes\Plugin::doAction($taxonomy .'_add_form_fields') ?>
+
+                <input name="term[taxonomy]" value="<?php echo $taxonomy ?>" type="hidden">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="box">
+            <div class="box-title nobor"><h3><?php td("Properties") ?></h3></div>
+            <div class="box-content">
+                <?php foreach ($propertiesControl as $k => $propertyControl) :?>
+                    <div class="form-group">
+                        <label class="control-label col-md-3"><?php echo $propertyControl['label'] ?></label>
+                        <div class="col-md-9">
+                            <?php
+                            $propertyControl['controlObject']->addClass('form-control');
+                            $propertyControl['controlObject']->display();
+                            ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+                <!-- each group have save button -->
+                <div class="form-action col-md-9 col-md-offset-3">
+                    <button type="submit" class="btn btn-primary"><?php echo t('Save Changes'); ?></button>
+                    <button type="reset" class="btn"><?php echo t('Reset'); ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $form->endForm(); ?>

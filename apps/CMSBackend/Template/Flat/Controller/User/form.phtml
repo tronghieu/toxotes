@@ -1,0 +1,212 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+
+$submit_btn_name = ($user->isNew())? 'Create' : 'Save';
+
+$form = $this->createFrom('user_frm');
+$form->setHtmlOption(array(
+    'class' => 'form-horizontal',
+));
+
+$title = ($user->isNew()) ? t('Add new user') : t('Edit %something%', [
+        '%something%' => $user->getUsername()
+    ]);
+?>
+
+    <div class="page-header">
+        <div class="pull-left">
+            <h1><?php echo $title ?></h1>
+        </div>
+        <div class="pull-right">
+            <ul class="minitiles">
+                <li class="teal">
+                    <a href="<?php echo $this->createUrl('user/default') ?>"><i class="fa fa-list"></i></a>
+                </li>
+                <li class="lime">
+                    <a href="<?php echo $this->createUrl('role/default') ?>"><i class="fa fa-group"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        t('Users Management') => [
+            'url' => $this->createUrl('user/default')
+        ],
+        $title
+    ],
+]) ?>
+
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="box">
+            <div class="box-content">
+                <?php if (isset($error) && !empty($error)) :?>
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo implode('<br>', array_values($error)); ?>
+                    </div>
+                <?php elseif (isset($message) && !empty($message)) : ?>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <?php echo $message; ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php $form->beginForm(); ?>
+
+                <div class="form-group">
+                    <label for="username" class="control-label col-sm-3">
+                        <?php td('Username'); ?> *
+                    </label>
+                    <div class="col-sm-9">
+                        <input value="<?php echo $user->getUsername() ?>" type="text" name="user[username]" id="username" class="form-control" placeholder="<?php echo t('From 3-16 character'); ?>" <?php if (!$user->isNew()) :?> disabled="disabled" <?php endif; ?> />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="new_password" class="control-label col-sm-3">
+                        <?php td('Password'); ?> *
+                    </label>
+                    <div class="col-sm-9">
+                        <input value="<?php $new_password ?>" type="password" name="new_password" id="new_password" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password" class="control-label col-sm-3">
+                        <?php td('Confirm Password'); ?> *
+                    </label>
+                    <div class="col-sm-9">
+                        <input value="" type="password" name="confirm_password" id="confirm_password" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="control-label col-sm-3">
+                        <?php td('Email'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <input value="<?php echo $user->getEmail() ?>" type="text" name="user[email]" id="email" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="full_name" class="control-label col-sm-3">
+                        <?php td('Full name'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <input value="<?php echo $user->getName(); ?>" type="text" name="user[name]" id="full_name" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender" class="control-label col-sm-3">
+                        <?php td('Gender'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <?php $form->selectOption('user[gender]', $user->getGender(), [
+                            'class' => 'form-control'
+                        ])
+                            ->addOption(t('Male'), 'MALE')
+                            ->addOption(t('Female'), 'FEMALE')
+                            ->addOption(t('Other'), 'OTHER')
+                            ->display(); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone_number" class="control-label col-sm-3">
+                        <?php td('Phone'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <input value="<?php echo $user->getPhoneNumber() ?>" type="text" name="user[phone_number]" id="phone_number" class="form-control" />
+                    </div>
+                </div>
+
+                <?php if (!$user->isGod()) :?>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">
+                        <?php td('Section'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <?php $form->selectOption('user[section]', $user->getSection(), [
+                            'class' => 'form-control'
+                        ])
+                            ->addOption(t('Staff'), \Users::SECTION_STAFF)
+                            ->addOption(t('Member'), \Users::SECTION_MEMBER)
+                            ->addOption(t('Guess'), \Users::SECTION_GUESS)
+                            ->display(); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">
+                        <?php td('Status'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <?php
+
+                        $statusSelectHtmlOptions = [
+                            'class' => 'form-control' .($user->isDeleted()? ' disabled' : ''),
+                        ];
+
+                        if ($user->isDeleted()) {
+                            $statusSelectHtmlOptions['disabled'] = true;
+                        }
+
+                        $form->selectOption('user[status]', $user->getStatus(), $statusSelectHtmlOptions)
+                            ->addOption(t('Active'), \Users::STATUS_ACTIVE)
+                            ->addOption(t('Inactive'), \Users::STATUS_INACTIVE)
+                            ->addOption(t('Delete'), \Users::STATUS_DELETED)
+                            ->display(); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">
+                        <?php td('Ban?'); ?>
+                    </label>
+                    <div class="col-sm-9">
+                        <div class="radio">
+                            <?php $form->radioButton('user[banned]', $user->getBanned())
+                                ->add(1, t('Yes'), ['class' => 'radio inline'])
+                                ->add(0, t('No'), ['class' => 'radio inline'])
+                                ->display(); ?>
+                        </div>
+                    </div>
+                </div>
+
+                <?php endif; ?>
+
+                <?php if(!$user->isNew()) : ?>
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <strong><?php td('Register'); ?>:</strong> <?php echo $user->getRegisterTime()->format('H:i d/m/Y'); ?><br>
+                        <strong><?php td('Last visit'); ?>:</strong>
+                        <?php
+                            if ($user->getLastVisitTime() instanceof \Flywheel\Db\Type\DateTime) {
+                                echo $user->getLastVisitTime()->format('H:i d/m/Y');
+                            } else {
+                                echo '--';
+                            }
+                        ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <div class="form-actions col-sm-9 col-sm-offset-3">
+                    <button type="submit" class="btn btn-primary"><?php echo t($submit_btn_name) ?></button>
+                    <button type="reset" class="btn"><?php echo t('Reset') ?></button>
+                </div>
+
+                <?php $form->endForm(); ?>
+            </div>
+        </div>
+    </div>
+</div>

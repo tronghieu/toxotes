@@ -1,0 +1,95 @@
+<?php
+/** @var \Flywheel\View\Render $this */
+$title = t('Customers Management');
+$this->document()->title = $title;
+$this->document()->addJs('js/handlebars-v2.0.0.js', 'TOP');
+$this->document()->addJs('js/process/paginator.js', 'TOP');
+$this->document()->addJs('js/process/transporter/transporter.js');
+$this->document()->addJs('js/process/transporter/customer.js');
+
+$searchFrm = $this->createFrom('cus_search', '', 'GET')->addClass('form-vertical')->setId('_cus-search-frm');
+?>
+
+<div class="page-header">
+    <div class="pull-left">
+        <h1><?php echo $title ?></h1>
+    </div>
+</div>
+
+<?php $this->widget('app.Widget.Breadcrumbs', [
+    'links' => [
+        t('Dashboard') => [
+            'url' => $this->document()->getBaseUrl()
+        ],
+        $title
+    ],
+]) ?>
+
+<?php $searchFrm->beginForm(); ?>
+<div class="row hidden-480">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-title nobor col-md-2">
+                <h3><?php td("Search customers") ?></h3>
+            </div>
+            <div class="box-content col-md-10">
+                <div class="highlight-toolbar">
+                    <div class="btn-group">
+                        <?php $searchFrm->input('keyword', $keyword)
+                                ->setPlaceHolder(t('Enter name or mobile'))
+                                ->addClass('form-control')
+                                ->display(); ?>
+                        <?php $searchFrm->input('page', $page)
+                            ->setType('hidden')
+                            ->display(); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $searchFrm->endForm(); ?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-content nopadding">
+                <div class="col-md-12" id="_cus-list-ctn"></div>
+                <div class="col-md-12 text-center" id="paging"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-handlebars-template" id="_cus-list-tmp">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th><?php td("Code") ?></th>
+            <th><?php td("Name") ?></th>
+            <th><?php td("Mobile") ?></th>
+            <th class="hidden-480 text-right"><?php td("Address") ?></th>
+            <th class="hidden-768 text-center"><?php td("Created") ?></th>
+            <th><?php td("Id") ?></th>
+            <th class="hidden-480"><i class="fa fa-wrench"></i></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each customers}}
+        <tr>
+            <td><strong>{{uid}}</strong></td>
+            <td>
+                <a href="{{detail_link}}">
+                    <strong>{{name}}</strong>
+                </a>
+            </td>
+            <td>{{mobile}}{{#if other_mobile}}<br>{{other_mobile}}{{/if}}{{#if phone}}<br>{{phone}}{{/if}}</td>
+            <td class="hidden-480 text-right">{{#if district}}{{district}}{{/if}} {{#if province}}<strong>{{province}}</strong>{{/if}}</td>
+            <td class="hidden-768 text-center">{{date created_time}}</td>
+            <td>{{id}}</td>
+            <td class="hidden-480"><a href="{{edit_link}}"><span class="font-gray"><?php td("Edit") ?></span></a></td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</script>
