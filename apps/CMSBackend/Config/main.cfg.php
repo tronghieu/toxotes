@@ -23,6 +23,6 @@ return array(
     'namespace' => 'CMSBackend',
     'timezone' => 'Asia/Ho_Chi_Minh',
     'template' => 'Flat',
-    'css_version' => '1.2',
-    'js_version' => '1.2'
+    'css_version' => '1.0',
+    'js_version' => '1.0'
 );
