@@ -1,0 +1,74 @@
+.page-login-ide{
+    background-color: #fafafa!important;
+    position: relative;
+}
+.page-login-ide .login-container{
+    position: absolute;
+    float: none!important;
+    height: 330px;
+    margin: 0 auto;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    box-shadow: 0px 1px 1px 0px #ccc;
+}
+.btn-export-ide{
+    background: #1e74c5;
+    color: #fff;
+}
+.btn-export-ide:hover, .btn-export-ide:focus{
+    background: #1e74c5;
+    color: #fff;
+}
+.tbl-list-ide{
+    border: 1px solid #fff;
+}
+.tbl-list-ide > thead > tr{
+    background: #4E8BD9;
+}
+.tbl-list-ide > thead > tr > th{
+    color: #fff;
+    text-transform: capitalize;
+    padding-left: 10px;
+}
+.tbl-list-ide > tbody > tr{
+    border: 2px solid transparent;
+}
+.tbl-list-ide > tbody > tr > td:first-child{
+    padding-left: 18px;
+}
+.tbl-list-ide > tbody > tr:hover{
+    border: 2px solid #4E8BD9!important;
+}
+.tbl-list-ide > tbody > tr:hover td{
+    border-top: 2px solid #4E8BD9!important;
+}
+.tbl-list-ide > tbody > tr > td{
+    padding: 10px;
+}
+ul.box-btn-ide{
+    list-style: none;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+ul.box-btn-ide li{
+    display: inline-block;
+    border: 1px solid #ccc;
+    margin-left: -5px;
+    padding: 3px 15px;
+}
+ul.box-btn-ide li:hover{
+    cursor: pointer;
+}
+ul.box-btn-ide li a{
+    color: #000;
+}
+.hover-li{
+    border: 1px solid #000 !important;
+}
+.checkbox-top {
+    margin-top: 30px !important;
+}
+._paging{
+    cursor: pointer;
+}
