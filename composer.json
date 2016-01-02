@@ -4,7 +4,7 @@
     "description": "The Toxotes CMS",
     "keywords": ["framework", "CMS"],
     "homepage": "http://luutronghieu.com",
-    "version" : "1.0-alpha",
+    "version" : "1.1-alpha",
     "license": "MIT",
     "authors": [
         {
