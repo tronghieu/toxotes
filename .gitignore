@@ -9,8 +9,8 @@ composer.phar
 /runtime
 
 #FRONT CONTROLLER
-www_html/index.php
-www_html/@admin/index.php
+public/index.php
+public/@admin/index.php
 
 # Config files
 config.cfg.php
